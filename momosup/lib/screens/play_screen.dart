@@ -544,8 +544,9 @@ class _PlayScreenState extends State<PlayScreen> {
       ),
       const SizedBox(height: 12),
       Wrap(
-        spacing: 8,
-        runSpacing: 8,
+        spacing: 10,
+        runSpacing: 10,
+        alignment: WrapAlignment.center,
         children:
             const [
                   (Color(0xFFDB857D), '분홍'),
@@ -556,35 +557,54 @@ class _PlayScreenState extends State<PlayScreen> {
                   (Color(0xFF394D43), '진한 초록'),
                 ]
                 .map(
-                  (entry) => InkWell(
-                    onTap: () => setState(() => selectedColor = entry.$1),
-                    borderRadius: BorderRadius.circular(24),
-                    child: Semantics(
-                      button: true,
-                      selected: selectedColor == entry.$1,
-                      label: '${entry.$2} 그림 색 선택',
-                      child: Container(
-                        width: 46,
-                        height: 46,
-                        decoration: BoxDecoration(
-                          color: entry.$1,
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: selectedColor == entry.$1
-                                ? const Color(0xFF24372D)
-                                : Colors.white,
-                            width: selectedColor == entry.$1 ? 4 : 2,
+                  (entry) {
+                    final isSelected = selectedColor == entry.$1;
+                    return InkWell(
+                      onTap: () => setState(() => selectedColor = entry.$1),
+                      borderRadius: BorderRadius.circular(26),
+                      child: Semantics(
+                        button: true,
+                        selected: isSelected,
+                        label: '${entry.$2} 그림 색 선택',
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          width: isSelected ? 50 : 42,
+                          height: isSelected ? 50 : 42,
+                          decoration: BoxDecoration(
+                            color: entry.$1,
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: isSelected
+                                  ? const Color(0xFF24372D)
+                                  : Colors.white,
+                              width: isSelected ? 4 : 2,
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: entry.$1.withAlpha(isSelected ? 100 : 40),
+                                blurRadius: isSelected ? 8 : 4,
+                                offset: const Offset(0, 2),
+                              ),
+                            ],
                           ),
+                          child: isSelected
+                              ? const Icon(
+                                  Icons.check_rounded,
+                                  color: Colors.white,
+                                  size: 24,
+                                )
+                              : null,
                         ),
                       ),
-                    ),
-                  ),
+                    );
+                  },
                 )
                 .toList(),
       ),
-      const SizedBox(height: 12),
+      const SizedBox(height: 14),
       Wrap(
         spacing: 8,
+        runSpacing: 8,
         alignment: WrapAlignment.center,
         children: [
           OutlinedButton.icon(
@@ -596,6 +616,16 @@ class _PlayScreenState extends State<PlayScreen> {
                   }),
             icon: const Icon(Icons.undo_rounded),
             label: const Text('한 번 되돌리기'),
+          ),
+          OutlinedButton.icon(
+            onPressed: strokes.isEmpty
+                ? null
+                : () => setState(() {
+                    strokes.clear();
+                    saved = false;
+                  }),
+            icon: const Icon(Icons.refresh_rounded),
+            label: const Text('깨끗이 지우기'),
           ),
           OutlinedButton.icon(
             onPressed: saving ? null : saveDrawing,
@@ -624,28 +654,71 @@ class _PlayScreenState extends State<PlayScreen> {
 
   Widget _ending(BuildContext context) => Column(
     children: [
+      Container(
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFF4D6),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(color: const Color(0xFFFFD166), width: 1.5),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: const [
+            Text('💮', style: TextStyle(fontSize: 18)),
+            SizedBox(width: 6),
+            Text(
+              '숲 탐험 도장 쾅! 참 잘했어요',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                color: Color(0xFF8A5A00),
+              ),
+            ),
+          ],
+        ),
+      ),
+      const SizedBox(height: 16),
       AvatarImage(avatar: widget.activity.avatar, size: 185),
       const SizedBox(height: 12),
       Text(
         widget.activity.outro,
         textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.headlineSmall,
+        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+          fontWeight: FontWeight.bold,
+        ),
       ),
       const SizedBox(height: 20),
       Card(
         color: const Color(0xFFE9F2E2),
+        elevation: 0,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(22),
+          side: const BorderSide(color: Color(0xFFCCE2C3), width: 1.5),
+        ),
         child: Padding(
-          padding: const EdgeInsets.all(18),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              const Icon(Icons.nature_people_outlined, size: 40),
-              const SizedBox(height: 8),
+              const Icon(
+                Icons.nature_people_outlined,
+                size: 40,
+                color: Color(0xFF386641),
+              ),
+              const SizedBox(height: 10),
               const Text(
                 '이제 화면 밖에서',
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 17,
+                  color: Color(0xFF1E3F27),
+                ),
               ),
               const SizedBox(height: 8),
-              Text(widget.activity.offscreen, textAlign: TextAlign.center),
+              Text(
+                widget.activity.offscreen,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 15, height: 1.4),
+              ),
             ],
           ),
         ),
@@ -654,14 +727,35 @@ class _PlayScreenState extends State<PlayScreen> {
       if (saveError != null)
         Text(saveError!, style: const TextStyle(color: Colors.red)),
       if (widget.activity.mode == PlayMode.color && saved)
-        const Text('그림은 이 기기에 저장됐어요.'),
+        const Padding(
+          padding: EdgeInsets.only(bottom: 12),
+          child: Text(
+            '그림은 이 기기에 소중히 저장됐어요. 🎨',
+            style: TextStyle(
+              fontWeight: FontWeight.w600,
+              color: Color(0xFF3D6B4E),
+            ),
+          ),
+        ),
       FilledButton.icon(
         onPressed: () => Navigator.of(context).pop(),
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+        ),
         icon: const Icon(Icons.home_outlined),
-        label: const Text('숲으로 돌아가기'),
+        label: const Text(
+          '숲으로 돌아가기',
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
       ),
-      const SizedBox(height: 8),
-      const Text('다음 놀이는 자동으로 시작하지 않아요.'),
+      const SizedBox(height: 10),
+      const Text(
+        '다음 놀이는 자동으로 시작하지 않아요.',
+        style: TextStyle(color: Color(0xFF6B756B)),
+      ),
     ],
   );
 }
@@ -679,16 +773,49 @@ class _DrawingPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    // 1. White canvas background
     canvas.drawRect(
       Offset.zero & size,
       Paint()..color = const Color(0xFFFFFDF6),
     );
+
+    // 2. Child coloring strokes
+    for (final stroke in strokes) {
+      final paint = Paint()
+        ..color = stroke.color
+        ..strokeWidth = 14
+        ..strokeCap = StrokeCap.round
+        ..strokeJoin = StrokeJoin.round
+        ..style = PaintingStyle.stroke;
+      if (stroke.points.length == 1) {
+        canvas.drawCircle(stroke.points.first, 7, paint);
+      } else {
+        final path = Path()
+          ..moveTo(stroke.points.first.dx, stroke.points.first.dy);
+        for (final point in stroke.points.skip(1)) {
+          path.lineTo(point.dx, point.dy);
+        }
+        canvas.drawPath(path, paint);
+      }
+    }
+
+    // 3. Clean line-art outline layered on TOP
     final outline = Paint()
-      ..color = const Color(0xFF9CB29A)
+      ..color = const Color(0xFF8AA888)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 4;
+      ..strokeWidth = 4.5;
     final cx = size.width / 2;
     final cy = size.height / 2;
+    _drawThemeOutline(canvas, size, outline, cx, cy);
+  }
+
+  void _drawThemeOutline(
+    Canvas canvas,
+    Size size,
+    Paint outline,
+    double cx,
+    double cy,
+  ) {
     if (theme == 'my_bus') {
       canvas.drawRRect(
         RRect.fromRectAndRadius(
@@ -799,24 +926,6 @@ class _DrawingPainter extends CustomPainter {
           );
         }
         canvas.drawCircle(center, 7, outline);
-      }
-    }
-    for (final stroke in strokes) {
-      final paint = Paint()
-        ..color = stroke.color
-        ..strokeWidth = 12
-        ..strokeCap = StrokeCap.round
-        ..strokeJoin = StrokeJoin.round
-        ..style = PaintingStyle.stroke;
-      if (stroke.points.length == 1) {
-        canvas.drawCircle(stroke.points.first, 6, paint);
-      } else {
-        final path = Path()
-          ..moveTo(stroke.points.first.dx, stroke.points.first.dy);
-        for (final point in stroke.points.skip(1)) {
-          path.lineTo(point.dx, point.dy);
-        }
-        canvas.drawPath(path, paint);
       }
     }
   }
