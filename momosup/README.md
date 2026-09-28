@@ -30,7 +30,7 @@ flutter test
 flutter run
 ```
 
-작업 환경에는 임시 Flutter 3.47.5 SDK가 `/private/tmp/kids_flutter_sdk`에 설치되어 있다. 임시 폴더는 장기 보존을 기대하면 안 된다. 현재 Mac에는 Android SDK, 전체 Xcode, CocoaPods가 없어 iOS·Android 실기기 빌드를 아직 검증하지 못했다. Android Studio/SDK와 Xcode/CocoaPods를 설치한 뒤 양 플랫폼에서 반드시 직접 실행한다.
+작업 환경에는 임시 Flutter 3.47.5 SDK가 `/private/tmp/kids_flutter_sdk`에 설치되어 있다. 임시 폴더는 장기 보존을 기대하면 안 된다. Xcode 27과 iOS 27 시뮬레이터를 설치했고, iOS 시뮬레이터용 빌드와 iPhone 시뮬레이터의 첫 화면 실행을 확인했다. 현재 프로젝트는 Swift Package Manager로 빌드되지만 CocoaPods는 설치되어 있지 않아 Flutter 진단에 경고가 남는다. Android SDK 설치는 약관 수락을 기다리고 있다. 실기기는 아직 없어 양 플랫폼의 실기기 빌드와 동작은 검증하지 못했다.
 
 ## 콘텐츠 제작 경로
 
@@ -60,7 +60,7 @@ node tool/generate_gemini_tts.mjs --activity animal_tracks --limit 2 --rights-ev
 
 ## 다음 사용자 준비 항목
 
-1. Android Studio/SDK와 전체 Xcode/CocoaPods 설치. 현재 실기기는 없으므로 먼저 시뮬레이터·에뮬레이터에서 확인하고, 아이 관찰 전에 실제 Android/iPhone/iPad를 확보한다.
+1. Android Studio의 SDK 약관 수락 후 SDK·에뮬레이터를 설치하고 Android 빌드와 실행을 확인한다. iOS 시뮬레이터 빌드·첫 화면 실행은 확인했다. 향후 CocoaPods를 쓰는 iOS 플러그인을 추가하면 별도 설치가 필요하다. 아이 관찰 전에 실제 Android/iPhone/iPad를 확보해 양 플랫폼에서 직접 실행한다.
 2. 현재 쓰는 Render 서비스의 정확한 요금제·지역·Postgres 유무·백업 방식과 Codex·Google Pro 실제 청구액 확인. 신규 유료 스테이징 설정은 [backend/README.md](backend/README.md)와 [`render.yaml`](render.yaml)에 준비했다. 로그인 정보나 API 키를 채팅에 붙여넣지 말 것.
 3. 아직 없는 카카오 개발자 앱·Apple·Google Play 개발자 계정 준비. 외부 서비스 키와 서명 설정 없이는 실제 로그인·스토어 배포·결제를 붙일 수 없다.
 4. Gemini API와 Flow Music의 아동 대상 앱·오프라인 파일 재배포 권리를 각각 확인한다. 해결이 지연되면 [직접 녹음 대본](production/VOICE_RECORDING_SCRIPT.md)의 노래 없는 8개 놀이부터 제작·검수한다. 어느 경로든 권리와 사람 검수 전에는 아이 모드에 올리지 않는다.
