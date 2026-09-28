@@ -9,11 +9,19 @@ class CatalogRepository {
   const CatalogRepository();
 
   Future<List<Activity>> load() async {
-    final source = await rootBundle.loadString('assets/content/catalog.json');
+    final sourceBytes = await rootBundle.load('assets/content/catalog.json');
+    final source = utf8.decode(sourceBytes.buffer.asUint8List(
+      sourceBytes.offsetInBytes,
+      sourceBytes.lengthInBytes,
+    ));
     final decoded = jsonDecode(source) as Map<String, dynamic>;
-    final manifestSource = await rootBundle.loadString(
+    final manifestBytes = await rootBundle.load(
       'assets/content/audio_manifest.json',
     );
+    final manifestSource = utf8.decode(manifestBytes.buffer.asUint8List(
+      manifestBytes.offsetInBytes,
+      manifestBytes.lengthInBytes,
+    ));
     final manifest = jsonDecode(manifestSource) as Map<String, dynamic>;
     final jobs = <String, Map<String, dynamic>>{};
     for (final value in manifest['jobs'] as List<dynamic>) {

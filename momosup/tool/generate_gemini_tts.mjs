@@ -257,7 +257,7 @@ export async function run(args = process.argv.slice(2)) {
     job.status = 'GENERATED_NEEDS_REVIEW';
     // Rights evidence and the founder's listening/approval remain deliberately unset.
     await writeFile(manifestPath, `${JSON.stringify(manifest, null, 2)}\n`);
-    if (index + 1 < jobs.length) await new Promise((resolve) => setTimeout(resolve, 5000));
+    if (index + 1 < jobs.length) await new Promise((resolve) => setTimeout(resolve, 2000));
   }
   process.stdout.write(`생성 ${jobs.length}개 완료. 아이 모드 승인·권리 검증은 아직 필요합니다.\n`);
 }

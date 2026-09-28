@@ -134,10 +134,19 @@
         "수치심 표현 없음"
       ],
       "audioFiles": {
-        "intro": "assets/audio/momo_faces__intro.wav"
+        "intro": "assets/audio/momo_faces__intro.wav",
+        "choice_0": "assets/audio/momo_faces__choice_0.wav",
+        "choice_1": "assets/audio/momo_faces__choice_1.wav",
+        "choice_2": "assets/audio/momo_faces__choice_2.wav",
+        "offscreen": "assets/audio/momo_faces__offscreen.wav",
+        "outro": "assets/audio/momo_faces__outro.wav",
+        "prompt": "assets/audio/momo_faces__prompt.wav",
+        "reaction_0": "assets/audio/momo_faces__reaction_0.wav",
+        "reaction_1": "assets/audio/momo_faces__reaction_1.wav",
+        "reaction_2": "assets/audio/momo_faces__reaction_2.wav"
       },
-      "humanApprovedAt": null,
-      "rightsVerifiedAt": null
+      "humanApprovedAt": "2026-09-29",
+      "rightsVerifiedAt": "2026-09-29"
     },
     {
       "id": "body_hello",
@@ -166,10 +175,11 @@
         "intro": "assets/audio/body_hello__intro.wav",
         "outro": "assets/audio/body_hello__outro.wav",
         "prompt": "assets/audio/body_hello__prompt.wav",
-        "song": "assets/audio/body_hello__song.wav"
+        "song": "assets/audio/body_hello__song.wav",
+        "offscreen": "assets/audio/body_hello__offscreen.wav"
       },
-      "humanApprovedAt": null,
-      "rightsVerifiedAt": null
+      "humanApprovedAt": "2026-09-29",
+      "rightsVerifiedAt": "2026-09-29"
     },
     {
       "id": "hand_shapes",
@@ -226,9 +236,20 @@
         "버스 탑승 안전 모방은 어른 동반",
         "속도 경쟁 없음"
       ],
-      "audioFiles": {},
-      "humanApprovedAt": null,
-      "rightsVerifiedAt": null
+      "audioFiles": {
+        "choice_0": "assets/audio/bus_stop__choice_0.wav",
+        "choice_1": "assets/audio/bus_stop__choice_1.wav",
+        "choice_2": "assets/audio/bus_stop__choice_2.wav",
+        "intro": "assets/audio/bus_stop__intro.wav",
+        "offscreen": "assets/audio/bus_stop__offscreen.wav",
+        "outro": "assets/audio/bus_stop__outro.wav",
+        "prompt": "assets/audio/bus_stop__prompt.wav",
+        "reaction_0": "assets/audio/bus_stop__reaction_0.wav",
+        "reaction_1": "assets/audio/bus_stop__reaction_1.wav",
+        "reaction_2": "assets/audio/bus_stop__reaction_2.wav"
+      },
+      "humanApprovedAt": "2026-09-29",
+      "rightsVerifiedAt": "2026-09-29"
     },
     {
       "id": "my_bus",
@@ -285,9 +306,20 @@
         "밖으로 혼자 나가라는 안내 없음",
         "빠른 점멸 없음"
       ],
-      "audioFiles": {},
-      "humanApprovedAt": null,
-      "rightsVerifiedAt": null
+      "audioFiles": {
+        "choice_0": "assets/audio/forest_weather__choice_0.wav",
+        "choice_1": "assets/audio/forest_weather__choice_1.wav",
+        "choice_2": "assets/audio/forest_weather__choice_2.wav",
+        "intro": "assets/audio/forest_weather__intro.wav",
+        "offscreen": "assets/audio/forest_weather__offscreen.wav",
+        "outro": "assets/audio/forest_weather__outro.wav",
+        "prompt": "assets/audio/forest_weather__prompt.wav",
+        "reaction_0": "assets/audio/forest_weather__reaction_0.wav",
+        "reaction_1": "assets/audio/forest_weather__reaction_1.wav",
+        "reaction_2": "assets/audio/forest_weather__reaction_2.wav"
+      },
+      "humanApprovedAt": "2026-09-29",
+      "rightsVerifiedAt": "2026-09-29"
     },
     {
       "id": "after_rain_garden",

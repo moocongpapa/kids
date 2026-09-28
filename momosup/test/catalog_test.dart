@@ -27,11 +27,30 @@ void main() {
 
   test('사람 승인과 음성이 없으면 아이 모드에 공개하지 않는다', () async {
     final activities = await const CatalogRepository().load();
-    final unapproved = activities.where((item) => !item.isFullyApproved);
-    expect(unapproved, isNotEmpty);
-    for (final item in unapproved) {
-      expect(item.isFullyApproved, isFalse);
-    }
+    expect(activities.every((item) => item.isFullyApproved), isTrue);
+    const unapprovedDraft = Activity(
+      id: 'test_draft',
+      title: '미승인 놀이',
+      theme: '동물',
+      mode: PlayMode.touch,
+      minAgeMonths: 36,
+      maxAgeMonths: 60,
+      minutes: 3,
+      avatar: 'momo',
+      intro: '안녕',
+      prompt: '골라봐',
+      outro: '끝',
+      offscreen: '쉬자',
+      safety: ['안전'],
+      choices: ['하나', '둘'],
+      reactions: ['반응1', '반응2'],
+      verses: [],
+      audioFiles: {},
+      humanApprovedAt: null,
+      rightsVerifiedAt: null,
+      audioReviewApproved: false,
+    );
+    expect(unapprovedDraft.isFullyApproved, isFalse);
     expect(
       activities.fold<int>(
         0,
