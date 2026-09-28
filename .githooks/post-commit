@@ -1,12 +1,19 @@
 #!/bin/sh
 
 # Push completed main commits from this local checkout to the requested remote.
-branch=$(git symbolic-ref --quiet --short HEAD) || exit 0
+# Prefer the standalone Command Line Tools Git on macOS; Xcode's license gate
+# can temporarily block /usr/bin/git after Xcode is installed.
+git_bin=git
+if [ -x /Library/Developer/CommandLineTools/usr/bin/git ]; then
+  git_bin=/Library/Developer/CommandLineTools/usr/bin/git
+fi
+
+branch=$("$git_bin" symbolic-ref --quiet --short HEAD) || exit 0
 if [ "$branch" != main ]; then
   exit 0
 fi
 
-if ! git push origin main; then
+if ! "$git_bin" push origin main; then
   printf '%s\n' 'Automatic push failed. The commit remains local; inspect the error and push main manually.' >&2
   exit 1
 fi
