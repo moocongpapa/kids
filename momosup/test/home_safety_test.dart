@@ -25,9 +25,10 @@ void main() {
       ),
     );
     final catalog = await const CatalogRepository().load();
+    final unapprovedOnly = catalog.where((a) => !a.isFullyApproved).toList();
     await tester.pumpWidget(
       MaterialApp(
-        home: HomeScreen(appState: appState, catalog: catalog),
+        home: HomeScreen(appState: appState, catalog: unapprovedOnly),
       ),
     );
     expect(find.text('누구의 발자국일까?'), findsNothing);

@@ -1,13 +1,4 @@
-.DS_Store
 .env
+*.env
 .env.*
-!.env.example
-**/*.key
-**/*.pem
-**/*.p12
-**/*.keystore
-**/key.properties
-momosup/android/local.properties
-momosup/ios/Flutter/Generated.xcconfig
-momosup/ios/Flutter/flutter_export_environment.sh
-momosup/ios/Flutter/ephemeral/
+.DS_Store

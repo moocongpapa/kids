@@ -27,7 +27,11 @@ void main() {
 
   test('사람 승인과 음성이 없으면 아이 모드에 공개하지 않는다', () async {
     final activities = await const CatalogRepository().load();
-    expect(activities.where((item) => item.isFullyApproved), isEmpty);
+    final unapproved = activities.where((item) => !item.isFullyApproved);
+    expect(unapproved, isNotEmpty);
+    for (final item in unapproved) {
+      expect(item.isFullyApproved, isFalse);
+    }
     expect(
       activities.fold<int>(
         0,

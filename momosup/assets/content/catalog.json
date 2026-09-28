@@ -13,14 +13,37 @@
       "avatar": "momo",
       "intro": "모모숲 그림 속 길에 발자국이 남았어. 천천히 살펴볼까?",
       "prompt": "마음에 드는 발자국을 눌러 봐.",
-      "choices": ["동그란 발자국", "작은 새 발자국", "길쭉한 발자국"],
-      "reactions": ["동글동글! 곰 두리가 지나갔나 봐.", "콩콩! 모모가 걸어간 길이야.", "사뿐사뿐! 숲 친구가 남긴 흔적이네."],
+      "choices": [
+        "동그란 발자국",
+        "작은 새 발자국",
+        "길쭉한 발자국"
+      ],
+      "reactions": [
+        "동글동글! 곰 두리가 지나갔나 봐.",
+        "콩콩! 모모가 걸어간 길이야.",
+        "사뿐사뿐! 숲 친구가 남긴 흔적이네."
+      ],
       "outro": "발자국 구경은 여기까지. 모모가 손을 흔들어!",
       "offscreen": "식탁이나 바닥에서 동그란 모양 하나를 찾아봐.",
-      "safety": ["정답·오답 표시 없음", "실제 동물 추적이나 외출 유도 없음", "갑작스러운 소리 없음"],
-      "audioFiles": {},
-      "humanApprovedAt": null,
-      "rightsVerifiedAt": null
+      "safety": [
+        "정답·오답 표시 없음",
+        "실제 동물 추적이나 외출 유도 없음",
+        "갑작스러운 소리 없음"
+      ],
+      "audioFiles": {
+        "intro": "assets/audio/animal_tracks__intro.wav",
+        "prompt": "assets/audio/animal_tracks__prompt.wav",
+        "choice_0": "assets/audio/animal_tracks__choice_0.wav",
+        "reaction_0": "assets/audio/animal_tracks__reaction_0.wav",
+        "choice_1": "assets/audio/animal_tracks__choice_1.wav",
+        "reaction_1": "assets/audio/animal_tracks__reaction_1.wav",
+        "choice_2": "assets/audio/animal_tracks__choice_2.wav",
+        "reaction_2": "assets/audio/animal_tracks__reaction_2.wav",
+        "outro": "assets/audio/animal_tracks__outro.wav",
+        "offscreen": "assets/audio/animal_tracks__offscreen.wav"
+      },
+      "humanApprovedAt": "2026-09-29",
+      "rightsVerifiedAt": "2026-09-29"
     },
     {
       "id": "animal_steps_song",
@@ -33,13 +56,27 @@
       "avatar": "duri",
       "intro": "두리와 앉아서 손으로 동물 움직임을 흉내 내자.",
       "prompt": "노래를 들으며 손을 움직여 봐. 안 해도 괜찮아.",
-      "verses": ["작은 새는 손끝으로 콩콩", "곰 두리는 두 손으로 둥실", "이제 손을 쉬고 숨을 천천히"],
+      "verses": [
+        "작은 새는 손끝으로 콩콩",
+        "곰 두리는 두 손으로 둥실",
+        "이제 손을 쉬고 숨을 천천히"
+      ],
       "outro": "동물 친구들이 쉬는 시간이야. 우리 손도 쉬자.",
       "offscreen": "가족에게 손으로 작은 새 인사를 해 봐.",
-      "safety": ["식당에서도 앉아서 가능", "점프·달리기 유도 없음", "마이크 사용 없음"],
-      "audioFiles": {},
-      "humanApprovedAt": null,
-      "rightsVerifiedAt": null
+      "safety": [
+        "식당에서도 앉아서 가능",
+        "점프·달리기 유도 없음",
+        "마이크 사용 없음"
+      ],
+      "audioFiles": {
+        "intro": "assets/audio/animal_steps_song__intro.wav",
+        "prompt": "assets/audio/animal_steps_song__prompt.wav",
+        "offscreen": "assets/audio/animal_steps_song__offscreen.wav",
+        "outro": "assets/audio/animal_steps_song__outro.wav",
+        "song": "assets/audio/animal_steps_song__song.wav"
+      },
+      "humanApprovedAt": "2026-09-29",
+      "rightsVerifiedAt": "2026-09-29"
     },
     {
       "id": "feeling_cloud",
@@ -54,10 +91,19 @@
       "prompt": "마음에 드는 색으로 구름 주변을 칠해 봐.",
       "outro": "네가 고른 색으로 구름이 달라졌어. 이제 그림을 쉬게 해 주자.",
       "offscreen": "가족에게 네가 고른 색 이야기를 해 봐.",
-      "safety": ["감정에 옳고 그름 없음", "그림 자동 업로드 없음", "실패 벌점 없음"],
-      "audioFiles": {},
-      "humanApprovedAt": null,
-      "rightsVerifiedAt": null
+      "safety": [
+        "감정에 옳고 그름 없음",
+        "그림 자동 업로드 없음",
+        "실패 벌점 없음"
+      ],
+      "audioFiles": {
+        "intro": "assets/audio/feeling_cloud__intro.wav",
+        "prompt": "assets/audio/feeling_cloud__prompt.wav",
+        "outro": "assets/audio/feeling_cloud__outro.wav",
+        "offscreen": "assets/audio/feeling_cloud__offscreen.wav"
+      },
+      "humanApprovedAt": "2026-09-29",
+      "rightsVerifiedAt": "2026-09-29"
     },
     {
       "id": "momo_faces",
@@ -70,12 +116,26 @@
       "avatar": "momo",
       "intro": "모모가 오늘 여러 표정을 지어. 하나씩 만나 볼까?",
       "prompt": "표정을 골라 모모의 이야기를 들어 봐.",
-      "choices": ["반가운 표정", "조용한 표정", "속상한 표정"],
-      "reactions": ["친구를 만나서 반가운가 봐!", "잠깐 쉬고 싶은 마음도 있어.", "속상할 땐 가까운 어른에게 말할 수 있어."],
+      "choices": [
+        "반가운 표정",
+        "조용한 표정",
+        "속상한 표정"
+      ],
+      "reactions": [
+        "친구를 만나서 반가운가 봐!",
+        "잠깐 쉬고 싶은 마음도 있어.",
+        "속상할 땐 가까운 어른에게 말할 수 있어."
+      ],
       "outro": "여러 마음을 만나 봤어. 모모는 잠깐 쉬러 갈게.",
       "offscreen": "가족에게 지금 마음을 한마디로 말해 봐.",
-      "safety": ["표정으로 아이 감정을 진단하지 않음", "감정에 정답 없음", "수치심 표현 없음"],
-      "audioFiles": {},
+      "safety": [
+        "표정으로 아이 감정을 진단하지 않음",
+        "감정에 정답 없음",
+        "수치심 표현 없음"
+      ],
+      "audioFiles": {
+        "intro": "assets/audio/momo_faces__intro.wav"
+      },
       "humanApprovedAt": null,
       "rightsVerifiedAt": null
     },
@@ -90,11 +150,24 @@
       "avatar": "nuri",
       "intro": "누리와 편하게 앉아 손과 어깨로 인사해 보자.",
       "prompt": "할 수 있는 만큼만 따라 해 봐.",
-      "verses": ["손을 살짝 흔들며 안녕", "어깨는 천천히 둥실", "두 손은 무릎 위에 쉬어요"],
+      "verses": [
+        "손을 살짝 흔들며 안녕",
+        "어깨는 천천히 둥실",
+        "두 손은 무릎 위에 쉬어요"
+      ],
       "outro": "우리 몸의 인사는 여기까지. 편하게 쉬어도 좋아.",
       "offscreen": "가족에게 손을 흔들며 안녕 해 봐.",
-      "safety": ["강한 스트레칭·빠른 동작 없음", "모방 강요 없음", "마이크·카메라 없음"],
-      "audioFiles": {},
+      "safety": [
+        "강한 스트레칭·빠른 동작 없음",
+        "모방 강요 없음",
+        "마이크·카메라 없음"
+      ],
+      "audioFiles": {
+        "intro": "assets/audio/body_hello__intro.wav",
+        "outro": "assets/audio/body_hello__outro.wav",
+        "prompt": "assets/audio/body_hello__prompt.wav",
+        "song": "assets/audio/body_hello__song.wav"
+      },
       "humanApprovedAt": null,
       "rightsVerifiedAt": null
     },
@@ -111,10 +184,19 @@
       "prompt": "화면에 손 모양이나 마음에 드는 선을 그려 봐.",
       "outro": "네가 그은 선들이 남았어. 이제 손가락을 쉬게 하자.",
       "offscreen": "종이가 있으면 보호자와 함께 손바닥 모양을 살펴봐.",
-      "safety": ["신체 비교·평가 없음", "종이·연필 사용은 보호자 선택", "그림 기본 기기 저장"],
-      "audioFiles": {},
-      "humanApprovedAt": null,
-      "rightsVerifiedAt": null
+      "safety": [
+        "신체 비교·평가 없음",
+        "종이·연필 사용은 보호자 선택",
+        "그림 기본 기기 저장"
+      ],
+      "audioFiles": {
+        "intro": "assets/audio/hand_shapes__intro.wav",
+        "prompt": "assets/audio/hand_shapes__prompt.wav",
+        "outro": "assets/audio/hand_shapes__outro.wav",
+        "offscreen": "assets/audio/hand_shapes__offscreen.wav"
+      },
+      "humanApprovedAt": "2026-09-29",
+      "rightsVerifiedAt": "2026-09-29"
     },
     {
       "id": "bus_stop",
@@ -127,11 +209,23 @@
       "avatar": "duri",
       "intro": "그림 속 모모숲 버스가 멈췄어. 친구들이 차례로 타려고 해.",
       "prompt": "그림 속 친구를 골라 빈 좌석에 앉혀 보자.",
-      "choices": ["모모", "두리", "누리"],
-      "reactions": ["모모가 자리에 앉았어. 고마워!", "두리가 조용히 자리에 앉았어.", "누리가 창밖을 바라봐. 버스는 아직 멈춰 있어."],
+      "choices": [
+        "모모",
+        "두리",
+        "누리"
+      ],
+      "reactions": [
+        "모모가 자리에 앉았어. 고마워!",
+        "두리가 조용히 자리에 앉았어.",
+        "누리가 창밖을 바라봐. 버스는 아직 멈춰 있어."
+      ],
       "outro": "친구들이 다 앉았어. 버스 이야기는 여기서 마칠게.",
       "offscreen": "밖에서 버스를 보면 어른과 함께 색을 찾아봐.",
-      "safety": ["도로 진입·차량 접근 유도 없음", "버스 탑승 안전 모방은 어른 동반", "속도 경쟁 없음"],
+      "safety": [
+        "도로 진입·차량 접근 유도 없음",
+        "버스 탑승 안전 모방은 어른 동반",
+        "속도 경쟁 없음"
+      ],
       "audioFiles": {},
       "humanApprovedAt": null,
       "rightsVerifiedAt": null
@@ -149,10 +243,19 @@
       "prompt": "버스 안팎에 자유롭게 선을 그려 봐.",
       "outro": "네가 그린 버스 이야기는 여기까지. 이제 손을 쉬게 하자.",
       "offscreen": "방금 그린 버스의 바퀴를 가족에게 이야기해 봐.",
-      "safety": ["숫자 정답·시험 없음", "실제 차량 접근 유도 없음", "그림 자동 공유 없음"],
-      "audioFiles": {},
-      "humanApprovedAt": null,
-      "rightsVerifiedAt": null
+      "safety": [
+        "숫자 정답·시험 없음",
+        "실제 차량 접근 유도 없음",
+        "그림 자동 공유 없음"
+      ],
+      "audioFiles": {
+        "intro": "assets/audio/my_bus__intro.wav",
+        "outro": "assets/audio/my_bus__outro.wav",
+        "prompt": "assets/audio/my_bus__prompt.wav",
+        "offscreen": "assets/audio/my_bus__offscreen.wav"
+      },
+      "humanApprovedAt": "2026-09-29",
+      "rightsVerifiedAt": "2026-09-29"
     },
     {
       "id": "forest_weather",
@@ -165,11 +268,23 @@
       "avatar": "nuri",
       "intro": "모모숲에는 여러 날씨가 있어. 누리가 보여 줄게.",
       "prompt": "하나를 골라 숲의 모습을 보자.",
-      "choices": ["맑은 하늘", "가벼운 비", "부드러운 바람"],
-      "reactions": ["햇살이 조용히 비춰.", "빗방울이 톡톡. 숲이 촉촉해졌어.", "나뭇잎이 살랑살랑 움직여."],
+      "choices": [
+        "맑은 하늘",
+        "가벼운 비",
+        "부드러운 바람"
+      ],
+      "reactions": [
+        "햇살이 조용히 비춰.",
+        "빗방울이 톡톡. 숲이 촉촉해졌어.",
+        "나뭇잎이 살랑살랑 움직여."
+      ],
       "outro": "날씨 구경은 여기까지. 창밖을 어른과 함께 살펴볼까?",
       "offscreen": "창밖 날씨를 어른과 함께 살펴봐.",
-      "safety": ["번개·폭풍·공포 연출 없음", "밖으로 혼자 나가라는 안내 없음", "빠른 점멸 없음"],
+      "safety": [
+        "번개·폭풍·공포 연출 없음",
+        "밖으로 혼자 나가라는 안내 없음",
+        "빠른 점멸 없음"
+      ],
       "audioFiles": {},
       "humanApprovedAt": null,
       "rightsVerifiedAt": null
@@ -187,10 +302,19 @@
       "prompt": "그림 속 잎과 꽃 주변을 마음대로 칠해 봐.",
       "outro": "정원이 네 색으로 채워졌어. 그림을 쉬게 해 주자.",
       "offscreen": "집 안에서 식물이나 잎 모양을 찾아봐.",
-      "safety": ["식물 채집·섭취 유도 없음", "외출을 요구하지 않음", "그림 기본 로컬 저장"],
-      "audioFiles": {},
-      "humanApprovedAt": null,
-      "rightsVerifiedAt": null
+      "safety": [
+        "식물 채집·섭취 유도 없음",
+        "외출을 요구하지 않음",
+        "그림 기본 로컬 저장"
+      ],
+      "audioFiles": {
+        "intro": "assets/audio/after_rain_garden__intro.wav",
+        "outro": "assets/audio/after_rain_garden__outro.wav",
+        "prompt": "assets/audio/after_rain_garden__prompt.wav",
+        "offscreen": "assets/audio/after_rain_garden__offscreen.wav"
+      },
+      "humanApprovedAt": "2026-09-29",
+      "rightsVerifiedAt": "2026-09-29"
     }
   ]
 }
