@@ -10,7 +10,7 @@ const manifestPath = path.join(root, 'assets/content/audio_manifest.json');
 const endpoint = 'https://generativelanguage.googleapis.com/v1beta/interactions';
 const defaultModel = 'gemini-3.8-flash-tts';
 const defaultVoice = 'Kore';
-const style = 'Warm, calm Korean adult storyteller. Clear natural Korean pronunciation, gentle consistent volume, slightly unhurried, no shouting, no exaggerated baby talk.';
+const style = 'Bright, warm, and delightfully playful Korean storyteller for young children. Expressive, affectionate, and cheerful voice full of curiosity, clear natural Korean pronunciation, engaging musical cadence, no shouting, perfectly paced for preschoolers.';
 
 async function loadEnvIfPresent() {
   if (process.env.GEMINI_API_KEY) return;
@@ -54,7 +54,7 @@ export function buildSongPayload(job, model = defaultModel, voice = defaultVoice
   }
   const content = [{ type: 'text', text: job.text.replace(/\n/g, '. ') }];
   if (model.includes('3.8')) {
-    const songStyle = 'Gentle, melodic, rhythmic singing tone for preschool nursery rhyme, slow 4/4 tempo, warm calm vocal.';
+    const songStyle = 'Joyful, catchy, rhythmic singing tone for preschool nursery rhyme, bouncy 4/4 tempo, warm, playful, and cheerful vocal.';
     content[0].annotations = [{ type: 'speech_metadata', style: songStyle }];
   }
   return {

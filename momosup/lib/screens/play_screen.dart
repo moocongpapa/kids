@@ -12,6 +12,8 @@ import '../models/activity.dart';
 import '../models/child_profile.dart';
 import '../state/app_state.dart';
 import '../widgets/avatar_image.dart';
+import '../widgets/jelly_button.dart';
+import '../widgets/touch_sparkles.dart';
 
 /// One finite activity. Drafts may be opened only through the parent preview.
 class PlayScreen extends StatefulWidget {
@@ -183,22 +185,25 @@ class _PlayScreenState extends State<PlayScreen> {
           ],
         ),
         body: SafeArea(
-          child: Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 720),
-              child: ListView(
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-                children: [
-                  if (widget.isParentPreview)
-                    const _Banner(
-                      '음성·노래 파일과 사람 검수 전의 조작 시제품입니다. 아이 혼자 사용하지 마세요.',
-                    ),
-                  if (audioFailed)
-                    const _Banner('음성을 재생할 수 없어 놀이를 마쳤어요. 보호자에게 알려 주세요.'),
-                  if (phase == 0) _intro(context),
-                  if (phase == 1) _interaction(context),
-                  if (phase == 2) _ending(context),
-                ],
+          child: TouchSparkles(
+            lowStimulation: widget.profile.lowStimulation,
+            child: Center(
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 720),
+                child: ListView(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+                  children: [
+                    if (widget.isParentPreview)
+                      const _Banner(
+                        '음성·노래 파일과 사람 검수 전의 조작 시제품입니다. 아이 혼자 사용하지 마세요.',
+                      ),
+                    if (audioFailed)
+                      const _Banner('음성을 재생할 수 없어 놀이를 마쳤어요. 보호자에게 알려 주세요.'),
+                    if (phase == 0) _intro(context),
+                    if (phase == 1) _interaction(context),
+                    if (phase == 2) _ending(context),
+                  ],
+                ),
               ),
             ),
           ),
@@ -310,7 +315,13 @@ class _PlayScreenState extends State<PlayScreen> {
               SizedBox(
                 width: narrow ? 104 : 190,
                 height: narrow ? 96 : 120,
-                child: FilledButton.tonal(
+                child: JellyButton(
+                  isSelected: selectedChoice == index,
+                  lowStimulation: widget.profile.lowStimulation,
+                  semanticsLabel: activity.choices[index],
+                  padding: narrow
+                      ? const EdgeInsets.symmetric(horizontal: 6, vertical: 6)
+                      : const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   onPressed: () {
                     setState(() {
                       selectedChoice = index;
@@ -320,12 +331,33 @@ class _PlayScreenState extends State<PlayScreen> {
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(_iconFor(index), size: narrow ? 29 : 36),
-                      const SizedBox(height: 6),
-                      Text(
-                        activity.choices[index],
-                        textAlign: TextAlign.center,
+                      Icon(
+                        _iconFor(index),
+                        size: narrow ? 26 : 34,
+                        color: selectedChoice == index
+                            ? const Color(0xFF235338)
+                            : const Color(0xFF3F634A),
+                      ),
+                      const SizedBox(height: 4),
+                      Flexible(
+                        child: Text(
+                          activity.choices[index],
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: narrow ? 12 : 15,
+                            height: 1.2,
+                            fontWeight: selectedChoice == index
+                                ? FontWeight.bold
+                                : FontWeight.w600,
+                            color: selectedChoice == index
+                                ? const Color(0xFF1B3827)
+                                : const Color(0xFF2E4034),
+                          ),
+                        ),
                       ),
                     ],
                   ),

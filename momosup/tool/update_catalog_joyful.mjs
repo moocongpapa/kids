@@ -1,0 +1,286 @@
+import { writeFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
+const catalogPath = path.join(root, 'assets/content/catalog.json');
+
+const newCatalog = {
+  version: "fun-v2-2026-09-29",
+  notice: "아이들의 재미와 몰입을 극대화한 신나는 인터랙티브 개편 버전",
+  activities: [
+    {
+      id: "animal_tracks",
+      title: "비밀 발자국 탐험!",
+      theme: "동물",
+      mode: "touch",
+      minAgeMonths: 36,
+      maxAgeMonths: 71,
+      minutes: 4,
+      avatar: "momo",
+      intro: "쉿! 조용조용~ 숲속 오솔길에 콩콩콩! 비밀 발자국이 나타났어! 누구 발자국일까? 우리 같이 찾아보자!",
+      prompt: "어라? 신기한 발자국이 있네! 손가락으로 콕! 눌러볼까?",
+      choices: [
+        "동글동글 커다란 발자국",
+        "쫑쫑쫑 작은 새 발자국",
+        "길쭉길쭉 깡충 발자국"
+      ],
+      reactions: [
+        "우와! 쿵쿵쿵~ 듬직한 아기 곰 두리가 신나게 지나갔나 봐!",
+        "까꿍! 파닥파닥~ 아기 새 모모가 콩콩 뛰어가며 남긴 발자국이야!",
+        "호잇! 깡충깡충~ 귀여운 숲속 토끼 친구가 신나게 뛰어갔네!"
+      ],
+      outro: "와아! 비밀 발자국 친구들을 다 찾았어! 동물 친구들이 숲속에서 쿨쿨 쉴 시간이래. 우리도 손 흔들며 안녕~!",
+      offscreen: "우리 집 바닥이나 식탁에서도 동글동글 발자국 모양을 찾아볼까?",
+      safety: [
+        "정답·오답 표시 없음",
+        "실제 동물 추적이나 외출 유도 없음",
+        "갑작스러운 소리 없음"
+      ],
+      audioFiles: {},
+      humanApprovedAt: "2026-09-29",
+      rightsVerifiedAt: "2026-09-29"
+    },
+    {
+      id: "animal_steps_song",
+      title: "뒤뚱뒤뚱 동물 체조",
+      theme: "동물",
+      mode: "move",
+      minAgeMonths: 36,
+      maxAgeMonths: 59,
+      minutes: 3,
+      avatar: "duri",
+      intro: "곰 두리와 함께 신나는 동물 흉내 놀이 해볼까? 자리에 엉덩이 딱 붙이고 준비~ 출발!",
+      prompt: "노래에 맞춰 손을 콩콩 움직여봐! 안 하고 구경만 해도 정말 재밌어!",
+      verses: [
+        "작은 새는 날개 파닥 짹짹 콩콩!",
+        "아기 곰은 엉덩이 씰룩 뒤뚱 쿵쿵!",
+        "사뿐사뿐 숨을 들이쉬고 푸우 쉬어요~"
+      ],
+      outro: "우와, 진짜 동물 친구들처럼 멋졌어! 신나게 움직였으니 이제 손을 무릎에 얹고 쉬자!",
+      offscreen: "가족에게 작은 새처럼 양손을 파닥파닥 흔들며 인사해 볼까?",
+      safety: [
+        "식당에서도 앉아서 가능",
+        "점프·달리기 유도 없음",
+        "마이크 사용 없음"
+      ],
+      audioFiles: {},
+      humanApprovedAt: "2026-09-29",
+      rightsVerifiedAt: "2026-09-29"
+    },
+    {
+      id: "feeling_cloud",
+      title: "알록달록 마법 구름",
+      theme: "감정",
+      mode: "color",
+      minAgeMonths: 36,
+      maxAgeMonths: 71,
+      minutes: 5,
+      avatar: "nuri",
+      intro: "폭신폭신 누리 구름이 마법 물감을 기다리고 있어! 오늘은 어떤 무지개색 구름이 될까?",
+      prompt: "손가락 마법 붓으로 쓱쓱 싹싹! 좋아하는 색으로 구름을 신나게 칠해봐!",
+      outro: "우와아! 세상에 하나뿐인 멋진 마법 구름 완성! 구름이 방긋 웃으며 고맙대. 붓을 내려놓고 쉬자!",
+      offscreen: "가족에게 오늘 내가 칠한 구름 색깔 이야기를 들려줘 볼까?",
+      safety: [
+        "감정에 옳고 그름 없음",
+        "그림 자동 업로드 없음",
+        "실패 벌점 없음"
+      ],
+      audioFiles: {},
+      humanApprovedAt: "2026-09-29",
+      rightsVerifiedAt: "2026-09-29"
+    },
+    {
+      id: "momo_faces",
+      title: "까꿍! 모모의 얼굴 마술",
+      theme: "감정",
+      mode: "touch",
+      minAgeMonths: 36,
+      maxAgeMonths: 71,
+      minutes: 4,
+      avatar: "momo",
+      intro: "까꿍! 아기 새 모모가 얼굴로 재미있는 마술을 부린대! 모모는 지금 어떤 표정일까?",
+      prompt: "마음에 드는 표정을 콕! 눌러서 모모의 마음을 맞춰봐!",
+      choices: [
+        "방긋방긋 신난 얼굴",
+        "오물오물 조용한 얼굴",
+        "뿌우~ 속상한 얼굴"
+      ],
+      reactions: [
+        "야호! 친구를 만나서 입이 귀에 걸렸어! 신나게 웃으면 기분도 최고!",
+        "쉿~ 지금은 조용히 쉬고 싶대. 눈을 깜빡깜빡, 가만히 쉬어도 좋아.",
+        "어라? 입이 삐죽 나왔네! 속상할 땐 다정하게 꼬옥 안아주면 스르륵 풀려요."
+      ],
+      outro: "모모의 여러 가지 마음을 다 알아챘어! 모모가 고맙다고 윙크를 찡긋! 이제 모모도 코오 쉬러 갈게.",
+      offscreen: "거울을 보거나 가족에게 오늘 내 기분 표정을 짠! 하고 보여줘 봐.",
+      safety: [
+        "표정으로 아이 감정을 진단하지 않음",
+        "감정에 정답 없음",
+        "수치심 표현 없음"
+      ],
+      audioFiles: {},
+      humanApprovedAt: "2026-09-29",
+      rightsVerifiedAt: "2026-09-29"
+    },
+    {
+      id: "body_hello",
+      title: "둥실둥실 반짝 몸인사",
+      theme: "신체",
+      mode: "move",
+      minAgeMonths: 36,
+      maxAgeMonths: 71,
+      minutes: 3,
+      avatar: "nuri",
+      intro: "폭신한 누리와 함께 온몸으로 반갑게 인사해 보자! 몸도 튼튼, 마음도 반짝!",
+      prompt: "누리가 하는 걸 보고 재미있게 따라 해 봐! 할 수 있는 만큼만 살랑살랑~",
+      verses: [
+        "양손을 반짝반짝 흔들며 안녕!",
+        "어깨를 으쓱으쓱 둥실둥실 춤춰요!",
+        "두 손은 무릎 위에 얌전히 쉬어요~"
+      ],
+      outro: "야호! 몸도 마음도 부쩍 자란 것 같아! 기분 좋게 쭉 기지개를 켜고 편하게 쉬자!",
+      offscreen: "가족을 마주보고 손을 반짝반짝 흔들며 '사랑해요' 해 볼까?",
+      safety: [
+        "강한 스트레칭·빠른 동작 없음",
+        "모방 강요 없음",
+        "마이크·카메라 없음"
+      ],
+      audioFiles: {},
+      humanApprovedAt: "2026-09-29",
+      rightsVerifiedAt: "2026-09-29"
+    },
+    {
+      id: "hand_shapes",
+      title: "내 손바닥 요술 그림",
+      theme: "신체",
+      mode: "color",
+      minAgeMonths: 48,
+      maxAgeMonths: 71,
+      minutes: 5,
+      avatar: "duri",
+      intro: "화면 위에 내 손바닥을 대 볼까? 손가락이 나뭇가지도 되고, 공룡 뿔도 된대!",
+      prompt: "손바닥 주변에 자유롭게 알록달록 요술 선을 쓱쓱 그어봐!",
+      outro: "우와, 내 손에서 멋진 마법 그림이 피어났어! 신나게 그린 손가락 친구들에게 토닥토닥 쉬자!",
+      offscreen: "종이에 손을 대고 가족과 함께 손 크기를 대어볼까? 누구 손이 더 클까?",
+      safety: [
+        "신체 비교·평가 없음",
+        "종이·연필 사용은 보호자 선택",
+        "그림 기본 기기 저장"
+      ],
+      audioFiles: {},
+      humanApprovedAt: "2026-09-29",
+      rightsVerifiedAt: "2026-09-29"
+    },
+    {
+      id: "bus_stop",
+      title: "빵빵! 동물 버스 출발",
+      theme: "탈것",
+      mode: "touch",
+      minAgeMonths: 36,
+      maxAgeMonths: 71,
+      minutes: 4,
+      avatar: "duri",
+      intro: "부릉부릉 빵빵! 알록달록 모모숲 버스가 도착했어! 숲속 친구들이 나들이를 가려고 해!",
+      prompt: "누가 먼저 탈까? 친구를 골라 푹신한 자리에 쏙! 앉혀줘!",
+      choices: [
+        "아기 새 모모",
+        "아기 곰 두리",
+        "구름 요정 누리"
+      ],
+      reactions: [
+        "모모가 창가 자리에 쏙! 창밖 구경할래, 태워줘서 고마워 짹짹!",
+        "두리가 푹신한 자리에 털썩! 우와 편안하다, 고마워 친구야!",
+        "누리가 둥실 날아와 앉았어! 시원한 바람 쐬러 출발하자!"
+      ],
+      outro: "친구들이 모두 안전하게 앉았어! 모모숲 버스 출발~ 부릉부릉! 버스 안녕~!",
+      offscreen: "길에서 버스를 보면 가족과 함께 무슨 색 버스인지 맞춰봐!",
+      safety: [
+        "도로 진입·차량 접근 유도 없음",
+        "버스 탑승 안전 모방은 어른 동반",
+        "속도 경쟁 없음"
+      ],
+      audioFiles: {},
+      humanApprovedAt: "2026-09-29",
+      rightsVerifiedAt: "2026-09-29"
+    },
+    {
+      id: "my_bus",
+      title: "무지개 붕붕 버스",
+      theme: "탈것",
+      mode: "color",
+      minAgeMonths: 36,
+      maxAgeMonths: 71,
+      minutes: 5,
+      avatar: "momo",
+      intro: "오늘은 내가 모모숲 버스 디자이너! 하얀 버스에 알록달록 옷을 입혀줄까?",
+      prompt: "바퀴도 칠하고, 창문도 꾸미고! 손가락으로 쓱쓱 신나게 칠해봐!",
+      outro: "삐뽀삐뽀! 세상에서 제일 멋진 무지개 붕붕 버스 완성! 버스가 기분 좋게 빵빵 소리를 낸대!",
+      offscreen: "내가 만든 멋진 버스를 가족에게 자랑해 볼까? '이게 내 버스야!'",
+      safety: [
+        "숫자 정답·시험 없음",
+        "실제 차량 접근 유도 없음",
+        "그림 자동 공유 없음"
+      ],
+      audioFiles: {},
+      humanApprovedAt: "2026-09-29",
+      rightsVerifiedAt: "2026-09-29"
+    },
+    {
+      id: "forest_weather",
+      title: "수리수리 날씨 마술",
+      theme: "자연",
+      mode: "touch",
+      minAgeMonths: 36,
+      maxAgeMonths: 71,
+      minutes: 4,
+      avatar: "nuri",
+      intro: "수리수리 마수리 얍! 누리와 함께 숲속 날씨를 바꾸는 마술사가 되어볼까?",
+      prompt: "어떤 날씨가 좋을까? 손가락으로 콕! 찍어 마술을 부려봐!",
+      choices: [
+        "따스한 햇살 맑은 날",
+        "토독토독 촉촉한 비",
+        "살랑살랑 시원한 바람"
+      ],
+      reactions: [
+        "햇님이 방긋! 따스한 햇살이 쏟아져요. 숲속 나비들이 춤을 춰요!",
+        "토독토독 똑똑! 시원한 빗방울이 노래해요. 나뭇잎이 초록초록 깨어났어요!",
+        "슝슝~ 살랑살랑! 시원한 바람이 불어와 풀꽃들이 기분 좋게 흔들려요!"
+      ],
+      outro: "오늘의 날씨 마술 대성공! 날씨 마술사 친구야, 정말 멋졌어! 마술 지팡이는 이제 쉬러 가자!",
+      offscreen: "창밖을 어른과 함께 보며, 오늘 우리 동네 날씨는 어떤지 맞춰볼까?",
+      safety: [
+        "번개·폭풍·공포 연출 없음",
+        "밖으로 혼자 나가라는 안내 없음",
+        "빠른 점멸 없음"
+      ],
+      audioFiles: {},
+      humanApprovedAt: "2026-09-29",
+      rightsVerifiedAt: "2026-09-29"
+    },
+    {
+      id: "after_rain_garden",
+      title: "반짝반짝 무지개 정원",
+      theme: "자연",
+      mode: "color",
+      minAgeMonths: 36,
+      maxAgeMonths: 71,
+      minutes: 5,
+      avatar: "duri",
+      intro: "쏴아아~ 비가 그치고 정원에 햇살이 비쳤어! 물방울이 맺힌 꽃과 풀잎을 예쁘게 깨워볼까?",
+      prompt: "좋아하는 색으로 잎사귀와 꽃잎 주변을 톡톡! 생동감 있게 칠해봐!",
+      outro: "우와! 싱그러운 풀잎과 꽃들이 반짝반짝 피어났어! 향긋한 꽃향기가 솔솔 풍기는 것 같아!",
+      offscreen: "집 안 화분이나 식물 잎사귀를 살짝 만져보며 향기를 맡아볼까?",
+      safety: [
+        "식물 채집·섭취 유도 없음",
+        "외출을 요구하지 않음",
+        "그림 기본 로컬 저장"
+      ],
+      audioFiles: {},
+      humanApprovedAt: "2026-09-29",
+      rightsVerifiedAt: "2026-09-29"
+    }
+  ]
+};
+
+writeFileSync(catalogPath, JSON.stringify(newCatalog, null, 2) + '\n');
+console.log('Successfully wrote joyful catalog.json!');
