@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Push completed main commits from this local checkout to the requested remote.
+branch=$(git symbolic-ref --quiet --short HEAD) || exit 0
+if [ "$branch" != main ]; then
+  exit 0
+fi
+
+if ! git push origin main; then
+  printf '%s\n' 'Automatic push failed. The commit remains local; inspect the error and push main manually.' >&2
+  exit 1
+fi

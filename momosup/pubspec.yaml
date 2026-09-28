@@ -1,0 +1,31 @@
+name: momosup
+description: "모모숲: 짧고 안전한 참여형 유아 놀이"
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.13.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_secure_storage: ^11.2.0
+  path_provider: ^2.1.6
+  crypto: ^3.0.7
+  just_audio: ^0.10.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: NotoSansKR
+      fonts:
+        - asset: assets/fonts/NotoSansKR-wght.ttf
+  assets:
+    - assets/images/
+    - assets/content/
+    - assets/audio/

@@ -1,0 +1,35 @@
+# Deploy this Blueprint from the kids repository at momosup/render.yaml.
+# It creates NEW paid staging resources; never link it to an existing family-data DB.
+# Root-level resources have no project/environment assignment on creation.
+# Move both new resources to the intended Render environment after deployment.
+previews:
+  generation: off
+services:
+  - type: web
+    name: momosup-safety-api-staging
+    runtime: node
+    rootDir: momosup
+    region: singapore
+    plan: 0.5c-512mb
+    buildCommand: cd backend && npm ci
+    preDeployCommand: cd backend && npm run migrate
+    startCommand: cd backend && npm start
+    healthCheckPath: /health
+    autoDeployTrigger: off
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: momosup-content-db-staging
+          property: connectionString
+      - key: ADMIN_TOKEN
+        generateValue: true
+databases:
+  - name: momosup-content-db-staging
+    databaseName: momosup_content
+    user: momosup_api
+    region: singapore
+    plan: 0.1c-256mb
+    diskSizeGB: 1
+    ipAllowList: []
