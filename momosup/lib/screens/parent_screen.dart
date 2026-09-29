@@ -1,3 +1,4 @@
+import '../widgets/parent_today_play.dart';
 import '../models/age_journey.dart';
 import 'journey_screen.dart';
 
@@ -310,6 +311,12 @@ class ParentHubScreen extends StatelessWidget {
                     text: '비공개 시제품 · 계정 로그인, 결제, 서버 동기화는 준비 중입니다.',
                   ),
                   const SizedBox(height: 16),
+                  if (profile != null)
+                    ParentTodayPlay(
+                      key: ValueKey(profile.id),
+                      appState: appState,
+                      profile: profile,
+                    ),
                   Text('자녀 프로필', style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(height: 8),
                   ...appState.profiles.map(
@@ -499,7 +506,7 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
     nickname = TextEditingController(text: initial?.nickname ?? '');
     ageMonths = (initial?.ageMonths ?? 36).clamp(6, 95);
     preschool = initial?.preschool ?? true;
-    playStage = initial?.playStage ?? 0;
+    playStage = initial?.playStage ?? -1;
     avatar = initial?.avatar ?? 'momo';
     gender = initial?.gender ?? '선택하지 않음';
     answers = initial?.answers.length == 5
@@ -705,12 +712,18 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
                 ),
                 const SizedBox(height: 14),
               ],
-              const Text('놀이 도움 정도는 직접 골라 주세요. 답변을 합산해 발달 등급을 매기지 않습니다.'),
+              const Text(
+                '월령 추천은 월령과 도움 필요 답변으로 시작 방법을 골라요. 발달 등급이 아니며 직접 바꿀 수 있습니다.',
+              ),
               const SizedBox(height: 12),
               DropdownButtonFormField<int>(
                 initialValue: playStage,
                 decoration: const InputDecoration(labelText: '처음 시작할 놀이 방법'),
                 items: [
+                  const DropdownMenuItem(
+                    value: -1,
+                    child: Text('월령과 답변에 맞춰 추천'),
+                  ),
                   for (var i = 0; i < 3; i++)
                     DropdownMenuItem(value: i, child: Text(journeyStages[i])),
                 ],

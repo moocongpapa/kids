@@ -1,6 +1,9 @@
 import '../data/journey_recommendation.dart';
 import '../widgets/journey_reveal_scene.dart';
 import '../widgets/journey_build_board.dart';
+import '../widgets/journey_picnic_scene.dart';
+import '../widgets/journey_garden_scene.dart';
+import '../widgets/touch_invitation.dart';
 
 import 'dart:async';
 import 'dart:math' as math;
@@ -136,8 +139,8 @@ class _JourneyLibraryScreenState extends State<JourneyLibraryScreen> {
       }
       return Scaffold(
         appBar: AppBar(title: Text(widget.parent ? '월령별 놀이 공방' : '우리 놀이숲')),
-        body: ForestBackground(
-          lowStimulation: true,
+        body: Material(
+          color: forestCream,
           child: SafeArea(
             child: ListView(
               padding: const EdgeInsets.all(20),
@@ -247,7 +250,7 @@ class _JourneyDetailScreenState extends State<JourneyDetailScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    stage = widget.profile.playStage;
+    stage = widget.profile.effectivePlayStage;
     ForestAudio.instance.pauseBgm();
   }
 
@@ -618,6 +621,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
   final watch = Stopwatch();
   Timer? timer;
   int step = 0, selected = 0, action = 0, token = 0, activeNote = -1;
+  bool sortHint = false;
   bool ready = false,
       ended = false,
       started = false,
@@ -634,7 +638,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
     Color(0xFF568765),
   ];
   AgeJourney get a => widget.journey;
-  int get stage => widget.profile.playStage;
+  int get stage => widget.profile.effectivePlayStage;
   bool get quiet =>
       widget.profile.lowStimulation || MediaQuery.disableAnimationsOf(context);
   bool get sound =>
@@ -741,6 +745,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
       selected = 0;
       action = 0;
       busy = false;
+      sortHint = false;
       slots.clear();
       activeNote = -1;
     });
@@ -872,7 +877,20 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
   Widget _intro() => Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      AvatarImage(avatar: a.avatar, size: 150, lowStimulation: quiet),
+      if (a.id == 'age_48_01')
+        const JourneyPicnicScene(step: 0, gift: null, quiet: true)
+      else if (a.id == 'age_24_01' || a.id == 'age_24_06')
+        IgnorePointer(
+          child: JourneyGardenScene(
+            weather: a.id == 'age_24_06',
+            step: 0,
+            revealed: true,
+            quiet: true,
+            onTap: () {},
+          ),
+        )
+      else
+        AvatarImage(avatar: a.avatar, size: 150, lowStimulation: quiet),
       const SizedBox(height: 20),
       ForestSign(a.title),
       const SizedBox(height: 20),
@@ -916,7 +934,21 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
       const SizedBox(height: 20),
       const ForestSign('즐거웠어!'),
       const SizedBox(height: 16),
-      if (widget.preview) Text(a.offscreen, textAlign: TextAlign.center),
+      const Icon(Icons.family_restroom_rounded, size: 48, color: forestInk),
+      const SizedBox(height: 12),
+      Container(
+        constraints: const BoxConstraints(maxWidth: 380),
+        padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
+        decoration: BoxDecoration(
+          color: forestCream,
+          borderRadius: BorderRadius.circular(28),
+        ),
+        child: Text(
+          a.offscreen,
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: forestInk, fontSize: 17, height: 1.5),
+        ),
+      ),
       const SizedBox(height: 20),
       ForestAction(
         label: '숲으로 돌아가기',
@@ -1008,6 +1040,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
     children: [
       JourneyRevealScene(
         id: a.id,
+        step: step,
         avatar: a.avatar,
         options: options.map(journeyProp).toList(),
         selected: selected,
@@ -1033,24 +1066,31 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
   );
   Widget _story() => Column(
     children: [
-      SizedBox(
-        height: 190,
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            if (a.mechanic == 'reveal' && !ready)
-              const ForestProp(ForestObject.bush, size: 180)
-            else
-              AvatarImage(avatar: a.avatar, size: 160, lowStimulation: quiet),
-            if (ready)
-              Positioned(
-                right: 12,
-                bottom: 0,
-                child: ForestProp(journeyProp(options[selected]), size: 96),
-              ),
-          ],
+      if (a.id == 'age_48_01')
+        JourneyPicnicScene(
+          step: step,
+          gift: ready ? options[selected] : null,
+          quiet: quiet,
+        )
+      else
+        SizedBox(
+          height: 190,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              if (a.mechanic == 'reveal' && !ready)
+                const ForestProp(ForestObject.bush, size: 180)
+              else
+                AvatarImage(avatar: a.avatar, size: 160, lowStimulation: quiet),
+              if (ready)
+                Positioned(
+                  right: 12,
+                  bottom: 0,
+                  child: ForestProp(journeyProp(options[selected]), size: 96),
+                ),
+            ],
+          ),
         ),
-      ),
       if (results.isNotEmpty)
         Wrap(
           spacing: 8,
@@ -1066,18 +1106,17 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
         runSpacing: 12,
         children: [
           for (var i = 0; i < options.length; i++)
-            propButton(options[i], () {
-              setState(() {
-                selected = i;
-                if (!ready) {
-                  results.add(options[i]);
-                } else {
-                  results[results.length - 1] = options[i];
-                }
-                ready = true;
-              });
-              if (sound) SoundEffects.instance.pop();
-            }, selected: ready && selected == i),
+            TouchInvitation(
+              visible: !ready && i == 0,
+              quiet: quiet,
+              key: ValueKey('story-cue-$step-$i'),
+              child: propButton(
+                options[i],
+                () => choose(i),
+                selected: ready && selected == i,
+                size: 96,
+              ),
+            ),
         ],
       ),
     ],
@@ -1091,7 +1130,18 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
     final color = bySize ? palette[2] : palette[target];
     return Column(
       children: [
-        ForestSign(bySize ? '크기' : '색'),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.eco_rounded, color: palette[0], size: bySize ? 24 : 40),
+            const SizedBox(width: 14),
+            Icon(
+              Icons.eco_rounded,
+              color: bySize ? palette[0] : palette[1],
+              size: 40,
+            ),
+          ],
+        ),
         const SizedBox(height: 20),
         Semantics(
           label: bySize
@@ -1121,43 +1171,49 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
           spacing: 26,
           children: [
             for (var i = 0; i < bins; i++)
-              ForestAction(
-                label: bySize
-                    ? (i == 0 ? '작은 도토리 바구니' : '큰 도토리 바구니')
-                    : (i == 0 ? '빨간 바구니' : '파란 바구니'),
-                size: 106,
+              TouchInvitation(
+                visible: !ready && i == target && (action == 0 || sortHint),
                 quiet: quiet,
-                onPressed: ready
-                    ? null
-                    : () {
-                        if (i != target) {
-                          if (sound) SoundEffects.instance.pop();
-                          return;
-                        }
-                        setState(() {
-                          action++;
-                          selected = 0;
-                          ready =
-                              action >=
-                              (stage == 0
-                                  ? 1
-                                  : stage == 1
-                                  ? 2
-                                  : 4);
-                          if (ready) results.add('basket');
-                        });
-                        if (sound) SoundEffects.instance.snap();
-                      },
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const ForestProp(ForestObject.basket, size: 88),
-                    Icon(
-                      Icons.eco_rounded,
-                      size: bySize ? (i == 0 ? 24 : 42) : 34,
-                      color: bySize ? palette[2] : palette[i],
-                    ),
-                  ],
+                child: ForestAction(
+                  label: bySize
+                      ? (i == 0 ? '작은 도토리 바구니' : '큰 도토리 바구니')
+                      : (i == 0 ? '빨간 바구니' : '파란 바구니'),
+                  size: 106,
+                  quiet: quiet,
+                  onPressed: ready
+                      ? null
+                      : () {
+                          if (i != target) {
+                            setState(() => sortHint = true);
+                            if (sound) SoundEffects.instance.pop();
+                            return;
+                          }
+                          setState(() {
+                            sortHint = false;
+                            action++;
+                            selected = 0;
+                            ready =
+                                action >=
+                                (stage == 0
+                                    ? 1
+                                    : stage == 1
+                                    ? 2
+                                    : 4);
+                            if (ready) results.add('basket');
+                          });
+                          if (sound) SoundEffects.instance.snap();
+                        },
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      const ForestProp(ForestObject.basket, size: 88),
+                      Icon(
+                        Icons.eco_rounded,
+                        size: bySize ? (i == 0 ? 24 : 42) : 34,
+                        color: bySize ? palette[2] : palette[i],
+                      ),
+                    ],
+                  ),
                 ),
               ),
           ],
@@ -1261,31 +1317,35 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
         runSpacing: 12,
         children: [
           for (var i = 0; i < slotCount; i++)
-            ForestAction(
-              label: '${i + 1}번째 소리 자리',
-              size: 76,
-              selected: activeNote == i,
+            TouchInvitation(
+              visible: slots.isEmpty && i == 0,
               quiet: quiet,
-              onPressed: busy
-                  ? null
-                  : () {
-                      setState(() {
-                        slots[i] = selected;
-                        ready = slots.length == slotCount;
-                      });
-                      if (sound && selected != 3) {
-                        SoundEffects.instance.playNote(selected * 2);
-                      }
-                    },
-              child: slots[i] == 3
-                  ? const Icon(Icons.nights_stay_rounded)
-                  : slots.containsKey(i)
-                  ? Icon(
-                      Icons.music_note_rounded,
-                      color: palette[slots[i]!],
-                      size: 42,
-                    )
-                  : const Icon(Icons.add_rounded, size: 34),
+              child: ForestAction(
+                label: '${i + 1}번째 소리 자리',
+                size: 76,
+                selected: activeNote == i,
+                quiet: quiet,
+                onPressed: busy
+                    ? null
+                    : () {
+                        setState(() {
+                          slots[i] = selected;
+                          ready = slots.length == slotCount;
+                        });
+                        if (sound && selected != 3) {
+                          SoundEffects.instance.playNote(selected * 2);
+                        }
+                      },
+                child: slots[i] == 3
+                    ? const Icon(Icons.nights_stay_rounded)
+                    : slots.containsKey(i)
+                    ? Icon(
+                        Icons.music_note_rounded,
+                        color: palette[slots[i]!],
+                        size: 42,
+                      )
+                    : const Icon(Icons.add_rounded, size: 34),
+              ),
             ),
         ],
       ),
@@ -1343,49 +1403,54 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
   );
   Widget _draw() => Column(
     children: [
-      SizedBox(
-        height: 250,
-        child: LayoutBuilder(
-          builder: (context, box) => GestureDetector(
-            key: const ValueKey('journey_canvas'),
-            onPanStart: (d) => setState(() {
-              strokes.add([
-                Offset(
-                  (d.localPosition.dx / box.maxWidth).clamp(0, 1),
-                  (d.localPosition.dy / box.maxHeight).clamp(0, 1),
-                ),
-              ]);
-              strokeColors.add(palette[selected]);
-              ready = true;
-            }),
-            onPanUpdate: (d) => setState(
-              () => strokes.last.add(
-                Offset(
-                  (d.localPosition.dx / box.maxWidth).clamp(0, 1),
-                  (d.localPosition.dy / box.maxHeight).clamp(0, 1),
+      TouchInvitation(
+        visible: strokes.isEmpty,
+        quiet: quiet,
+        drag: true,
+        child: SizedBox(
+          height: 250,
+          child: LayoutBuilder(
+            builder: (context, box) => GestureDetector(
+              key: const ValueKey('journey_canvas'),
+              onPanStart: (d) => setState(() {
+                strokes.add([
+                  Offset(
+                    (d.localPosition.dx / box.maxWidth).clamp(0, 1),
+                    (d.localPosition.dy / box.maxHeight).clamp(0, 1),
+                  ),
+                ]);
+                strokeColors.add(palette[selected]);
+                ready = true;
+              }),
+              onPanUpdate: (d) => setState(
+                () => strokes.last.add(
+                  Offset(
+                    (d.localPosition.dx / box.maxWidth).clamp(0, 1),
+                    (d.localPosition.dy / box.maxHeight).clamp(0, 1),
+                  ),
                 ),
               ),
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(38),
-              child: ColoredBox(
-                color: forestCream.withValues(alpha: .94),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Center(
-                      child: Opacity(
-                        opacity: .14,
-                        child: ForestProp(
-                          journeyProp(a.symbols.first),
-                          size: 190,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(38),
+                child: ColoredBox(
+                  color: forestCream.withValues(alpha: .94),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Center(
+                        child: Opacity(
+                          opacity: .14,
+                          child: ForestProp(
+                            journeyProp(a.symbols.first),
+                            size: 190,
+                          ),
                         ),
                       ),
-                    ),
-                    CustomPaint(
-                      painter: _JourneyDrawing(strokes, strokeColors),
-                    ),
-                  ],
+                      CustomPaint(
+                        painter: _JourneyDrawing(strokes, strokeColors),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

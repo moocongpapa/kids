@@ -93,7 +93,8 @@ void main() {
     final old = baseProfile.toJson()
       ..remove('preschool')
       ..remove('playStage');
-    expect(ChildProfile.fromJson(old).playStage, 0);
+    expect(ChildProfile.fromJson(old).playStage, -1);
+    expect(ChildProfile.fromJson(old).effectivePlayStage, 0);
     final changed = ChildProfile.fromJson(
       baseProfile
           .copyWith(ageMonths: 35, playStage: 2, preschool: false)
@@ -354,7 +355,7 @@ void main() {
           home: JourneyPlayScreen(
             journey: item,
             appState: state,
-            profile: state.activeProfile!,
+            profile: state.activeProfile!.copyWith(playStage: 0),
             preview: true,
           ),
         ),

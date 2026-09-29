@@ -1,3 +1,4 @@
+import '../widgets/journey_garden_scene.dart';
 import '../models/age_journey.dart';
 import '../data/journey_recommendation.dart';
 import 'journey_screen.dart';
@@ -309,6 +310,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+              journeyId: journey.id,
+              avatar: journey.avatar,
             ),
           );
         }
@@ -551,7 +554,15 @@ class _HomeScreenState extends State<HomeScreen> {
 };
 
 class _WorldEntry {
-  const _WorldEntry(this.object, this.caption, this.label, this.onTap);
+  const _WorldEntry(
+    this.object,
+    this.caption,
+    this.label,
+    this.onTap, {
+    this.journeyId,
+    this.avatar,
+  });
+  final String? journeyId, avatar;
   final ForestObject object;
   final String caption, label;
   final VoidCallback onTap;
@@ -620,10 +631,42 @@ class _ForestPortalState extends State<_ForestPortal> {
                   child: ForestFloat(
                     still: widget.quiet,
                     offset: widget.phase,
-                    child: ForestProp(widget.entry.object, size: 115),
+                    child: widget.entry.journeyId == 'age_24_01'
+                        ? const GardenFlower(variant: 0, open: true, size: 132)
+                        : widget.entry.avatar != null
+                        ? SizedBox(
+                            width: 136,
+                            height: 132,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  left: 2,
+                                  bottom: 0,
+                                  child: AvatarImage(
+                                    avatar: widget.entry.avatar!,
+                                    size: 96,
+                                    interactive: false,
+                                  ),
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  top: 0,
+                                  child: ForestProp(
+                                    widget.entry.object,
+                                    size: 70,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : ForestProp(widget.entry.object, size: 115),
                   ),
                 ),
-                Positioned(bottom: 6, child: ForestSign(widget.entry.caption)),
+                if (widget.entry.caption.isNotEmpty)
+                  Positioned(
+                    bottom: 6,
+                    child: ForestSign(widget.entry.caption),
+                  ),
               ],
             ),
           ),

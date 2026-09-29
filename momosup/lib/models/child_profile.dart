@@ -11,7 +11,7 @@ class ChildProfile {
     this.musicOn = true,
     this.lowStimulation = false,
     this.preschool = true,
-    this.playStage = 0,
+    this.playStage = -1,
     this.favoriteJourneys = const [],
   });
 
@@ -29,6 +29,19 @@ class ChildProfile {
   final int playStage;
   final List<String> favoriteJourneys;
   bool get caregiverMode => ageMonths < 24;
+
+  /// -1 follows age and the parent's stated need for help, never a diagnosis.
+  /// Explicit saved stages (including legacy stage 0) remain unchanged.
+  int get effectivePlayStage => playStage < 0 ? suggestedPlayStage : playStage;
+  int get suggestedPlayStage {
+    if (ageMonths < 30) return 0;
+    if (answers.length == 5 &&
+        (answers[0] == 0 || answers[1] == 0 || answers[2] == 0)) {
+      return 0;
+    }
+    if (ageMonths < 60 || (answers.length == 5 && answers[0] == 1)) return 1;
+    return 2;
+  }
 
   String get ageLabel =>
       ageMonths < 36 ? '$ageMonths개월' : '만 ${ageMonths ~/ 12}세';
@@ -92,7 +105,7 @@ class ChildProfile {
     musicOn: json['musicOn'] as bool? ?? true,
     lowStimulation: json['lowStimulation'] as bool? ?? false,
     preschool: json['preschool'] as bool? ?? true,
-    playStage: (json['playStage'] as int? ?? 0).clamp(0, 2),
+    playStage: (json['playStage'] as int? ?? -1).clamp(-1, 2),
     favoriteJourneys: List<String>.from(
       json['favoriteJourneys'] as List? ?? const [],
     ),
