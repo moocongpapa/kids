@@ -40,31 +40,62 @@ class _MomosupAppState extends State<MomosupApp> {
       useMaterial3: true,
       fontFamily: 'NotoSansKR',
       colorScheme: ColorScheme.fromSeed(
-        seedColor: const Color(0xFF78966A),
-        surface: const Color(0xFFFFFAF0),
+        seedColor: const Color(0xFF477A53),
+        primary: const Color(0xFF477A53),
+        surface: const Color(0xFFF9F1D9),
       ),
-      scaffoldBackgroundColor: const Color(0xFFFFFAF0),
+      scaffoldBackgroundColor: const Color(0xFFF3EED7),
       appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFFFFFAF0),
-        foregroundColor: Color(0xFF28372B),
-        centerTitle: false,
+        backgroundColor: Color(0xFFD9E4BF),
+        foregroundColor: Color(0xFF284E3D),
+        centerTitle: true,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        toolbarHeight: 72,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(bottom: Radius.circular(28)),
+        ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          minimumSize: const Size(52, 54),
+          minimumSize: const Size(64, 64),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(28),
+              topRight: Radius.circular(10),
+              bottomLeft: Radius.circular(28),
+              bottomRight: Radius.circular(28),
+            ),
           ),
         ),
       ),
       cardTheme: CardThemeData(
-        color: Colors.white,
+        color: const Color(0xFFFFF9E7),
         elevation: 0,
-        shape: RoundedRectangleBorder(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: const Color(0xFFFFF9E8),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 20,
+          vertical: 20,
+        ),
+        border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(22),
-          side: const BorderSide(color: Color(0xFFE5EBDD)),
+          borderSide: const BorderSide(color: Color(0xFFC6D2AD)),
         ),
       ),
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          minimumSize: const Size(64, 56),
+          foregroundColor: const Color(0xFF345C43),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(24),
+          ),
+        ),
+      ),
+      dividerTheme: const DividerThemeData(color: Color(0xFFD7DDBE), space: 28),
     ),
     home: FutureBuilder<List<Activity>>(
       future: boot,

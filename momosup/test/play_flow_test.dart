@@ -24,6 +24,7 @@ void main() {
       avatar: 'momo',
       level: '기본',
       answers: [3, 3, 3, 3, 3],
+      lowStimulation: true,
     );
     await tester.pumpWidget(
       MaterialApp(
@@ -37,18 +38,19 @@ void main() {
     );
     expect(find.text('보호자 미리보기'), findsOneWidget);
     expect(find.text(activity.intro), findsOneWidget);
-    await tester.tap(find.text('놀이 시작'));
+    await tester.tap(find.byTooltip('놀이 시작'));
     await tester.pumpAndSettle();
     expect(find.text(activity.prompt), findsOneWidget);
-    await tester.ensureVisible(find.text(activity.choices.first));
+    await tester.ensureVisible(find.byTooltip(activity.choices.first));
     await tester.pumpAndSettle();
-    await tester.tap(find.text(activity.choices.first));
+    await tester.tap(find.byTooltip(activity.choices.first));
     await tester.pumpAndSettle();
     expect(find.text(activity.reactions.first), findsOneWidget);
-    await tester.ensureVisible(find.text('놀이 마치기'));
-    await tester.tap(find.text('놀이 마치기'));
+    await tester.ensureVisible(find.byTooltip('놀이 마치기').last);
+    await tester.tap(find.byTooltip('놀이 마치기').last);
     await tester.pumpAndSettle();
     expect(find.text(activity.offscreen), findsOneWidget);
-    expect(find.text('다음 놀이는 자동으로 시작하지 않아요.'), findsOneWidget);
+    expect(find.byTooltip('숲으로 돌아가기'), findsOneWidget);
+    expect(find.byTooltip('놀이 시작'), findsNothing);
   });
 }

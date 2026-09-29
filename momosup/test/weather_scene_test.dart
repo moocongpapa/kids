@@ -24,6 +24,7 @@ void main() {
       avatar: 'nuri',
       level: '기본',
       answers: [3, 3, 3, 3, 3],
+      lowStimulation: true,
     );
     await tester.pumpWidget(
       MaterialApp(
@@ -35,13 +36,13 @@ void main() {
         ),
       ),
     );
-    await tester.tap(find.text('놀이 시작'));
+    await tester.tap(find.byTooltip('놀이 시작'));
     await tester.pumpAndSettle();
 
     Future<void> selectWeather(int index, String asset) async {
-      await tester.ensureVisible(find.text(activity.choices[index]));
+      await tester.ensureVisible(find.byTooltip(activity.choices[index]));
       await tester.pumpAndSettle();
-      await tester.tap(find.text(activity.choices[index]));
+      await tester.tap(find.byTooltip(activity.choices[index]));
       await tester.pumpAndSettle();
       expect(
         find.byWidgetPredicate(

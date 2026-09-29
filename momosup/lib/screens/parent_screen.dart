@@ -294,13 +294,13 @@ class ParentHubScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(20),
                 children: [
                   const _NoticeCard(
-                    text: '비공개 시제품 · 카카오 계정, 결제, 서버 자녀 데이터, AI 음성은 아직 연결되지 않았습니다.',
+                    text: '비공개 시제품 · 계정 로그인, 결제, 서버 동기화는 준비 중입니다.',
                   ),
                   const SizedBox(height: 16),
                   Text('자녀 프로필', style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(height: 8),
                   ...appState.profiles.map(
-                    (item) => Card(
+                    (item) => _ParentRow(
                       child: ListTile(
                         leading: AvatarImage(avatar: item.avatar, size: 48),
                         title: Text(item.nickname),
@@ -777,20 +777,17 @@ class PreviewCatalogScreen extends StatelessWidget {
         child: ListView(
           padding: const EdgeInsets.all(18),
           children: [
-            const _NoticeCard(
-              text: '모든 콘텐츠는 AI 보조 초안이며 사람 최종 승인·음성 파일·상업 이용권 확인 전에는 아이 모드에 노출되지 않습니다.',
-            ),
+            const _NoticeCard(text: '검수와 사용권 확인이 기록된 놀이만 아이 화면에 나타납니다.'),
             const SizedBox(height: 12),
             for (final activity in items)
-              Card(
+              _ParentRow(
                 child: ListTile(
                   leading: AvatarImage(avatar: activity.avatar, size: 54),
                   title: Text(activity.title),
                   subtitle: Text(
                     '${activity.theme} · ${activity.modeLabel} · '
-                    '검수 전 초안',
+                    '${activity.isFullyApproved ? '검수 완료' : '검수 대기'}',
                   ),
-                  trailing: const Icon(Icons.chevron_right_rounded),
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute<void>(
                       builder: (_) => ContentDetailScreen(
@@ -850,7 +847,7 @@ class ContentDetailScreen extends StatelessWidget {
           ...activity.safety.map((note) => Text('• $note')),
           const SizedBox(height: 16),
           const _NoticeCard(
-            text: '실제 음성 파일이 없고 창업자 최종 검수도 완료되지 않았습니다. 아래는 보호자 전용 조작 미리보기입니다.',
+            text: '보호자 전용 조작 미리보기에서는 안내 음성을 재생하지 않습니다. 아이 화면에서 실제 음성 재생을 확인할 수 있습니다.',
           ),
           const SizedBox(height: 18),
           FilledButton.icon(
@@ -1035,12 +1032,11 @@ class _HubTile extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) => Card(
+  Widget build(BuildContext context) => _ParentRow(
     child: ListTile(
       leading: Icon(icon, color: const Color(0xFF78966A)),
       title: Text(title),
       subtitle: Text(subtitle),
-      trailing: const Icon(Icons.chevron_right_rounded),
       onTap: onTap,
     ),
   );
@@ -1064,5 +1060,19 @@ class _NoticeCard extends StatelessWidget {
         ],
       ),
     ),
+  );
+}
+
+class _ParentRow extends StatelessWidget {
+  const _ParentRow({required this.child});
+  final Widget child;
+  @override
+  Widget build(BuildContext context) => Container(
+    margin: const EdgeInsets.symmetric(vertical: 5),
+    padding: const EdgeInsets.symmetric(vertical: 8),
+    decoration: const BoxDecoration(
+      border: Border(bottom: BorderSide(color: Color(0xFFD0DAB8))),
+    ),
+    child: child,
   );
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -33,9 +35,15 @@ class ForestAudio {
     }
     try {
       if (!_isInitialized) await init();
+      if (!_isInitialized || isMuted.value) return;
       if (!_isPlaying) {
-        await _bgmPlayer.play();
         _isPlaying = true;
+        unawaited(
+          _bgmPlayer.play().catchError((Object error) {
+            _isPlaying = false;
+            if (kDebugMode) debugPrint('ForestAudio playback error: $error');
+          }),
+        );
       }
     } catch (e) {
       if (kDebugMode) {

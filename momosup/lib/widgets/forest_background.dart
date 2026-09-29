@@ -1,236 +1,163 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
-/// Immersive forest atmosphere with organic canopy gradients,
-/// softly pulsing dappled sunbeams (Komorebi), and drifting forest particles.
+/// Existing reviewed forest artwork, with gentle light and drifting leaves.
+/// Reduced motion keeps the complete forest scene while stopping its ticker.
 class ForestBackground extends StatefulWidget {
   const ForestBackground({
     required this.child,
     this.lowStimulation = false,
+    this.clearing = false,
     super.key,
   });
-
   final Widget child;
   final bool lowStimulation;
-
+  final bool clearing;
   @override
   State<ForestBackground> createState() => _ForestBackgroundState();
 }
 
 class _ForestBackgroundState extends State<ForestBackground>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _animController;
-  final List<_DriftingParticle> _particles = [];
-  final math.Random _random = math.Random(12345);
+  late final AnimationController controller = AnimationController(
+    vsync: this,
+    duration: const Duration(seconds: 16),
+  );
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    syncMotion();
+  }
 
   @override
-  void initState() {
-    super.initState();
-    _animController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 12),
-    )..repeat();
+  void didUpdateWidget(ForestBackground oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    syncMotion();
+  }
 
-    // Initialize 16 gentle drifting particles (leaves, golden fireflies)
-    for (int i = 0; i < 16; i++) {
-      _particles.add(
-        _DriftingParticle(
-          x: _random.nextDouble(),
-          y: _random.nextDouble(),
-          speed: 0.08 + _random.nextDouble() * 0.12,
-          size: 10 + _random.nextDouble() * 12,
-          isLeaf: i % 2 == 0,
-          driftOffset: _random.nextDouble() * math.pi * 2,
-        ),
-      );
+  void syncMotion() {
+    if (widget.lowStimulation || MediaQuery.disableAnimationsOf(context)) {
+      controller.stop();
+    } else if (!controller.isAnimating) {
+      controller.repeat();
     }
   }
 
   @override
   void dispose() {
-    _animController.dispose();
+    controller.dispose();
     super.dispose();
   }
 
   @override
-  Widget build(BuildContext context) {
-    if (widget.lowStimulation) {
-      return Container(
-        decoration: const BoxDecoration(
+  Widget build(BuildContext context) => Stack(
+    fit: StackFit.expand,
+    children: [
+      const RepaintBoundary(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Color(0xFFC0D69A),
+            image: DecorationImage(
+              image: AssetImage('assets/images/forest_weather.png'),
+              fit: BoxFit.cover,
+              alignment: Alignment(-.72, 0),
+            ),
+          ),
+        ),
+      ),
+      DecoratedBox(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xFFF3F8F1), Color(0xFFE5EFE2)],
+            colors: widget.clearing
+                ? const [
+                    Color(0x35C8D6A5),
+                    Color(0xAAF4EDCF),
+                    Color(0xAACFDDA9),
+                  ]
+                : const [
+                    Color(0x123D6B46),
+                    Color(0x30F9EFCE),
+                    Color(0x609ABD78),
+                  ],
+            stops: const [0, .45, 1],
           ),
         ),
-        child: widget.child,
+      ),
+      RepaintBoundary(
+        child: AnimatedBuilder(
+          animation: controller,
+          builder: (_, _) => CustomPaint(
+            painter: _ForestLightPainter(
+              time:
+                  widget.lowStimulation ||
+                      MediaQuery.disableAnimationsOf(context)
+                  ? 0
+                  : controller.value,
+            ),
+          ),
+        ),
+      ),
+      widget.child,
+    ],
+  );
+}
+
+class _ForestLightPainter extends CustomPainter {
+  const _ForestLightPainter({required this.time});
+  final double time;
+  @override
+  void paint(Canvas c, Size s) {
+    final w = s.width, h = s.height;
+    final p = Paint();
+    // Sunlight is atmospheric, with no abrupt flashes or visual rewards.
+    final ray = Path()
+      ..moveTo(w * .32, 0)
+      ..lineTo(w * .49, 0)
+      ..lineTo(w * .95, h * .8)
+      ..lineTo(w * .64, h * .9)
+      ..close();
+    c.drawPath(
+      ray,
+      p
+        ..shader = const LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0x45FFF7CB), Color(0x00FFF7CB)],
+        ).createShader(Offset.zero & s),
+    );
+    p.shader = null;
+    for (var i = 0; i < 9; i++) {
+      final x =
+          w * ((i * .137 + .07) % 1) + math.sin(time * 2 * math.pi + i) * 9;
+      final y = h * (.14 + i * .085) + math.cos(time * 2 * math.pi + i * 2) * 8;
+      c.drawCircle(
+        Offset(x, y),
+        i.isEven ? 2.5 : 1.5,
+        p..color = const Color(0xE6FFF5C7),
       );
     }
-
-    return Stack(
-      fit: StackFit.expand,
-      children: [
-        // 1. Lush multi-stop forest ambient gradient
-        Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              stops: [0.0, 0.35, 0.75, 1.0],
-              colors: [
-                Color(0xFFFCFDF9), // Sunlit canopy top
-                Color(0xFFEEF7EC), // Fresh leaf green
-                Color(0xFFE2F0DE), // Deep mossy glade
-                Color(0xFFD6EAD2), // Earthy forest base
-              ],
-            ),
-          ),
-        ),
-
-        // 2. Dappled Sunbeams (Komorebi - sunlight filtering through treetops)
-        Positioned.fill(
-          child: IgnorePointer(
-            child: AnimatedBuilder(
-              animation: _animController,
-              builder: (context, _) {
-                return CustomPaint(
-                  painter: _SunbeamsPainter(progress: _animController.value),
-                );
-              },
-            ),
-          ),
-        ),
-
-        // 3. Floating forest particles (gentle leaves & golden firefly glimmers)
-        Positioned.fill(
-          child: IgnorePointer(
-            child: AnimatedBuilder(
-              animation: _animController,
-              builder: (context, _) {
-                return CustomPaint(
-                  painter: _ParticlesPainter(
-                    progress: _animController.value,
-                    particles: _particles,
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-
-        // 4. Main content layer
-        widget.child,
-      ],
-    );
-  }
-}
-
-class _DriftingParticle {
-  _DriftingParticle({
-    required this.x,
-    required this.y,
-    required this.speed,
-    required this.size,
-    required this.isLeaf,
-    required this.driftOffset,
-  });
-
-  double x;
-  double y;
-  final double speed;
-  final double size;
-  final bool isLeaf;
-  final double driftOffset;
-}
-
-class _SunbeamsPainter extends CustomPainter {
-  const _SunbeamsPainter({required this.progress});
-  final double progress;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final double pulse = 0.5 + 0.5 * math.sin(progress * 2 * math.pi);
-    final paint = Paint()
-      ..shader = RadialGradient(
-        center: const Alignment(-0.6, -0.9),
-        radius: 1.4,
-        colors: [
-          Colors.amber.shade100.withAlpha((45 + pulse * 25).toInt()),
-          Colors.white.withAlpha((30 + pulse * 15).toInt()),
-          Colors.transparent,
-        ],
-        stops: const [0.0, 0.45, 1.0],
-      ).createShader(Offset.zero & size);
-
-    canvas.drawRect(Offset.zero & size, paint);
-
-    // Diagonal subtle light ray band
-    final rayPaint = Paint()
-      ..color = Colors.white.withAlpha((18 + pulse * 14).toInt())
-      ..style = PaintingStyle.fill;
-
-    final path = Path()
-      ..moveTo(size.width * 0.05, 0)
-      ..lineTo(size.width * 0.35, 0)
-      ..lineTo(size.width * 0.75, size.height)
-      ..lineTo(size.width * 0.45, size.height)
-      ..close();
-
-    canvas.drawPath(path, rayPaint);
-  }
-
-  @override
-  bool shouldRepaint(covariant _SunbeamsPainter oldDelegate) => true;
-}
-
-class _ParticlesPainter extends CustomPainter {
-  const _ParticlesPainter({
-    required this.progress,
-    required this.particles,
-  });
-
-  final double progress;
-  final List<_DriftingParticle> particles;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    for (final p in particles) {
-      final currentY = (p.y + progress * p.speed * 2.5) % 1.0;
-      final wave = math.sin(progress * 2 * math.pi + p.driftOffset) * 0.04;
-      final currentX = (p.x + wave).clamp(0.02, 0.98);
-
-      final px = currentX * size.width;
-      final py = currentY * size.height;
-
-      if (p.isLeaf) {
-        // Falling gentle leaf
-        final leafPaint = Paint()
-          ..color = const Color(0xFF7FA97B).withAlpha(110)
-          ..style = PaintingStyle.fill;
-
-        canvas.save();
-        canvas.translate(px, py);
-        canvas.rotate(progress * 2 * math.pi + p.driftOffset);
-        final leafPath = Path()
-          ..moveTo(0, -p.size * 0.5)
-          ..quadraticBezierTo(p.size * 0.4, 0, 0, p.size * 0.5)
-          ..quadraticBezierTo(-p.size * 0.4, 0, 0, -p.size * 0.5)
-          ..close();
-        canvas.drawPath(leafPath, leafPaint);
-        canvas.restore();
-      } else {
-        // Glowing warm firefly / spore
-        final glowPaint = Paint()
-          ..color = const Color(0xFFFFE082).withAlpha(130)
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3);
-        canvas.drawCircle(Offset(px, py), p.size * 0.28, glowPaint);
-
-        final corePaint = Paint()..color = Colors.white.withAlpha(200);
-        canvas.drawCircle(Offset(px, py), p.size * 0.12, corePaint);
-      }
+    // A few leaves at the screen edges create a foreground layer.
+    for (var i = 0; i < 6; i++) {
+      final right = i.isEven;
+      c.save();
+      c.translate(right ? w - 5 : 5, h * (.2 + i * .12));
+      c.rotate((right ? -.8 : .8) + math.sin(time * math.pi * 2 + i) * .035);
+      final leaf = Path()
+        ..moveTo(0, 0)
+        ..quadraticBezierTo(-14, -25, 3, -43)
+        ..quadraticBezierTo(25, -15, 0, 0)
+        ..close();
+      c.drawPath(
+        leaf,
+        p..color = i.isEven ? const Color(0xFF6A9557) : const Color(0xFF8AAA63),
+      );
+      c.restore();
     }
   }
 
   @override
-  bool shouldRepaint(covariant _ParticlesPainter oldDelegate) => true;
+  bool shouldRepaint(_ForestLightPainter old) => old.time != time;
 }

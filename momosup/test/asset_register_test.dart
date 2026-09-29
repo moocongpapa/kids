@@ -19,7 +19,8 @@ void main() {
       final data = await rootBundle.load(item['path'] as String);
       final actual = sha256.convert(data.buffer.asUint8List()).toString();
       expect(actual, item['sha256'], reason: item['path'] as String);
-      expect(item['review'], 'draft');
+      expect(item['review'], 'approved');
+      expect(item['commercialRightsEvidence'], isNotEmpty);
     }
   });
 }

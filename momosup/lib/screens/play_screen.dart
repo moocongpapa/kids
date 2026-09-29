@@ -13,8 +13,8 @@ import '../models/child_profile.dart';
 import '../state/app_state.dart';
 import '../utils/forest_audio.dart';
 import '../widgets/avatar_image.dart';
-import '../widgets/jelly_button.dart';
-import '../widgets/touch_sparkles.dart';
+import '../widgets/forest_background.dart';
+import '../widgets/forest_game_ui.dart';
 
 /// One finite activity. Drafts may be opened only through the parent preview.
 class PlayScreen extends StatefulWidget {
@@ -168,64 +168,112 @@ class _PlayScreenState extends State<PlayScreen> {
     }
   }
 
+  bool get quiet =>
+      widget.profile.lowStimulation || MediaQuery.disableAnimationsOf(context);
+  String get shortTitle => switch (widget.activity.id) {
+    'animal_tracks' => '누구 발자국?',
+    'animal_steps_song' => '동물처럼 쿵쿵',
+    'feeling_cloud' => '마음 구름',
+    'momo_faces' => '모모의 표정',
+    'body_hello' => '몸으로 안녕',
+    'hand_shapes' => '손으로 쓱쓱',
+    'bus_stop' => '숲속 버스',
+    'my_bus' => '나의 버스',
+    'forest_weather' => '오늘의 날씨',
+    _ => '비 온 뒤 꽃밭',
+  };
+
   @override
-  Widget build(BuildContext context) {
-    final activity = widget.activity;
-    return PopScope(
-      canPop: phase == 2 || widget.isParentPreview,
-      onPopInvokedWithResult: (didPop, _) {
-        if (!didPop && phase != 2) finish();
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(activity.title),
-          actions: [
-            if (widget.isParentPreview)
-              const Padding(
-                padding: EdgeInsets.only(right: 16),
-                child: Center(child: Text('보호자 미리보기')),
-              ),
-          ],
-        ),
-        body: SafeArea(
-          child: TouchSparkles(
-            lowStimulation: widget.profile.lowStimulation,
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 720),
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-                  children: [
-                    if (widget.isParentPreview)
-                      const _Banner(
-                        '음성·노래 파일과 사람 검수 전의 조작 시제품입니다. 아이 혼자 사용하지 마세요.',
+  Widget build(BuildContext context) => PopScope(
+    canPop: phase == 2 || widget.isParentPreview,
+    onPopInvokedWithResult: (didPop, _) {
+      if (!didPop && phase != 2) finish();
+    },
+    child: Scaffold(
+      body: ForestBackground(
+        lowStimulation: quiet,
+        clearing: true,
+        child: SafeArea(
+          child: Column(
+            children: [
+              ForestHeader(
+                title: shortTitle,
+                preview: widget.isParentPreview,
+                onExit: phase == 2 ? () => Navigator.of(context).pop() : finish,
+                onReplay: widget.isParentPreview || audioFailed
+                    ? null
+                    : () => playAudio(
+                        phase == 0
+                            ? ['intro']
+                            : phase == 2
+                            ? ['outro', 'offscreen']
+                            : ['prompt'],
                       ),
-                    if (audioFailed)
-                      const _Banner('음성을 재생할 수 없어 놀이를 마쳤어요. 보호자에게 알려 주세요.'),
-                    if (phase == 0) _intro(context),
-                    if (phase == 1) _interaction(context),
-                    if (phase == 2) _ending(context),
-                  ],
+              ),
+              Expanded(
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 680),
+                    child: ListView(
+                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+                      children: [
+                        if (audioFailed)
+                          const _Banner('음성을 재생할 수 없어 놀이를 마쳤어요. 보호자에게 알려 주세요.'),
+                        if (phase == 0) _intro(context),
+                        if (phase == 1) _interaction(context),
+                        if (phase == 2) _ending(context),
+                      ],
+                    ),
+                  ),
                 ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+
+  Widget _intro(BuildContext context) => Column(
+    children: [
+      const SizedBox(height: 24),
+      ForestFloat(
+        still: quiet,
+        child: AvatarImage(
+          avatar: widget.activity.avatar,
+          size: 235,
+          lowStimulation: quiet,
+        ),
+      ),
+      const SizedBox(height: 20),
+      if (widget.isParentPreview)
+        Text(
+          widget.activity.intro,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontSize: 17, color: forestInk),
+        )
+      else
+        Semantics(
+          label: widget.activity.intro,
+          child: const ExcludeSemantics(
+            child: Text(
+              '같이 놀자!',
+              style: TextStyle(
+                fontSize: 27,
+                fontWeight: FontWeight.w900,
+                color: forestInk,
               ),
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _intro(BuildContext context) => Column(
-    children: [
-      AvatarImage(avatar: widget.activity.avatar, size: 210),
-      const SizedBox(height: 14),
-      Text(
-        widget.activity.intro,
-        textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.headlineSmall,
-      ),
-      const SizedBox(height: 30),
-      FilledButton.icon(
+      const SizedBox(height: 28),
+      ForestAction(
+        label: '놀이 시작',
+        size: 104,
+        leaf: true,
+        quiet: quiet,
+        caption: '톡!',
+        icon: Icons.touch_app_rounded,
         onPressed: () {
           setState(() => phase = 1);
           playAudio(
@@ -234,97 +282,123 @@ class _PlayScreenState extends State<PlayScreen> {
                 : ['prompt'],
           );
         },
-        icon: const Icon(Icons.touch_app_rounded),
-        label: const Text('놀이 시작'),
       ),
-      const SizedBox(height: 12),
-      TextButton(onPressed: finish, child: const Text('지금 마치기')),
     ],
   );
 
   Widget _interaction(BuildContext context) => Column(
     children: [
-      if (widget.activity.id != 'animal_tracks' &&
-          widget.activity.id != 'bus_stop' &&
-          widget.activity.id != 'forest_weather') ...[
-        AnimatedScale(
-          scale: selectedChoice != null && !widget.profile.lowStimulation
-              ? 1.05
-              : 1,
-          duration: const Duration(milliseconds: 500),
-          child: widget.activity.id == 'momo_faces'
-              ? AnimatedSwitcher(
-                  duration: widget.profile.lowStimulation
-                      ? Duration.zero
-                      : const Duration(milliseconds: 400),
-                  child: Image.asset(
-                    selectedChoice == 1
-                        ? 'assets/images/momo_quiet.png'
-                        : selectedChoice == 2
-                        ? 'assets/images/momo_upset.png'
-                        : 'assets/images/momo.png',
-                    key: ValueKey(selectedChoice),
-                    width: 145,
-                    height: 145,
-                    fit: BoxFit.contain,
-                    semanticLabel: selectedChoice == 1
-                        ? '조용한 표정의 모모'
-                        : selectedChoice == 2
-                        ? '속상한 표정의 모모'
-                        : '반가운 표정의 모모',
-                  ),
-                )
-              : AvatarImage(avatar: widget.activity.avatar, size: 145),
+      if (widget.isParentPreview)
+        Padding(
+          padding: const EdgeInsets.only(bottom: 16),
+          child: Text(
+            widget.activity.prompt,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 16, color: forestInk),
+          ),
         ),
-        const SizedBox(height: 12),
-      ],
-      Text(
-        widget.activity.prompt,
-        textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.titleLarge,
+      Semantics(
+        label: widget.activity.prompt,
+        child: switch (widget.activity.mode) {
+          PlayMode.touch => _touch(context),
+          PlayMode.color => _color(context),
+          PlayMode.move => _move(context),
+        },
       ),
-      const SizedBox(height: 18),
-      switch (widget.activity.mode) {
-        PlayMode.touch => _touch(context),
-        PlayMode.color => _color(context),
-        PlayMode.move => _move(context),
-      },
-      const SizedBox(height: 22),
-      OutlinedButton.icon(
+      const SizedBox(height: 24),
+      ForestAction(
+        label: '놀이 마치기',
+        icon: Icons.spa_rounded,
         onPressed: finish,
-        icon: const Icon(Icons.stop_circle_outlined),
-        label: const Text('놀이 마치기'),
+        leaf: true,
+        size: 70,
+        quiet: quiet,
+        caption: '쉬어요',
       ),
     ],
   );
 
-  Widget _touch(BuildContext context) {
-    final activity = widget.activity;
-    final narrow = MediaQuery.sizeOf(context).width < 480;
-    return Column(
-      children: [
-        if (activity.id == 'animal_tracks' ||
-            activity.id == 'bus_stop' ||
-            activity.id == 'forest_weather') ...[
-          _touchScene(),
-          const SizedBox(height: 16),
-        ],
-        Wrap(
-          spacing: narrow ? 8 : 12,
-          runSpacing: 12,
-          alignment: WrapAlignment.center,
-          children: [
-            for (var index = 0; index < activity.choices.length; index++)
-              SizedBox(
-                width: narrow ? 104 : 190,
-                height: narrow ? 96 : 120,
-                child: JellyButton(
-                  isSelected: selectedChoice == index,
-                  lowStimulation: widget.profile.lowStimulation,
-                  semanticsLabel: activity.choices[index],
-                  padding: narrow
-                      ? const EdgeInsets.symmetric(horizontal: 6, vertical: 6)
-                      : const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+  Widget _choicePicture(int index) {
+    if (widget.activity.id == 'forest_weather') {
+      return index == 0
+          ? const ForestProp(ForestObject.sun, size: 67)
+          : Icon(
+              index == 1 ? Icons.water_drop_rounded : Icons.air_rounded,
+              color: const Color(0xFF4B91A4),
+              size: 53,
+            );
+    }
+    if (widget.activity.id == 'momo_faces') {
+      return AvatarImage(
+        avatar: ['momo', 'momo_quiet', 'momo_upset'][index % 3],
+        size: 75,
+        interactive: false,
+        lowStimulation: quiet,
+      );
+    }
+    if (widget.activity.id == 'animal_tracks' && index == 2) {
+      return const Icon(
+        Icons.cruelty_free_rounded,
+        size: 58,
+        color: Color(0xFF93745B),
+      );
+    }
+    if (widget.activity.id == 'bus_stop' ||
+        widget.activity.id == 'animal_tracks') {
+      return AvatarImage(
+        avatar: widget.activity.id == 'bus_stop'
+            ? ['momo', 'duri', 'nuri'][index % 3]
+            : ['duri', 'momo', 'nuri'][index % 3],
+        size: 76,
+        interactive: false,
+        lowStimulation: quiet,
+      );
+    }
+    return const ForestProp(ForestObject.paw, size: 64);
+  }
+
+  Widget _touch(BuildContext context) => Column(
+    children: [
+      if (widget.activity.id == 'animal_tracks' ||
+          widget.activity.id == 'bus_stop' ||
+          widget.activity.id == 'forest_weather')
+        _touchScene()
+      else
+        ForestFloat(
+          still: quiet,
+          child: AvatarImage(
+            avatar: widget.activity.id == 'momo_faces'
+                ? ['momo', 'momo_quiet', 'momo_upset'][selectedChoice ?? 0]
+                : widget.activity.avatar,
+            size: 215,
+            lowStimulation: quiet,
+          ),
+        ),
+      const SizedBox(height: 20),
+      ForestProgress(
+        count: visitedChoices.length,
+        total: widget.activity.choices.length,
+      ),
+      const SizedBox(height: 20),
+      LayoutBuilder(
+        builder: (_, box) {
+          final size = ((box.maxWidth - 24) / 3).clamp(80.0, 120.0);
+          return Wrap(
+            spacing: 12,
+            runSpacing: 12,
+            alignment: WrapAlignment.center,
+            children: [
+              for (
+                var index = 0;
+                index < widget.activity.choices.length;
+                index++
+              )
+                ForestAction(
+                  label: widget.activity.choices[index],
+                  size: size,
+                  quiet: quiet,
+                  selected: selectedChoice == index,
+                  child: _choicePicture(index),
                   onPressed: () {
                     setState(() {
                       selectedChoice = index;
@@ -332,64 +406,30 @@ class _PlayScreenState extends State<PlayScreen> {
                     });
                     playAudio(['choice_$index', 'reaction_$index']);
                   },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        _iconFor(index),
-                        size: narrow ? 26 : 34,
-                        color: selectedChoice == index
-                            ? const Color(0xFF235338)
-                            : const Color(0xFF3F634A),
-                      ),
-                      const SizedBox(height: 4),
-                      Flexible(
-                        child: Text(
-                          activity.choices[index],
-                          textAlign: TextAlign.center,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: narrow ? 12 : 15,
-                            height: 1.2,
-                            fontWeight: selectedChoice == index
-                                ? FontWeight.bold
-                                : FontWeight.w600,
-                            color: selectedChoice == index
-                                ? const Color(0xFF1B3827)
-                                : const Color(0xFF2E4034),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
-              ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        if (selectedChoice != null)
-          Semantics(
-            liveRegion: true,
-            child: Card(
-              color: const Color(0xFFE9F2E2),
-              child: Padding(
-                padding: const EdgeInsets.all(20),
-                child: Text(
-                  activity.reactions[selectedChoice!],
-                  style: Theme.of(context).textTheme.titleMedium,
+            ],
+          );
+        },
+      ),
+      const SizedBox(height: 16),
+      if (selectedChoice != null)
+        Semantics(
+          liveRegion: true,
+          label: widget.activity.reactions[selectedChoice!],
+          child: widget.isParentPreview
+              ? Text(
+                  widget.activity.reactions[selectedChoice!],
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 16, color: forestInk),
+                )
+              : const ExcludeSemantics(
+                  child: ForestProp(ForestObject.heart, size: 48),
                 ),
-              ),
-            ),
-          ),
-        if (visitedChoices.length == activity.choices.length) ...[
-          const SizedBox(height: 12),
-          FilledButton(onPressed: finish, child: const Text('이야기 마치기')),
-        ],
-      ],
-    );
-  }
+        )
+      else
+        const Icon(Icons.touch_app_rounded, size: 35, color: forestInk),
+    ],
+  );
 
   Widget _touchScene() {
     final asset = switch (widget.activity.id) {
@@ -414,7 +454,7 @@ class _PlayScreenState extends State<PlayScreen> {
               fit: StackFit.expand,
               children: [
                 AnimatedSwitcher(
-                  duration: widget.profile.lowStimulation
+                  duration: quiet
                       ? Duration.zero
                       : const Duration(milliseconds: 400),
                   child: Image.asset(
@@ -433,6 +473,8 @@ class _PlayScreenState extends State<PlayScreen> {
                       child: AvatarImage(
                         avatar: ['momo', 'duri', 'nuri'][index],
                         size: width * .075,
+                        interactive: false,
+                        lowStimulation: quiet,
                       ),
                     ),
                 if (widget.activity.id == 'forest_weather' &&
@@ -441,7 +483,7 @@ class _PlayScreenState extends State<PlayScreen> {
                     right: width * .16,
                     top: height * .12,
                     child: AnimatedSwitcher(
-                      duration: widget.profile.lowStimulation
+                      duration: quiet
                           ? Duration.zero
                           : const Duration(milliseconds: 400),
                       child: Icon(
@@ -486,161 +528,198 @@ class _PlayScreenState extends State<PlayScreen> {
     final verses = widget.activity.verses;
     return Column(
       children: [
-        const _Banner('현재 실제 노래는 연결되지 않았습니다. 보호자가 가사를 읽으며 동작을 확인하는 미리보기입니다.'),
+        ForestFloat(
+          still: quiet,
+          child: AvatarImage(
+            avatar: widget.activity.avatar,
+            size: 195,
+            lowStimulation: quiet,
+          ),
+        ),
         const SizedBox(height: 12),
-        Card(
-          color: const Color(0xFFEAF2FA),
-          child: SizedBox(
-            width: double.infinity,
-            height: 150,
-            child: Center(
-              child: AnimatedSwitcher(
-                duration: widget.profile.lowStimulation
-                    ? Duration.zero
-                    : const Duration(milliseconds: 350),
-                child: Text(
-                  verses[math.min(step, verses.length - 1)],
-                  key: ValueKey(step),
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-              ),
+        Semantics(
+          label: verses[math.min(step, verses.length - 1)],
+          child: AnimatedSwitcher(
+            duration: quiet ? Duration.zero : const Duration(milliseconds: 280),
+            child: Icon(
+              (widget.activity.id == 'animal_steps_song'
+                  ? [
+                      Icons.flutter_dash_rounded,
+                      Icons.pets_rounded,
+                      Icons.air_rounded,
+                    ]
+                  : [
+                      Icons.waving_hand_rounded,
+                      Icons.accessibility_new_rounded,
+                      Icons.self_improvement_rounded,
+                    ])[step % 3],
+              key: ValueKey(step),
+              size: 80,
+              color: const Color(0xFF66946B),
             ),
           ),
         ),
-        const SizedBox(height: 16),
-        FilledButton.icon(
+        if (widget.isParentPreview)
+          Padding(
+            padding: const EdgeInsets.all(12),
+            child: Text(
+              verses[math.min(step, verses.length - 1)],
+              textAlign: TextAlign.center,
+            ),
+          ),
+        const SizedBox(height: 20),
+        ForestProgress(count: step + 1, total: verses.length),
+        const SizedBox(height: 20),
+        ForestAction(
+          label: step < verses.length - 1 ? '다음 동작' : '동작 놀이 마치기',
+          leaf: true,
+          size: 88,
+          quiet: quiet,
+          icon: step < verses.length - 1
+              ? Icons.front_hand_rounded
+              : Icons.check_rounded,
           onPressed: step < verses.length - 1
               ? () => setState(() => step++)
               : finish,
-          icon: const Icon(Icons.pan_tool_alt_outlined),
-          label: Text(step < verses.length - 1 ? '다음 동작' : '쉬는 시간'),
         ),
-        const SizedBox(height: 8),
-        const Text('따라 하지 않아도 괜찮아요. 마이크와 카메라는 쓰지 않아요.'),
       ],
     );
   }
 
   Widget _color(BuildContext context) => Column(
     children: [
-      RepaintBoundary(
-        key: drawingKey,
-        child: AspectRatio(
-          aspectRatio: 1.25,
-          child: GestureDetector(
-            onPanStart: saving
-                ? null
-                : (details) => _startStroke(details.localPosition),
-            onPanUpdate: saving
-                ? null
-                : (details) => _continueStroke(details.localPosition),
-            child: CustomPaint(
-              painter: _DrawingPainter(
-                strokes: strokes,
-                theme: widget.activity.id,
+      Container(
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: const Color(0xFFE4C38E),
+          borderRadius: BorderRadius.circular(30),
+          border: Border.all(color: const Color(0xFFB58B59), width: 3),
+          boxShadow: const [
+            BoxShadow(color: Color(0xFFAD8857), offset: Offset(0, 5)),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: RepaintBoundary(
+            key: drawingKey,
+            child: AspectRatio(
+              aspectRatio: 1.05,
+              child: GestureDetector(
+                onPanStart: saving
+                    ? null
+                    : (details) => _startStroke(details.localPosition),
+                onPanUpdate: saving
+                    ? null
+                    : (details) => _continueStroke(details.localPosition),
+                child: CustomPaint(
+                  painter: _DrawingPainter(
+                    strokes: strokes,
+                    theme: widget.activity.id,
+                  ),
+                  child: const SizedBox.expand(),
+                ),
               ),
-              child: const SizedBox.expand(),
             ),
           ),
         ),
       ),
-      const SizedBox(height: 12),
+      const SizedBox(height: 20),
       Wrap(
-        spacing: 10,
-        runSpacing: 10,
-        alignment: WrapAlignment.center,
-        children:
-            const [
-                  (Color(0xFFDB857D), '분홍'),
-                  (Color(0xFFE4BB5D), '노랑'),
-                  (Color(0xFF7C9F77), '초록'),
-                  (Color(0xFF7BA7B7), '파랑'),
-                  (Color(0xFF947BAF), '보라'),
-                  (Color(0xFF394D43), '진한 초록'),
-                ]
-                .map(
-                  (entry) {
-                    final isSelected = selectedColor == entry.$1;
-                    return InkWell(
-                      onTap: () => setState(() => selectedColor = entry.$1),
-                      borderRadius: BorderRadius.circular(26),
-                      child: Semantics(
-                        button: true,
-                        selected: isSelected,
-                        label: '${entry.$2} 그림 색 선택',
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          width: isSelected ? 50 : 42,
-                          height: isSelected ? 50 : 42,
-                          decoration: BoxDecoration(
-                            color: entry.$1,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                              color: isSelected
-                                  ? const Color(0xFF24372D)
-                                  : Colors.white,
-                              width: isSelected ? 4 : 2,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: entry.$1.withAlpha(isSelected ? 100 : 40),
-                                blurRadius: isSelected ? 8 : 4,
-                                offset: const Offset(0, 2),
-                              ),
-                            ],
-                          ),
-                          child: isSelected
-                              ? const Icon(
-                                  Icons.check_rounded,
-                                  color: Colors.white,
-                                  size: 24,
-                                )
-                              : null,
-                        ),
-                      ),
-                    );
-                  },
-                )
-                .toList(),
-      ),
-      const SizedBox(height: 14),
-      Wrap(
-        spacing: 8,
+        spacing: 6,
         runSpacing: 8,
         alignment: WrapAlignment.center,
         children: [
-          OutlinedButton.icon(
-            onPressed: strokes.isEmpty
+          for (final entry in const [
+            (Color(0xFFDB857D), '분홍'),
+            (Color(0xFFE4BB5D), '노랑'),
+            (Color(0xFF7C9F77), '초록'),
+            (Color(0xFF7BA7B7), '파랑'),
+            (Color(0xFF947BAF), '보라'),
+            (Color(0xFF394D43), '진한 초록'),
+          ])
+            Semantics(
+              button: true,
+              selected: selectedColor == entry.$1,
+              label: '${entry.$2} 그림 색 선택',
+              child: GestureDetector(
+                onTap: () => setState(() => selectedColor = entry.$1),
+                child: Container(
+                  width: 52,
+                  height: 58,
+                  decoration: BoxDecoration(
+                    color: entry.$1,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(25),
+                      topRight: Radius.circular(8),
+                      bottomLeft: Radius.circular(25),
+                      bottomRight: Radius.circular(25),
+                    ),
+                    border: Border.all(
+                      color: selectedColor == entry.$1
+                          ? forestCream
+                          : Colors.white.withAlpha(140),
+                      width: 4,
+                    ),
+                    boxShadow: const [
+                      BoxShadow(color: Color(0xFF9B9165), offset: Offset(0, 3)),
+                    ],
+                  ),
+                  child: selectedColor == entry.$1
+                      ? const Icon(
+                          Icons.check_rounded,
+                          color: Colors.white,
+                          size: 28,
+                        )
+                      : null,
+                ),
+              ),
+            ),
+        ],
+      ),
+      const SizedBox(height: 18),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ForestAction(
+            label: '한 번 되돌리기',
+            icon: Icons.undo_rounded,
+            size: 64,
+            onPressed: strokes.isEmpty || saving
                 ? null
                 : () => setState(() {
                     strokes.removeLast();
                     saved = false;
                   }),
-            icon: const Icon(Icons.undo_rounded),
-            label: const Text('한 번 되돌리기'),
           ),
-          OutlinedButton.icon(
-            onPressed: strokes.isEmpty
+          const SizedBox(width: 22),
+          ForestAction(
+            label: '깨끗이 지우기',
+            icon: Icons.cleaning_services_rounded,
+            size: 64,
+            onPressed: strokes.isEmpty || saving
                 ? null
                 : () => setState(() {
                     strokes.clear();
                     saved = false;
                   }),
-            icon: const Icon(Icons.refresh_rounded),
-            label: const Text('깨끗이 지우기'),
           ),
-          OutlinedButton.icon(
+          const SizedBox(width: 22),
+          ForestAction(
+            label: saved ? '기기에 저장됨' : '그림 저장',
+            icon: saved ? Icons.check_rounded : Icons.collections_rounded,
+            size: 64,
             onPressed: saving ? null : saveDrawing,
-            icon: const Icon(Icons.save_alt_rounded),
-            label: Text(saved ? '기기에 저장됨' : '기기에 저장'),
           ),
         ],
       ),
       if (saveError != null)
-        Text(saveError!, style: const TextStyle(color: Colors.red)),
-      const SizedBox(height: 8),
-      const Text('앱은 그림을 서버로 올리지 않아요. 기기 백업은 운영체제 설정을 확인하세요.'),
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Text(
+            saveError!,
+            style: const TextStyle(color: Color(0xFF974B3D)),
+          ),
+        ),
     ],
   );
 
@@ -657,108 +736,16 @@ class _PlayScreenState extends State<PlayScreen> {
 
   Widget _ending(BuildContext context) => Column(
     children: [
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-        decoration: BoxDecoration(
-          color: const Color(0xFFFFF4D6),
-          borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: const Color(0xFFFFD166), width: 1.5),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Text('💮', style: TextStyle(fontSize: 18)),
-            SizedBox(width: 6),
-            Text(
-              '숲 탐험 도장 쾅! 참 잘했어요',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 14,
-                color: Color(0xFF8A5A00),
-              ),
-            ),
-          ],
-        ),
+      ForestCompletion(
+        avatar: widget.activity.avatar,
+        offscreen: widget.activity.offscreen,
+        quiet: quiet,
+        preview: widget.isParentPreview,
+        saved: saved,
+        onHome: () => Navigator.of(context).pop(),
       ),
-      const SizedBox(height: 16),
-      AvatarImage(avatar: widget.activity.avatar, size: 185),
-      const SizedBox(height: 12),
-      Text(
-        widget.activity.outro,
-        textAlign: TextAlign.center,
-        style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      const SizedBox(height: 20),
-      Card(
-        color: const Color(0xFFE9F2E2),
-        elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(22),
-          side: const BorderSide(color: Color(0xFFCCE2C3), width: 1.5),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              const Icon(
-                Icons.nature_people_outlined,
-                size: 40,
-                color: Color(0xFF386641),
-              ),
-              const SizedBox(height: 10),
-              const Text(
-                '이제 화면 밖에서',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 17,
-                  color: Color(0xFF1E3F27),
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                widget.activity.offscreen,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 15, height: 1.4),
-              ),
-            ],
-          ),
-        ),
-      ),
-      const SizedBox(height: 24),
       if (saveError != null)
-        Text(saveError!, style: const TextStyle(color: Colors.red)),
-      if (widget.activity.mode == PlayMode.color && saved)
-        const Padding(
-          padding: EdgeInsets.only(bottom: 12),
-          child: Text(
-            '그림은 이 기기에 소중히 저장됐어요. 🎨',
-            style: TextStyle(
-              fontWeight: FontWeight.w600,
-              color: Color(0xFF3D6B4E),
-            ),
-          ),
-        ),
-      FilledButton.icon(
-        onPressed: () => Navigator.of(context).pop(),
-        style: FilledButton.styleFrom(
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-        icon: const Icon(Icons.home_outlined),
-        label: const Text(
-          '숲으로 돌아가기',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-      ),
-      const SizedBox(height: 10),
-      const Text(
-        '다음 놀이는 자동으로 시작하지 않아요.',
-        style: TextStyle(color: Color(0xFF6B756B)),
-      ),
+        Text(saveError!, style: const TextStyle(color: Color(0xFF974B3D))),
     ],
   );
 }

@@ -13,6 +13,9 @@ void main() {
     final font = FontLoader('NotoSansKR')
       ..addFont(rootBundle.load('assets/fonts/NotoSansKR-wght.ttf'));
     await font.load();
+    await (FontLoader(
+      'MaterialIcons',
+    )..addFont(rootBundle.load('fonts/MaterialIcons-Regular.otf'))).load();
     tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
     addTearDown(() {
@@ -34,18 +37,21 @@ void main() {
             avatar: 'momo',
             level: '기본',
             answers: [3, 3, 3, 3, 3],
+            lowStimulation: true,
           ),
           isParentPreview: true,
         ),
       ),
     );
     await tester.runAsync(() async {
-      await precacheImage(
-        const AssetImage('assets/images/forest_tracks.png'),
-        tester.element(find.byType(PlayScreen)),
-      );
+      for (final name in ['forest_tracks', 'forest_weather', 'momo', 'duri']) {
+        await precacheImage(
+          AssetImage('assets/images/$name.png'),
+          tester.element(find.byType(PlayScreen)),
+        );
+      }
     });
-    await tester.tap(find.text('놀이 시작'));
+    await tester.tap(find.byTooltip('놀이 시작'));
     await tester.pumpAndSettle();
     await expectLater(
       find.byType(Scaffold),
