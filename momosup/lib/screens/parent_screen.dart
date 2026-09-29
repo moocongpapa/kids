@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import '../models/activity.dart';
 import '../models/child_profile.dart';
 import '../state/app_state.dart';
+import '../utils/forest_audio.dart';
 import '../widgets/avatar_image.dart';
 import 'play_screen.dart';
 
@@ -52,6 +53,7 @@ class _ParentSetupScreenState extends State<ParentSetupScreen> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute<void>(
           builder: (_) => ParentSessionGuard(
+            appState: widget.appState,
             child: ProfileEditorScreen(appState: widget.appState),
           ),
         ),
@@ -159,6 +161,7 @@ class _ParentGateScreenState extends State<ParentGateScreen> {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
         builder: (_) => ParentSessionGuard(
+          appState: widget.appState,
           child:
               widget.initialJourney != null &&
                   widget.appState.activeProfile != null
@@ -233,9 +236,10 @@ class _ParentGateScreenState extends State<ParentGateScreen> {
 
 /// Closes the parent route stack after backgrounding or a short session.
 class ParentSessionGuard extends StatefulWidget {
-  const ParentSessionGuard({required this.child, super.key});
+  const ParentSessionGuard({required this.child, this.appState, super.key});
 
   final Widget child;
+  final AppState? appState;
 
   @override
   State<ParentSessionGuard> createState() => _ParentSessionGuardState();
@@ -249,6 +253,7 @@ class _ParentSessionGuardState extends State<ParentSessionGuard>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    ForestAudio.instance.pauseBgm();
     expiry = Timer(const Duration(minutes: 5), lock);
   }
 
@@ -268,6 +273,10 @@ class _ParentSessionGuardState extends State<ParentSessionGuard>
   void dispose() {
     expiry?.cancel();
     WidgetsBinding.instance.removeObserver(this);
+    final profile = widget.appState?.activeProfile;
+    ForestAudio.instance.startBgm(
+      enabled: profile != null && !profile.caregiverMode && profile.musicOn,
+    );
     super.dispose();
   }
 
@@ -917,7 +926,7 @@ class ContentDetailScreen extends StatelessWidget {
           ...activity.safety.map((note) => Text('• $note')),
           const SizedBox(height: 16),
           const _NoticeCard(
-            text: '보호자 전용 조작 미리보기에서는 안내 음성을 재생하지 않습니다. 아이 화면에서 실제 음성 재생을 확인할 수 있습니다.',
+            text: '조작 미리보기에서 안내 음성과 반응 소리를 함께 확인할 수 있어요. 아이 이용시간에는 기록되지 않습니다.',
           ),
           const SizedBox(height: 18),
           FilledButton.icon(

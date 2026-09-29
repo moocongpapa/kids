@@ -605,12 +605,14 @@ class JourneyPlayScreen extends StatefulWidget {
     required this.appState,
     required this.profile,
     this.preview = false,
+    this.playAsset,
     super.key,
   });
   final AgeJourney journey;
   final AppState appState;
   final ChildProfile profile;
   final bool preview;
+  final Future<void> Function(String path)? playAsset;
   @override
   State<JourneyPlayScreen> createState() => _JourneyPlayScreenState();
 }
@@ -622,6 +624,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
   Timer? timer;
   int step = 0, selected = 0, action = 0, token = 0, activeNote = -1;
   bool sortHint = false;
+  bool firstNarrationRequested = false;
   bool ready = false,
       ended = false,
       started = false,
@@ -666,7 +669,16 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    ForestAudio.instance.pauseBgm();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && allowed) announceFirstScene();
+    });
+  }
+
+  Future<void> announceFirstScene() async {
+    await ForestAudio.instance.pauseBgm();
+    if (!mounted || ended || firstNarrationRequested) return;
+    firstNarrationRequested = true;
+    narrate();
   }
 
   @override
@@ -686,11 +698,22 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
       return;
     }
     try {
-      await player.stop();
-      await player.setAsset(path);
-      if (!mounted || mine != token || ended) return;
-      await player.play();
-    } catch (_) {
+      if (widget.playAsset == null) {
+        await player.stop();
+        await player.setAsset(path);
+        if (!mounted || mine != token || ended) return;
+        await player.play();
+      } else {
+        await widget.playAsset!(path);
+      }
+      if (mounted && mine == token && audioFailed) {
+        setState(() => audioFailed = false);
+      }
+    } catch (error) {
+      assert(() {
+        debugPrint('Journey narration error: $error');
+        return true;
+      }());
       if (mounted && mine == token) setState(() => audioFailed = true);
     }
   }
@@ -712,7 +735,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
       ),
       finish,
     );
-    narrate();
+    announceFirstScene();
   }
 
   void finish() {
@@ -838,7 +861,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
                       const Spacer(),
                       if (widget.preview) const Text('보호자 미리보기'),
                       const Spacer(),
-                      if (started && !ended)
+                      if (!ended)
                         ForestAction(
                           label: '안내 다시 듣기',
                           icon: Icons.volume_up_rounded,
@@ -902,10 +925,22 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
             textAlign: TextAlign.center,
           ),
         ),
+      if (audioFailed)
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: Text(
+            widget.preview
+                ? '음성을 재생하지 못했어요. 소리 버튼으로 다시 들어 주세요.'
+                : '안내 소리를 다시 들어 주세요.',
+            textAlign: TextAlign.center,
+          ),
+        ),
       ForestAction(
-        label: '놀이 시작',
-        icon: Icons.play_arrow_rounded,
-        onPressed: start,
+        label: audioFailed && !widget.preview ? '소리 재시도' : '놀이 시작',
+        icon: audioFailed && !widget.preview
+            ? Icons.refresh_rounded
+            : Icons.play_arrow_rounded,
+        onPressed: audioFailed && !widget.preview ? narrate : start,
         size: 96,
         leaf: true,
         quiet: quiet,
@@ -995,7 +1030,6 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
           label: '소리 재시도',
           icon: Icons.refresh_rounded,
           onPressed: () {
-            setState(() => audioFailed = false);
             narrate();
           },
           size: 90,

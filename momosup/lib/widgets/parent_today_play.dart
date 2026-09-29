@@ -5,6 +5,7 @@ import '../models/age_journey.dart';
 import '../models/child_profile.dart';
 import '../screens/journey_screen.dart';
 import '../state/app_state.dart';
+import '../utils/forest_audio.dart';
 import 'forest_game_ui.dart';
 
 class ParentTodayPlay extends StatefulWidget {
@@ -119,22 +120,25 @@ class _ParentTodayPlayState extends State<ParentTodayPlay> {
               key: const ValueKey('parent-quick-start'),
               onPressed: limitReached
                   ? null
-                  : () => Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (_) => a.isCaregiver
-                            ? JourneyDetailScreen(
-                                journey: a,
-                                appState: widget.appState,
-                                profile: p,
-                              )
-                            : JourneyPlayScreen(
-                                journey: a,
-                                appState: widget.appState,
-                                profile: p,
-                              ),
-                      ),
-                    ),
+                  : () async {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => a.isCaregiver
+                              ? JourneyDetailScreen(
+                                  journey: a,
+                                  appState: widget.appState,
+                                  profile: p,
+                                )
+                              : JourneyPlayScreen(
+                                  journey: a,
+                                  appState: widget.appState,
+                                  profile: p,
+                                ),
+                        ),
+                      );
+                      if (mounted) ForestAudio.instance.pauseBgm();
+                    },
               icon: Icon(
                 a.isCaregiver
                     ? Icons.family_restroom_rounded

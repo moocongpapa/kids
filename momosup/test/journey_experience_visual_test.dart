@@ -58,6 +58,7 @@ void main() {
               appState: state,
               profile: p.copyWith(ageMonths: a.minAge, playStage: 2),
               preview: true,
+              playAsset: (_) async {},
             ),
           },
         ),

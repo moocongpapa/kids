@@ -23,6 +23,7 @@ class PlayScreen extends StatefulWidget {
     required this.appState,
     required this.profile,
     required this.isParentPreview,
+    this.playAsset,
     super.key,
   });
 
@@ -30,6 +31,9 @@ class PlayScreen extends StatefulWidget {
   final AppState appState;
   final ChildProfile profile;
   final bool isParentPreview;
+
+  /// Allows the full narrated flow to be verified without a device audio plugin.
+  final Future<void> Function(String path)? playAsset;
 
   @override
   State<PlayScreen> createState() => _PlayScreenState();
@@ -66,9 +70,11 @@ class _PlayScreenState extends State<PlayScreen> {
       phase = 2;
       return;
     }
-    ForestAudio.instance.pauseBgm();
     clock.start();
-    WidgetsBinding.instance.addPostFrameCallback((_) => playAudio(['intro']));
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ForestAudio.instance.pauseBgm();
+      if (mounted) playAudio(['intro']);
+    });
     if (!widget.isParentPreview) {
       final remainingMinutes = math.max(
         1,
@@ -84,7 +90,11 @@ class _PlayScreenState extends State<PlayScreen> {
 
   @override
   void dispose() {
-    ForestAudio.instance.startBgm(enabled: widget.profile.musicOn && !widget.profile.caregiverMode);
+    if (!widget.isParentPreview) {
+      ForestAudio.instance.startBgm(
+        enabled: widget.profile.musicOn && !widget.profile.caregiverMode,
+      );
+    }
     endTimer?.cancel();
     clock.stop();
     voice.dispose();
@@ -92,23 +102,31 @@ class _PlayScreenState extends State<PlayScreen> {
   }
 
   Future<void> playAudio(List<String> lineIds) async {
-    if (widget.isParentPreview || audioFailed) return;
+    if (audioFailed) return;
     final request = ++audioRequest;
     try {
-      await voice.stop();
+      if (widget.playAsset == null) await voice.stop();
       for (final id in lineIds) {
         if (!mounted || request != audioRequest) return;
         final path = widget.activity.audioFiles[id];
         if (path == null) throw StateError('필수 음성이 없습니다: $id');
+        if (widget.playAsset != null) {
+          await widget.playAsset!(path);
+          continue;
+        }
         await voice.setAsset(path);
         if (!mounted || request != audioRequest) return;
         await voice.play();
       }
-    } catch (_) {
+    } catch (error) {
       if (!mounted || request != audioRequest) return;
+      assert(() {
+        debugPrint('PlayScreen audio error: $error');
+        return true;
+      }());
       setState(() => audioFailed = true);
-      await voice.stop();
-      await finish();
+      if (widget.playAsset == null) await voice.stop();
+      if (!widget.isParentPreview) await finish();
     }
   }
 
@@ -207,15 +225,18 @@ class _PlayScreenState extends State<PlayScreen> {
                 title: shortTitle,
                 preview: widget.isParentPreview,
                 onExit: phase == 2 ? () => Navigator.of(context).pop() : finish,
-                onReplay: widget.isParentPreview || audioFailed
+                onReplay: audioFailed && !widget.isParentPreview
                     ? null
-                    : () => playAudio(
-                        phase == 0
-                            ? ['intro']
-                            : phase == 2
-                            ? ['outro', 'offscreen']
-                            : ['prompt'],
-                      ),
+                    : () {
+                        if (audioFailed) setState(() => audioFailed = false);
+                        playAudio(
+                          phase == 0
+                              ? ['intro']
+                              : phase == 2
+                              ? ['outro', 'offscreen']
+                              : ['prompt'],
+                        );
+                      },
               ),
               Expanded(
                 child: Center(
@@ -225,7 +246,11 @@ class _PlayScreenState extends State<PlayScreen> {
                       padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
                       children: [
                         if (audioFailed)
-                          const _Banner('음성을 재생할 수 없어 놀이를 마쳤어요. 보호자에게 알려 주세요.'),
+                          _Banner(
+                            widget.isParentPreview
+                                ? '음성을 재생하지 못했어요. 위의 소리 버튼으로 다시 들어 주세요.'
+                                : '음성을 재생할 수 없어 놀이를 마쳤어요. 보호자에게 알려 주세요.',
+                          ),
                         if (phase == 0) _intro(context),
                         if (phase == 1) _interaction(context),
                         if (phase == 2) _ending(context),

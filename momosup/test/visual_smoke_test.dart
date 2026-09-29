@@ -40,6 +40,7 @@ void main() {
             lowStimulation: true,
           ),
           isParentPreview: true,
+          playAsset: (_) async {},
         ),
       ),
     );

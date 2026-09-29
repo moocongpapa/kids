@@ -16,6 +16,38 @@ void main() {
     fixtures.approvedPack = await AgeJourneyRepository().load();
   });
 
+  testWidgets('새 월령 놀이의 첫 안내는 입장 즉시 들리고 시작 후 중복되지 않는다', (tester) async {
+    final a = fixtures.approvedPack.firstWhere((a) => a.id == 'age_48_01');
+    final state = await fixtures.prepare(48);
+    final played = <String>[];
+    await tester.pumpWidget(
+      MaterialApp(
+        home: JourneyPlayScreen(
+          journey: a,
+          appState: state,
+          profile: state.activeProfile!.copyWith(playStage: 1),
+          preview: true,
+          playAsset: (path) async => played.add(path),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(played, [a.audio['step_0']]);
+    await tester.tap(find.byTooltip('놀이 시작'));
+    await tester.pumpAndSettle();
+    expect(played, [a.audio['step_0']]);
+    await tester.tap(find.byTooltip('안내 다시 듣기'));
+    await tester.pumpAndSettle();
+    expect(played, [a.audio['step_0'], a.audio['step_0']]);
+    await tester.tap(find.byTooltip('나뭇잎'));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.byTooltip('다음 장면'), 140);
+    await tester.tap(find.byTooltip('다음 장면'));
+    await tester.pumpAndSettle();
+    expect(played.last, a.audio['step_1']);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
   test('월령 추천과 도움 답변을 적용하며 보호자가 고른 단계는 보존한다', () {
     for (final (age, expected) in [
       (6, 0),
