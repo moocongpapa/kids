@@ -7,6 +7,7 @@ import '../data/recommendation.dart';
 import '../state/app_state.dart';
 import '../widgets/avatar_image.dart';
 import '../widgets/touch_sparkles.dart';
+import 'dynamic_toy_screen.dart';
 import 'parent_screen.dart';
 import 'play_screen.dart';
 
@@ -223,7 +224,53 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 22),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Text(
+                          '🌟 숲속 감각 놀이터',
+                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: const Color(0xFF203628),
+                          ),
+                        ),
+                        const SizedBox(width: 8),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFFE082),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Text(
+                            '인기 놀이 5종',
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF6D4C41),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      '손가락으로 쏙쏙 끌고, 퐁퐁 두드리는 신나는 손맛 놀이예요!',
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF5A7258),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    _DynamicToysCarousel(
+                      profile: profile,
+                      appState: appState,
+                      reachedLimit: reachedLimit,
+                    ),
+                    const SizedBox(height: 24),
                     Row(
                       children: [
                         Text(
@@ -476,3 +523,206 @@ class _ActivityCard extends StatelessWidget {
     );
   }
 }
+
+class _DynamicToysCarousel extends StatelessWidget {
+  const _DynamicToysCarousel({
+    required this.profile,
+    required this.appState,
+    required this.reachedLimit,
+  });
+
+  final ChildProfile profile;
+  final AppState appState;
+  final bool reachedLimit;
+
+  @override
+  Widget build(BuildContext context) {
+    final toys = [
+      (
+        type: DynamicToyType.feeding,
+        icon: '🥕',
+        title: '냠냠 열매 먹이기',
+        desc: '모모에게 열매를 쏙!',
+        badge: '🖐️ 먹이주기',
+        bgColor: const Color(0xFFFFF0F0),
+        borderColor: const Color(0xFFFFCDD2),
+        textColor: const Color(0xFFC62828),
+      ),
+      (
+        type: DynamicToyType.sorting,
+        icon: '🧺',
+        title: '도토리 쏙쏙 분류',
+        desc: '큰 도토리, 작은 도토리',
+        badge: '📦 크기분류',
+        bgColor: const Color(0xFFFFF8E1),
+        borderColor: const Color(0xFFFFE082),
+        textColor: const Color(0xFFE65100),
+      ),
+      (
+        type: DynamicToyType.peekaboo,
+        icon: '🌿',
+        title: '살랑살랑 풀숲 까꿍',
+        desc: '숨어있는 친구 찾기!',
+        badge: '👀 까꿍놀이',
+        bgColor: const Color(0xFFE8F5E9),
+        borderColor: const Color(0xFFA5D6A7),
+        textColor: const Color(0xFF2E7D32),
+      ),
+      (
+        type: DynamicToyType.xylophone,
+        icon: '💧',
+        title: '물방울 실로폰',
+        desc: '통통 튀는 무지개 소리',
+        badge: '🎵 소리악기',
+        bgColor: const Color(0xFFE1F5FE),
+        borderColor: const Color(0xFF81D4FA),
+        textColor: const Color(0xFF0277BD),
+      ),
+      (
+        type: DynamicToyType.puzzle,
+        icon: '🧩',
+        title: '그림자 맞추기 퍼즐',
+        desc: '착! 달라붙는 손맛',
+        badge: '🧩 퍼즐맞춤',
+        bgColor: const Color(0xFFF3E5F5),
+        borderColor: const Color(0xFFCE93D8),
+        textColor: const Color(0xFF6A1B9A),
+      ),
+    ];
+
+    return SizedBox(
+      height: 180,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        clipBehavior: Clip.none,
+        itemCount: toys.length,
+        separatorBuilder: (_, __) => const SizedBox(width: 12),
+        itemBuilder: (context, index) {
+          final item = toys[index];
+          return Container(
+            width: 155,
+            decoration: BoxDecoration(
+              color: item.bgColor,
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: item.borderColor, width: 2),
+              boxShadow: [
+                BoxShadow(
+                  color: item.textColor.withAlpha(25),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(22),
+                onTap: () {
+                  if (reachedLimit) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('오늘 놀이 시간이 끝났어. 이제 화면 밖에서 쉬자!'),
+                        duration: Duration(seconds: 2),
+                      ),
+                    );
+                    return;
+                  }
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => DynamicToyScreen(
+                        toyType: item.type,
+                        appState: appState,
+                        profile: profile,
+                      ),
+                    ),
+                  );
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(14),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(item.icon, style: const TextStyle(fontSize: 32)),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 6,
+                              vertical: 3,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                              border: Border.all(
+                                color: item.borderColor,
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              item.badge,
+                              style: TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                                color: item.textColor,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            item.title,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFF1E2822),
+                            ),
+                          ),
+                          const SizedBox(height: 2),
+                          Text(
+                            item.desc,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w500,
+                              color: item.textColor.withAlpha(200),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              color: item.textColor.withAlpha(30),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.play_arrow_rounded,
+                              size: 18,
+                              color: item.textColor,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
