@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../models/activity.dart';
+import '../models/child_profile.dart';
 import '../data/recommendation.dart';
 import '../state/app_state.dart';
 import '../widgets/avatar_image.dart';
@@ -60,6 +61,26 @@ class HomeScreen extends StatelessWidget {
                           appState.hasPin ? '보호자 화면 열기' : '보호자 설정 시작',
                         ),
                       ),
+                      if (kDebugMode && !appState.hasPin) ...[
+                        const SizedBox(height: 12),
+                        OutlinedButton.icon(
+                          onPressed: () async {
+                            await appState.setParentPin('1234');
+                            await appState.addProfile(
+                              const ChildProfile(
+                                id: 'demo_child',
+                                nickname: '모모친구',
+                                ageMonths: 48,
+                                avatar: 'momo',
+                                level: '기본',
+                                answers: [3, 3, 3, 3, 3],
+                              ),
+                            );
+                          },
+                          icon: const Icon(Icons.auto_awesome_rounded),
+                          label: const Text('체험용 프로필로 바로 둘러보기'),
+                        ),
+                      ],
                       const SizedBox(height: 16),
                       const Text(
                         '실제 카카오 로그인·결제·아이 음성 파일은 아직 연결되지 않았습니다.',
