@@ -53,7 +53,9 @@ void main(List<String> args) {
           issues.add('$id/$key: 작업 목록과 배포 경로 불일치');
         }
         final expectedHash = line['sha256'];
-        final actualHash = sha256.convert(File(path).readAsBytesSync()).toString();
+        final actualHash = sha256
+            .convert(File(path).readAsBytesSync())
+            .toString();
         if (expectedHash == null || expectedHash != actualHash) {
           issues.add('$id/$key: 음성 파일 해시 누락 또는 불일치');
         }
@@ -73,6 +75,29 @@ void main(List<String> args) {
     if (asset['review'] != 'approved') issues.add('$path: 창업자 시각 검수 미승인');
     if (asset['commercialRightsEvidence'] == null) {
       issues.add('$path: 상업 이용권 증빙 없음');
+    }
+  }
+
+  // The age pack is bundled for parent preview; it must never silently inherit
+  // the original ten activities' release approval.
+  final agePack = jsonDecode(
+    File('assets/content/age_journeys.json').readAsStringSync(),
+  ) as Map<String, dynamic>;
+  for (final row in agePack['activities'] as List) {
+    if (row['reviewStatus'] != 'APPROVED') {
+      issues.add('${row['id']}: 새 월령 놀이의 공개 출시 검수 대기');
+    }
+  }
+  for (final source in ['age_audio_manifest.json', 'age_music_manifest.json']) {
+    final media = jsonDecode(
+      File('assets/content/$source').readAsStringSync(),
+    ) as Map<String, dynamic>;
+    for (final row in media['jobs'] as List) {
+      if (row['status'] != 'APPROVED' ||
+          row['humanReviewedAt'] == null ||
+          row['rightsEvidence'] == null) {
+        issues.add('${row['id']}: 새 미디어 청취·권리 검수 대기');
+      }
     }
   }
 

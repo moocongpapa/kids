@@ -59,6 +59,13 @@ class _PlayScreenState extends State<PlayScreen> {
   @override
   void initState() {
     super.initState();
+    if (!widget.isParentPreview &&
+        (widget.profile.caregiverMode ||
+            !widget.activity.supportsAge(widget.profile.ageMonths) ||
+            !widget.activity.isFullyApproved)) {
+      phase = 2;
+      return;
+    }
     ForestAudio.instance.pauseBgm();
     clock.start();
     WidgetsBinding.instance.addPostFrameCallback((_) => playAudio(['intro']));
@@ -77,7 +84,7 @@ class _PlayScreenState extends State<PlayScreen> {
 
   @override
   void dispose() {
-    ForestAudio.instance.startBgm(enabled: widget.profile.musicOn);
+    ForestAudio.instance.startBgm(enabled: widget.profile.musicOn && !widget.profile.caregiverMode);
     endTimer?.cancel();
     clock.stop();
     voice.dispose();

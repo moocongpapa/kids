@@ -13,6 +13,7 @@ class ForestAudio {
   final ValueNotifier<bool> isMuted = ValueNotifier<bool>(false);
   bool _isInitialized = false;
   bool _isPlaying = false;
+  bool _enabled = false;
 
   Future<void> init() async {
     if (_isInitialized) return;
@@ -29,13 +30,14 @@ class ForestAudio {
   }
 
   Future<void> startBgm({bool enabled = true}) async {
+    _enabled = enabled;
     if (!enabled || isMuted.value) {
       await stopBgm();
       return;
     }
     try {
       if (!_isInitialized) await init();
-      if (!_isInitialized || isMuted.value) return;
+      if (!_isInitialized || isMuted.value || !_enabled) return;
       if (!_isPlaying) {
         _isPlaying = true;
         unawaited(
@@ -53,6 +55,7 @@ class ForestAudio {
   }
 
   Future<void> pauseBgm() async {
+    _enabled = false;
     try {
       if (_isPlaying) {
         await _bgmPlayer.pause();
@@ -66,6 +69,8 @@ class ForestAudio {
   }
 
   Future<void> stopBgm() async {
+    _enabled = false;
+    if (!_isInitialized) return;
     try {
       await _bgmPlayer.stop();
       _isPlaying = false;

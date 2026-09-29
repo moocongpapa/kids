@@ -39,6 +39,10 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.profile.ageMonths < 36 || widget.profile.ageMonths >= 72) {
+      ended = true;
+      return;
+    }
     ForestAudio.instance.pauseBgm();
     stopwatch.start();
     final remaining =
@@ -52,7 +56,7 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
 
   @override
   void dispose() {
-    ForestAudio.instance.startBgm(enabled: widget.profile.musicOn);
+    ForestAudio.instance.startBgm(enabled: widget.profile.musicOn && !widget.profile.caregiverMode);
     sessionTimer?.cancel();
     stopwatch.stop();
     super.dispose();
@@ -96,6 +100,12 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
   };
   @override
   Widget build(BuildContext context) {
+    if (widget.profile.ageMonths < 36 || widget.profile.ageMonths >= 72) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(child: Text('이 월령에 맞는 놀이를 보호자와 준비해 주세요.')),
+      );
+    }
     final quiet =
         widget.profile.lowStimulation ||
         MediaQuery.disableAnimationsOf(context);

@@ -1,0 +1,5334 @@
+{
+  "version": "age-journeys-v1",
+  "status": "NEEDS_HUMAN_REVIEW",
+  "jobs": [
+    {
+      "id": "age_06_01_guide",
+      "activityId": "age_06_01",
+      "text": "편안하게 깨어 있는 아기 곁에서 잠깐 기다려요. 아기가 낸 소리나 표정에 부드럽게 답하고 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_06_01_guide.m4a",
+      "sha256": "bbe0b0ed190c23d4a34a32730e3e08d4a89cb3440ffdd209b651420a0e1ccbb7",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:30:26.393Z",
+      "metrics": {
+        "durationSeconds": 14.85,
+        "sampleRate": 24000,
+        "peakDbfs": -4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "0ea0f9f1a00146b87d289cfece3cdc54a9996a4dd46ddf03cd0f2a09a8080be7",
+      "sourceMetrics": {
+        "durationSeconds": 14.84,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_06_01_guide.wav"
+      }
+    },
+    {
+      "id": "age_06_02_guide",
+      "activityId": "age_06_02",
+      "text": "보호자가 편안한 거리에서 얼굴을 보여요. 눈을 맞추도록 요구하지 않고 웃으며 안녕 해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_06_02_guide.m4a",
+      "sha256": "eab319b6ec04545210e564c84ee451e7e79b53a5555b2e7893c9238d537d9641",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:32:05.011Z",
+      "metrics": {
+        "durationSeconds": 13.01,
+        "sampleRate": 24000,
+        "peakDbfs": -4.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "88d6fed607c4847140b879bfe0397f588bca79a718828e35fe4526eea904a34a",
+      "sourceMetrics": {
+        "durationSeconds": 13,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_06_02_guide.wav"
+      }
+    },
+    {
+      "id": "age_06_03_guide",
+      "activityId": "age_06_03",
+      "text": "손가락을 아기가 보기 편한 곳에 둬요. 나비처럼 손가락을 천천히 조금 움직여요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_06_03_guide.m4a",
+      "sha256": "1dff476d70544a0d3ba95942a8dfc954760e66e7051d013bc726cc9062ab2f00",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:32:05.356Z",
+      "metrics": {
+        "durationSeconds": 13.57,
+        "sampleRate": 24000,
+        "peakDbfs": -5.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "13a3f0d96843726540bc1cc34c54739a6254e9b78185d255ae743ad60abc5618",
+      "sourceMetrics": {
+        "durationSeconds": 13.56,
+        "sampleRate": 24000,
+        "peakDbfs": -2.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_06_03_guide.wav"
+      }
+    },
+    {
+      "id": "age_06_04_guide",
+      "activityId": "age_06_04",
+      "text": "보호자가 안전 거울을 잡고 곁에 있어요. 거울 속 얼굴을 가리키며 여기 있네 해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_06_04_guide.m4a",
+      "sha256": "394a473850e3df8a088053289132dfe90f031f9c43fbf8c49a234b72d3268629",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:32:05.063Z",
+      "metrics": {
+        "durationSeconds": 12.8,
+        "sampleRate": 24000,
+        "peakDbfs": -4.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "012f4cd5a224e7092d837d93042b8a751d522fb9b69b8a10266f69de654f5836",
+      "sourceMetrics": {
+        "durationSeconds": 12.8,
+        "sampleRate": 24000,
+        "peakDbfs": -1.2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_06_04_guide.wav"
+      }
+    },
+    {
+      "id": "age_06_05_guide",
+      "activityId": "age_06_05",
+      "text": "분리되는 작은 부품이 없는 장난감을 확인해요. 아기가 원할 때 손을 뻗거나 만지게 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_06_05_guide.m4a",
+      "sha256": "848a7aff22271e081ba79c047eeb4ed4cb2498df1805fdaeff2e77d7ac6a8906",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:32:23.264Z",
+      "metrics": {
+        "durationSeconds": 14.08,
+        "sampleRate": 24000,
+        "peakDbfs": -5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "fa7a75a86b478bb52c7cb68f0bb82671bc3ad23fa32a47b7dd678701e682c7b5",
+      "sourceMetrics": {
+        "durationSeconds": 14.04,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_06_05_guide.wav"
+      }
+    },
+    {
+      "id": "age_06_06_guide",
+      "activityId": "age_06_06",
+      "text": "보호자가 편안한 목소리로 안녕 안녕 불러요. 한 소절 뒤 멈추고 아기 소리와 움직임을 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_06_06_guide.m4a",
+      "sha256": "d5ce766993151508800e11027af37861f15b8aefea45cba3ee0428384487efa8",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:37:52.403Z",
+      "metrics": {
+        "durationSeconds": 14.68,
+        "sampleRate": 24000,
+        "peakDbfs": -4.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "1f7ac91db1325110ce4a12ecf04b858b97fedee74adadba6b93f36201bca0992",
+      "sourceMetrics": {
+        "durationSeconds": 14.64,
+        "sampleRate": 24000,
+        "peakDbfs": -2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_06_06_guide.wav"
+      }
+    },
+    {
+      "id": "age_09_01_guide",
+      "activityId": "age_09_01",
+      "text": "보호자가 자기 얼굴만 손으로 잠깐 가려요. 천천히 손을 내리며 작은 목소리로 까꿍 해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_09_01_guide.m4a",
+      "sha256": "f0a38c494c3d44b0605979cc71b8dde31d9d260c718ecfce9087275a0438ce9a",
+      "model": "gemini-3.8-flash-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:38:45.097Z",
+      "metrics": {
+        "durationSeconds": 14.76,
+        "sampleRate": 24000,
+        "peakDbfs": -6.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "db927d4adb97c62ef525d0d20be49a50fa0b017a9f583c463910d79dba6a8e90",
+      "sourceMetrics": {
+        "durationSeconds": 14.76,
+        "sampleRate": 24000,
+        "peakDbfs": -1.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_09_01_guide.wav"
+      }
+    },
+    {
+      "id": "age_09_02_guide",
+      "activityId": "age_09_02",
+      "text": "인형을 아기 앞에 보여줘요. 보호자 손 옆에 인형 일부만 살짝 숨겨요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_09_02_guide.m4a",
+      "sha256": "9175398fb58e0944d37dae20af338eb7734593855ac68bd01d1abc40f2e6391f",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:43:58.215Z",
+      "metrics": {
+        "durationSeconds": 11.95,
+        "sampleRate": 24000,
+        "peakDbfs": -5.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "74ca81f464e72d048077db210a8d133560ae6a8e36f6e638d755f3c1bc0521a6",
+      "sourceMetrics": {
+        "durationSeconds": 11.92,
+        "sampleRate": 24000,
+        "peakDbfs": -0.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_09_02_guide.wav"
+      }
+    },
+    {
+      "id": "age_09_03_guide",
+      "activityId": "age_09_03",
+      "text": "큰 블록 하나를 안정된 바닥에 둬요. 보호자가 손으로 톡 한 번 두드려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_09_03_guide.m4a",
+      "sha256": "cfb6508616f07c77d58d05dcf5fc6ae7d6cfe806dbc472a7aecbeb2c20ca630c",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:44:08.897Z",
+      "metrics": {
+        "durationSeconds": 11.01,
+        "sampleRate": 24000,
+        "peakDbfs": -5.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "280ecaf4a37d31f4a6341783300cad5c9261401a9880cda3df87dce96e2a16aa",
+      "sourceMetrics": {
+        "durationSeconds": 11,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_09_03_guide.wav"
+      }
+    },
+    {
+      "id": "age_09_04_guide",
+      "activityId": "age_09_04",
+      "text": "아이 손에 익숙한 장난감을 보여줘요. 건네려는 움직임이 있으면 받아요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_09_04_guide.m4a",
+      "sha256": "a2e54bfdfd63af539946a027e1a2eeb5f10983bc2692b2a67ee60eaed8a063d3",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:44:18.972Z",
+      "metrics": {
+        "durationSeconds": 11.26,
+        "sampleRate": 24000,
+        "peakDbfs": -5.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "09f3da6bd9578c0fad6f336f32b9d87f6c01beedd97461c8ac90fd7746288b1e",
+      "sourceMetrics": {
+        "durationSeconds": 11.24,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_09_04_guide.wav"
+      }
+    },
+    {
+      "id": "age_09_05_guide",
+      "activityId": "age_09_05",
+      "text": "보호자가 가까이에서 손을 흔들어요. 안녕 하고 아기의 소리나 손짓을 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_09_05_guide.m4a",
+      "sha256": "2d226c11b847023af69625997ca667b3c62a368e0929a9440c1908b391be7c9e",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:44:28.509Z",
+      "metrics": {
+        "durationSeconds": 12.8,
+        "sampleRate": 24000,
+        "peakDbfs": -6.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "adb8911580495b906597228b57f976a3a9dfb1c83e51e1321d7e0c882a1ed6d7",
+      "sourceMetrics": {
+        "durationSeconds": 12.76,
+        "sampleRate": 24000,
+        "peakDbfs": -0.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_09_05_guide.wav"
+      }
+    },
+    {
+      "id": "age_09_06_guide",
+      "activityId": "age_09_06",
+      "text": "한 장면만 펼쳐 가까이 함께 봐요. 아기가 바라보는 그림 하나를 짧게 말해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_09_06_guide.m4a",
+      "sha256": "eb6769199b3fbdbb72d009d465defe874547d3448f7f3edd371c4b12f7ff3c7c",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:44:37.623Z",
+      "metrics": {
+        "durationSeconds": 12.12,
+        "sampleRate": 24000,
+        "peakDbfs": -4.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "dd55744fd411e83d11d22ef92d173d4e599a14a37b6826366623cdcce28721dc",
+      "sourceMetrics": {
+        "durationSeconds": 12.08,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_09_06_guide.wav"
+      }
+    },
+    {
+      "id": "age_12_01_guide",
+      "activityId": "age_12_01",
+      "text": "보호자가 큰 블록을 용기에 넣어 보여요. 아이가 만지거나 꺼내려는 움직임을 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_12_01_guide.m4a",
+      "sha256": "28fd24079f100b9bc9f44673d0a237ed0bbcceba8de59284d32cb67275c70d21",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:44:47.845Z",
+      "metrics": {
+        "durationSeconds": 13.91,
+        "sampleRate": 24000,
+        "peakDbfs": -5.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "886e5d6538925ec559dccf1a1f368a1ecb1442a120e3c54bf70f0c3dbda78f61",
+      "sourceMetrics": {
+        "durationSeconds": 13.88,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_12_01_guide.wav"
+      }
+    },
+    {
+      "id": "age_12_02_guide",
+      "activityId": "age_12_02",
+      "text": "계단 없는 안정된 바닥에서 가까이 마주해요. 보호자가 큰 공을 천천히 굴려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_12_02_guide.m4a",
+      "sha256": "1c6ec8ca5be0ba8707ecaa4453b74ab1151dc8fc91afe6c821b9557095407dbb",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:44:57.104Z",
+      "metrics": {
+        "durationSeconds": 12.59,
+        "sampleRate": 24000,
+        "peakDbfs": -4.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "03733bafd26f9bc90e7213ac15588cea9e93a0c2df9b37488e0955a8dd4ea607",
+      "sourceMetrics": {
+        "durationSeconds": 12.56,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_12_02_guide.wav"
+      }
+    },
+    {
+      "id": "age_12_03_guide",
+      "activityId": "age_12_03",
+      "text": "익숙한 그림책 한 장을 함께 펼쳐요. 아이가 가리키거나 보는 그림의 이름을 말해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_12_03_guide.m4a",
+      "sha256": "83b18c2a0f2e69682f3807801d208fd739f4f397aa870f1bd9278c8fb77c1725",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:45:06.432Z",
+      "metrics": {
+        "durationSeconds": 11.99,
+        "sampleRate": 24000,
+        "peakDbfs": -4.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "b4ee9c3f2f056a479a6307e0c58fb055fd76558c5271cedb78d96285ef682b90",
+      "sourceMetrics": {
+        "durationSeconds": 11.96,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_12_03_guide.wav"
+      }
+    },
+    {
+      "id": "age_12_04_guide",
+      "activityId": "age_12_04",
+      "text": "보호자가 자기 머리에 모자를 써요. 벗으며 여기 있네 하고 웃어요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_12_04_guide.m4a",
+      "sha256": "05adce32cd23b3475d97160e3efdf8c87afe1411709bfdb508e9e3fd28534676",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:45:15.335Z",
+      "metrics": {
+        "durationSeconds": 12.29,
+        "sampleRate": 24000,
+        "peakDbfs": -6.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "9cb0c107a25c22f08c4295b56b83a132d0cf52370fbe9722491f180e9655b2f9",
+      "sourceMetrics": {
+        "durationSeconds": 12.28,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_12_04_guide.wav"
+      }
+    },
+    {
+      "id": "age_12_05_guide",
+      "activityId": "age_12_05",
+      "text": "큰 소리가 나지 않도록 한 번만 두드려요. 조용히 멈춰 아이의 움직임을 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_12_05_guide.m4a",
+      "sha256": "19bd12d97008e8cd6fcf01cdcf797fad020c8ac553368c7597c0f842df9f33f8",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:45:24.814Z",
+      "metrics": {
+        "durationSeconds": 12.8,
+        "sampleRate": 24000,
+        "peakDbfs": -4.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "f84a2706566ff65d459ce285799d0285ce0c3f38ce26fb7e0849074089c95955",
+      "sourceMetrics": {
+        "durationSeconds": 12.76,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_12_05_guide.wav"
+      }
+    },
+    {
+      "id": "age_12_06_guide",
+      "activityId": "age_12_06",
+      "text": "손 끼임 없는 열린 입구를 확인해요. 인형을 안에 넣고 안에 있네 해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_12_06_guide.m4a",
+      "sha256": "7e57951e8e218214643f79bda8143bf004242e1eaa71118fe8a530f932296756",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:45:33.714Z",
+      "metrics": {
+        "durationSeconds": 11.14,
+        "sampleRate": 24000,
+        "peakDbfs": -6.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "06cb7e3f508b03298bd659015ae1cea142179303f6bc6462a1765180333f7253",
+      "sourceMetrics": {
+        "durationSeconds": 11.12,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_12_06_guide.wav"
+      }
+    },
+    {
+      "id": "age_15_01_guide",
+      "activityId": "age_15_01",
+      "text": "보호자가 전화기를 들고 안녕 해요. 아이에게 전화기를 보여주고 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_15_01_guide.m4a",
+      "sha256": "335a3db72cd19a075037830fff8c94014d88701ab9f83395c39f2b72111b63e4",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:45:43.648Z",
+      "metrics": {
+        "durationSeconds": 11.78,
+        "sampleRate": 24000,
+        "peakDbfs": -5.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "e408351dfb1e70839aaae006ee05864977b893734d374c5cbf1d861c6aaa62fa",
+      "sourceMetrics": {
+        "durationSeconds": 11.76,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_15_01_guide.wav"
+      }
+    },
+    {
+      "id": "age_15_02_guide",
+      "activityId": "age_15_02",
+      "text": "큰 인형을 안정된 자리에 앉혀요. 보호자가 인형 등을 부드럽게 쓰다듬어요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_15_02_guide.m4a",
+      "sha256": "33c4b729ecf65af80f91d0fdf96a5810fd49bac07d86a7b29f2fe621a204f07a",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:45:52.863Z",
+      "metrics": {
+        "durationSeconds": 13.01,
+        "sampleRate": 24000,
+        "peakDbfs": -4.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "86cb7467244854c06f89968ab13825d7be3b947ed1ca853cd128e32d034c67d7",
+      "sourceMetrics": {
+        "durationSeconds": 13,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_15_02_guide.wav"
+      }
+    },
+    {
+      "id": "age_15_03_guide",
+      "activityId": "age_15_03",
+      "text": "가까운 바닥에 장난감 하나와 바구니를 둬요. 보호자가 하나를 넣어 보여요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_15_03_guide.m4a",
+      "sha256": "4f8963fd801d6e3057744bc178cb51daea2827db7a719162ce2a9647dd81837a",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:46:02.647Z",
+      "metrics": {
+        "durationSeconds": 12.16,
+        "sampleRate": 24000,
+        "peakDbfs": -4.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "6ec56a25a1f91e6098a2df5bac7d951e22bcc0b80c3bea26fea2352d401dbf0f",
+      "sourceMetrics": {
+        "durationSeconds": 12.16,
+        "sampleRate": 24000,
+        "peakDbfs": -2.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_15_03_guide.wav"
+      }
+    },
+    {
+      "id": "age_15_04_guide",
+      "activityId": "age_15_04",
+      "text": "두 모자를 잘 보이게 나란히 둬요. 어느 게 좋을까 하고 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_15_04_guide.m4a",
+      "sha256": "67a22a8090fb1fb2efbc04d8a2b5d9fabe9fc87f629e1dfeabfc206fd8e1c9dc",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:46:11.460Z",
+      "metrics": {
+        "durationSeconds": 11.26,
+        "sampleRate": 24000,
+        "peakDbfs": -3.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "0c6534f5e6061773f8f7d7888d9ad0d8ca9b459cafb062e84654420730aee774",
+      "sourceMetrics": {
+        "durationSeconds": 11.24,
+        "sampleRate": 24000,
+        "peakDbfs": -1.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_15_04_guide.wav"
+      }
+    },
+    {
+      "id": "age_15_05_guide",
+      "activityId": "age_15_05",
+      "text": "앉은 채 손을 흔들며 안녕 노래를 불러요. 짧은 한 소절 뒤 멈춰요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_15_05_guide.m4a",
+      "sha256": "fc4cac3edd06cf58a53d32db87e8f09a8b1b1d2a7698653f80b0bebcc504a6e9",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:46:20.989Z",
+      "metrics": {
+        "durationSeconds": 12.07,
+        "sampleRate": 24000,
+        "peakDbfs": -6.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "c736ccb62ca3c2ef118a6cea610dee79edd08931c451a9bf5cb545a32d9e26e2",
+      "sourceMetrics": {
+        "durationSeconds": 12.04,
+        "sampleRate": 24000,
+        "peakDbfs": -1.2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_15_05_guide.wav"
+      }
+    },
+    {
+      "id": "age_15_06_guide",
+      "activityId": "age_15_06",
+      "text": "안정된 바닥에서 큰 블록 두 개를 보여요. 보호자가 하나를 올리고 내려놓아요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_15_06_guide.m4a",
+      "sha256": "ab6c056198f0f8fcdf4cac1f1129aa906a0bf29ddfb54e5a6c63cdbdc8491f17",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:46:29.934Z",
+      "metrics": {
+        "durationSeconds": 12.8,
+        "sampleRate": 24000,
+        "peakDbfs": -4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "2460f661aa22fc8cd1267ce2d81f6a1b7ddd9967729e11d2e59c4ff4e853798a",
+      "sourceMetrics": {
+        "durationSeconds": 12.76,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_15_06_guide.wav"
+      }
+    },
+    {
+      "id": "age_18_01_guide",
+      "activityId": "age_18_01",
+      "text": "빈 장난감 식기를 인형 앞에 놓아요. 보호자가 먹는 척 한 번 보여줘요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_18_01_guide.m4a",
+      "sha256": "bbd48fcc10894bb6b3a97297545baba330f84270cf542393f1e7df16b3267922",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:46:38.326Z",
+      "metrics": {
+        "durationSeconds": 10.88,
+        "sampleRate": 24000,
+        "peakDbfs": -5.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "0b196861176c97fa997c6f2a3dba657873d3b74b735b5eb980de65c1c0fb5309",
+      "sourceMetrics": {
+        "durationSeconds": 10.84,
+        "sampleRate": 24000,
+        "peakDbfs": -1.2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_18_01_guide.wav"
+      }
+    },
+    {
+      "id": "age_18_02_guide",
+      "activityId": "age_18_02",
+      "text": "보호자가 차를 멈추고 인형을 태워요. 아이가 원하는 짧은 길로 함께 밀어요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_18_02_guide.m4a",
+      "sha256": "a00c07efa5abdef54b3e8adc11624a5b1d39df87054bd683f4e1f9fc940fa9c8",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:46:47.356Z",
+      "metrics": {
+        "durationSeconds": 11.48,
+        "sampleRate": 24000,
+        "peakDbfs": -6.6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "5559327c5bc0d968a52c82b20e69697b5170bfaa9e7b8f0d19124d9a4c5cbacd",
+      "sourceMetrics": {
+        "durationSeconds": 11.44,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_18_02_guide.wav"
+      }
+    },
+    {
+      "id": "age_18_03_guide",
+      "activityId": "age_18_03",
+      "text": "편안한 바닥에서 공을 가까이 굴려요. 아이가 만지거나 돌려줄 때까지 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_18_03_guide.m4a",
+      "sha256": "cf1a211887660bedaf85796ba28171da83954b7c7c20d0e6659e7c83a84361bc",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:46:56.438Z",
+      "metrics": {
+        "durationSeconds": 13.1,
+        "sampleRate": 24000,
+        "peakDbfs": -4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "9024f899c1c1278f79d29f74b9bff2a4f3575682aec7472b18952b105791131e",
+      "sourceMetrics": {
+        "durationSeconds": 13.08,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_18_03_guide.wav"
+      }
+    },
+    {
+      "id": "age_18_04_guide",
+      "activityId": "age_18_04",
+      "text": "아이가 관심을 보이는 집 안 사물을 함께 봐요. 손짓한 대상의 이름을 한 단어로 말해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_18_04_guide.m4a",
+      "sha256": "c34af1c261aef6d733ccbb0e4d1d56317b5ef65390895de9843d3e9fa5d4e8a7",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:47:04.953Z",
+      "metrics": {
+        "durationSeconds": 12.76,
+        "sampleRate": 24000,
+        "peakDbfs": -4.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "e5b023b7555f9b0c8d5f5f5441f850032fe4bbbfc69bd8cfc368b66d619ae3ef",
+      "sourceMetrics": {
+        "durationSeconds": 12.72,
+        "sampleRate": 24000,
+        "peakDbfs": -1.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_18_04_guide.wav"
+      }
+    },
+    {
+      "id": "age_18_05_guide",
+      "activityId": "age_18_05",
+      "text": "보호자가 곁에서 종이가 움직이지 않게 잡아요. 아이와 함께 짧은 자국을 하나 남겨요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_18_05_guide.m4a",
+      "sha256": "ef569a24d3c729e1ddba1b7036a152388683c4c818fed22bd7e25a17ac88e3c9",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:47:14.476Z",
+      "metrics": {
+        "durationSeconds": 12.63,
+        "sampleRate": 24000,
+        "peakDbfs": -4.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "eac58c1fd4421706420d16313d761a1016aeba027ab6e5f89c661cab0c2e0195",
+      "sourceMetrics": {
+        "durationSeconds": 12.6,
+        "sampleRate": 24000,
+        "peakDbfs": -1.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_18_05_guide.wav"
+      }
+    },
+    {
+      "id": "age_18_06_guide",
+      "activityId": "age_18_06",
+      "text": "보호자가 인형 손을 가리키며 손 해요. 아이의 손짓이나 자기 손 움직임을 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
+      "kind": "speech",
+      "audience": "caregiver",
+      "file": "assets/audio/age_pack/age_18_06_guide.m4a",
+      "sha256": "8323cdcd62c31a0a6cfaf9d90d42a0b40659c8ad4479519a7e0b7a9e2e9100de",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:47:24.047Z",
+      "metrics": {
+        "durationSeconds": 12.71,
+        "sampleRate": 24000,
+        "peakDbfs": -3.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "1c10f5acf766cb259ee9182e0f50ab10931130396837fcf9dd72956c4c3d358b",
+      "sourceMetrics": {
+        "durationSeconds": 12.68,
+        "sampleRate": 24000,
+        "peakDbfs": -1.2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_18_06_guide.wav"
+      }
+    },
+    {
+      "id": "age_24_01_step_0",
+      "activityId": "age_24_01",
+      "text": "꽃봉오리야, 안녕. 톡 눌러 볼까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_01_step_0.m4a",
+      "sha256": "295222ee87ea0e7ae304f544f08e67e656b83d76f6136789743b6e6933c97d69",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:47:30.713Z",
+      "metrics": {
+        "durationSeconds": 4.44,
+        "sampleRate": 24000,
+        "peakDbfs": -5.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "a11856ad22f2a4d82d37c31575570679d4840024d55eef5357f46dd76177d95d",
+      "sourceMetrics": {
+        "durationSeconds": 4.4,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_01_step_0.wav"
+      }
+    },
+    {
+      "id": "age_24_01_step_1",
+      "activityId": "age_24_01",
+      "text": "꽃잎이 열렸네. 이번엔 어떤 꽃일까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_01_step_1.m4a",
+      "sha256": "eb36dc7cf19acb90023209bb36793aa587ec3b4b904e257ee958366cd239103c",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:47:38.078Z",
+      "metrics": {
+        "durationSeconds": 4.82,
+        "sampleRate": 24000,
+        "peakDbfs": -5.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "558b01e7baa427d3635c3b9d2ddbb50bc3897e6d461cbcddbadc81a2762a338d",
+      "sourceMetrics": {
+        "durationSeconds": 4.8,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_01_step_1.wav"
+      }
+    },
+    {
+      "id": "age_24_01_step_2",
+      "activityId": "age_24_01",
+      "text": "세 꽃이 인사해. 우리도 손을 흔들자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_01_step_2.m4a",
+      "sha256": "825ed53d17933b1d2b18b87895600db92ffde92a913ba0567657260f12d35235",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:49:24.217Z",
+      "metrics": {
+        "durationSeconds": 4.52,
+        "sampleRate": 24000,
+        "peakDbfs": -6.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "2b6c0dec213758174f6385667a379deedef33249b70fec3e63b0e5c4fe7fb885",
+      "sourceMetrics": {
+        "durationSeconds": 4.52,
+        "sampleRate": 24000,
+        "peakDbfs": -1.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_01_step_2.wav"
+      }
+    },
+    {
+      "id": "age_24_02_step_0",
+      "activityId": "age_24_02",
+      "text": "커다란 열매가 왔어. 골라 볼까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_02_step_0.m4a",
+      "sha256": "f11ba47b69edafe04f882fd799a0fb8457b737a78b9095e7458fd1d81c97f72d",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:50:18.353Z",
+      "metrics": {
+        "durationSeconds": 3.63,
+        "sampleRate": 24000,
+        "peakDbfs": -6.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "dc5ce2098b4d6d23e7d397fd9f1984a4906aa59ba7023f528b0ba68673f85854",
+      "sourceMetrics": {
+        "durationSeconds": 3.6,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_02_step_0.wav"
+      }
+    },
+    {
+      "id": "age_24_02_step_1",
+      "activityId": "age_24_02",
+      "text": "바구니를 톡 누르면 쏙 들어가.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_02_step_1.m4a",
+      "sha256": "0cb38f6555baf7acb50966bab05b6599f126541f4b87e3cbd726344495c9bd73",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:50:11.270Z",
+      "metrics": {
+        "durationSeconds": 3.67,
+        "sampleRate": 24000,
+        "peakDbfs": -4.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "c858490cb2a2b62d7d4d69681eeb68ca569a8012e5f09cf080bd22cae60615cc",
+      "sourceMetrics": {
+        "durationSeconds": 3.64,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_02_step_1.wav"
+      }
+    },
+    {
+      "id": "age_24_02_step_2",
+      "activityId": "age_24_02",
+      "text": "이번엔 잎사귀도 쉬러 가네.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_02_step_2.m4a",
+      "sha256": "fef5ef9c8f27a5101e541434c214e09456ea8507927466badd81fe2fa65644c1",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:49:43.565Z",
+      "metrics": {
+        "durationSeconds": 3.46,
+        "sampleRate": 24000,
+        "peakDbfs": -7.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "ab6625710f1d95c94da48bd3c4c860aa89a52fae2958a78c33f43a14c093f485",
+      "sourceMetrics": {
+        "durationSeconds": 3.44,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_02_step_2.wav"
+      }
+    },
+    {
+      "id": "age_24_03_step_0",
+      "activityId": "age_24_03",
+      "text": "풀숲 뒤에 누가 있을까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_03_step_0.m4a",
+      "sha256": "c286003e9ad028b250d9a00832673b04b77038beea456a6142057cfdd6818342",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:50:04.714Z",
+      "metrics": {
+        "durationSeconds": 2.6,
+        "sampleRate": 24000,
+        "peakDbfs": -6.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "32de9f03af3646b52fcbfa6f4ffdea216e052972812b49d2651ed54322fa9343",
+      "sourceMetrics": {
+        "durationSeconds": 2.6,
+        "sampleRate": 24000,
+        "peakDbfs": -0.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_03_step_0.wav"
+      }
+    },
+    {
+      "id": "age_24_03_step_1",
+      "activityId": "age_24_03",
+      "text": "다른 풀숲도 살며시 톡.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_03_step_1.m4a",
+      "sha256": "a1cc665c95b647e53770eae67ba538c95c7658d549ad7655fc3044da2880cfbe",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:51:18.325Z",
+      "metrics": {
+        "durationSeconds": 3.24,
+        "sampleRate": 24000,
+        "peakDbfs": -3.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "d821b5a05595833ced4e1eb4705eb16c145936f98114c3dac8a9e5bfefadb2cd",
+      "sourceMetrics": {
+        "durationSeconds": 3.24,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_03_step_1.wav"
+      }
+    },
+    {
+      "id": "age_24_03_step_2",
+      "activityId": "age_24_03",
+      "text": "친구가 손을 흔드네. 안녕!",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_03_step_2.m4a",
+      "sha256": "44b7f7778d4efaa5d6f9a67c4a9c1d77dffe6caf67bf647bc75534a43ab4cc9f",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:51:11.111Z",
+      "metrics": {
+        "durationSeconds": 3.97,
+        "sampleRate": 24000,
+        "peakDbfs": -7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "3bec7fc764857124617714406ad7aa9f2ad3955b4f5bac34b06460d0fd262004",
+      "sourceMetrics": {
+        "durationSeconds": 3.96,
+        "sampleRate": 24000,
+        "peakDbfs": -0.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_03_step_2.wav"
+      }
+    },
+    {
+      "id": "age_24_04_step_0",
+      "activityId": "age_24_04",
+      "text": "버스가 멈췄네. 누가 먼저 탈까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_04_step_0.m4a",
+      "sha256": "194ac7ff50818cc87fb6f853ae1ec8f6c0c698775d4c7bb9b334c5a5001dc40c",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:51:05.870Z",
+      "metrics": {
+        "durationSeconds": 3.84,
+        "sampleRate": 24000,
+        "peakDbfs": -5.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "7a1abc99137d8a239ff10e7adff1f70426d7fe6e107c5a39538c19003dcf9a61",
+      "sourceMetrics": {
+        "durationSeconds": 3.84,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_04_step_0.wav"
+      }
+    },
+    {
+      "id": "age_24_04_step_1",
+      "activityId": "age_24_04",
+      "text": "친구도 함께 타고 싶대.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_04_step_1.m4a",
+      "sha256": "bc1c6a7fc79af2a4cdbeb7a8f0cfbf3316b7fff39330fd8d68a3554c4275a82a",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:51:23.552Z",
+      "metrics": {
+        "durationSeconds": 2.77,
+        "sampleRate": 24000,
+        "peakDbfs": -8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "818909f9f3264b1c303cb4ed0c067a25a92c8ab7266fd9ad88fe40a06b357b51",
+      "sourceMetrics": {
+        "durationSeconds": 2.76,
+        "sampleRate": 24000,
+        "peakDbfs": -0.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_04_step_1.wav"
+      }
+    },
+    {
+      "id": "age_24_04_step_2",
+      "activityId": "age_24_04",
+      "text": "모두 탔구나. 손 흔들며 안녕!",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_04_step_2.m4a",
+      "sha256": "0935988bf4176e8dedaa22107e92c01bae57d6698a39a53138075ab3a1a8647d",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:51:30.408Z",
+      "metrics": {
+        "durationSeconds": 4.1,
+        "sampleRate": 24000,
+        "peakDbfs": -4.6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "891a1c52a6d0201ec3f4ea0c67fc06e3525b2350e43581205e63e5f94b3e0729",
+      "sourceMetrics": {
+        "durationSeconds": 4.08,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_04_step_2.wav"
+      }
+    },
+    {
+      "id": "age_24_05_step_0",
+      "activityId": "age_24_05",
+      "text": "손을 살랑, 안녕.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_05_step_0.m4a",
+      "sha256": "b150ad83eb634dd78937d4043f2a61491dd2b6bb61b6febe36ebcee3b3a72498",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:18.795Z",
+      "metrics": {
+        "durationSeconds": 3.58,
+        "sampleRate": 24000,
+        "peakDbfs": -5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "03e25bf6b2bf5234ccc834cdf2b6f9de50fd30631875f1b61cc6154f95445017",
+      "sourceMetrics": {
+        "durationSeconds": 3.56,
+        "sampleRate": 24000,
+        "peakDbfs": -1.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_05_step_0.wav"
+      }
+    },
+    {
+      "id": "age_24_05_step_1",
+      "activityId": "age_24_05",
+      "text": "잠깐 쉬고 손가락도 안녕.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_05_step_1.m4a",
+      "sha256": "f9ea510cf63108f7b373e4f7e85ff1904178dc6cbcbe7989827aa61864116240",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:12.758Z",
+      "metrics": {
+        "durationSeconds": 5.33,
+        "sampleRate": 24000,
+        "peakDbfs": -3.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "7044223e65322966be6cae5b04037675f7e1e23b86ae6182fd3d7febe92c52f6",
+      "sourceMetrics": {
+        "durationSeconds": 5.32,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_05_step_1.wav"
+      }
+    },
+    {
+      "id": "age_24_05_step_2",
+      "activityId": "age_24_05",
+      "text": "우리 인사는 여기까지. 즐거웠어.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_05_step_2.m4a",
+      "sha256": "10864a133b45b0057a98e2062ffa9cdb1603487d42d336ffa982117fb281c7c4",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:49:20.983Z",
+      "metrics": {
+        "durationSeconds": 3.33,
+        "sampleRate": 24000,
+        "peakDbfs": -6.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "adc9c3212250c4412e6a9a0400e40aed2f5090ecd7875a64e12be175a3e8c238",
+      "sourceMetrics": {
+        "durationSeconds": 3.32,
+        "sampleRate": 24000,
+        "peakDbfs": -1.2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_05_step_2.wav"
+      }
+    },
+    {
+      "id": "age_24_06_step_0",
+      "activityId": "age_24_06",
+      "text": "구름을 톡. 작은 비가 와.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_06_step_0.m4a",
+      "sha256": "058592131282e3b8714b4f1b0ce0eeba399df445f33ff9bfc7fffa55dd5b6ac3",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:49:37.517Z",
+      "metrics": {
+        "durationSeconds": 4.18,
+        "sampleRate": 24000,
+        "peakDbfs": -3.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "23e5ff03e8f221cec99030c3d0c12541e62614d0a75354a490f7b7faa2282607",
+      "sourceMetrics": {
+        "durationSeconds": 4.16,
+        "sampleRate": 24000,
+        "peakDbfs": -0.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_06_step_0.wav"
+      }
+    },
+    {
+      "id": "age_24_06_step_1",
+      "activityId": "age_24_06",
+      "text": "꽃이 활짝 웃네.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_06_step_1.m4a",
+      "sha256": "31dce301aa9d794818b366ee443ffe793cd96b4a9c02c4daf412d11c050063c3",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:50:03.086Z",
+      "metrics": {
+        "durationSeconds": 2.77,
+        "sampleRate": 24000,
+        "peakDbfs": -5.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "04097b656fd015837a32f1bf5493fd0fac3047ef0b79d1dd062b94e044474a3f",
+      "sourceMetrics": {
+        "durationSeconds": 2.76,
+        "sampleRate": 24000,
+        "peakDbfs": -3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_06_step_1.wav"
+      }
+    },
+    {
+      "id": "age_24_06_step_2",
+      "activityId": "age_24_06",
+      "text": "햇살이 돌아왔어. 안녕, 꽃아.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_24_06_step_2.m4a",
+      "sha256": "be44cd334e7d5dbe7ef8bd7cf7032eaa68ef47462da5c8e9d3abeecf9851b516",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:50:09.988Z",
+      "metrics": {
+        "durationSeconds": 4.31,
+        "sampleRate": 24000,
+        "peakDbfs": -7.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "1968a903a16dad86f84fdbabf2008d409b5096a53573c4cee3a4acff437a9f42",
+      "sourceMetrics": {
+        "durationSeconds": 4.28,
+        "sampleRate": 24000,
+        "peakDbfs": -0.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_24_06_step_2.wav"
+      }
+    },
+    {
+      "id": "age_30_01_step_0",
+      "activityId": "age_30_01",
+      "text": "같은 색 집을 찾아볼까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_01_step_0.m4a",
+      "sha256": "d64832b78933c583ef9964073d832d7792d1647b9afa65fbadd2d06a802a66e2",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:05.806Z",
+      "metrics": {
+        "durationSeconds": 2.43,
+        "sampleRate": 24000,
+        "peakDbfs": -6.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "ce764ab6fe41491f0128603d8b667c057f670d2416a71dba37c619033c838776",
+      "sourceMetrics": {
+        "durationSeconds": 2.4,
+        "sampleRate": 24000,
+        "peakDbfs": -4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_01_step_0.wav"
+      }
+    },
+    {
+      "id": "age_30_01_step_1",
+      "activityId": "age_30_01",
+      "text": "이번 열매는 어디서 쉴까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_01_step_1.m4a",
+      "sha256": "1a30288f80d6ff11b134718db8b75ced9968dde5fdb555ed588e8c9b070f61a6",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:24.740Z",
+      "metrics": {
+        "durationSeconds": 3.37,
+        "sampleRate": 24000,
+        "peakDbfs": -5.6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "496e7f0d01306a3a9e4844a36f1a9391d252a8a5159fb2c88191f2b588d0dea8",
+      "sourceMetrics": {
+        "durationSeconds": 3.36,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_01_step_1.wav"
+      }
+    },
+    {
+      "id": "age_30_01_step_2",
+      "activityId": "age_30_01",
+      "text": "우리 바구니가 포근해졌어.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_01_step_2.m4a",
+      "sha256": "e921310305c0deebd291bc8bc78ae0e13bece05f96c79b864d8c41fc07990a01",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:30.838Z",
+      "metrics": {
+        "durationSeconds": 2.69,
+        "sampleRate": 24000,
+        "peakDbfs": -6.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "ea8d1b56b5b768332a905fc9f5473d629bb7ad0f9931311675c2e6978f63a43f",
+      "sourceMetrics": {
+        "durationSeconds": 2.68,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_01_step_2.wav"
+      }
+    },
+    {
+      "id": "age_30_02_step_0",
+      "activityId": "age_30_02",
+      "text": "소풍 가방에 무엇을 넣을까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_02_step_0.m4a",
+      "sha256": "69e2c128ae3d2c079af601925ac5eb186dfd5eeffe7d868b89b3fa2c4f2edc73",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:53:11.261Z",
+      "metrics": {
+        "durationSeconds": 3.11,
+        "sampleRate": 24000,
+        "peakDbfs": -5.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "67fa04fda5cd9df22c3645b288be14476c9d92fad5a761dcb3b3ac5547b9c13b",
+      "sourceMetrics": {
+        "durationSeconds": 3.08,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_02_step_0.wav"
+      }
+    },
+    {
+      "id": "age_30_02_step_1",
+      "activityId": "age_30_02",
+      "text": "친구가 쉴 자리도 골라 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_02_step_1.m4a",
+      "sha256": "c6fb228121ff5dd83e499d3ca6cc76277d86c8c82ad757fa26e8c0760559530e",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:53:05.398Z",
+      "metrics": {
+        "durationSeconds": 2.69,
+        "sampleRate": 24000,
+        "peakDbfs": -6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "9632ac7db63a8bedd8df0671ba70e17b82289cf83c9a7fb9f228a5826d14e651",
+      "sourceMetrics": {
+        "durationSeconds": 2.68,
+        "sampleRate": 24000,
+        "peakDbfs": -1.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_02_step_1.wav"
+      }
+    },
+    {
+      "id": "age_30_02_step_2",
+      "activityId": "age_30_02",
+      "text": "가방을 닫고 친구와 인사해.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_02_step_2.m4a",
+      "sha256": "a3c289dcc34150f3a015c6803382bd234e546bf4dcb04ec869d2a6567c9df402",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:53:17.920Z",
+      "metrics": {
+        "durationSeconds": 3.24,
+        "sampleRate": 24000,
+        "peakDbfs": -4.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "05c2527d89caf8b55f8cb12129d2497f11d2921df9660680b0a33caad3b1ba04",
+      "sourceMetrics": {
+        "durationSeconds": 3.24,
+        "sampleRate": 24000,
+        "peakDbfs": -2.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_02_step_2.wav"
+      }
+    },
+    {
+      "id": "age_30_03_step_0",
+      "activityId": "age_30_03",
+      "text": "길 위 발자국이 보이니?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_03_step_0.m4a",
+      "sha256": "7839a6b94d67eac3b96d654714baa5eabc5d5c0288538fd43f2cd67db73ab079",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:51:15.278Z",
+      "metrics": {
+        "durationSeconds": 2.65,
+        "sampleRate": 24000,
+        "peakDbfs": -4.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "91c2ab7cc5322c821db769a035e8fb2b3de0c4989e0733fa3fbce20a9bc07280",
+      "sourceMetrics": {
+        "durationSeconds": 2.64,
+        "sampleRate": 24000,
+        "peakDbfs": -1.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_03_step_0.wav"
+      }
+    },
+    {
+      "id": "age_30_03_step_1",
+      "activityId": "age_30_03",
+      "text": "풀숲 친구가 인사하네.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_03_step_1.m4a",
+      "sha256": "18d7ad007c22ea0970e395925730b955069fd3e1f70c99cd6ce3294aae5afab8",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:51:22.349Z",
+      "metrics": {
+        "durationSeconds": 2.73,
+        "sampleRate": 24000,
+        "peakDbfs": -9.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "248705b263fddabfd3849c3b7f2fb363c94ee7bac26fb26f0471252f8e52efd6",
+      "sourceMetrics": {
+        "durationSeconds": 2.72,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_03_step_1.wav"
+      }
+    },
+    {
+      "id": "age_30_03_step_2",
+      "activityId": "age_30_03",
+      "text": "다른 친구 발자국도 만나자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_03_step_2.m4a",
+      "sha256": "1eebaefdb524ab3b13172edba39382c39ce964cf7249884662e887e55025037e",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:51:48.141Z",
+      "metrics": {
+        "durationSeconds": 2.73,
+        "sampleRate": 24000,
+        "peakDbfs": -5.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "72966077c0b4c667b6b15bdf2b04a86fbc1311dd975dc277d551d92c1287085b",
+      "sourceMetrics": {
+        "durationSeconds": 2.72,
+        "sampleRate": 24000,
+        "peakDbfs": -0.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_03_step_2.wav"
+      }
+    },
+    {
+      "id": "age_30_04_step_0",
+      "activityId": "age_30_04",
+      "text": "오늘 숲 날씨를 골라 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_04_step_0.m4a",
+      "sha256": "db1662a3205a39cdb6958c8f73b5dba4d56d4d859b571e310da58933cb4b3d26",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:51:53.954Z",
+      "metrics": {
+        "durationSeconds": 2.73,
+        "sampleRate": 24000,
+        "peakDbfs": -7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "ddb07dfedc1358e0de814c7b8a087950c81c85c9c3436327bf1a68712fa69997",
+      "sourceMetrics": {
+        "durationSeconds": 2.72,
+        "sampleRate": 24000,
+        "peakDbfs": -0.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_04_step_0.wav"
+      }
+    },
+    {
+      "id": "age_30_04_step_1",
+      "activityId": "age_30_04",
+      "text": "친구가 무엇을 챙기면 좋을까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_04_step_1.m4a",
+      "sha256": "41c7a5bb53413c1d1f0af53066262df93ef9d2bcf1fce886b4f8198fe69e9de2",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:01.432Z",
+      "metrics": {
+        "durationSeconds": 3.5,
+        "sampleRate": 24000,
+        "peakDbfs": -6.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "0689e03dd9d82610866f125b564b323e57010ac3f6c5aa4f20c4ab0032f1f20d",
+      "sourceMetrics": {
+        "durationSeconds": 3.48,
+        "sampleRate": 24000,
+        "peakDbfs": -2.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_04_step_1.wav"
+      }
+    },
+    {
+      "id": "age_30_04_step_2",
+      "activityId": "age_30_04",
+      "text": "준비한 친구와 날씨를 만나자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_04_step_2.m4a",
+      "sha256": "3b31ea3d04e93b8e527a0863fb8396eefe00fc2d0ad626e4a26de98e2536fc88",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:08.567Z",
+      "metrics": {
+        "durationSeconds": 3.24,
+        "sampleRate": 24000,
+        "peakDbfs": -5.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "f6803e7cdebba786c0e17cdd3cafa4310d937fb90b772338cc6758a6e1add3af",
+      "sourceMetrics": {
+        "durationSeconds": 3.24,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_04_step_2.wav"
+      }
+    },
+    {
+      "id": "age_30_05_step_0",
+      "activityId": "age_30_05",
+      "text": "빈 버스가 왔네. 색을 골라 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_05_step_0.m4a",
+      "sha256": "1c6b38620e5ed0d6f2f64f1cac711c34ba6137a0d2915c2ba72af5db3c9a8d89",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:14.821Z",
+      "metrics": {
+        "durationSeconds": 3.5,
+        "sampleRate": 24000,
+        "peakDbfs": -4.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "27a15753a6a55ed486b7ee0fa7f8efc1cf5436399d53b0bb488b874c6c89704d",
+      "sourceMetrics": {
+        "durationSeconds": 3.48,
+        "sampleRate": 24000,
+        "peakDbfs": -1.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_05_step_0.wav"
+      }
+    },
+    {
+      "id": "age_30_05_step_1",
+      "activityId": "age_30_05",
+      "text": "손가락으로 자유롭게 칠해 볼까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_05_step_1.m4a",
+      "sha256": "ba4d9de864d40e278c04f2c93243eef035d6f566c09b813f901412c53e28f8a5",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:21.766Z",
+      "metrics": {
+        "durationSeconds": 3.24,
+        "sampleRate": 24000,
+        "peakDbfs": -6.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "38eecfb97b350eea470510cc4bcf8a6cca1b192f14e4e4cabc5af0b6a83a020c",
+      "sourceMetrics": {
+        "durationSeconds": 3.24,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_05_step_1.wav"
+      }
+    },
+    {
+      "id": "age_30_05_step_2",
+      "activityId": "age_30_05",
+      "text": "친구들이 네 버스를 타러 왔어.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_05_step_2.m4a",
+      "sha256": "fe3658573680ad78bb9657a1c0cbd65137b7075ccbf4db085a80f331bc513f99",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:28.209Z",
+      "metrics": {
+        "durationSeconds": 3.46,
+        "sampleRate": 24000,
+        "peakDbfs": -6.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "14219c1ed750c475fefe96ae6093dcea9a6a808b6ff2319175647d8aa997e044",
+      "sourceMetrics": {
+        "durationSeconds": 3.44,
+        "sampleRate": 24000,
+        "peakDbfs": -1.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_05_step_2.wav"
+      }
+    },
+    {
+      "id": "age_30_06_step_0",
+      "activityId": "age_30_06",
+      "text": "톡, 소리가 인사해.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_06_step_0.m4a",
+      "sha256": "2e3b8b6a043d0404663f61e2e230dbc3efd317e4c4c734f6dc40756e48991f1b",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:34.972Z",
+      "metrics": {
+        "durationSeconds": 2.39,
+        "sampleRate": 24000,
+        "peakDbfs": -5.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "044ed3c9a5d303fe03c74d791bda65a4c5944e398cbf2d399d23cac8399c63e1",
+      "sourceMetrics": {
+        "durationSeconds": 2.36,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_06_step_0.wav"
+      }
+    },
+    {
+      "id": "age_30_06_step_1",
+      "activityId": "age_30_06",
+      "text": "톡톡, 이번엔 두 번이야.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_06_step_1.m4a",
+      "sha256": "98d1481fe578ce6970a55c1232261d1c384b6862e4a4308a38e8d7121736f7ed",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:41.158Z",
+      "metrics": {
+        "durationSeconds": 3.46,
+        "sampleRate": 24000,
+        "peakDbfs": -6.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "00cca785cb96109281b5076eb636c329311c80690cf9eb797a9bf59d5e2cb68e",
+      "sourceMetrics": {
+        "durationSeconds": 3.44,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "additionalHeadroomDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_06_step_1.wav"
+      }
+    },
+    {
+      "id": "age_30_06_step_2",
+      "activityId": "age_30_06",
+      "text": "쉬었다 톡. 네 소리도 들려줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_30_06_step_2.m4a",
+      "sha256": "1fc6652c32822d73d5a06bdda53c61b681db5aa156fe01ae0e863c5c5a5fa5bc",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:50.493Z",
+      "metrics": {
+        "durationSeconds": 3.97,
+        "sampleRate": 24000,
+        "peakDbfs": -5.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "98e59138f09d8081a4fa08dd2d91b75684fcc30d42c0e1551206e2955ca0d91a",
+      "sourceMetrics": {
+        "durationSeconds": 3.96,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_30_06_step_2.wav"
+      }
+    },
+    {
+      "id": "age_36_01_step_0",
+      "activityId": "age_36_01",
+      "text": "모모 모자가 어디로 갔지?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_01_step_0.m4a",
+      "sha256": "6f2524837a8774b3a2faabc31431cd2461e046eb27673681596d5ea86a92f1ce",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:52:56.943Z",
+      "metrics": {
+        "durationSeconds": 3.07,
+        "sampleRate": 24000,
+        "peakDbfs": -7.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "a38e1aa12b6e7ada1b23462257c47326bb6b2fea4a657c82e5126dd4aa5879bc",
+      "sourceMetrics": {
+        "durationSeconds": 3.04,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_01_step_0.wav"
+      }
+    },
+    {
+      "id": "age_36_01_step_1",
+      "activityId": "age_36_01",
+      "text": "다른 자리도 살펴볼까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_01_step_1.m4a",
+      "sha256": "d2ec0a404776d5edbedd111d255ed60a7278b705d8a034a73f36b94f2aca8e2a",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:53:02.673Z",
+      "metrics": {
+        "durationSeconds": 2.26,
+        "sampleRate": 24000,
+        "peakDbfs": -7.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "859adea9dc05df38e6a791a6a90b8771ca4199a2656d62e34cea2af39ae9cdba",
+      "sourceMetrics": {
+        "durationSeconds": 2.24,
+        "sampleRate": 24000,
+        "peakDbfs": -1.2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_01_step_1.wav"
+      }
+    },
+    {
+      "id": "age_36_01_step_2",
+      "activityId": "age_36_01",
+      "text": "찾은 모자를 모모에게 건네자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_01_step_2.m4a",
+      "sha256": "4549452ce32a486d719775e004380c5ba1d499b5d77c07a2a78f34414c2047a4",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:53:09.850Z",
+      "metrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -6.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "eb3c8f665151b07db099b20d165c10ca54a7323e601de951df848dcb869ab742",
+      "sourceMetrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_01_step_2.wav"
+      }
+    },
+    {
+      "id": "age_36_02_step_0",
+      "activityId": "age_36_02",
+      "text": "소풍에 가져갈 열매를 골라 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_02_step_0.m4a",
+      "sha256": "0b1488edb44916436de050ee05f734668f31e28c6a02f3391f5542276d44567f",
+      "model": "unrecorded-recovered",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:53:17.465Z",
+      "metrics": {
+        "durationSeconds": 3.03,
+        "sampleRate": 24000,
+        "peakDbfs": -5.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
+      "sourceSha256": "fa6f4290627d6d36b65f0f6223d473098658c3c953c7cb32faded423bc00c44d",
+      "sourceMetrics": {
+        "durationSeconds": 3,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_02_step_0.wav"
+      }
+    },
+    {
+      "id": "age_36_02_step_1",
+      "activityId": "age_36_02",
+      "text": "두리는 어떤 열매가 궁금할까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_02_step_1.m4a",
+      "sha256": "68fb5d9c7a1fb1aea60ce340343a68ee36e8fd1280e5f852c4b08a86166e5e6d",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:53:52.510Z",
+      "metrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "c0d0ee26e55653a4dddcd42afc1ed4596f51cde3bc81387524a91242e2761764",
+      "sourceMetrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_02_step_1.wav"
+      }
+    },
+    {
+      "id": "age_36_02_step_2",
+      "activityId": "age_36_02",
+      "text": "우리 소풍 자리가 완성됐어.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_02_step_2.m4a",
+      "sha256": "3a7246f9fc61fb0ac50801bba8adc1e0deacb05f5c00f600af252fb5a71b130c",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:53:58.173Z",
+      "metrics": {
+        "durationSeconds": 2.47,
+        "sampleRate": 24000,
+        "peakDbfs": -6.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "61147e5528f8123fde75b0b9032b848ddc925b88bfc150ab34f03400cdc0ac14",
+      "sourceMetrics": {
+        "durationSeconds": 2.44,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_02_step_2.wav"
+      }
+    },
+    {
+      "id": "age_36_03_step_0",
+      "activityId": "age_36_03",
+      "text": "풀숲 친구를 톡 찾아 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_03_step_0.m4a",
+      "sha256": "29b1e14f03c2a1df6c98db4c8cd9bcaf7f44ba6ddd9d54c43d87b5fbe05f26e7",
+      "model": "gemini-3.8-flash-lite-tts",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:53:44.898Z",
+      "metrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -4.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "af07a3da38bc097824d48eb0c57ae745317da507ad3407a9fe159964f52cf824",
+      "sourceMetrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_03_step_0.wav"
+      }
+    },
+    {
+      "id": "age_36_03_step_1",
+      "activityId": "age_36_03",
+      "text": "친구는 어떤 인사를 할까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_03_step_1.m4a",
+      "sha256": "8c4e8c6801617d53035d9a8d08cb4da3fd0c782eec5be7cc57a8421b59323f03",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:54:06.043Z",
+      "metrics": {
+        "durationSeconds": 2.77,
+        "sampleRate": 24000,
+        "peakDbfs": -6.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "d8b8c0c43fbe3b18acb291e16d5452e93fa3a1a9abfe15935cb213789e7f0aeb",
+      "sourceMetrics": {
+        "durationSeconds": 2.76,
+        "sampleRate": 24000,
+        "peakDbfs": -1.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_03_step_1.wav"
+      }
+    },
+    {
+      "id": "age_36_03_step_2",
+      "activityId": "age_36_03",
+      "text": "너의 인사도 보여 줄래?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_03_step_2.m4a",
+      "sha256": "8186c8d31485fa5433f8dffc70b7bbe1b9ee55ef80d244bd705abd7f76356a93",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:54:11.981Z",
+      "metrics": {
+        "durationSeconds": 2.22,
+        "sampleRate": 24000,
+        "peakDbfs": -7.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "40d34d09daf38b86000e86074a9ed9ea10121d5564cb5401d0daf4ceac4e58d2",
+      "sourceMetrics": {
+        "durationSeconds": 2.2,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_03_step_2.wav"
+      }
+    },
+    {
+      "id": "age_36_04_step_0",
+      "activityId": "age_36_04",
+      "text": "어떤 날씨 문을 열까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_04_step_0.m4a",
+      "sha256": "3c274179c39d92e751bfe75e8acbee5189e9740a3ab94e49eceab5960019607d",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:54:18.307Z",
+      "metrics": {
+        "durationSeconds": 2.47,
+        "sampleRate": 24000,
+        "peakDbfs": -4.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "5701722f80fda9489b8de2100928563f3e2046d711e7a916ed26dd5498e3594a",
+      "sourceMetrics": {
+        "durationSeconds": 2.44,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_04_step_0.wav"
+      }
+    },
+    {
+      "id": "age_36_04_step_1",
+      "activityId": "age_36_04",
+      "text": "그 날씨에 친구는 어떻게 쉴까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_04_step_1.m4a",
+      "sha256": "b03f3530bb7e9dcb110486fe48450a9a9cb8b204171477332dba72a2f524db0c",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:54:24.412Z",
+      "metrics": {
+        "durationSeconds": 2.86,
+        "sampleRate": 24000,
+        "peakDbfs": -7.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "c2b6214f067c8e1ec315844fe1a9aa9ceec290bde004dad79c17f8380c122535",
+      "sourceMetrics": {
+        "durationSeconds": 2.84,
+        "sampleRate": 24000,
+        "peakDbfs": -1.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_04_step_1.wav"
+      }
+    },
+    {
+      "id": "age_36_04_step_2",
+      "activityId": "age_36_04",
+      "text": "몸으로 날씨를 작게 표현해 봐.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_04_step_2.m4a",
+      "sha256": "629297fe01675f494219cb01dcc79cc92c91792f211619e7ffbf52c466ecbe0e",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:54:30.874Z",
+      "metrics": {
+        "durationSeconds": 2.94,
+        "sampleRate": 24000,
+        "peakDbfs": -8.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "8dc1e8017b9cad7ea9375d1ebe813c4e757b30fb666683aee7aeca14321b15c3",
+      "sourceMetrics": {
+        "durationSeconds": 2.92,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_04_step_2.wav"
+      }
+    },
+    {
+      "id": "age_36_05_step_0",
+      "activityId": "age_36_05",
+      "text": "구름에 어떤 색을 더할까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_05_step_0.m4a",
+      "sha256": "31ee277ae5665193402a427232e6862f159a2eb33dd3b57f320e44ae3cad3fdb",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:54:37.368Z",
+      "metrics": {
+        "durationSeconds": 2.69,
+        "sampleRate": 24000,
+        "peakDbfs": -6.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "d087e0c7a89990c636af9fa3ece498d04f2d34c16df00645e4338238912c54c6",
+      "sourceMetrics": {
+        "durationSeconds": 2.68,
+        "sampleRate": 24000,
+        "peakDbfs": -2.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_05_step_0.wav"
+      }
+    },
+    {
+      "id": "age_36_05_step_1",
+      "activityId": "age_36_05",
+      "text": "선도 점도 모두 좋아.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_05_step_1.m4a",
+      "sha256": "d09e553c6a6247cb0cd7c4b480533b1d96a72b2e03d04cb4c3095af623fab9c7",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:54:43.765Z",
+      "metrics": {
+        "durationSeconds": 2.86,
+        "sampleRate": 24000,
+        "peakDbfs": -6.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "88fd6875bc4d1c9cf13d02134bf89eb6bfb90622382e075a33019c7c02ea96b3",
+      "sourceMetrics": {
+        "durationSeconds": 2.84,
+        "sampleRate": 24000,
+        "peakDbfs": -2.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_05_step_1.wav"
+      }
+    },
+    {
+      "id": "age_36_05_step_2",
+      "activityId": "age_36_05",
+      "text": "네 구름이 숲에 둥실 떠올랐어.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_05_step_2.m4a",
+      "sha256": "6ca6d96a4e4f033d256f4847adac5d13fbb4f02bf70fd9fd296bc5819b05c6d6",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:54:50.569Z",
+      "metrics": {
+        "durationSeconds": 3.93,
+        "sampleRate": 24000,
+        "peakDbfs": -6.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "f9d3ab4f06d7fd31f2e14947f67657955121a0b4df2adbe41b5822445965be36",
+      "sourceMetrics": {
+        "durationSeconds": 3.92,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_05_step_2.wav"
+      }
+    },
+    {
+      "id": "age_36_06_step_0",
+      "activityId": "age_36_06",
+      "text": "친구가 쉴 집을 지어볼까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_06_step_0.m4a",
+      "sha256": "22208ea382fd859534b8b6ad67ee6f6a713a4878ac78035fb4ee28d709de8559",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:54:56.755Z",
+      "metrics": {
+        "durationSeconds": 2.73,
+        "sampleRate": 24000,
+        "peakDbfs": -6.6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "6d2edbec9851dc88e6d589d3394aeeecac77dd84a03dae0108e79bfb3b9285b0",
+      "sourceMetrics": {
+        "durationSeconds": 2.72,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_06_step_0.wav"
+      }
+    },
+    {
+      "id": "age_36_06_step_1",
+      "activityId": "age_36_06",
+      "text": "큰 조각을 골라 빈 자리에 놓자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_06_step_1.m4a",
+      "sha256": "15745f8989ac1591b906dadbcca688bd4198a42c3408aa922da43f58b7e8d952",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:55:04.863Z",
+      "metrics": {
+        "durationSeconds": 3.29,
+        "sampleRate": 24000,
+        "peakDbfs": -7.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "6400aefe652846e812220b71ec0f2cd81089c42a1168e52ddde0485a6112de34",
+      "sourceMetrics": {
+        "durationSeconds": 3.28,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_06_step_1.wav"
+      }
+    },
+    {
+      "id": "age_36_06_step_2",
+      "activityId": "age_36_06",
+      "text": "지붕까지 놓으니 포근한 집이네.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_36_06_step_2.m4a",
+      "sha256": "06d3671af6e82a18f20f47ae6f024b9d357cae57043f579e347c8843ce858612",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:55:09.901Z",
+      "metrics": {
+        "durationSeconds": 3.07,
+        "sampleRate": 24000,
+        "peakDbfs": -9.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "06ba635393cbcdf2fc432f9eaa2582801d85e6d280c27b9f65aba17e2045bd5d",
+      "sourceMetrics": {
+        "durationSeconds": 3.04,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "additionalHeadroomDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_36_06_step_2.wav"
+      }
+    },
+    {
+      "id": "age_48_01_step_0",
+      "activityId": "age_48_01",
+      "text": "두리가 비 오는 소풍을 준비한대.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_01_step_0.m4a",
+      "sha256": "e2eced240c112fefaa6e1ec5b780a954d77ab848366e95449bd8026ad52183cb",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:55:17.068Z",
+      "metrics": {
+        "durationSeconds": 3.46,
+        "sampleRate": 24000,
+        "peakDbfs": -7.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "44f4177f4eb4ba2fffbcafa4fe52ba6562db434dd402ce79ffa4cfbaa08e6cfb",
+      "sourceMetrics": {
+        "durationSeconds": 3.44,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_01_step_0.wav"
+      }
+    },
+    {
+      "id": "age_48_01_step_1",
+      "activityId": "age_48_01",
+      "text": "누리는 쉬는 자리를 찾고 있어.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_01_step_1.m4a",
+      "sha256": "b8e4df7a39658adb549d24a2917c1b8ee49e13977fdba5dabcc66786e8b1cc81",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:55:23.624Z",
+      "metrics": {
+        "durationSeconds": 3.03,
+        "sampleRate": 24000,
+        "peakDbfs": -6.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "f08b5892a9a1e193b5069998a3777ecc6ac8690cda9ed2498484593b90878ed9",
+      "sourceMetrics": {
+        "durationSeconds": 3,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_01_step_1.wav"
+      }
+    },
+    {
+      "id": "age_48_01_step_2",
+      "activityId": "age_48_01",
+      "text": "모모에게 마지막 물건을 건네자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_01_step_2.m4a",
+      "sha256": "e829c01aa58d4be33f97b44b1aaed94d1862592c1d6f9e7328997b5a1c67530e",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:55:30.727Z",
+      "metrics": {
+        "durationSeconds": 2.99,
+        "sampleRate": 24000,
+        "peakDbfs": -8.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "36aaac3da1ecec68a9dd13793f519703808aecce0a64fd4e8c6dc9cbef82d55b",
+      "sourceMetrics": {
+        "durationSeconds": 2.96,
+        "sampleRate": 24000,
+        "peakDbfs": -1.2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_01_step_2.wav"
+      }
+    },
+    {
+      "id": "age_48_02_step_0",
+      "activityId": "age_48_02",
+      "text": "둥근 발자국이 나무 옆에 있네.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_02_step_0.m4a",
+      "sha256": "1de1a9bc8db835365517d616f5861ba80e9aac3f1751c25bdfc38274886f2765",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:55:36.415Z",
+      "metrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -4.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "947fad3efdeacc0c394bc54072ebab1e145d1dbe5104e10489d21a7002f62d52",
+      "sourceMetrics": {
+        "durationSeconds": 3.12,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_02_step_0.wav"
+      }
+    },
+    {
+      "id": "age_48_02_step_1",
+      "activityId": "age_48_02",
+      "text": "풀숲에도 단서가 숨어 있어.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_02_step_1.m4a",
+      "sha256": "a43d4af984b06dcba6be7ed4e5664bb88adf0f30d10c574eaa6e33fe5df73043",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:55:42.915Z",
+      "metrics": {
+        "durationSeconds": 2.82,
+        "sampleRate": 24000,
+        "peakDbfs": -6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "00363bf28239efb834ab3f45a5dc0854e6be873b06b1b687443e647220cb7a11",
+      "sourceMetrics": {
+        "durationSeconds": 2.8,
+        "sampleRate": 24000,
+        "peakDbfs": -2.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_02_step_1.wav"
+      }
+    },
+    {
+      "id": "age_48_02_step_2",
+      "activityId": "age_48_02",
+      "text": "단서를 보고 친구를 만나자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_02_step_2.m4a",
+      "sha256": "e906d3a6cce81af42df8bb1285284895bae8218c9422349cee9bf169830ab2fb",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:55:50.134Z",
+      "metrics": {
+        "durationSeconds": 2.69,
+        "sampleRate": 24000,
+        "peakDbfs": -6.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "497e7fde042e5bfd83bce26f8afd0f7e36a51af92a39c5a0ecfd9bb114b727d0",
+      "sourceMetrics": {
+        "durationSeconds": 2.68,
+        "sampleRate": 24000,
+        "peakDbfs": -2.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_02_step_2.wav"
+      }
+    },
+    {
+      "id": "age_48_03_step_0",
+      "activityId": "age_48_03",
+      "text": "가게 물건을 어떻게 놓을까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_03_step_0.m4a",
+      "sha256": "44de7de12d3e0dbe711e66afc4241e208e044cb135ef0725e09421a03ff7dbbd",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:55:55.988Z",
+      "metrics": {
+        "durationSeconds": 2.82,
+        "sampleRate": 24000,
+        "peakDbfs": -6.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "a0f4f12f674923237e452aa424919205bd60c52a7099668c33a6c7dd36da6364",
+      "sourceMetrics": {
+        "durationSeconds": 2.8,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_03_step_0.wav"
+      }
+    },
+    {
+      "id": "age_48_03_step_1",
+      "activityId": "age_48_03",
+      "text": "같은 색끼리 집을 찾아 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_03_step_1.m4a",
+      "sha256": "eb662d7ac043842822280c728d1204156cef644ee3df92a49592537ce32b554e",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:56:02.715Z",
+      "metrics": {
+        "durationSeconds": 2.69,
+        "sampleRate": 24000,
+        "peakDbfs": -5.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "4779e240f9683d0f177794f309ffeab118fabb7cf626e75b272d528e881dcbe6",
+      "sourceMetrics": {
+        "durationSeconds": 2.68,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_03_step_1.wav"
+      }
+    },
+    {
+      "id": "age_48_03_step_2",
+      "activityId": "age_48_03",
+      "text": "다른 기준으로도 놓을 수 있어.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_03_step_2.m4a",
+      "sha256": "d06b0f12f58aac109aff39928e3d65337a2e3ef6cc663c71234802eacab68e76",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:56:09.010Z",
+      "metrics": {
+        "durationSeconds": 2.56,
+        "sampleRate": 24000,
+        "peakDbfs": -7.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "6327f2870d50bcb3e2450f13c5723c36bcaa52c49652713ed8d984fc76a273de",
+      "sourceMetrics": {
+        "durationSeconds": 2.52,
+        "sampleRate": 24000,
+        "peakDbfs": -1.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_03_step_2.wav"
+      }
+    },
+    {
+      "id": "age_48_04_step_0",
+      "activityId": "age_48_04",
+      "text": "누리가 장난감을 놓쳤대.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_04_step_0.m4a",
+      "sha256": "77bf4320e54868a78f3e70e23589dfcc9274849ebfef1e6d8d0ee349476672c6",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:56:15.238Z",
+      "metrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -8.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "249d720fd837614c655e2b64d6d2c890dedfb8800826c133715e6b604912ae25",
+      "sourceMetrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -3.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_04_step_0.wav"
+      }
+    },
+    {
+      "id": "age_48_04_step_1",
+      "activityId": "age_48_04",
+      "text": "곁에 가거나 어른을 불러 볼까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_04_step_1.m4a",
+      "sha256": "0f5ae63b5134037a6e7b727e8cce2021d32bcf58e1871b05590acc15ab4b60a2",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:56:21.392Z",
+      "metrics": {
+        "durationSeconds": 3.03,
+        "sampleRate": 24000,
+        "peakDbfs": -8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "8e44d591da38d431203c10c782028129019aad4c9f5c63ac60b5832c59491482",
+      "sourceMetrics": {
+        "durationSeconds": 3,
+        "sampleRate": 24000,
+        "peakDbfs": -1.2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_04_step_1.wav"
+      }
+    },
+    {
+      "id": "age_48_04_step_2",
+      "activityId": "age_48_04",
+      "text": "친구가 쉴 때 기다려 줘도 좋아.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_04_step_2.m4a",
+      "sha256": "5105d895e9031255f7952d83794ae4547ae48823c1dea0e4fc7f13c097929089",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:56:28.646Z",
+      "metrics": {
+        "durationSeconds": 2.99,
+        "sampleRate": 24000,
+        "peakDbfs": -6.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "de43f3ac56c6dfcac84ceb4c7a9e32c65b580aae986b2766880d51ada47c9596",
+      "sourceMetrics": {
+        "durationSeconds": 2.96,
+        "sampleRate": 24000,
+        "peakDbfs": -3.2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_04_step_2.wav"
+      }
+    },
+    {
+      "id": "age_48_05_step_0",
+      "activityId": "age_48_05",
+      "text": "우리 같이 정원 한 장을 그리자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_05_step_0.m4a",
+      "sha256": "e6349eb489aae887a69f195e8abfcca4085162ffe3a4287f00e0f777e2ccf739",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:56:34.368Z",
+      "metrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -6.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "028c81f3fa9c8d2bc7261fa9bafbf3fcba5c738be0dd509f524ba6f00d37e960",
+      "sourceMetrics": {
+        "durationSeconds": 3.12,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_05_step_0.wav"
+      }
+    },
+    {
+      "id": "age_48_05_step_1",
+      "activityId": "age_48_05",
+      "text": "이번에는 옆 사람 차례야.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_05_step_1.m4a",
+      "sha256": "fe591b7b5970ff4f2ab9e8d71effd492308ec649d04e197112a3fdcaac886449",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:56:41.506Z",
+      "metrics": {
+        "durationSeconds": 2.39,
+        "sampleRate": 24000,
+        "peakDbfs": -7.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "fb5837ea3fd2ee55e0a1f6bb5ca7c6f77c233e37e407b19736b0d329b22f5a4c",
+      "sourceMetrics": {
+        "durationSeconds": 2.36,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_05_step_1.wav"
+      }
+    },
+    {
+      "id": "age_48_05_step_2",
+      "activityId": "age_48_05",
+      "text": "서로의 그림에 작은 꽃을 더해 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_05_step_2.m4a",
+      "sha256": "1d16bf2ab6e48cb50f9c875f4646198496f69274d82b5e98f2fdf5a6c7a4d3d2",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:56:48.804Z",
+      "metrics": {
+        "durationSeconds": 3.58,
+        "sampleRate": 24000,
+        "peakDbfs": -5.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "87738e60c1309d8b694b4b92c541c092c5cf3cae6f525166c9ed41a48d0fe2d3",
+      "sourceMetrics": {
+        "durationSeconds": 3.56,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_05_step_2.wav"
+      }
+    },
+    {
+      "id": "age_48_06_step_0",
+      "activityId": "age_48_06",
+      "text": "첫 빗방울 소리를 골라 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_06_step_0.m4a",
+      "sha256": "939410965a4a07e0b3e991766d24817a570886354ab3c096abaaa56ffab36d83",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:56:54.235Z",
+      "metrics": {
+        "durationSeconds": 2.65,
+        "sampleRate": 24000,
+        "peakDbfs": -6.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "d2c50495dcb61761cf697e5ea2618ac81bc213d0a397249d281075a7caf354c6",
+      "sourceMetrics": {
+        "durationSeconds": 2.64,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_06_step_0.wav"
+      }
+    },
+    {
+      "id": "age_48_06_step_1",
+      "activityId": "age_48_06",
+      "text": "다음 소리는 누가 이어 줄까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_06_step_1.m4a",
+      "sha256": "4e6bf29f89d0753665b33fce31002094556c7dacd9c3fba547ddca48e3ef47c6",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:57:00.879Z",
+      "metrics": {
+        "durationSeconds": 2.82,
+        "sampleRate": 24000,
+        "peakDbfs": -7.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "67ed4d5c4c180666ebf67189541ef7fac8f3f842ba811dbbdb861d4333221f94",
+      "sourceMetrics": {
+        "durationSeconds": 2.8,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_06_step_1.wav"
+      }
+    },
+    {
+      "id": "age_48_06_step_2",
+      "activityId": "age_48_06",
+      "text": "마지막 소리를 더해 합주를 듣자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_48_06_step_2.m4a",
+      "sha256": "fe2a5c656a0afe7fc0973977488ef2cd0db55a9598b3442bd044f1b19041f16f",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:57:07.755Z",
+      "metrics": {
+        "durationSeconds": 3.11,
+        "sampleRate": 24000,
+        "peakDbfs": -5.3,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "9bad85164be4a2f0d576cbaef36812edd087e6d4c4767e2b81c718e262101d8c",
+      "sourceMetrics": {
+        "durationSeconds": 3.08,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_48_06_step_2.wav"
+      }
+    },
+    {
+      "id": "age_60_01_step_0",
+      "activityId": "age_60_01",
+      "text": "처음 약속은 같은 색끼리야.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_01_step_0.m4a",
+      "sha256": "1cabae865cbabab51e9b117d9aad5064bb18eb0a50f33415e2340464e56bc892",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:57:14.025Z",
+      "metrics": {
+        "durationSeconds": 3.07,
+        "sampleRate": 24000,
+        "peakDbfs": -5.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "0c1cbae98621211d4fefc158d58391a9a49b2935da9b24f42a28b3688029afa1",
+      "sourceMetrics": {
+        "durationSeconds": 3.04,
+        "sampleRate": 24000,
+        "peakDbfs": -3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_01_step_0.wav"
+      }
+    },
+    {
+      "id": "age_60_01_step_1",
+      "activityId": "age_60_01",
+      "text": "새 약속! 이번에는 크기를 봐.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_01_step_1.m4a",
+      "sha256": "da80f81bd3eac8d0b6a0bf857fd3cbf29ea22f9a3fc075a54a3aee878b992d91",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:57:20.545Z",
+      "metrics": {
+        "durationSeconds": 3.71,
+        "sampleRate": 24000,
+        "peakDbfs": -4.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "4f03648e3be60ba83836bca821afb970a76109ed091783b98b1555cf502bab0a",
+      "sourceMetrics": {
+        "durationSeconds": 3.68,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_01_step_1.wav"
+      }
+    },
+    {
+      "id": "age_60_01_step_2",
+      "activityId": "age_60_01",
+      "text": "바뀐 약속대로 다시 진열해 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_01_step_2.m4a",
+      "sha256": "b1a6471b142df19693e6c31db62e9416000a884d03bbf65e707399e3c9b9a82f",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:57:27.115Z",
+      "metrics": {
+        "durationSeconds": 2.94,
+        "sampleRate": 24000,
+        "peakDbfs": -5.6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "75305fdffcbcab8fef048711305f3b24ae951b6ab4c5ed20e6f72c92501e5e71",
+      "sourceMetrics": {
+        "durationSeconds": 2.92,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_01_step_2.wav"
+      }
+    },
+    {
+      "id": "age_60_02_step_0",
+      "activityId": "age_60_02",
+      "text": "친구들이 모두 타고 싶대.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_02_step_0.m4a",
+      "sha256": "beb3f1aa22d25b31c49614a256876ca9eb712ba57dfcab52c79167d916e33558",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:57:33.171Z",
+      "metrics": {
+        "durationSeconds": 2.73,
+        "sampleRate": 24000,
+        "peakDbfs": -4.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "01207e3dd1dc0608705f03e49052ba9fed5598df7d5e538941df2df40ba0d94b",
+      "sourceMetrics": {
+        "durationSeconds": 2.72,
+        "sampleRate": 24000,
+        "peakDbfs": -2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_02_step_0.wav"
+      }
+    },
+    {
+      "id": "age_60_02_step_1",
+      "activityId": "age_60_02",
+      "text": "빈 자리에 친구를 한 명씩 놓자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_02_step_1.m4a",
+      "sha256": "15858ed75343fab05de4af17b5a8bab636dcb38cedd71852388a9d76cb5a79b7",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:57:40.014Z",
+      "metrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -5.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "03e94f98501d0e21086038c850c37a9650f2adf6c0cba2a9112b4774badcba40",
+      "sourceMetrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_02_step_1.wav"
+      }
+    },
+    {
+      "id": "age_60_02_step_2",
+      "activityId": "age_60_02",
+      "text": "빠진 친구가 없는지 함께 보자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_02_step_2.m4a",
+      "sha256": "f4be38b2282424a346bfa1872b03c0a697da402b50d5567cfb39825cd09f7882",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:57:45.644Z",
+      "metrics": {
+        "durationSeconds": 2.86,
+        "sampleRate": 24000,
+        "peakDbfs": -4.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "d4272ee9acf5bd052c61b9c30d7b4a5abaa9c1780996f3512064be48288f69c1",
+      "sourceMetrics": {
+        "durationSeconds": 2.84,
+        "sampleRate": 24000,
+        "peakDbfs": -1.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_02_step_2.wav"
+      }
+    },
+    {
+      "id": "age_60_03_step_0",
+      "activityId": "age_60_03",
+      "text": "바람이 오는 숲에 집을 지어 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_03_step_0.m4a",
+      "sha256": "093e93cb6781ba94869b5553051bd81ae74bf8c2800df74686fa54ebcb47884c",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:57:52.403Z",
+      "metrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -6.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "45376637ca6c61e2dc0b493e5349beb4befbd0785af2b55cc6754e84cd31334c",
+      "sourceMetrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -1.5,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_03_step_0.wav"
+      }
+    },
+    {
+      "id": "age_60_03_step_1",
+      "activityId": "age_60_03",
+      "text": "바람을 불러 보고 조각을 살펴보자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_03_step_1.m4a",
+      "sha256": "c4ab532a931619355faa099026507a47e880bfd46122f056aabc68cf778d86e3",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:57:59.084Z",
+      "metrics": {
+        "durationSeconds": 3.33,
+        "sampleRate": 24000,
+        "peakDbfs": -5.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "84da0cdfc6a92b6e800ee932d088338bee4d04d76a885259a9d8e56433713d78",
+      "sourceMetrics": {
+        "durationSeconds": 3.32,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_03_step_1.wav"
+      }
+    },
+    {
+      "id": "age_60_03_step_2",
+      "activityId": "age_60_03",
+      "text": "움직인 자리를 다른 모양으로 바꿔봐.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_03_step_2.m4a",
+      "sha256": "e87c065ecfea0346d2f0f796408ae407272d1df51249caf74d465f6e88550c62",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:58:06.976Z",
+      "metrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -5.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "75489e6ca1dbfab5adf1cf6a0fe266bd041c65e78f1af09102498072603f8913",
+      "sourceMetrics": {
+        "durationSeconds": 3.12,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_03_step_2.wav"
+      }
+    },
+    {
+      "id": "age_60_04_step_0",
+      "activityId": "age_60_04",
+      "text": "이야기가 시작될 길을 골라 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_04_step_0.m4a",
+      "sha256": "b19cd3e8364de0a7c82e8ce9084f772b56b67e194ef2d9a3534706c797cbf6c1",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:58:12.915Z",
+      "metrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -6.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "3f3c720e23ed73313b45e5423551d0ebe5860fe3ccc15e04d0c0e7d1a04aa585",
+      "sourceMetrics": {
+        "durationSeconds": 3.12,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_04_step_0.wav"
+      }
+    },
+    {
+      "id": "age_60_04_step_1",
+      "activityId": "age_60_04",
+      "text": "누가 함께 가면 좋을까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_04_step_1.m4a",
+      "sha256": "09e063d40a60939efebb9ed31fa384ab0f0597b6b32eb3bdd9b4d7c7acf88ad6",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:58:19.009Z",
+      "metrics": {
+        "durationSeconds": 2.3,
+        "sampleRate": 24000,
+        "peakDbfs": -5.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "e298bb3dc2eae51fe2130c92c27d98e7db1c6b1a1ded732074c0c78e6b0a08a9",
+      "sourceMetrics": {
+        "durationSeconds": 2.28,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_04_step_1.wav"
+      }
+    },
+    {
+      "id": "age_60_04_step_2",
+      "activityId": "age_60_04",
+      "text": "친구를 돕는 방법을 고르면 이야기가 끝나.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_04_step_2.m4a",
+      "sha256": "7d6ffe6400cac21af7e52e62b8299099bde6fc6c39737b81cb3e882e4e0bb5cd",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:58:26.208Z",
+      "metrics": {
+        "durationSeconds": 3.58,
+        "sampleRate": 24000,
+        "peakDbfs": -6.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "467b3fb4d186006818a36a177c803f9f782183f5c8fa7f1e0b09b0c241298004",
+      "sourceMetrics": {
+        "durationSeconds": 3.56,
+        "sampleRate": 24000,
+        "peakDbfs": -1.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_04_step_2.wav"
+      }
+    },
+    {
+      "id": "age_60_05_step_0",
+      "activityId": "age_60_05",
+      "text": "내가 먼저 딩동. 이제 네 차례야.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_05_step_0.m4a",
+      "sha256": "56eab83fdb32fead06ce3d818d588a718573d8c1785d6dc56dce332995393343",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:58:32.624Z",
+      "metrics": {
+        "durationSeconds": 4.14,
+        "sampleRate": 24000,
+        "peakDbfs": -3.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "c57a87ad3e3c584bf57b2f4b225792614b731310e06d72215d6f0a9e43ab5645",
+      "sourceMetrics": {
+        "durationSeconds": 4.12,
+        "sampleRate": 24000,
+        "peakDbfs": -1.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_05_step_0.wav"
+      }
+    },
+    {
+      "id": "age_60_05_step_1",
+      "activityId": "age_60_05",
+      "text": "네가 고른 소리를 따라 해볼게.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_05_step_1.m4a",
+      "sha256": "e2c651d82d5538fda823ef75561202cef04317e5d63f2702aaf72e52bd888931",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:58:37.691Z",
+      "metrics": {
+        "durationSeconds": 2.56,
+        "sampleRate": 24000,
+        "peakDbfs": -5.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "72e3a37055f1644c75a68462154d02b8a3268e89683e6a2af3bcf258ebdb23bc",
+      "sourceMetrics": {
+        "durationSeconds": 2.56,
+        "sampleRate": 24000,
+        "peakDbfs": -2.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_05_step_1.wav"
+      }
+    },
+    {
+      "id": "age_60_05_step_2",
+      "activityId": "age_60_05",
+      "text": "우리 소리를 이어서 들어보자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_05_step_2.m4a",
+      "sha256": "7025d8ccf3d24046e6ac2d00782326b340fdd829d80b8f37dc2ffd56b5a50ea8",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:58:45.335Z",
+      "metrics": {
+        "durationSeconds": 2.73,
+        "sampleRate": 24000,
+        "peakDbfs": -8.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "8ef7f9e7e892bde3f626c6797ea772889a5ff5c2a2675378fb56782e13dbd031",
+      "sourceMetrics": {
+        "durationSeconds": 2.72,
+        "sampleRate": 24000,
+        "peakDbfs": -2.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_05_step_2.wav"
+      }
+    },
+    {
+      "id": "age_60_06_step_0",
+      "activityId": "age_60_06",
+      "text": "친구들이 함께 쓸 정원을 만들자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_06_step_0.m4a",
+      "sha256": "01c2473b509c92f40daa7da24466fe759b380a2664f8d8a3072e1f161229af28",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:58:50.939Z",
+      "metrics": {
+        "durationSeconds": 3.03,
+        "sampleRate": 24000,
+        "peakDbfs": -5.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "0664a1c320d2959e4499cc71e723283c35b5b262f144011a6ef43d7e22a053b0",
+      "sourceMetrics": {
+        "durationSeconds": 3,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_06_step_0.wav"
+      }
+    },
+    {
+      "id": "age_60_06_step_1",
+      "activityId": "age_60_06",
+      "text": "서로 원하는 꽃을 빈 곳에 놓아 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_06_step_1.m4a",
+      "sha256": "0006c5276b915f5103a44699dc644ab89f835cd1fa6bc265c73c34daf21e900a",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:58:57.745Z",
+      "metrics": {
+        "durationSeconds": 3.29,
+        "sampleRate": 24000,
+        "peakDbfs": -6.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "b3c7923b96b168ab173c81b015dbb3620ff02ed6c71212fdf3cf35e2f62760ed",
+      "sourceMetrics": {
+        "durationSeconds": 3.28,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_06_step_1.wav"
+      }
+    },
+    {
+      "id": "age_60_06_step_2",
+      "activityId": "age_60_06",
+      "text": "꽃 사이에 쉴 자리도 남겨 볼까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_60_06_step_2.m4a",
+      "sha256": "60e16ae0102e737419b04fb5e2736fef140424295cddf994eb3c53e9ce25144f",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:59:05.504Z",
+      "metrics": {
+        "durationSeconds": 3.67,
+        "sampleRate": 24000,
+        "peakDbfs": -6.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "d0a6e874e42d498441c9987404fab388fab36fd4758a6255d2c51c89a97a95b7",
+      "sourceMetrics": {
+        "durationSeconds": 3.64,
+        "sampleRate": 24000,
+        "peakDbfs": -2.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_60_06_step_2.wav"
+      }
+    },
+    {
+      "id": "age_72_01_step_0",
+      "activityId": "age_72_01",
+      "text": "친구 집까지 길이 끊어졌네.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_01_step_0.m4a",
+      "sha256": "cea25b25b9817316eb723df8dee0090b5a1d53730afacfee6f508f91c3ac0604",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:59:10.565Z",
+      "metrics": {
+        "durationSeconds": 2.86,
+        "sampleRate": 24000,
+        "peakDbfs": -6.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "c585a285f55a1bec99e686665d2e786d26cc5df413ec5f4971320d9469d39dd2",
+      "sourceMetrics": {
+        "durationSeconds": 2.84,
+        "sampleRate": 24000,
+        "peakDbfs": -1.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_01_step_0.wav"
+      }
+    },
+    {
+      "id": "age_72_01_step_1",
+      "activityId": "age_72_01",
+      "text": "빈 자리에 큰 길 조각을 놓아 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_01_step_1.m4a",
+      "sha256": "e7d79eced618c097ae27ac3bd4579ed284692874b44d999d742773c94ab89456",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:59:18.366Z",
+      "metrics": {
+        "durationSeconds": 3.07,
+        "sampleRate": 24000,
+        "peakDbfs": -4.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "a7335e33ff0eafcd6cc9af31123e11ea10768d38f3f2246468befe593f155811",
+      "sourceMetrics": {
+        "durationSeconds": 3.04,
+        "sampleRate": 24000,
+        "peakDbfs": -1.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_01_step_1.wav"
+      }
+    },
+    {
+      "id": "age_72_01_step_2",
+      "activityId": "age_72_01",
+      "text": "친구가 지나갈 길을 따라 살펴보자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_01_step_2.m4a",
+      "sha256": "873b783428451da6cbff6d94f07146063bd9e6831ac16f4f40bef3a34ee3278f",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:59:23.716Z",
+      "metrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -6.6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "f502d85801e982cc6c9069df7ca316aa71345ef3f6261fc66761b69b175c0a12",
+      "sourceMetrics": {
+        "durationSeconds": 3.12,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_01_step_2.wav"
+      }
+    },
+    {
+      "id": "age_72_02_step_0",
+      "activityId": "age_72_02",
+      "text": "오늘 탐험할 날씨를 골라 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_02_step_0.m4a",
+      "sha256": "79f0cecc9d1270f996454434f1b8a27983bed09e592232fd60ce41a953d66ba2",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:59:30.452Z",
+      "metrics": {
+        "durationSeconds": 2.69,
+        "sampleRate": 24000,
+        "peakDbfs": -6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "78a049de6b528edb8df249b0709cc8c4c2e9c8a3809c71052db5eb171691b561",
+      "sourceMetrics": {
+        "durationSeconds": 2.68,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_02_step_0.wav"
+      }
+    },
+    {
+      "id": "age_72_02_step_1",
+      "activityId": "age_72_02",
+      "text": "숲에서 쓸 물건을 골라 챙기자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_02_step_1.m4a",
+      "sha256": "ecc4522e89b8fe3bc31d3187dde8c0e8e134958300ab44f6d1763e87ecd70942",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:59:36.584Z",
+      "metrics": {
+        "durationSeconds": 2.99,
+        "sampleRate": 24000,
+        "peakDbfs": -7.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "ac5f3b4b4ad3b8400474a60266a88c8c37be240c53fe93edf61b09540cee798c",
+      "sourceMetrics": {
+        "durationSeconds": 2.96,
+        "sampleRate": 24000,
+        "peakDbfs": -1.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_02_step_1.wav"
+      }
+    },
+    {
+      "id": "age_72_02_step_2",
+      "activityId": "age_72_02",
+      "text": "비가 온다면 어떤 준비를 바꿀까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_02_step_2.m4a",
+      "sha256": "a242f2841426913a9c96560e100d2321794d63e4850998996719a0629b401fa2",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:59:43.978Z",
+      "metrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -4.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "d7dbe003fafb1909b2fc9f30a0f1f8cd0c149985f98dc4f94851fc1ab18cb090",
+      "sourceMetrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_02_step_2.wav"
+      }
+    },
+    {
+      "id": "age_72_03_step_0",
+      "activityId": "age_72_03",
+      "text": "소리 그림을 빈 칸에 놓아 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_03_step_0.m4a",
+      "sha256": "95fd862b724cea7102a1cd0ff94253860597e24fd35396f640c6341cf12ece9a",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:59:49.439Z",
+      "metrics": {
+        "durationSeconds": 2.99,
+        "sampleRate": 24000,
+        "peakDbfs": -6.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "738ad0b78c55acfacc6aa0d194261abc07022ac9141df3e591cb87edb9288079",
+      "sourceMetrics": {
+        "durationSeconds": 2.96,
+        "sampleRate": 24000,
+        "peakDbfs": -2.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_03_step_0.wav"
+      }
+    },
+    {
+      "id": "age_72_03_step_1",
+      "activityId": "age_72_03",
+      "text": "네 악보를 처음부터 들어보자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_03_step_1.m4a",
+      "sha256": "563268b9a105d7a9f00e8c271448ca300ad405860e89bf4820881e105c376659",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T03:59:55.645Z",
+      "metrics": {
+        "durationSeconds": 2.77,
+        "sampleRate": 24000,
+        "peakDbfs": -6.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "a3d8bb9f09697367ff256f9c345faa6a12dfac1b0bcf47678deea946e109ffa7",
+      "sourceMetrics": {
+        "durationSeconds": 2.76,
+        "sampleRate": 24000,
+        "peakDbfs": -1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_03_step_1.wav"
+      }
+    },
+    {
+      "id": "age_72_03_step_2",
+      "activityId": "age_72_03",
+      "text": "그림 순서를 바꾸면 어떻게 들릴까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_03_step_2.m4a",
+      "sha256": "63df4235ec2649d018186336f111982421f02b4a6f0a72e15296a9df06334849",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:00:02.533Z",
+      "metrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -6.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "11dc1d575fb81ac34dff45893d7acb68256644c62bb51dfa76ce9f7f4c680df9",
+      "sourceMetrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -2.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_03_step_2.wav"
+      }
+    },
+    {
+      "id": "age_72_04_step_0",
+      "activityId": "age_72_04",
+      "text": "그림 편지를 같은 색끼리 모아 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_04_step_0.m4a",
+      "sha256": "506c47396cf253a344c26ad98ee58867c29faad43b09c33a3fcb499d0b2af2a0",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:00:09.099Z",
+      "metrics": {
+        "durationSeconds": 3.07,
+        "sampleRate": 24000,
+        "peakDbfs": -5.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "dd7f62b83685009362920db7d7f4630ba454b7e20bd04c906d90fa2475148e18",
+      "sourceMetrics": {
+        "durationSeconds": 3.04,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_04_step_0.wav"
+      }
+    },
+    {
+      "id": "age_72_04_step_1",
+      "activityId": "age_72_04",
+      "text": "이번엔 크기로 배달할 거야.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_04_step_1.m4a",
+      "sha256": "39146b6fdbc45e3c99077eba4b12b44046d4ce2f8fe0257c9aa4355e28bc696f",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:00:15.132Z",
+      "metrics": {
+        "durationSeconds": 2.43,
+        "sampleRate": 24000,
+        "peakDbfs": -6.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "5d898a9b0040d0230c75449ec48c939b4ae21549ee839e72d0a6765a61bfeaf3",
+      "sourceMetrics": {
+        "durationSeconds": 2.4,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_04_step_1.wav"
+      }
+    },
+    {
+      "id": "age_72_04_step_2",
+      "activityId": "age_72_04",
+      "text": "새 약속에 맞게 편지를 옮겨 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_04_step_2.m4a",
+      "sha256": "cfa5c2bc05fa2a0f00ffb2d6575f29828528d35cd84f0841611b22f58248c649",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:00:22.461Z",
+      "metrics": {
+        "durationSeconds": 3.03,
+        "sampleRate": 24000,
+        "peakDbfs": -5.6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "e6b211e856759c438dc016f0dfece7706d559edd7d5d04668a866be25463a5d1",
+      "sourceMetrics": {
+        "durationSeconds": 3,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_04_step_2.wav"
+      }
+    },
+    {
+      "id": "age_72_05_step_0",
+      "activityId": "age_72_05",
+      "text": "두리가 건널 다리를 만들어 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_05_step_0.m4a",
+      "sha256": "2e12131582b8e142738e099849d2767930b0d4476ff69f63b20b8705c3eba52a",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:00:28.771Z",
+      "metrics": {
+        "durationSeconds": 2.82,
+        "sampleRate": 24000,
+        "peakDbfs": -7.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "1b1e20d0116672aab5e2adf7b96be4a49d7f052c07b367870b3f3957ee4ac6f1",
+      "sourceMetrics": {
+        "durationSeconds": 2.8,
+        "sampleRate": 24000,
+        "peakDbfs": -2.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_05_step_0.wav"
+      }
+    },
+    {
+      "id": "age_72_05_step_1",
+      "activityId": "age_72_05",
+      "text": "조각을 놓고 두리가 지나가는지 보자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_05_step_1.m4a",
+      "sha256": "07d54764f522de89e29dcddf5ef67f3cfd3a6b4b5a6512a01c8e68abaa29b812",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:00:35.401Z",
+      "metrics": {
+        "durationSeconds": 3.41,
+        "sampleRate": 24000,
+        "peakDbfs": -5.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "b9c4b0758458f477a4bc4b20ac640013f2ab1b1dff12b16ff8c5706a657701f6",
+      "sourceMetrics": {
+        "durationSeconds": 3.4,
+        "sampleRate": 24000,
+        "peakDbfs": -0.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_05_step_1.wav"
+      }
+    },
+    {
+      "id": "age_72_05_step_2",
+      "activityId": "age_72_05",
+      "text": "빈 곳을 고쳐 다른 다리도 시험해 봐.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_05_step_2.m4a",
+      "sha256": "c0fdada00f777b7e51362e544f3ae1e66d716e6b863b436706717cd5d47221be",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:00:41.369Z",
+      "metrics": {
+        "durationSeconds": 3.46,
+        "sampleRate": 24000,
+        "peakDbfs": -5.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "daebc5a6ff4c140a96573187257e7e53622e96460c2400546eae696ad5a0439c",
+      "sourceMetrics": {
+        "durationSeconds": 3.44,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_05_step_2.wav"
+      }
+    },
+    {
+      "id": "age_72_06_step_0",
+      "activityId": "age_72_06",
+      "text": "누리는 시끄러운 곳에서 잠깐 쉬고 싶대.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_06_step_0.m4a",
+      "sha256": "f018e06ce7e3a443fcadc95615ea165f5ccd6f51ef33e7a5f85de355412e84f1",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:00:48.408Z",
+      "metrics": {
+        "durationSeconds": 3.97,
+        "sampleRate": 24000,
+        "peakDbfs": -4.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "7ac0d6247050e9f3112e452b272bfa76693656c12614551b7e8556c4943aa428",
+      "sourceMetrics": {
+        "durationSeconds": 3.96,
+        "sampleRate": 24000,
+        "peakDbfs": -2.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_06_step_0.wav"
+      }
+    },
+    {
+      "id": "age_72_06_step_1",
+      "activityId": "age_72_06",
+      "text": "모모는 같이 놀고 싶었대. 두 마음을 들어보자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_06_step_1.m4a",
+      "sha256": "721963246530322f22032560a861b66cd7ef7d702d4179fc4d51d1c87140e414",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:00:55.366Z",
+      "metrics": {
+        "durationSeconds": 4.86,
+        "sampleRate": 24000,
+        "peakDbfs": -5.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "939783dec36c5ce1c876de2578f8cdde64aebdb852dce097527e21c0c79f5301",
+      "sourceMetrics": {
+        "durationSeconds": 4.84,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_06_step_1.wav"
+      }
+    },
+    {
+      "id": "age_72_06_step_2",
+      "activityId": "age_72_06",
+      "text": "친구 둘에게 어떤 자리를 제안할까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_72_06_step_2.m4a",
+      "sha256": "3924e02659b582ffbdaf17504d20f6449d7581e6fcd0d63248b79ce477615560",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:01:00.926Z",
+      "metrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -3.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "3e7fd0b826f7cdcd6b6932018b9d742c5a050226db55e604a49848102be0214a",
+      "sourceMetrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_72_06_step_2.wav"
+      }
+    },
+    {
+      "id": "age_84_01_step_0",
+      "activityId": "age_84_01",
+      "text": "우리 숲 축제를 어디에서 열까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_01_step_0.m4a",
+      "sha256": "d4cf55a61cb91956019ef8f48416e1c44ed2a9806f72092bbd44d8ed85e1972b",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:01:09.053Z",
+      "metrics": {
+        "durationSeconds": 2.99,
+        "sampleRate": 24000,
+        "peakDbfs": -7.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "8538714f9c0de23155a4ecb1f55bff0502b2b53d6d990f8cf292b322be336be7",
+      "sourceMetrics": {
+        "durationSeconds": 2.96,
+        "sampleRate": 24000,
+        "peakDbfs": -2.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_01_step_0.wav"
+      }
+    },
+    {
+      "id": "age_84_01_step_1",
+      "activityId": "age_84_01",
+      "text": "어떤 놀이와 친구를 초대할까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_01_step_1.m4a",
+      "sha256": "025413b894b51fd9da4b0af0d448488d6d652aed9a9834832164e6d97cf13b71",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:01:14.350Z",
+      "metrics": {
+        "durationSeconds": 2.94,
+        "sampleRate": 24000,
+        "peakDbfs": -5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "2a2edad21f9e3741972a1b2391097f42473b81f277a1e27129c49566cf783236",
+      "sourceMetrics": {
+        "durationSeconds": 2.92,
+        "sampleRate": 24000,
+        "peakDbfs": -1.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_01_step_1.wav"
+      }
+    },
+    {
+      "id": "age_84_01_step_2",
+      "activityId": "age_84_01",
+      "text": "모두 편하게 즐길 쉼터도 골라 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_01_step_2.m4a",
+      "sha256": "bb3af7751e6686a202e04b0bb38badd9f633e514fcebf323bc8f22919a9aed80",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:01:21.496Z",
+      "metrics": {
+        "durationSeconds": 3.41,
+        "sampleRate": 24000,
+        "peakDbfs": -6.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "02615c082598bf0493230b546c589e06ae1b5725f115fd565768d682d5bca0dd",
+      "sourceMetrics": {
+        "durationSeconds": 3.4,
+        "sampleRate": 24000,
+        "peakDbfs": -2.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_01_step_2.wav"
+      }
+    },
+    {
+      "id": "age_84_02_step_0",
+      "activityId": "age_84_02",
+      "text": "누구나 편하게 다닐 숲을 만들자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_02_step_0.m4a",
+      "sha256": "09aa87f96831aae295f7091e774e42ebeb57a9a3804b4a5b54edd8992785a2eb",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:01:27.748Z",
+      "metrics": {
+        "durationSeconds": 3.03,
+        "sampleRate": 24000,
+        "peakDbfs": -6.7,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "90a0f1ef928939ddfe4054fff25d831b472bbebb07842ecfe976f7cee500a8fe",
+      "sourceMetrics": {
+        "durationSeconds": 3,
+        "sampleRate": 24000,
+        "peakDbfs": -2.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_02_step_0.wav"
+      }
+    },
+    {
+      "id": "age_84_02_step_1",
+      "activityId": "age_84_02",
+      "text": "길 옆에 쉼터와 꽃을 놓아 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_02_step_1.m4a",
+      "sha256": "dfdaf69142eb442461b657a07c393ced1ee62b5ef2c01dd4158cfc6057cbf85e",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:01:34.798Z",
+      "metrics": {
+        "durationSeconds": 3.16,
+        "sampleRate": 24000,
+        "peakDbfs": -6.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "75b0327aca98e42c620b4e3bebe6f245daba8d4312471bee904f5c34112c94d6",
+      "sourceMetrics": {
+        "durationSeconds": 3.12,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_02_step_1.wav"
+      }
+    },
+    {
+      "id": "age_84_02_step_2",
+      "activityId": "age_84_02",
+      "text": "조용히 쉬고 싶은 친구 자리도 살펴봐.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_02_step_2.m4a",
+      "sha256": "1df8d0405aec8bc061e7552f88cfd3472f612470ebff1025f92e9edaf4ddc7b4",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:01:41.033Z",
+      "metrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -7.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "dbc564f712e7ae067a062e1d94cee206af3b45bf7b6bca9932cbd544240bce1d",
+      "sourceMetrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_02_step_2.wav"
+      }
+    },
+    {
+      "id": "age_84_03_step_0",
+      "activityId": "age_84_03",
+      "text": "이야기가 시작될 그림을 골라 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_03_step_0.m4a",
+      "sha256": "8b29807590e4170beb8f072b01cace7e811a1f21e9f80ea4e28c90c7c5906095",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:01:48.038Z",
+      "metrics": {
+        "durationSeconds": 2.99,
+        "sampleRate": 24000,
+        "peakDbfs": -5.8,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "8a6ac2c11a62e6d8901d3315a03cf2a0d00dc727262237a2b6dbfcb6342f1d4f",
+      "sourceMetrics": {
+        "durationSeconds": 2.96,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_03_step_0.wav"
+      }
+    },
+    {
+      "id": "age_84_03_step_1",
+      "activityId": "age_84_03",
+      "text": "뜻밖의 일이 생겼어. 어떤 일이었을까?",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_03_step_1.m4a",
+      "sha256": "4fbd58215ca4e5a87adb10f47fc4cfd3074dd780fbe085b07c8465f3f94cda6c",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:01:53.386Z",
+      "metrics": {
+        "durationSeconds": 4.01,
+        "sampleRate": 24000,
+        "peakDbfs": -4.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "7374b95d7742b8f54ad1d21b2f31a18418dd590012622e3154fd8913c30c53d5",
+      "sourceMetrics": {
+        "durationSeconds": 4,
+        "sampleRate": 24000,
+        "peakDbfs": -2.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_03_step_1.wav"
+      }
+    },
+    {
+      "id": "age_84_03_step_2",
+      "activityId": "age_84_03",
+      "text": "네가 고른 마지막 장면으로 이야기를 마쳐.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_03_step_2.m4a",
+      "sha256": "136f0ca474c31eb361fb5081b3ac969d0d199291af85dcfe0e819809252b90a2",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:02:00.818Z",
+      "metrics": {
+        "durationSeconds": 3.88,
+        "sampleRate": 24000,
+        "peakDbfs": -6.4,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "3061320b358a1286c76e882a44806b29e7716405cb0d25d3b5c572b1dfb23445",
+      "sourceMetrics": {
+        "durationSeconds": 3.88,
+        "sampleRate": 24000,
+        "peakDbfs": -1.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_03_step_2.wav"
+      }
+    },
+    {
+      "id": "age_84_04_step_0",
+      "activityId": "age_84_04",
+      "text": "움직일 그림과 쉴 그림을 골라 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_04_step_0.m4a",
+      "sha256": "f45820153693834a2d8d50e44337ca2f285e97ac5d18109db39d7557a05e03ca",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:02:06.371Z",
+      "metrics": {
+        "durationSeconds": 3.5,
+        "sampleRate": 24000,
+        "peakDbfs": -4.6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "27eb0fa1362d88c29bad0d80b1ac0574236147ac4e96331e28b827b6f3dc1553",
+      "sourceMetrics": {
+        "durationSeconds": 3.48,
+        "sampleRate": 24000,
+        "peakDbfs": -2.2,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_04_step_0.wav"
+      }
+    },
+    {
+      "id": "age_84_04_step_1",
+      "activityId": "age_84_04",
+      "text": "그림을 따라 손을 움직였다 쉬어 보자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_04_step_1.m4a",
+      "sha256": "9ce4f512b8cc6f913d8573bffe377c32503a05c4a985639a28d997025d155d45",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:02:14.965Z",
+      "metrics": {
+        "durationSeconds": 4.22,
+        "sampleRate": 24000,
+        "peakDbfs": -5.2,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "8d7f69ed145eb5f34bc242294f8eab9a9bc68cdaa95da5414f93a27f44a262cc",
+      "sourceMetrics": {
+        "durationSeconds": 4.2,
+        "sampleRate": 24000,
+        "peakDbfs": -1.9,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_04_step_1.wav"
+      }
+    },
+    {
+      "id": "age_84_04_step_2",
+      "activityId": "age_84_04",
+      "text": "이번에는 네가 만든 약속으로 놀자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_04_step_2.m4a",
+      "sha256": "0cbc32d9fff7c25bbc828c432b702ed8cb50269764600cd7974014f5435fb082",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:02:19.764Z",
+      "metrics": {
+        "durationSeconds": 3.46,
+        "sampleRate": 24000,
+        "peakDbfs": -7.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "9abcb2a47eebd49d1e01f644ccd03381054becd7857f2a25ef0988bb56a60e5b",
+      "sourceMetrics": {
+        "durationSeconds": 3.44,
+        "sampleRate": 24000,
+        "peakDbfs": -1.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_04_step_2.wav"
+      }
+    },
+    {
+      "id": "age_84_05_step_0",
+      "activityId": "age_84_05",
+      "text": "첫 탐정은 길 위의 단서를 살펴봐.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_05_step_0.m4a",
+      "sha256": "b6624673bf8926a5d4e2152260d52d0772eaac165347e69d74e7bf06d06f2c7e",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:02:25.483Z",
+      "metrics": {
+        "durationSeconds": 3.67,
+        "sampleRate": 24000,
+        "peakDbfs": -5.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "8f43f9ae4d6ee7979f37a2796c075957d1eece2b378af3c095865bf2bf7f9cf2",
+      "sourceMetrics": {
+        "durationSeconds": 3.64,
+        "sampleRate": 24000,
+        "peakDbfs": -1.7,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_05_step_0.wav"
+      }
+    },
+    {
+      "id": "age_84_05_step_1",
+      "activityId": "age_84_05",
+      "text": "다음 탐정은 풀숲의 단서를 살펴봐.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_05_step_1.m4a",
+      "sha256": "2f117049be8ed111a228d783d7edd2fadd3fe539adfb2d99db941d1e836d6805",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:02:32.540Z",
+      "metrics": {
+        "durationSeconds": 4.14,
+        "sampleRate": 24000,
+        "peakDbfs": -5.6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "b9415261982563f4277164ec362c94531fbccdf677e1f81c4e2d3e19b5734e29",
+      "sourceMetrics": {
+        "durationSeconds": 4.12,
+        "sampleRate": 24000,
+        "peakDbfs": -3.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_05_step_1.wav"
+      }
+    },
+    {
+      "id": "age_84_05_step_2",
+      "activityId": "age_84_05",
+      "text": "서로 본 것을 말하고 친구를 찾아보자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_05_step_2.m4a",
+      "sha256": "7ad5e7302cfcaaa7d3d42bccf6d0d87563e89aaec5e62ccf4304eb6716fa00b3",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:02:39.421Z",
+      "metrics": {
+        "durationSeconds": 3.5,
+        "sampleRate": 24000,
+        "peakDbfs": -6.6,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "7eefa548433294d64fb868d0be435434c5a23def537885298ad196141f9d73d3",
+      "sourceMetrics": {
+        "durationSeconds": 3.48,
+        "sampleRate": 24000,
+        "peakDbfs": -0.8,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_05_step_2.wav"
+      }
+    },
+    {
+      "id": "age_84_06_step_0",
+      "activityId": "age_84_06",
+      "text": "산책길마다 소리 그림을 놓아 줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_06_step_0.m4a",
+      "sha256": "2026c1f67ea3147a049fcc446d6590ef55b94fd15af28866ba00fc7e8ce46157",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:02:45.368Z",
+      "metrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -4.9,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "42a7fc4436caedb9e726d4bef0b9adc8ac979c6db5e3226ada9fc7ec9c98b0f8",
+      "sourceMetrics": {
+        "durationSeconds": 3.2,
+        "sampleRate": 24000,
+        "peakDbfs": -2.4,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_06_step_0.wav"
+      }
+    },
+    {
+      "id": "age_84_06_step_1",
+      "activityId": "age_84_06",
+      "text": "길을 따라 네 음악을 들어보자.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_06_step_1.m4a",
+      "sha256": "ad46f1ad366af7074e8d24eed483ac633782c60b86bc16d3db97cb27f2632162",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:02:51.967Z",
+      "metrics": {
+        "durationSeconds": 2.73,
+        "sampleRate": 24000,
+        "peakDbfs": -6.1,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "23d7df5f04f6441190fceb807e412b6a10559ca1b95bdf2135f97313590f72c7",
+      "sourceMetrics": {
+        "durationSeconds": 2.72,
+        "sampleRate": 24000,
+        "peakDbfs": -1.6,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_06_step_1.wav"
+      }
+    },
+    {
+      "id": "age_84_06_step_2",
+      "activityId": "age_84_06",
+      "text": "한 곳의 소리를 바꿔 가족에게 들려줘.",
+      "kind": "speech",
+      "audience": "child",
+      "file": "assets/audio/age_pack/age_84_06_step_2.m4a",
+      "sha256": "39f407931f16c1ee92a46e20e02c3bb0196bcbb100b6d2e9defde96f4f901276",
+      "model": "gemini-3.1-flash-tts-preview",
+      "voice": "Kore",
+      "generatedAt": "2026-09-29T04:02:59.166Z",
+      "metrics": {
+        "durationSeconds": 3.46,
+        "sampleRate": 24000,
+        "peakDbfs": -7.5,
+        "clippedSamples": 0
+      },
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "sourceSha256": "b71df0470149869374a3b80db035c0c0c35515c341eeb604f709df04c33276c8",
+      "sourceMetrics": {
+        "durationSeconds": 3.44,
+        "sampleRate": 24000,
+        "peakDbfs": -1.3,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_84_06_step_2.wav"
+      }
+    }
+  ],
+  "generationAuthorization": "Owner requested Gemini media production in this Codex task, 2026-09-29.",
+  "rightsNotice": "Generation authorization is not provider clearance. Confirm redistribution terms before child release."
+}

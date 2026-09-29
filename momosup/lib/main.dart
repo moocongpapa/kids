@@ -23,6 +23,7 @@ class _MomosupAppState extends State<MomosupApp> {
 
   Future<List<Activity>> _boot() async {
     await appState.load();
+    await appState.loadJourneys();
     return const CatalogRepository().load();
   }
 

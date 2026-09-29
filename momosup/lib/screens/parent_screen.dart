@@ -1,3 +1,6 @@
+import '../models/age_journey.dart';
+import 'journey_screen.dart';
+
 import 'dart:async';
 import 'dart:io';
 
@@ -119,11 +122,13 @@ class ParentGateScreen extends StatefulWidget {
   const ParentGateScreen({
     required this.appState,
     required this.catalog,
+    this.initialJourney,
     super.key,
   });
 
   final AppState appState;
   final List<Activity> catalog;
+  final AgeJourney? initialJourney;
 
   @override
   State<ParentGateScreen> createState() => _ParentGateScreenState();
@@ -153,10 +158,18 @@ class _ParentGateScreenState extends State<ParentGateScreen> {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute<void>(
         builder: (_) => ParentSessionGuard(
-          child: ParentHubScreen(
-            appState: widget.appState,
-            catalog: widget.catalog,
-          ),
+          child:
+              widget.initialJourney != null &&
+                  widget.appState.activeProfile != null
+              ? JourneyDetailScreen(
+                  journey: widget.initialJourney!,
+                  appState: widget.appState,
+                  profile: widget.appState.activeProfile!,
+                )
+              : ParentHubScreen(
+                  appState: widget.appState,
+                  catalog: widget.catalog,
+                ),
         ),
       ),
     );
@@ -367,14 +380,28 @@ class ParentHubScreen extends StatelessWidget {
                     ),
                     _HubTile(
                       icon: Icons.auto_stories_rounded,
-                      title: '놀이 10개 미리보기',
-                      subtitle: '아직 아이 모드에 공개되지 않은 초안',
+                      title: '기존 놀이 10개 미리보기',
+                      subtitle: '현재 승인된 놀이의 대본과 화면',
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute<void>(
                           builder: (_) => PreviewCatalogScreen(
                             appState: appState,
                             profile: profile,
                             catalog: catalog,
+                          ),
+                        ),
+                      ),
+                    ),
+                    _HubTile(
+                      icon: Icons.forest_rounded,
+                      title: '월령별 놀이 72개',
+                      subtitle: '6개월~만 7세 · 세 단계 · 새 음성 검수',
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => JourneyLibraryScreen(
+                            appState: appState,
+                            profile: profile,
+                            parent: true,
                           ),
                         ),
                       ),
@@ -443,10 +470,21 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
   late String avatar;
   late String gender;
   late List<int> answers;
+  late bool preschool;
+  late int playStage;
   String? error;
   bool busy = false;
 
-  static const questions = [
+  static const infantQuestions = [
+    ('지금 관심을 보이는 것은?', ['사람 얼굴', '소리', '큰 장난감', '잘 모르겠어요']),
+    ('편안한 놀이 자세는?', ['현재 누운 자세', '보호자 품', '편안히 앉은 자세', '상황마다 달라요']),
+    ('준비 가능한 것은?', ['준비물 없이', '큰 장난감', '그림책·안전 거울', '상황마다 달라요']),
+    ('함께 놀아줄 사람은?', ['보호자 한 명', '가족과 함께', '돌보는 어른', '상황마다 달라요']),
+    ('편안해하는 자극은?', ['조용한 인사', '작은 소리', '부드러운 촉감', '잘 모르겠어요']),
+  ];
+  List<(String, List<String>)> get questions =>
+      ageMonths < 24 ? infantQuestions : olderQuestions;
+  static const olderQuestions = [
     ('화면을 누르거나 끌어본 경험은?', ['처음이에요', '조금 해봤어요', '익숙해요', '모르겠어요']),
     ('짧은 말 안내를 이해하는 편인가요?', ['천천히 안내가 좋아요', '한 문장씩 좋아요', '금방 이해해요', '모르겠어요']),
     ('한 놀이에 머무는 시간은?', ['아주 짧게', '몇 분 정도', '조금 더 길게', '모르겠어요']),
@@ -459,7 +497,9 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
     super.initState();
     final initial = widget.initial;
     nickname = TextEditingController(text: initial?.nickname ?? '');
-    ageMonths = initial?.ageMonths ?? 36;
+    ageMonths = (initial?.ageMonths ?? 36).clamp(6, 95);
+    preschool = initial?.preschool ?? true;
+    playStage = initial?.playStage ?? 0;
     avatar = initial?.avatar ?? 'momo';
     gender = initial?.gender ?? '선택하지 않음';
     answers = initial?.answers.length == 5
@@ -473,14 +513,7 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
     super.dispose();
   }
 
-  String recommendLevel() {
-    final known = answers.where((answer) => answer != 3).toList();
-    if (known.isEmpty) return '기본';
-    final score = known.fold<int>(0, (sum, answer) => sum + answer);
-    if (score <= 2) return '찬찬히';
-    if (score >= 7) return '더 탐색';
-    return '기본';
-  }
+  String recommendLevel() => '기본';
 
   Future<void> save() async {
     final name = nickname.text.trim();
@@ -499,6 +532,9 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
         avatar: avatar,
         gender: gender,
         level: recommendLevel(),
+        preschool: preschool,
+        playStage: playStage,
+        favoriteJourneys: widget.initial?.favoriteJourneys ?? const [],
         answers: List<int>.from(answers),
         dailyLimitMinutes: widget.initial?.dailyLimitMinutes ?? 15,
         musicOn: widget.initial?.musicOn ?? true,
@@ -560,7 +596,7 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
             padding: const EdgeInsets.all(20),
             children: [
               const _NoticeCard(
-                text: '시제품에는 정확한 생년월일 대신 테스트용 나이 구간만 기기에 저장합니다. 실명은 입력하지 마세요.',
+                text: '개월 수는 기기에만 저장하며 자동으로 증가하지 않아요. 자라면 이곳에서 바꿔 주세요. 실명은 입력하지 마세요.',
               ),
               const SizedBox(height: 16),
               TextField(
@@ -575,17 +611,34 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
               DropdownButtonFormField<int>(
                 initialValue: ageMonths,
                 decoration: const InputDecoration(
-                  labelText: '테스트용 나이 구간',
+                  labelText: '현재 개월 수',
                   border: OutlineInputBorder(),
                 ),
-                items: const [
-                  DropdownMenuItem(value: 36, child: Text('만 3세')),
-                  DropdownMenuItem(value: 48, child: Text('만 4세')),
-                  DropdownMenuItem(value: 60, child: Text('만 5세')),
+                items: [
+                  for (var month = 6; month <= 95; month++)
+                    DropdownMenuItem(
+                      value: month,
+                      child: Text(
+                        month < 36
+                            ? '$month개월'
+                            : '만 ${month ~/ 12}세 · $month개월',
+                      ),
+                    ),
                 ],
-                onChanged: (value) => setState(() => ageMonths = value ?? 36),
+                onChanged: (value) => setState(() {
+                  if ((ageMonths < 24) != (value! < 24)) {
+                    answers = List<int>.filled(5, 3);
+                  }
+                  ageMonths = value;
+                }),
               ),
               const SizedBox(height: 20),
+              if (ageMonths >= 84)
+                SwitchListTile(
+                  title: const Text('아직 초등학교 입학 전이에요'),
+                  value: preschool,
+                  onChanged: (v) => setState(() => preschool = v),
+                ),
               Text('함께 놀 친구', style: Theme.of(context).textTheme.titleMedium),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -638,7 +691,7 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
                 ),
                 const SizedBox(height: 6),
                 DropdownButtonFormField<int>(
-                  key: ValueKey('question_$index'),
+                  key: ValueKey('question_${ageMonths < 24}_$index'),
                   initialValue: answers[index],
                   items: [
                     for (var option = 0; option < 4; option++)
@@ -652,14 +705,18 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
                 ),
                 const SizedBox(height: 14),
               ],
-              Text(
-                '추천 시작: ${recommendLevel()} · '
-                '${recommendLevel() == '찬찬히'
-                    ? '짧고 단순한 놀이부터'
-                    : recommendLevel() == '더 탐색'
-                    ? '조금 더 탐색하는 놀이부터'
-                    : '다양한 놀이를 고르게'} 보여드려요.',
+              const Text('놀이 도움 정도는 직접 골라 주세요. 답변을 합산해 발달 등급을 매기지 않습니다.'),
+              const SizedBox(height: 12),
+              DropdownButtonFormField<int>(
+                initialValue: playStage,
+                decoration: const InputDecoration(labelText: '처음 시작할 놀이 방법'),
+                items: [
+                  for (var i = 0; i < 3; i++)
+                    DropdownMenuItem(value: i, child: Text(journeyStages[i])),
+                ],
+                onChanged: (v) => setState(() => playStage = v!),
               ),
+              const SizedBox(height: 16),
               if (error != null)
                 Text(error!, style: const TextStyle(color: Colors.red)),
               const SizedBox(height: 16),

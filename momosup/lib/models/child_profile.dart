@@ -10,6 +10,9 @@ class ChildProfile {
     this.dailyLimitMinutes = 15,
     this.musicOn = true,
     this.lowStimulation = false,
+    this.preschool = true,
+    this.playStage = 0,
+    this.favoriteJourneys = const [],
   });
 
   final String id;
@@ -22,6 +25,10 @@ class ChildProfile {
   final int dailyLimitMinutes;
   final bool musicOn;
   final bool lowStimulation;
+  final bool preschool;
+  final int playStage;
+  final List<String> favoriteJourneys;
+  bool get caregiverMode => ageMonths < 24;
 
   String get ageLabel =>
       ageMonths < 36 ? '$ageMonths개월' : '만 ${ageMonths ~/ 12}세';
@@ -38,6 +45,9 @@ class ChildProfile {
     int? dailyLimitMinutes,
     bool? musicOn,
     bool? lowStimulation,
+    bool? preschool,
+    int? playStage,
+    List<String>? favoriteJourneys,
   }) => ChildProfile(
     id: id,
     nickname: nickname ?? this.nickname,
@@ -49,6 +59,9 @@ class ChildProfile {
     dailyLimitMinutes: dailyLimitMinutes ?? this.dailyLimitMinutes,
     musicOn: musicOn ?? this.musicOn,
     lowStimulation: lowStimulation ?? this.lowStimulation,
+    preschool: preschool ?? this.preschool,
+    playStage: playStage ?? this.playStage,
+    favoriteJourneys: favoriteJourneys ?? this.favoriteJourneys,
   );
 
   Map<String, dynamic> toJson() => {
@@ -62,6 +75,9 @@ class ChildProfile {
     'dailyLimitMinutes': dailyLimitMinutes,
     'musicOn': musicOn,
     'lowStimulation': lowStimulation,
+    'preschool': preschool,
+    'playStage': playStage,
+    'favoriteJourneys': favoriteJourneys,
   };
 
   factory ChildProfile.fromJson(Map<String, dynamic> json) => ChildProfile(
@@ -75,5 +91,10 @@ class ChildProfile {
     dailyLimitMinutes: json['dailyLimitMinutes'] as int? ?? 15,
     musicOn: json['musicOn'] as bool? ?? true,
     lowStimulation: json['lowStimulation'] as bool? ?? false,
+    preschool: json['preschool'] as bool? ?? true,
+    playStage: (json['playStage'] as int? ?? 0).clamp(0, 2),
+    favoriteJourneys: List<String>.from(
+      json['favoriteJourneys'] as List? ?? const [],
+    ),
   );
 }

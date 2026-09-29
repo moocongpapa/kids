@@ -8,6 +8,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../models/child_profile.dart';
+import '../models/age_journey.dart';
+import '../data/age_journey_repository.dart';
 
 class PlayRecord {
   const PlayRecord({
@@ -55,6 +57,29 @@ class AppState extends ChangeNotifier {
   int _failedPinAttempts = 0;
   DateTime? _pinLockedUntil;
 
+  List<AgeJourney> journeys = [];
+  final Set<String> _journeyReviews = {};
+  bool journeyApproved(AgeJourney item) =>
+      item.audioReady && _journeyReviews.contains(item.reviewKey);
+  Future<void> loadJourneys() async {
+    journeys = await AgeJourneyRepository().load();
+    notifyListeners();
+  }
+
+  Future<void> reviewJourney(AgeJourney item, {required bool approved}) async {
+    if (approved && !item.audioReady) throw StateError('음성 준비가 끝나지 않았어요.');
+    if (approved) {
+      _journeyReviews.add(item.reviewKey);
+    } else {
+      _journeyReviews.remove(item.reviewKey);
+    }
+    await _storage.write(
+      key: 'journey_reviews_v1',
+      value: jsonEncode(_journeyReviews.toList()),
+    );
+    notifyListeners();
+  }
+
   bool get loaded => _loaded;
   bool get hasPin => _hasPin;
   List<ChildProfile> get profiles => List.unmodifiable(_profiles);
@@ -68,6 +93,12 @@ class AppState extends ChangeNotifier {
 
   Future<void> load() async {
     try {
+      final rawReviews = await _storage.read(key: 'journey_reviews_v1');
+      if (rawReviews != null) {
+        _journeyReviews.addAll(
+          List<String>.from(jsonDecode(rawReviews) as List),
+        );
+      }
       final rawProfiles = await _storage.read(key: _profilesKey);
       final rawRecords = await _storage.read(key: _recordsKey);
       _selectedId = await _storage.read(key: _selectedKey);

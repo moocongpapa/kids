@@ -53,3 +53,5 @@ backend/node_modules/
 !.env.example
 production/audio_wav/
 production/audio_pending/
+
+production/age_audio_generation.lock

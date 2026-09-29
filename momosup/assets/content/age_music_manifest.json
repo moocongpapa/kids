@@ -1,0 +1,72 @@
+{
+  "status": "NEEDS_HUMAN_REVIEW",
+  "notice": "Adult preview only. Lyrics, sound level and child-app rights need review.",
+  "jobs": [
+    {
+      "id": "age_06_06_song",
+      "activityId": "age_06_06",
+      "title": "우리 둘의 인사 노래",
+      "lyrics": "안녕 안녕 반가워\n네 소리를 기다려\n안녕 안녕 반가워\n우리 잠깐 쉬어요",
+      "prompt": "Create an original 30 second Korean caregiver demonstration song. Warm natural adult female voice, sparse soft acoustic plucks, gentle 70 BPM, clear Korean words, comfortable low dynamics, no children voices, no sound effects, no sudden changes. Allow pauses after each short line. Sing only these lyrics: 안녕 안녕 반가워. 네 소리를 기다려. 안녕 안녕 반가워. 우리 잠깐 쉬어요. End with a gentle fade, no loop.",
+      "file": "assets/audio/age_pack/age_06_06_song.m4a",
+      "sha256": "b9101595bdfda62c13859efbd95e472110893b5478bbb8576d40c65fc91c52bc",
+      "model": "lyria-3-clip-preview",
+      "generatedAt": "2026-09-29T03:45:13.694Z",
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "metrics": {
+        "durationSeconds": 30.17,
+        "sampleRate": 24000,
+        "peakDbfs": -5.6,
+        "clippedSamples": 0
+      },
+      "sourceSha256": "6bd29c80e247ac5cde9da86fc9c9e2bb8ef5468c75fafe67c67eaf9eca3d06ac",
+      "sourceMetrics": {
+        "durationSeconds": 30.15,
+        "sampleRate": 24000,
+        "peakDbfs": -0.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_06_06_song.mp3"
+      }
+    },
+    {
+      "id": "age_15_05_song",
+      "activityId": "age_15_05",
+      "title": "손 인사 행진곡",
+      "lyrics": "손을 살랑 안녕\n잠깐 쉬고 안녕\n앉아서도 안녕\n우리 이제 쉬어요",
+      "prompt": "Create an original 30 second Korean caregiver gesture-song demonstration, gentle 80 BPM. Warm natural adult female singing voice, light wooden percussion and soft marimba, no loud drums, no child voices, no abrupt changes. Pauses between lines for seated hand gestures. Only these Korean lyrics: 손을 살랑 안녕. 잠깐 쉬고 안녕. 앉아서도 안녕. 우리 이제 쉬어요. Finish naturally, not a loop.",
+      "file": "assets/audio/age_pack/age_15_05_song.m4a",
+      "sha256": "8ca0e7e79d36efa1c4a39a3cfd6d8fc8741fcb6fc35db77e4fc65df47488908f",
+      "model": "lyria-3-clip-preview",
+      "generatedAt": "2026-09-29T03:45:29.382Z",
+      "status": "NEEDS_HUMAN_REVIEW",
+      "humanReviewedAt": null,
+      "rightsEvidence": null,
+      "metrics": {
+        "durationSeconds": 29.4,
+        "sampleRate": 24000,
+        "peakDbfs": -6.7,
+        "clippedSamples": 0
+      },
+      "sourceSha256": "c8045af61f8054f5efe59c434590a49055cef6441182d06f2316cc6daaa5493a",
+      "sourceMetrics": {
+        "durationSeconds": 29.39,
+        "sampleRate": 24000,
+        "peakDbfs": -0.1,
+        "clippedSamples": 0
+      },
+      "processing": {
+        "format": "AAC 64 kbps mono 24 kHz",
+        "loudnessTargetLufs": -20,
+        "truePeakTargetDb": -3,
+        "sourceArchive": "production/audio_wav/age_pack/age_15_05_song.mp3"
+      }
+    }
+  ]
+}
