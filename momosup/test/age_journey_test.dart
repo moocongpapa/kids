@@ -384,6 +384,10 @@ void main() {
         }
       }
       if (mechanic == 'draw') {
+        await tester.ensureVisible(
+          find.byKey(const ValueKey('journey_canvas')),
+        );
+        await tester.pumpAndSettle();
         await tester.drag(
           find.byKey(const ValueKey('journey_canvas')),
           const Offset(40, 30),

@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import 'forest_game_ui.dart';
+import 'forest_play_stage.dart';
 import 'touch_invitation.dart';
 
 /// The same little garden persists across the three approved narrated scenes.
@@ -27,8 +28,8 @@ class JourneyGardenScene extends StatelessWidget {
       label: label,
       child: Tooltip(
         message: label,
-        child: GestureDetector(
-          behavior: HitTestBehavior.opaque,
+        child: _GardenTouch(
+          quiet: quiet,
           onTap: onTap,
           child: TouchInvitation(
             visible: !revealed,
@@ -52,6 +53,31 @@ class JourneyGardenScene extends StatelessWidget {
               const Positioned.fill(
                 child: CustomPaint(painter: GardenGround()),
               ),
+              if (revealed)
+                Positioned(
+                  top: 28,
+                  left: 0,
+                  right: 0,
+                  child: TweenAnimationBuilder<double>(
+                    key: ValueKey('garden-visitor-$weather-$step'),
+                    tween: Tween(begin: 0, end: 1),
+                    duration: quiet
+                        ? Duration.zero
+                        : const Duration(milliseconds: 1800),
+                    builder: (_, t, _) => Transform.translate(
+                      offset: Offset(
+                        (t - .5) * 140,
+                        -math.sin(t * math.pi) * 23,
+                      ),
+                      child: Center(
+                        child: CustomPaint(
+                          size: const Size(60, 46),
+                          painter: _Butterfly(step),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               if (!weather) ...[
                 for (var i = 0; i < step; i++)
                   Positioned(
@@ -160,6 +186,32 @@ class JourneyGardenScene extends StatelessWidget {
       ),
     );
   }
+}
+
+class _GardenTouch extends StatefulWidget {
+  const _GardenTouch({
+    required this.quiet,
+    required this.onTap,
+    required this.child,
+  });
+  final bool quiet;
+  final VoidCallback onTap;
+  final Widget child;
+  @override
+  State<_GardenTouch> createState() => _GardenTouchState();
+}
+
+class _GardenTouchState extends State<_GardenTouch> {
+  int taps = 0;
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+    behavior: HitTestBehavior.opaque,
+    onTap: () {
+      setState(() => taps++);
+      widget.onTap();
+    },
+    child: SceneReaction(event: taps, quiet: widget.quiet, child: widget.child),
+  );
 }
 
 class GardenFlower extends StatelessWidget {
@@ -307,10 +359,64 @@ class GardenGround extends CustomPainter {
         p,
       );
     }
+    for (var i = 0; i < 7; i++) {
+      final x = 18.0 + i * 49;
+      final y = s.height - 47 + math.sin(i) * 8;
+      c.drawOval(
+        Rect.fromCenter(center: Offset(x, y), width: 15, height: 7),
+        Paint()..color = const Color(0x88E9DDAC),
+      );
+      c.drawLine(
+        Offset(x + 8, y),
+        Offset(x + 12, y - 12),
+        Paint()
+          ..color = const Color(0xFF719154)
+          ..strokeWidth = 2,
+      );
+    }
   }
 
   @override
   bool shouldRepaint(GardenGround old) => false;
+}
+
+class _Butterfly extends CustomPainter {
+  const _Butterfly(this.variant);
+  final int variant;
+  @override
+  void paint(Canvas c, Size s) {
+    c.save();
+    c.translate(s.width / 2, s.height / 2);
+    final p = Paint()
+      ..color = [
+        const Color(0xFFE7AF94),
+        const Color(0xFFB1BADD),
+        const Color(0xFFE9CA76),
+      ][variant % 3];
+    for (final side in [-1.0, 1.0]) {
+      c.save();
+      c.scale(side, 1);
+      c.drawOval(const Rect.fromLTWH(0, -20, 25, 27), p);
+      c.drawOval(const Rect.fromLTWH(0, 1, 18, 17), p);
+      c.drawCircle(
+        const Offset(14, -9),
+        5,
+        Paint()..color = const Color(0xFFFFF1C6),
+      );
+      c.restore();
+    }
+    c.drawRRect(
+      RRect.fromRectAndRadius(
+        const Rect.fromLTWH(-3, -13, 6, 29),
+        const Radius.circular(4),
+      ),
+      Paint()..color = const Color(0xFF73784B),
+    );
+    c.restore();
+  }
+
+  @override
+  bool shouldRepaint(_Butterfly old) => old.variant != variant;
 }
 
 class GentleRain extends CustomPainter {

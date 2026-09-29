@@ -1,9 +1,41 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import 'avatar_image.dart';
 import 'forest_game_ui.dart';
+import 'forest_play_stage.dart';
+import 'journey_garden_scene.dart';
 
-/// Concrete play surfaces: house parts, a bus with seats, gardens, and a bridge.
+class JourneyBuildPiece extends StatelessWidget {
+  const JourneyBuildPiece({
+    required this.id,
+    required this.value,
+    required this.quiet,
+    super.key,
+  });
+  final String id;
+  final int value;
+  final bool quiet;
+  @override
+  Widget build(BuildContext context) => id == 'age_60_02'
+      ? AvatarImage(
+          avatar: ['momo', 'duri', 'nuri'][value % 3],
+          size: 74,
+          interactive: false,
+          lowStimulation: quiet,
+        )
+      : id == 'age_60_06' || id == 'age_84_02'
+      ? value == 2
+            ? const ForestProp(ForestObject.home, size: 72)
+            : GardenFlower(variant: value, open: true, size: 72, quiet: quiet)
+      : CustomPaint(
+          painter: _BridgePlank(value),
+          child: const SizedBox.expand(),
+        );
+}
+
+/// Children place pieces into the world and send a friend through their creation.
 class JourneyBuildBoard extends StatelessWidget {
   const JourneyBuildBoard({
     required this.id,
@@ -12,6 +44,7 @@ class JourneyBuildBoard extends StatelessWidget {
     required this.active,
     required this.quiet,
     required this.onPlace,
+    this.onDrop,
     super.key,
   });
   final String id;
@@ -19,271 +52,386 @@ class JourneyBuildBoard extends StatelessWidget {
   final int count, active;
   final bool quiet;
   final ValueChanged<int> onPlace;
+  final void Function(int index, int value)? onDrop;
   bool get house => id == 'age_36_06' || id == 'age_60_03';
   bool get bus => id == 'age_60_02';
   bool get garden => id == 'age_60_06' || id == 'age_84_02';
   @override
-  Widget build(BuildContext context) => LayoutBuilder(
-    builder: (context, box) {
-      final w = box.maxWidth;
-      final positions = house
-          ? [
-              Offset(w / 2 - 48, 5),
-              Offset(w / 2 - 95, 112),
-              Offset(w / 2 + 3, 112),
-              Offset(w / 2 - 48, 205),
-            ]
-          : garden
-          ? [
-              Offset(w * .12, 35),
-              Offset(w * .62, 35),
-              Offset(w * .12, 148),
-              Offset(w * .62, 148),
-            ]
-          : [
-              for (var i = 0; i < count; i++)
-                Offset(8 + i * (w - 16) / count, 126),
-            ];
-      final extent = house || garden
-          ? 90.0
-          : ((w - 20) / count).clamp(62.0, 94.0);
-      return SizedBox(
-        height: house ? 300 : 270,
-        child: Stack(
-          clipBehavior: Clip.none,
+  Widget build(BuildContext context) => ForestPlayStage(
+    height: 325,
+    river: !house && !garden && !bus,
+    child: LayoutBuilder(
+      builder: (_, box) {
+        final w = box.maxWidth;
+        final positions = <Rect>[
+          for (var i = 0; i < count; i++)
+            if (house)
+              i == 0
+                  ? Rect.fromLTWH(w * .17, 17, w * .66, 90)
+                  : Rect.fromLTWH(
+                      w * .19 + (i - 1) * w * .62 / (count - 1),
+                      108,
+                      w * .62 / (count - 1),
+                      121,
+                    )
+            else if (garden)
+              Rect.fromLTWH(
+                w * (.08 + (i % 2) * .48),
+                35 + (i ~/ 2) * 118,
+                w * .37,
+                109,
+              )
+            else if (bus)
+              Rect.fromLTWH(
+                w * .09 + i * w * .78 / count,
+                122,
+                w * .75 / count,
+                83,
+              )
+            else
+              Rect.fromLTWH(
+                i * (w - 12) / count + 6,
+                166 + math.sin(i * 1.1) * 16,
+                (w - 20) / count,
+                88,
+              ),
+        ];
+        return Stack(
           children: [
-            if (!house && !garden)
+            if (bus)
               Positioned(
                 left: 0,
                 right: 0,
-                top: 100,
-                bottom: 4,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: bus
-                        ? const Color(0xFFE8BD67)
-                        : const Color(0xFF88B9C5).withValues(alpha: .7),
-                    borderRadius: BorderRadius.circular(bus ? 48 : 90),
-                  ),
-                  child: bus
-                      ? const Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 6),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Icon(Icons.circle, size: 32, color: forestInk),
-                                Icon(Icons.circle, size: 32, color: forestInk),
-                              ],
-                            ),
-                          ),
-                        )
-                      : null,
-                ),
+                top: 85,
+                child: WoodlandBus(width: w, quiet: quiet),
               ),
-            if (house)
-              Positioned(
-                left: w / 2 - 120,
-                top: 0,
-                child: CustomPaint(
-                  size: const Size(240, 245),
-                  painter: _HouseOutline(),
-                ),
+            if (!house && !bus && !garden) ...[
+              const Positioned(
+                left: 0,
+                top: 65,
+                child: ForestProp(ForestObject.bush, size: 95),
               ),
-            if (garden)
-              Positioned.fill(child: CustomPaint(painter: _GardenBed())),
+              const Positioned(
+                right: 0,
+                top: 53,
+                child: ForestProp(ForestObject.home, size: 104),
+              ),
+            ],
             for (var i = 0; i < count; i++)
-              Positioned(
-                left: positions[i].dx,
-                top: positions[i].dy,
-                width: extent,
-                height: extent,
-                child: Semantics(
-                  label: '${i + 1}번째 빈 자리',
-                  button: true,
-                  child: Tooltip(
-                    message: '${i + 1}번째 빈 자리',
-                    child: GestureDetector(
-                      onTap: () => onPlace(i),
-                      child: AnimatedContainer(
-                        duration: quiet
-                            ? Duration.zero
-                            : const Duration(milliseconds: 260),
-                        decoration: BoxDecoration(
-                          color: slots.containsKey(i)
-                              ? forestCream.withValues(alpha: .2)
-                              : forestCream.withValues(alpha: .6),
-                          borderRadius: BorderRadius.circular(garden ? 48 : 18),
-                          border: Border.all(
-                            color: const Color(0xFF778B59),
-                            width: slots.containsKey(i) ? 0 : 2,
-                          ),
-                        ),
-                        child: slots.containsKey(i)
-                            ? (bus
+              Positioned.fromRect(
+                rect: positions[i],
+                child: DragTarget<int>(
+                  onWillAcceptWithDetails: (d) =>
+                      active < 0 && d.data >= 0 && d.data < 3,
+                  onAcceptWithDetails: (d) => onDrop?.call(i, d.data),
+                  builder: (_, candidates, _) => Semantics(
+                    label: '${i + 1}번째 빈 자리',
+                    button: true,
+                    child: Tooltip(
+                      message: '${i + 1}번째 빈 자리',
+                      child: GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: active < 0 ? () => onPlace(i) : null,
+                        child: AnimatedScale(
+                          scale: candidates.isNotEmpty && !quiet ? 1.06 : 1,
+                          duration: const Duration(milliseconds: 180),
+                          child: SceneReaction(
+                            event: 'piece-$i-${slots[i]}',
+                            quiet: quiet,
+                            child: Opacity(
+                              opacity: slots.containsKey(i) ? 1 : .27,
+                              child: bus
                                   ? AvatarImage(
                                       avatar: [
                                         'momo',
                                         'duri',
                                         'nuri',
-                                      ][slots[i]! % 3],
-                                      size: extent,
+                                      ][(slots[i] ?? i) % 3],
+                                      size: 85,
                                       interactive: false,
                                       lowStimulation: quiet,
                                     )
                                   : house
                                   ? CustomPaint(
-                                      painter: _HousePart(i, slots[i]!),
+                                      painter: _HousePart(i, slots[i] ?? 0),
                                     )
                                   : garden
-                                  ? ForestProp(
-                                      [
-                                        ForestObject.flower,
-                                        ForestObject.leaf,
-                                        ForestObject.heart,
-                                      ][slots[i]! % 3],
-                                      size: extent * .8,
-                                    )
+                                  ? (slots[i] == 2
+                                        ? const ForestProp(
+                                            ForestObject.home,
+                                            size: 100,
+                                          )
+                                        : GardenFlower(
+                                            variant: slots[i] ?? i,
+                                            open: slots.containsKey(i),
+                                            size: positions[i].width,
+                                            quiet: quiet,
+                                          ))
                                   : CustomPaint(
-                                      painter: _BridgePlank(slots[i]!),
-                                    ))
-                            : const Center(
-                                child: Icon(
-                                  Icons.touch_app_outlined,
-                                  size: 32,
-                                  color: forestInk,
-                                ),
-                              ),
+                                      painter: _BridgePlank(slots[i] ?? 0),
+                                    ),
+                            ),
+                          ),
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            if (active >= 0)
-              AnimatedPositioned(
-                duration: quiet
-                    ? Duration.zero
-                    : const Duration(milliseconds: 330),
-                curve: Curves.easeInOut,
-                left: positions[active].dx,
-                top: positions[active].dy - 65,
-                width: 65,
-                height: 65,
-                child: AvatarImage(
-                  avatar: 'duri',
-                  size: 65,
-                  lowStimulation: quiet,
-                  interactive: false,
-                ),
+            AnimatedPositioned(
+              duration: quiet
+                  ? Duration.zero
+                  : const Duration(milliseconds: 370),
+              curve: Curves.easeInOut,
+              left: active < 0
+                  ? 4
+                  : positions[active.clamp(0, count - 1)].center.dx - 32,
+              top: active < 0
+                  ? (house || garden ? 228 : 97)
+                  : (positions[active.clamp(0, count - 1)].top - 58).clamp(
+                      0.0,
+                      240.0,
+                    ),
+              width: 70,
+              height: 70,
+              child: AvatarImage(
+                avatar: 'duri',
+                size: 70,
+                interactive: false,
+                lowStimulation: quiet,
+              ),
+            ),
+            if (slots.length == count)
+              const Positioned(
+                right: 12,
+                bottom: 13,
+                child: ForestProp(ForestObject.heart, size: 46),
               ),
           ],
-        ),
-      );
-    },
+        );
+      },
+    ),
   );
 }
 
-class _HouseOutline extends CustomPainter {
-  @override
-  void paint(Canvas c, Size s) {
-    final p = Paint()..color = forestCream.withValues(alpha: .55);
-    final path = Path()
-      ..moveTo(0, 95)
-      ..lineTo(s.width / 2, 0)
-      ..lineTo(s.width, 95)
-      ..lineTo(s.width - 20, 95)
-      ..lineTo(s.width - 20, s.height)
-      ..lineTo(20, s.height)
-      ..lineTo(20, 95)
-      ..close();
-    c.drawPath(path, p);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter o) => false;
-}
-
 class _HousePart extends CustomPainter {
-  _HousePart(this.part, this.variant);
+  const _HousePart(this.part, this.variant);
   final int part, variant;
   @override
   void paint(Canvas c, Size s) {
-    final p = Paint()
-      ..color = [
-        const Color(0xFF568765),
-        const Color(0xFFC98B57),
-        const Color(0xFFBC7261),
-      ][variant % 3];
+    const woods = [Color(0xFFD2A26B), Color(0xFFC18D65), Color(0xFFE0BB80)];
+    const roofs = [Color(0xFF79966A), Color(0xFFB47D65), Color(0xFF88A9A4)];
     if (part == 0) {
+      final roof = Path()
+        ..moveTo(2, s.height - 7)
+        ..quadraticBezierTo(s.width * .2, s.height * .75, s.width / 2, 3)
+        ..quadraticBezierTo(
+          s.width * .8,
+          s.height * .75,
+          s.width - 2,
+          s.height - 7,
+        )
+        ..close();
+      c.drawShadow(roof, const Color(0x995F6843), 5, false);
       c.drawPath(
-        Path()
-          ..moveTo(0, s.height)
-          ..lineTo(s.width / 2, 0)
-          ..lineTo(s.width, s.height)
-          ..close(),
-        p,
+        roof,
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color.lerp(roofs[variant % 3], Colors.white, .25)!,
+              roofs[variant % 3],
+            ],
+          ).createShader(Offset.zero & s),
+      );
+      c.save();
+      c.clipPath(roof);
+      for (var y = 23.0; y < s.height; y += 18) {
+        c.drawPath(
+          Path()
+            ..moveTo(0, y)
+            ..quadraticBezierTo(s.width / 2, y + 8, s.width, y),
+          Paint()
+            ..color = const Color(0x4470844D)
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 3,
+        );
+      }
+      c.restore();
+      c.drawLine(
+        Offset(4, s.height - 7),
+        Offset(s.width - 4, s.height - 7),
+        Paint()
+          ..color = const Color(0xFFE1CB99)
+          ..strokeWidth = 7
+          ..strokeCap = StrokeCap.round,
       );
     } else {
-      c.drawRRect(
-        RRect.fromRectAndRadius(Offset.zero & s, const Radius.circular(12)),
-        p,
+      final body = RRect.fromRectAndRadius(
+        Offset.zero & s,
+        const Radius.circular(8),
       );
       c.drawRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromLTWH(
-            s.width * .3,
-            s.height * .35,
-            s.width * .4,
-            s.height * .65,
+        body.shift(const Offset(0, 4)),
+        Paint()..color = const Color(0xFF99704D),
+      );
+      c.drawRRect(
+        body,
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              Color.lerp(woods[variant % 3], Colors.white, .14)!,
+              woods[variant % 3],
+            ],
+          ).createShader(Offset.zero & s),
+      );
+      c.save();
+      c.clipRRect(body);
+      for (var y = 19.0; y < s.height; y += 23) {
+        c.drawLine(
+          Offset(0, y),
+          Offset(s.width, y + 2),
+          Paint()
+            ..color = const Color(0x33876645)
+            ..strokeWidth = 2,
+        );
+        c.drawLine(
+          Offset(0, y + 3),
+          Offset(s.width, y + 4),
+          Paint()
+            ..color = const Color(0x44FFF0BB)
+            ..strokeWidth = 2,
+        );
+      }
+      c.restore();
+      if (part == 1) {
+        final window = Rect.fromCenter(
+          center: Offset(s.width / 2, s.height * .44),
+          width: s.width * .49,
+          height: 45,
+        );
+        c.drawRRect(
+          RRect.fromRectAndRadius(window.inflate(5), const Radius.circular(12)),
+          Paint()..color = const Color(0xFF8F7250),
+        );
+        c.drawRRect(
+          RRect.fromRectAndRadius(window, const Radius.circular(9)),
+          Paint()..color = const Color(0xFFD9EAC4),
+        );
+        c.drawLine(
+          Offset(window.center.dx, window.top),
+          Offset(window.center.dx, window.bottom),
+          Paint()
+            ..color = const Color(0xFFE7CD9E)
+            ..strokeWidth = 4,
+        );
+        c.drawLine(
+          Offset(window.left, window.center.dy),
+          Offset(window.right, window.center.dy),
+          Paint()
+            ..color = const Color(0xFFE7CD9E)
+            ..strokeWidth = 4,
+        );
+        c.drawRRect(
+          RRect.fromRectAndRadius(
+            Rect.fromLTWH(
+              window.left - 7,
+              window.bottom + 8,
+              window.width + 14,
+              11,
+            ),
+            const Radius.circular(5),
           ),
-          const Radius.circular(18),
-        ),
-        Paint()..color = forestCream,
-      );
+          Paint()..color = const Color(0xFF819D63),
+        );
+      } else {
+        final door = RRect.fromRectAndRadius(
+          Rect.fromLTWH(
+            s.width * .24,
+            s.height * .32,
+            s.width * .55,
+            s.height * .68,
+          ),
+          const Radius.circular(24),
+        );
+        c.drawRRect(door, Paint()..color = const Color(0xFF8D7354));
+        c.drawRRect(door.deflate(5), Paint()..color = const Color(0xFFAE9066));
+        c.drawCircle(
+          Offset(s.width * .65, s.height * .7),
+          4,
+          Paint()..color = const Color(0xFFFFE6A0),
+        );
+      }
     }
   }
 
   @override
-  bool shouldRepaint(covariant _HousePart o) =>
-      o.part != part || o.variant != variant;
-}
-
-class _GardenBed extends CustomPainter {
-  @override
-  void paint(Canvas c, Size s) {
-    c.drawOval(
-      Rect.fromLTWH(0, 10, s.width, s.height - 10),
-      Paint()..color = const Color(0xFF739957).withValues(alpha: .5),
-    );
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter o) => false;
+  bool shouldRepaint(_HousePart old) =>
+      old.part != part || old.variant != variant;
 }
 
 class _BridgePlank extends CustomPainter {
-  _BridgePlank(this.variant);
+  const _BridgePlank(this.variant);
   final int variant;
   @override
   void paint(Canvas c, Size s) {
-    final p = Paint()
-      ..color = [
-        const Color(0xFFCA965F),
-        const Color(0xFFAD784B),
-        const Color(0xFFE0B17B),
-      ][variant % 3];
+    final color = [
+      const Color(0xFFD0A26A),
+      const Color(0xFFB68C67),
+      const Color(0xFFE0BA82),
+    ][variant % 3];
+    final h = s.height * .23;
     for (var i = 0; i < 3; i++) {
+      final r = Rect.fromLTWH(3, 5 + i * s.height * .29, s.width - 6, h);
+      final plank = RRect.fromRectAndRadius(r, const Radius.circular(7));
       c.drawRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromLTWH(3, 10 + i * 24, s.width - 6, 20),
-          const Radius.circular(7),
+        plank.shift(const Offset(0, 4)),
+        Paint()..color = const Color(0xFF9F7B52),
+      );
+      c.drawRRect(
+        plank,
+        Paint()
+          ..shader = LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [Color.lerp(color, Colors.white, .18)!, color],
+          ).createShader(r),
+      );
+      c.drawPath(
+        Path()
+          ..moveTo(12, r.top + h * .45)
+          ..quadraticBezierTo(
+            s.width * .5,
+            r.top + h * .2,
+            s.width - 13,
+            r.top + h * .5,
+          ),
+        Paint()
+          ..color = const Color(0x44856546)
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.3,
+      );
+      for (final x in [10.0, s.width - 10]) {
+        c.drawCircle(
+          Offset(x, r.top + h * .5),
+          1.8,
+          Paint()..color = const Color(0xFF9A8158),
+        );
+      }
+      c.drawOval(
+        Rect.fromCenter(
+          center: Offset(s.width * .62, r.top + h * .65),
+          width: 9,
+          height: 3,
         ),
-        p,
+        Paint()..color = const Color(0x22836542),
       );
     }
   }
 
   @override
-  bool shouldRepaint(covariant _BridgePlank o) => o.variant != variant;
+  bool shouldRepaint(_BridgePlank old) => old.variant != variant;
 }
