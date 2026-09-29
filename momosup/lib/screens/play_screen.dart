@@ -11,6 +11,7 @@ import 'package:path_provider/path_provider.dart';
 import '../models/activity.dart';
 import '../models/child_profile.dart';
 import '../state/app_state.dart';
+import '../utils/forest_audio.dart';
 import '../widgets/avatar_image.dart';
 import '../widgets/jelly_button.dart';
 import '../widgets/touch_sparkles.dart';
@@ -58,6 +59,7 @@ class _PlayScreenState extends State<PlayScreen> {
   @override
   void initState() {
     super.initState();
+    ForestAudio.instance.pauseBgm();
     clock.start();
     WidgetsBinding.instance.addPostFrameCallback((_) => playAudio(['intro']));
     if (!widget.isParentPreview) {
@@ -75,6 +77,7 @@ class _PlayScreenState extends State<PlayScreen> {
 
   @override
   void dispose() {
+    ForestAudio.instance.startBgm(enabled: widget.profile.musicOn);
     endTimer?.cancel();
     clock.stop();
     voice.dispose();

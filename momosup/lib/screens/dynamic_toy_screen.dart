@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/child_profile.dart';
 import '../state/app_state.dart';
+import '../utils/forest_audio.dart';
 import '../utils/sound_effects.dart';
 import '../widgets/avatar_image.dart';
 import '../widgets/jelly_button.dart';
@@ -47,6 +48,7 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
   @override
   void initState() {
     super.initState();
+    ForestAudio.instance.pauseBgm();
     _stopwatch.start();
     _sessionTimer = Timer(const Duration(minutes: 3), () {
       if (mounted && _phase != 2) _finishPlay();
@@ -55,6 +57,7 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
 
   @override
   void dispose() {
+    ForestAudio.instance.startBgm(enabled: widget.profile.musicOn);
     _sessionTimer?.cancel();
     _stopwatch.stop();
     super.dispose();

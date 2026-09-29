@@ -32,6 +32,11 @@ void main() {
       ),
     );
     expect(find.text('누구의 발자국일까?'), findsNothing);
+    await tester.scrollUntilVisible(
+      find.textContaining('보호자 검수가 끝나면'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.textContaining('보호자 검수가 끝나면'), findsOneWidget);
     expect(find.byTooltip('보호자 영역'), findsOneWidget);
   });

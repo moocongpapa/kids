@@ -10,17 +10,42 @@ import '../widgets/touch_sparkles.dart';
 import 'dynamic_toy_screen.dart';
 import 'parent_screen.dart';
 import 'play_screen.dart';
+import '../utils/forest_audio.dart';
+import '../widgets/forest_background.dart';
+import '../widgets/living_forest_scene.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({required this.appState, required this.catalog, super.key});
 
   final AppState appState;
   final List<Activity> catalog;
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final profile = widget.appState.activeProfile;
+      ForestAudio.instance.startBgm(enabled: profile?.musicOn ?? true);
+    });
+  }
+
+  @override
+  void dispose() {
+    ForestAudio.instance.stopBgm();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) => AnimatedBuilder(
-    animation: appState,
+    animation: widget.appState,
     builder: (context, _) {
+      final appState = widget.appState;
+      final catalog = widget.catalog;
       final profile = appState.activeProfile;
       if (!appState.hasPin || profile == null) {
         return Scaffold(
@@ -114,6 +139,19 @@ class HomeScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('모모숲'),
           actions: [
+            ValueListenableBuilder<bool>(
+              valueListenable: ForestAudio.instance.isMuted,
+              builder: (context, muted, _) => IconButton(
+                tooltip: muted ? '숲속 소리 켜기' : '숲속 소리 끄기',
+                icon: Icon(
+                  muted
+                      ? Icons.music_off_rounded
+                      : Icons.music_note_rounded,
+                  color: muted ? Colors.grey : const Color(0xFF2E7D32),
+                ),
+                onPressed: ForestAudio.instance.toggleMute,
+              ),
+            ),
             IconButton(
               tooltip: '보호자 영역',
               icon: const Icon(Icons.lock_outline_rounded),
@@ -126,14 +164,16 @@ class HomeScreen extends StatelessWidget {
             ),
           ],
         ),
-        body: SafeArea(
-          child: TouchSparkles(
-            lowStimulation: profile.lowStimulation,
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 760),
-                child: ListView(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+        body: ForestBackground(
+          lowStimulation: profile.lowStimulation,
+          child: SafeArea(
+            child: TouchSparkles(
+              lowStimulation: profile.lowStimulation,
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 760),
+                  child: ListView(
+                    padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
                   children: [
                     Card(
                       color: const Color(0xFFE9F2E2),
@@ -224,7 +264,11 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 18),
+                    LivingForestScene(
+                      lowStimulation: profile.lowStimulation,
+                    ),
+                    const SizedBox(height: 24),
                     Row(
                       children: [
                         Text(
@@ -348,9 +392,10 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
         ),
-      );
-    },
-  );
+      ),
+    );
+  },
+);
 }
 
 class _ActivityCard extends StatelessWidget {
