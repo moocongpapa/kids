@@ -1,87 +1,87 @@
 {
   "asOf": "2026-09-29",
-  "status": "draft_only",
-  "notice": "생성형 이미지의 시각 검토는 진행했으나 창업자의 최종 승인·상업 이용권 증빙·유사성 검토는 미완료입니다.",
+  "status": "owner_reviewed_for_staging",
+  "notice": "2026-09-29 창업자가 그림 10개를 직접 검수하고 상업 이용권을 확인했다고 대화에서 확인함. 공개 출시 전에는 원본 증빙을 별도로 보관한다.",
   "assets": [
     {
       "path": "assets/images/momo.png",
       "sha256": "f57bf4feedb8886f7f246c726dda16e946e64ff61cff8f5df68677a0fdf7a34d",
       "tool": "OpenAI image generation",
       "promptSummary": "투명 배경의 둥근 세이지색 새 모모, 따뜻한 2D 동화책 수채화 질감",
-      "review": "draft",
-      "commercialRightsEvidence": null
+      "review": "approved",
+      "commercialRightsEvidence": "Owner confirmed commercial-use rights in Codex task on 2026-09-29"
     },
     {
       "path": "assets/images/duri.png",
       "sha256": "b02ed69be6dbc7bd7e7f7e5dd6aca5c8cf3f3dd3f95165bbeaf05ae13fbc4def",
       "tool": "OpenAI image generation",
       "promptSummary": "투명 배경의 차분한 곰 두리, 같은 2D 동화책 수채화 질감",
-      "review": "draft",
-      "commercialRightsEvidence": null
+      "review": "approved",
+      "commercialRightsEvidence": "Owner confirmed commercial-use rights in Codex task on 2026-09-29"
     },
     {
       "path": "assets/images/nuri.png",
       "sha256": "435739f43a2c1c61092423922e5e8f4de0947363ba41db257a3e103071f1a902",
       "tool": "OpenAI image generation",
       "promptSummary": "투명 배경의 부드러운 구름 누리, 같은 2D 동화책 수채화 질감",
-      "review": "draft",
-      "commercialRightsEvidence": null
+      "review": "approved",
+      "commercialRightsEvidence": "Owner confirmed commercial-use rights in Codex task on 2026-09-29"
     },
     {
       "path": "assets/images/momo_quiet.png",
       "sha256": "11aab801ddecfe8e121f2ef0b815f2277bf855bebe6db66c5f9f6d6b4c102246",
       "tool": "OpenAI image generation, Momo image edit",
       "promptSummary": "기존 모모를 유지하고 눈을 부드럽게 낮춘 조용한 표정과 쉼 자세",
-      "review": "draft",
-      "commercialRightsEvidence": null
+      "review": "approved",
+      "commercialRightsEvidence": "Owner confirmed commercial-use rights in Codex task on 2026-09-29"
     },
     {
       "path": "assets/images/momo_upset.png",
       "sha256": "2c7d2f3479b120acbbb16f445654087ba64931cb2705f6ef1b636b729c8b83ae",
       "tool": "OpenAI image generation, Momo image edit",
       "promptSummary": "기존 모모를 유지하고 공포·눈물 없이 약간 속상한 표정",
-      "review": "draft",
-      "commercialRightsEvidence": null
+      "review": "approved",
+      "commercialRightsEvidence": "Owner confirmed commercial-use rights in Codex task on 2026-09-29"
     },
     {
       "path": "assets/images/forest_tracks.png",
       "sha256": "c07c92bd7db46db66af224516c7cac46a396752dfe8584aebd1c489c0ac1099b",
       "tool": "OpenAI image generation",
       "promptSummary": "숲길에 곰·새·숲동물의 서로 다른 발자국, 낮은 자극의 16:9 배경",
-      "review": "draft",
-      "commercialRightsEvidence": null
+      "review": "approved",
+      "commercialRightsEvidence": "Owner confirmed commercial-use rights in Codex task on 2026-09-29"
     },
     {
       "path": "assets/images/forest_bus.png",
       "sha256": "0052c63506ec0251238d54e1e32f7189ac1bd77bd3922131b2ba150ee3de9061",
       "tool": "OpenAI image generation",
       "promptSummary": "숲 정류장에 정차한 초록 버스와 세 개의 빈 좌석, 차도 위험 연출 없음",
-      "review": "draft",
-      "commercialRightsEvidence": null
+      "review": "approved",
+      "commercialRightsEvidence": "Owner confirmed commercial-use rights in Codex task on 2026-09-29"
     },
     {
       "path": "assets/images/forest_weather.png",
       "sha256": "c68c69cbdce28d2bee45c40d18461d19d21dd8ee9f7ed84d118f8c356d42c3db",
       "tool": "OpenAI image generation",
       "promptSummary": "맑고 조용한 개울 숲 기본 배경, 날씨 선택 오버레이용, 폭풍 없음",
-      "review": "draft",
-      "commercialRightsEvidence": null
+      "review": "approved",
+      "commercialRightsEvidence": "Owner confirmed commercial-use rights in Codex task on 2026-09-29"
     },
     {
       "path": "assets/images/forest_weather_rain.png",
       "sha256": "2111f5f205113efab854dad1fbebecf8fd645bf97182ff40139b9ea8e12cdd63",
       "tool": "OpenAI image generation, weather edit of forest_weather.png",
       "promptSummary": "기존 숲 그림 구도 유지, 밝은 흐린 하늘과 아주 약한 비·젖은 잎과 돌만 추가",
-      "review": "draft",
-      "commercialRightsEvidence": null
+      "review": "approved",
+      "commercialRightsEvidence": "Owner confirmed commercial-use rights in Codex task on 2026-09-29"
     },
     {
       "path": "assets/images/forest_weather_wind.png",
       "sha256": "5a5d5ff3f3be0be3d7d0673e0de526261720131de61a831848b1920de37bce22",
       "tool": "OpenAI image generation, weather edit of forest_weather.png",
       "promptSummary": "기존 숲 그림 구도 유지, 맑은 하늘 아래 부드러운 바람에 움직이는 잎만 추가",
-      "review": "draft",
-      "commercialRightsEvidence": null
+      "review": "approved",
+      "commercialRightsEvidence": "Owner confirmed commercial-use rights in Codex task on 2026-09-29"
     }
   ]
 }

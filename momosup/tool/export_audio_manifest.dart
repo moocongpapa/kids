@@ -11,9 +11,11 @@ void main(List<String> args) {
   final jobs = <Map<String, dynamic>>[];
   final existingFile = File('assets/content/audio_manifest.json');
   final existingJobs = <String, Map<String, dynamic>>{};
+  Map<String, dynamic>? existingManifest;
+  var allJobsUnchanged = true;
   if (existingFile.existsSync()) {
-    final existing = jsonDecode(existingFile.readAsStringSync()) as Map<String, dynamic>;
-    for (final value in existing['jobs'] as List<dynamic>? ?? <dynamic>[]) {
+    existingManifest = jsonDecode(existingFile.readAsStringSync()) as Map<String, dynamic>;
+    for (final value in existingManifest['jobs'] as List<dynamic>? ?? <dynamic>[]) {
       final old = Map<String, dynamic>.from(value as Map);
       final key = '${old['activityId']}::${old['lineId']}';
       existingJobs[key] = old;
@@ -28,6 +30,7 @@ void main(List<String> args) {
       // Keep generated files and review evidence only while the canonical text
       // and job type remain unchanged. Revised scripts must be regenerated.
       final unchanged = existing?['text'] == text && existing?['kind'] == kind;
+      if (!unchanged) allJobsUnchanged = false;
       jobs.add({
         if (unchanged) ...existing!,
         'activityId': id,
@@ -68,10 +71,17 @@ void main(List<String> args) {
     add('offscreen', activity['offscreen'] as String);
   }
 
+  final preserveOwnerReview = allJobsUnchanged &&
+      existingJobs.length == jobs.length &&
+      existingManifest?['status'] == 'owner_reviewed_for_staging';
   final manifest = {
     'sourceCatalogVersion': catalog['version'],
-    'status': 'production_brief_only',
-    'notice': '모든 오디오 파일과 사용권·사람 검수는 미완료. 아이 모드 배포 금지.',
+    'status': preserveOwnerReview
+        ? 'owner_reviewed_for_staging'
+        : 'production_brief_only',
+    'notice': preserveOwnerReview
+        ? existingManifest!['notice']
+        : '변경된 음성 작업은 생성·사람 검수·사용권 확인이 필요합니다. 아이 모드 배포 금지.',
     'jobCount': jobs.length,
     'jobs': jobs,
   };
