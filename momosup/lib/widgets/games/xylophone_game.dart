@@ -1,7 +1,20 @@
 import 'package:flutter/material.dart';
 
 import '../../utils/sound_effects.dart';
+import '../avatar_image.dart';
 import '../forest_game_ui.dart';
+import '../game_particles.dart';
+
+enum GameMode { freePlay, follow }
+
+class _FloatingNote {
+  final int id;
+  final int barIndex;
+  final double startX;
+  final double startY;
+  
+  _FloatingNote(this.id, this.barIndex, this.startX, this.startY);
+}
 
 class XylophoneGame extends StatefulWidget {
   const XylophoneGame({
@@ -11,15 +24,36 @@ class XylophoneGame extends StatefulWidget {
   });
   final VoidCallback? onComplete;
   final bool lowStimulation;
+
   @override
   State<XylophoneGame> createState() => _XylophoneGameState();
 }
 
-class _XylophoneGameState extends State<XylophoneGame> {
-  int? active;
-  final played = <int>{};
-  static const notes = ['도', '레', '미', '파', '솔', '라', '시', '높은 도'];
-  static const colors = [
+class _XylophoneGameState extends State<XylophoneGame> with TickerProviderStateMixin {
+  final _playedNotes = <int>{};
+  GameMode _currentMode = GameMode.freePlay;
+  bool _unlockedFollowMode = false;
+  
+  final List<int> _melodySequence = [0, 1, 2, 0];
+  int _melodyProgress = 0;
+
+  int? _activeBar;
+  int _lastTriggeredBar = -1;
+
+  late final AnimationController _dancerController;
+  late final List<AnimationController> _rippleControllers;
+  late final List<AnimationController> _squeezeControllers;
+
+  final _barsAreaKey = GlobalKey();
+  final _stackKey = GlobalKey();
+  final _particlesKey = GlobalKey<GameParticlesState>();
+
+  final List<_FloatingNote> _floaters = [];
+  int _floaterIdCounter = 0;
+
+  static const _notes = ['도', '레', '미', '파', '솔', '라', '시', '도'];
+  static const _noteLabels = ['도', '레', '미', '파', '솔', '라', '시', '높은 도'];
+  static const _colors = [
     Color(0xFFD98C76),
     Color(0xFFE6A766),
     Color(0xFFD7BF60),
@@ -29,102 +63,379 @@ class _XylophoneGameState extends State<XylophoneGame> {
     Color(0xFF9B98BA),
     Color(0xFFC197AF),
   ];
-  void play(int i) {
-    setState(() {
-      active = i;
-      played.add(i);
-    });
-    SoundEffects.instance.playNote(i);
-    if (played.length == 8) widget.onComplete?.call();
+  static const _barHeights = [180.0, 168.0, 156.0, 144.0, 132.0, 120.0, 108.0, 96.0];
+
+  @override
+  void initState() {
+    super.initState();
+    _dancerController = AnimationController(
+       vsync: this, duration: const Duration(milliseconds: 200));
+    _rippleControllers = List.generate(8, (_) => AnimationController(
+       vsync: this, duration: const Duration(milliseconds: 400)));
+    _squeezeControllers = List.generate(8, (_) => AnimationController(
+       vsync: this, duration: const Duration(milliseconds: 100)));
   }
 
   @override
-  Widget build(BuildContext context) => LayoutBuilder(
-    builder: (context, bounds) => Column(
-      children: [
-        Expanded(
-          child: Center(
-            child: Wrap(
-              alignment: WrapAlignment.center,
-              spacing: 12,
-              runSpacing: 22,
-              children: List.generate(
-                8,
-                (i) => Semantics(
-                  label: '${notes[i]} 음 연주',
-                  button: true,
-                  onTap: () => play(i),
-                  child: ExcludeSemantics(
-                    child: GestureDetector(
-                      onTapDown: (_) => play(i),
-                      onTapUp: (_) => setState(() => active = null),
-                      onTapCancel: () => setState(() => active = null),
-                      child: AnimatedScale(
-                        scale: active == i && !widget.lowStimulation ? .92 : 1,
-                        duration: const Duration(milliseconds: 100),
-                        child: Container(
-                          width: ((bounds.maxWidth - 36) / 4).clamp(60.0, 84.0),
-                          height: 132,
-                          decoration: BoxDecoration(
-                            color: colors[i],
-                            borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(34),
-                              topRight: Radius.circular(10),
-                              bottomLeft: Radius.circular(34),
-                              bottomRight: Radius.circular(34),
-                            ),
-                            border: Border.all(
-                              color: const Color(0xFFFFF4D6).withAlpha(190),
-                              width: 3,
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: colors[i].withGreen(
-                                  (colors[i].g * 180).round(),
-                                ),
-                                offset: const Offset(0, 7),
-                              ),
-                            ],
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Container(
-                                width: 7,
-                                height: 7,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Color(0xFF718965),
-                                ),
-                              ),
-                              const Icon(
-                                Icons.water_drop_rounded,
-                                color: Color(0xFFFFF2CC),
-                                size: 30,
-                              ),
-                              Text(
-                                i == 7 ? '도' : notes[i],
-                                style: const TextStyle(
-                                  fontSize: 15,
-                                  color: forestCream,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+  void dispose() {
+    _dancerController.dispose();
+    for (final c in _rippleControllers) { c.dispose(); }
+    for (final c in _squeezeControllers) { c.dispose(); }
+    super.dispose();
+  }
+
+  void _handlePointer(PointerEvent event) {
+    final box = _barsAreaKey.currentContext?.findRenderObject() as RenderBox?;
+    if (box == null) return;
+    
+    final localPosition = box.globalToLocal(event.position);
+    final width = box.size.width;
+    final barWidth = width / 8;
+    
+    int barIndex = (localPosition.dx / barWidth).floor();
+    barIndex = barIndex.clamp(0, 7);
+    
+    if (event is PointerDownEvent) {
+      _lastTriggeredBar = barIndex;
+      _playNote(barIndex);
+    } else if (event is PointerMoveEvent) {
+      if (barIndex != _lastTriggeredBar) {
+         _lastTriggeredBar = barIndex;
+         _playNote(barIndex);
+      }
+    } else if (event is PointerUpEvent || event is PointerCancelEvent) {
+      setState(() => _activeBar = null);
+      _lastTriggeredBar = -1;
+    }
+  }
+
+  void _handlePointerUp(PointerEvent event) {
+    setState(() => _activeBar = null);
+    _lastTriggeredBar = -1;
+  }
+
+  Offset _getBarTopPos(int index) {
+    final barsBox = _barsAreaKey.currentContext?.findRenderObject() as RenderBox?;
+    final stackBox = _stackKey.currentContext?.findRenderObject() as RenderBox?;
+    if (barsBox != null && stackBox != null) {
+        final barWidth = barsBox.size.width / 8;
+        final barX = (index + 0.5) * barWidth; 
+        final barY = barsBox.size.height - _barHeights[index];
+        final globalPos = barsBox.localToGlobal(Offset(barX, barY));
+        return stackBox.globalToLocal(globalPos);
+    }
+    return Offset.zero;
+  }
+
+  void _playNote(int index) {
+    if (!mounted) return;
+    
+    setState(() {
+      _activeBar = index;
+      _playedNotes.add(index);
+    });
+
+    SoundEffects.instance.playNote(index);
+
+    if (!widget.lowStimulation) {
+      _squeezeControllers[index].forward(from: 0).then((_) {
+         if (mounted) _squeezeControllers[index].reverse();
+      });
+      _rippleControllers[index].forward(from: 0);
+      _dancerController.forward(from: 0).then((_) {
+         if (mounted) _dancerController.reverse();
+      });
+      
+      final origin = _getBarTopPos(index);
+      _spawnFloater(index, origin.dx - 16, origin.dy);
+      
+      _particlesKey.currentState?.burst(
+         origin: origin,
+         count: 4,
+         style: ParticleStyle.drops,
+         spread: 60,
+      );
+    }
+
+    if (_currentMode == GameMode.freePlay) {
+       if (_playedNotes.length == 8 && !_unlockedFollowMode) {
+          setState(() => _unlockedFollowMode = true);
+       }
+    } else if (_currentMode == GameMode.follow) {
+       if (index == _melodySequence[_melodyProgress]) {
+         setState(() {
+           _melodyProgress++;
+         });
+         if (_melodyProgress >= _melodySequence.length) {
+            _completeMelody();
+         }
+       }
+    }
+  }
+
+  void _completeMelody() {
+    SoundEffects.instance.tada();
+    widget.onComplete?.call();
+    if (!widget.lowStimulation) {
+       final stackBox = _stackKey.currentContext?.findRenderObject() as RenderBox?;
+       if (stackBox != null) {
+          final center = Offset(stackBox.size.width / 2, stackBox.size.height / 2);
+          _particlesKey.currentState?.celebrate(center);
+       }
+    }
+  }
+
+  void _spawnFloater(int index, double startX, double startY) {
+     final note = _FloatingNote(_floaterIdCounter++, index, startX, startY);
+     setState(() => _floaters.add(note));
+     Future.delayed(const Duration(milliseconds: 800), () {
+        if (mounted) {
+           setState(() => _floaters.remove(note));
+        }
+     });
+  }
+
+  Widget _buildBar(int index, {double? width, double? height}) {
+     final bool isFollowMode = _currentMode == GameMode.follow;
+     final bool isNextInMelody = isFollowMode && _melodyProgress < _melodySequence.length && _melodySequence[_melodyProgress] == index;
+     final bool isActive = _activeBar == index;
+     final barHeight = height ?? _barHeights[index];
+
+     final bar = AnimatedBuilder(
+        animation: Listenable.merge([_squeezeControllers[index], _rippleControllers[index]]),
+        builder: (context, child) {
+           final squeeze = _squeezeControllers[index].value;
+           final ripple = _rippleControllers[index].value;
+           
+           Color baseColor = _colors[index];
+           if (isActive) baseColor = Color.lerp(baseColor, Colors.white, 0.2)!;
+           final barColor = Color.lerp(baseColor, Colors.white, squeeze * 0.4);
+           
+           return Transform.scale(
+              scaleY: 1.0 - (squeeze * 0.08),
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                 width: width,
+                 height: barHeight,
+                 margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 3),
+                 decoration: BoxDecoration(
+                    color: barColor,
+                    borderRadius: const BorderRadius.all(Radius.circular(16)),
+                    border: Border.all(
+                       color: isNextInMelody ? Colors.white : const Color(0xFFD09C72),
+                       width: isNextInMelody ? 3 : 2,
                     ),
-                  ),
-                ),
+                    boxShadow: isNextInMelody ? [
+                       BoxShadow(color: Colors.white.withAlpha(150), blurRadius: 8, spreadRadius: 2)
+                    ] : [
+                       const BoxShadow(color: Colors.black12, blurRadius: 2, offset: Offset(0, 2))
+                    ],
+                 ),
+                 child: Stack(
+                    clipBehavior: Clip.none,
+                    alignment: Alignment.center,
+                    children: [
+                       Positioned(
+                          bottom: 12,
+                          child: Text(
+                             index == 7 ? '도' : _notes[index],
+                             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Colors.white),
+                          ),
+                       ),
+                       if (ripple > 0 && ripple < 1)
+                          Positioned(
+                             top: barHeight / 2 - 30, 
+                             child: Opacity(
+                                opacity: 1.0 - ripple,
+                                child: Container(
+                                   width: ripple * 60,
+                                   height: ripple * 60,
+                                   decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: Colors.white, width: 3),
+                                   ),
+                                ),
+                             ),
+                          ),
+                    ],
+                 ),
               ),
+           );
+        },
+     );
+
+     final interactiveBar = GestureDetector(
+       behavior: HitTestBehavior.opaque,
+       onTapDown: (_) => _playNote(index),
+       onTapUp: (_) => setState(() => _activeBar = null),
+       onTapCancel: () => setState(() => _activeBar = null),
+       child: bar,
+     );
+
+     final semanticBar = Semantics(
+       label: '${_noteLabels[index]} 음 연주',
+       button: true,
+       onTap: () => _playNote(index),
+       child: width != null ? SizedBox(width: width, height: barHeight, child: interactiveBar) : interactiveBar,
+     );
+
+     return width != null ? semanticBar : Expanded(child: semanticBar);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+      return Stack(
+         key: _stackKey,
+         children: [
+            Column(
+               children: [
+                  if (!widget.lowStimulation) ...[
+                     const SizedBox(height: 16),
+                     Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                           children: [
+                              Flexible(
+                                 child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    child: _currentMode == GameMode.freePlay
+                                       ? ForestProgress(count: _playedNotes.length, total: 8)
+                                       : ForestProgress(count: _melodyProgress, total: _melodySequence.length),
+                                 ),
+                              ),
+                              const SizedBox(width: 8),
+                              AnimatedBuilder(
+                                 animation: _dancerController,
+                                 builder: (context, child) {
+                                    return Transform.rotate(
+                                       angle: _dancerController.value * 0.05,
+                                       child: const AvatarImage(avatar: 'momo', size: 60, interactive: true),
+                                    );
+                                 },
+                              ),
+                           ],
+                        ),
+                     ),
+                  ],
+                  const Spacer(),
+                  LayoutBuilder(
+                     builder: (context, constraints) {
+                        final isNarrow = constraints.maxWidth < 500;
+                        if (isNarrow) {
+                           final barW = ((constraints.maxWidth - 36) / 4).clamp(60.0, 84.0);
+                           return Center(
+                              child: Column(
+                                 mainAxisSize: MainAxisSize.min,
+                                 children: [
+                                    Row(
+                                       mainAxisAlignment: MainAxisAlignment.center,
+                                       children: List.generate(4, (i) => _buildBar(i, width: barW, height: 110.0)),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Row(
+                                       mainAxisAlignment: MainAxisAlignment.center,
+                                       children: List.generate(4, (i) => _buildBar(i + 4, width: barW, height: 110.0)),
+                                    ),
+                                 ],
+                              ),
+                           );
+                        }
+
+                        return SizedBox(
+                           height: 200,
+                           child: Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                 Positioned(
+                                    bottom: 10,
+                                    left: 16,
+                                    right: 16,
+                                    height: 12,
+                                    child: Container(
+                                       decoration: BoxDecoration(
+                                          color: const Color(0xFF8B5A2B),
+                                          borderRadius: BorderRadius.circular(6),
+                                       ),
+                                    ),
+                                 ),
+                                 Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                                    child: Listener(
+                                       onPointerDown: _handlePointer,
+                                       onPointerMove: _handlePointer,
+                                       onPointerUp: _handlePointerUp,
+                                       onPointerCancel: _handlePointerUp,
+                                       child: Container(
+                                          key: _barsAreaKey,
+                                          height: 180,
+                                          color: Colors.transparent,
+                                          child: Row(
+                                             crossAxisAlignment: CrossAxisAlignment.end,
+                                             children: List.generate(8, (i) => _buildBar(i)),
+                                          ),
+                                       ),
+                                    ),
+                                 ),
+                              ],
+                           ),
+                        );
+                     },
+                  ),
+                  const SizedBox(height: 24),
+                  if (_unlockedFollowMode)
+                     Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                           _buildModeButton(GameMode.freePlay, '자유 연주', Icons.music_note_rounded),
+                           const SizedBox(width: 16),
+                           _buildModeButton(GameMode.follow, '따라하기', Icons.library_music_rounded),
+                        ],
+                     )
+                  else
+                     const SizedBox(height: 98),
+                  const SizedBox(height: 16),
+               ],
             ),
-          ),
-        ),
-        const SizedBox(height: 8),
-        const Icon(Icons.touch_app_rounded, size: 28, color: Color(0xFF779363)),
-        const SizedBox(height: 8),
-      ],
-    ),
-  );
+            
+            ..._floaters.map((f) => TweenAnimationBuilder<double>(
+               key: ValueKey(f.id),
+               duration: const Duration(milliseconds: 800),
+               tween: Tween(begin: 0.0, end: 1.0),
+               builder: (context, val, child) {
+                  return Positioned(
+                     left: f.startX,
+                     top: f.startY - (val * 80),
+                     child: Opacity(
+                        opacity: 1.0 - val,
+                        child: Text('♪', style: TextStyle(fontSize: 32, color: _colors[f.barIndex], fontWeight: FontWeight.bold)),
+                     ),
+                  );
+               },
+            )),
+            
+            if (!widget.lowStimulation)
+               GameParticles(key: _particlesKey),
+         ],
+      );
+  }
+
+  Widget _buildModeButton(GameMode mode, String text, IconData icon) {
+     final isSelected = _currentMode == mode;
+     return ForestAction(
+        label: text,
+        onPressed: () {
+           if (_currentMode != mode) {
+              setState(() {
+                 _currentMode = mode;
+                 _melodyProgress = 0;
+              });
+           }
+        },
+        leaf: true,
+        selected: isSelected,
+        size: 72,
+        caption: text,
+        child: Icon(icon, color: forestCream, size: 36),
+     );
+  }
 }
