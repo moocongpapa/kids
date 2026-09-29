@@ -1,6 +1,6 @@
 {
   "version": "age-journeys-v1",
-  "notice": "6~23개월은 보호자용 실제 놀이 안내입니다. 새 대본·음성은 보호자 미리보기에서 검수하며 기존 승인 기록을 재사용하지 않습니다.",
+  "notice": "2026-09-29 제작자 검수·사용권 확인 완료. 승인된 월령별 놀이를 제공합니다. 6~23개월은 보호자용 화면 밖 놀이 안내입니다.",
   "bands": [
     {
       "min": 6,
@@ -98,7 +98,10 @@
       ],
       "choices": [],
       "narration": "편안하게 깨어 있는 아기 곁에서 잠깐 기다려요. 아기가 낸 소리나 표정에 부드럽게 답하고 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "5c495de1a96fcf134d78f709f71df16cd3856b0de0461eb55887278a8e5e204a"
     },
     {
       "id": "age_06_02",
@@ -134,7 +137,10 @@
       ],
       "choices": [],
       "narration": "보호자가 편안한 거리에서 얼굴을 보여요. 눈을 맞추도록 요구하지 않고 웃으며 안녕 해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "003979bf9b1acfaa1b74d3360c2555d749eb6ddcf808ce4e0d7c83a57edc52c9"
     },
     {
       "id": "age_06_03",
@@ -170,7 +176,10 @@
       ],
       "choices": [],
       "narration": "손가락을 아기가 보기 편한 곳에 둬요. 나비처럼 손가락을 천천히 조금 움직여요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "14eaa28d8618d8cfaabfaa7f823b62700a174ae1792b226f94465ae9626994ec"
     },
     {
       "id": "age_06_04",
@@ -206,7 +215,10 @@
       ],
       "choices": [],
       "narration": "보호자가 안전 거울을 잡고 곁에 있어요. 거울 속 얼굴을 가리키며 여기 있네 해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "d14ffbf3255a9bf056dfa34a713b7832c8d38ab7383c98e6ebf50d80f15c51ca"
     },
     {
       "id": "age_06_05",
@@ -242,7 +254,10 @@
       ],
       "choices": [],
       "narration": "분리되는 작은 부품이 없는 장난감을 확인해요. 아기가 원할 때 손을 뻗거나 만지게 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "9cd8816e94cfbb6dc701297c8a84106d6d266e2842b2a6ec62901f68d1351604"
     },
     {
       "id": "age_06_06",
@@ -278,7 +293,10 @@
       ],
       "choices": [],
       "narration": "보호자가 편안한 목소리로 안녕 안녕 불러요. 한 소절 뒤 멈추고 아기 소리와 움직임을 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "a9c2117897c22d172561921440680fed315536cddea6a02ef57875f6ebea17dc"
     },
     {
       "id": "age_09_01",
@@ -314,7 +332,10 @@
       ],
       "choices": [],
       "narration": "보호자가 자기 얼굴만 손으로 잠깐 가려요. 천천히 손을 내리며 작은 목소리로 까꿍 해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "7928dc34499318e6a62c54c4ce58c6e6d5dfef7f5553b2b354020ca4ea6a30b8"
     },
     {
       "id": "age_09_02",
@@ -350,7 +371,10 @@
       ],
       "choices": [],
       "narration": "인형을 아기 앞에 보여줘요. 보호자 손 옆에 인형 일부만 살짝 숨겨요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "3624bdf832cd30878c0e60bb97d908c78fd144edd58db7366420c2bc2b729dbb"
     },
     {
       "id": "age_09_03",
@@ -386,7 +410,10 @@
       ],
       "choices": [],
       "narration": "큰 블록 하나를 안정된 바닥에 둬요. 보호자가 손으로 톡 한 번 두드려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "15287a87b5382dcc9fafb9c9c197bea7133a653e0231373bdc4cb8f367160d4c"
     },
     {
       "id": "age_09_04",
@@ -422,7 +449,10 @@
       ],
       "choices": [],
       "narration": "아이 손에 익숙한 장난감을 보여줘요. 건네려는 움직임이 있으면 받아요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "e696988c295e05f4c581d4ae62e383b7493d11f519bbe216ff5109ae16ef929c"
     },
     {
       "id": "age_09_05",
@@ -458,7 +488,10 @@
       ],
       "choices": [],
       "narration": "보호자가 가까이에서 손을 흔들어요. 안녕 하고 아기의 소리나 손짓을 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "09a7715cec58023eb524c55824005bf109c451d8fe87205cda29d1e8abc59fa4"
     },
     {
       "id": "age_09_06",
@@ -494,7 +527,10 @@
       ],
       "choices": [],
       "narration": "한 장면만 펼쳐 가까이 함께 봐요. 아기가 바라보는 그림 하나를 짧게 말해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "6f7515bb5564a5c4d86e680dc24a99a3cb10a097a582cbcb05389ee840f8cb4e"
     },
     {
       "id": "age_12_01",
@@ -530,7 +566,10 @@
       ],
       "choices": [],
       "narration": "보호자가 큰 블록을 용기에 넣어 보여요. 아이가 만지거나 꺼내려는 움직임을 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "8f1c5eaadd2468b46e9a48d4b7f4c6766e3b107c86501e59b483ec6ae31866c8"
     },
     {
       "id": "age_12_02",
@@ -566,7 +605,10 @@
       ],
       "choices": [],
       "narration": "계단 없는 안정된 바닥에서 가까이 마주해요. 보호자가 큰 공을 천천히 굴려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "306744d4073e9d4b2273f8c49b0b92e859aef32f62d1cbc3cf478262c73675c2"
     },
     {
       "id": "age_12_03",
@@ -602,7 +644,10 @@
       ],
       "choices": [],
       "narration": "익숙한 그림책 한 장을 함께 펼쳐요. 아이가 가리키거나 보는 그림의 이름을 말해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "743efe645a2a331b13636ba2ce2501383b3c89aa983c9ab8df94f622f07652c9"
     },
     {
       "id": "age_12_04",
@@ -638,7 +683,10 @@
       ],
       "choices": [],
       "narration": "보호자가 자기 머리에 모자를 써요. 벗으며 여기 있네 하고 웃어요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "fe0df8ce48b4ef3bfd02b7fccf7dc1c60940d910f88260faa5a78fd479266a88"
     },
     {
       "id": "age_12_05",
@@ -674,7 +722,10 @@
       ],
       "choices": [],
       "narration": "큰 소리가 나지 않도록 한 번만 두드려요. 조용히 멈춰 아이의 움직임을 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "d85697d8f6d0338278964c2e1da28b445090035dd266243c33cbd9cc8aca0ca9"
     },
     {
       "id": "age_12_06",
@@ -710,7 +761,10 @@
       ],
       "choices": [],
       "narration": "손 끼임 없는 열린 입구를 확인해요. 인형을 안에 넣고 안에 있네 해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "1291e3e700fb165ce06435329d9b2671224f9fb6c21e714013c57c489dab7087"
     },
     {
       "id": "age_15_01",
@@ -746,7 +800,10 @@
       ],
       "choices": [],
       "narration": "보호자가 전화기를 들고 안녕 해요. 아이에게 전화기를 보여주고 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "5ed37ffa35294319b9d8ea81ee43f07f93546cf43380c7c17f9f881549f70410"
     },
     {
       "id": "age_15_02",
@@ -782,7 +839,10 @@
       ],
       "choices": [],
       "narration": "큰 인형을 안정된 자리에 앉혀요. 보호자가 인형 등을 부드럽게 쓰다듬어요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "8720b361ad4543a82e01c44805284c3f90a8df9bc5d3cb4bb912cbf1904766d2"
     },
     {
       "id": "age_15_03",
@@ -818,7 +878,10 @@
       ],
       "choices": [],
       "narration": "가까운 바닥에 장난감 하나와 바구니를 둬요. 보호자가 하나를 넣어 보여요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "2df65e35d9ef55ad28e26c669531b2258d3338ae381a6c3c56b5b85a5e60f6a6"
     },
     {
       "id": "age_15_04",
@@ -854,7 +917,10 @@
       ],
       "choices": [],
       "narration": "두 모자를 잘 보이게 나란히 둬요. 어느 게 좋을까 하고 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "b0acf93ab9835990e93f7fc224130b341a6cc987bec0a78a740d7264c32718eb"
     },
     {
       "id": "age_15_05",
@@ -890,7 +956,10 @@
       ],
       "choices": [],
       "narration": "앉은 채 손을 흔들며 안녕 노래를 불러요. 짧은 한 소절 뒤 멈춰요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "5e89c2cd6d8c815036e04894fc47fe5588b72d45c690b74d5827c7ccfe50fcb3"
     },
     {
       "id": "age_15_06",
@@ -926,7 +995,10 @@
       ],
       "choices": [],
       "narration": "안정된 바닥에서 큰 블록 두 개를 보여요. 보호자가 하나를 올리고 내려놓아요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "4e3262f0aaff890be735fa34b0a5683dbec7f9ac785f3b752449e55f9ab3781d"
     },
     {
       "id": "age_18_01",
@@ -962,7 +1034,10 @@
       ],
       "choices": [],
       "narration": "빈 장난감 식기를 인형 앞에 놓아요. 보호자가 먹는 척 한 번 보여줘요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "372106d16f2b435d702f15225d28b77f87af7f407f60d938bf33b1ee0922ecc2"
     },
     {
       "id": "age_18_02",
@@ -998,7 +1073,10 @@
       ],
       "choices": [],
       "narration": "보호자가 차를 멈추고 인형을 태워요. 아이가 원하는 짧은 길로 함께 밀어요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "030fe8ae9da14795ff6234d3cf6f1a5a8dadfa292613cc0de3cde26820813e42"
     },
     {
       "id": "age_18_03",
@@ -1034,7 +1112,10 @@
       ],
       "choices": [],
       "narration": "편안한 바닥에서 공을 가까이 굴려요. 아이가 만지거나 돌려줄 때까지 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "ae1a4c48642a1339189d78aaad25203fdaa1c7e0417fe18b6af36839f4e57c31"
     },
     {
       "id": "age_18_04",
@@ -1070,7 +1151,10 @@
       ],
       "choices": [],
       "narration": "아이가 관심을 보이는 집 안 사물을 함께 봐요. 손짓한 대상의 이름을 한 단어로 말해요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "0d414b7d22c3cc22a77bdc4caafbda80ef1976b9155f8b95673c2f9d986a3711"
     },
     {
       "id": "age_18_05",
@@ -1106,7 +1190,10 @@
       ],
       "choices": [],
       "narration": "보호자가 곁에서 종이가 움직이지 않게 잡아요. 아이와 함께 짧은 자국을 하나 남겨요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "49fdfb6902d5a107396b11db1465f4658e155d2728164f2580de53cf95830066"
     },
     {
       "id": "age_18_06",
@@ -1142,7 +1229,10 @@
       ],
       "choices": [],
       "narration": "보호자가 인형 손을 가리키며 손 해요. 아이의 손짓이나 자기 손 움직임을 기다려요. 안내를 마치면 휴대폰을 내려놓고 함께해 주세요.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "af6991e64121cd60820d69b683d64c5626c0388f32bf774646e82ecad52da389"
     },
     {
       "id": "age_24_01",
@@ -1188,7 +1278,10 @@
         ]
       ],
       "narration": "꽃봉오리야, 안녕. 톡 눌러 볼까? 꽃잎이 열렸네. 이번엔 어떤 꽃일까? 세 꽃이 인사해. 우리도 손을 흔들자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "54cf480bc00eef6fc11df21716ac4bf38b81dc89a0177da57ddb29f4c640dafd"
     },
     {
       "id": "age_24_02",
@@ -1234,7 +1327,10 @@
         ]
       ],
       "narration": "커다란 열매가 왔어. 골라 볼까? 바구니를 톡 누르면 쏙 들어가. 이번엔 잎사귀도 쉬러 가네.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "dcb475bd4a39d9a1b579e5b4ebf110dfc2c3a524a9761ee55e4871167c531535"
     },
     {
       "id": "age_24_03",
@@ -1282,7 +1378,10 @@
         ]
       ],
       "narration": "풀숲 뒤에 누가 있을까? 다른 풀숲도 살며시 톡. 친구가 손을 흔드네. 안녕!",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "aa552e7e9dad7bf72f259d021a0922273bc89da210c256ed1a4d9fadf07297ee"
     },
     {
       "id": "age_24_04",
@@ -1330,7 +1429,10 @@
         ]
       ],
       "narration": "버스가 멈췄네. 누가 먼저 탈까? 친구도 함께 타고 싶대. 모두 탔구나. 손 흔들며 안녕!",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "7a925bc5fa1926a7ec7a1382131056af19427c57882723bfae06705974819f90"
     },
     {
       "id": "age_24_05",
@@ -1376,7 +1478,10 @@
         ]
       ],
       "narration": "손을 살랑, 안녕. 잠깐 쉬고 손가락도 안녕. 우리 인사는 여기까지. 즐거웠어.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "e595f4b3c41856ed9592104a7f677c0d4ad454ba238d13767da2616dcb7c485f"
     },
     {
       "id": "age_24_06",
@@ -1422,7 +1527,10 @@
         ]
       ],
       "narration": "구름을 톡. 작은 비가 와. 꽃이 활짝 웃네. 햇살이 돌아왔어. 안녕, 꽃아.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "0995f0e219d950702f9e9a3015592e175f90721f86048652890a3fb1b6ba247d"
     },
     {
       "id": "age_30_01",
@@ -1471,7 +1579,10 @@
         ]
       ],
       "narration": "같은 색 집을 찾아볼까? 이번 열매는 어디서 쉴까? 우리 바구니가 포근해졌어.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "5704fe4b12bb54c1d360fd03befbad07e04b3665062e5ddd3048712084b088da"
     },
     {
       "id": "age_30_02",
@@ -1519,7 +1630,10 @@
         ]
       ],
       "narration": "소풍 가방에 무엇을 넣을까? 친구가 쉴 자리도 골라 줘. 가방을 닫고 친구와 인사해.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "254a02956b5da0efd7025d08f94cc8af3489414cdab2d616b455b942b9f91a24"
     },
     {
       "id": "age_30_03",
@@ -1568,7 +1682,10 @@
         ]
       ],
       "narration": "길 위 발자국이 보이니? 풀숲 친구가 인사하네. 다른 친구 발자국도 만나자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "e360e2b4d2090c9a56f0239c09429e57e0b7d8b7adc67194c803c288985b9be8"
     },
     {
       "id": "age_30_04",
@@ -1617,7 +1734,10 @@
         ]
       ],
       "narration": "오늘 숲 날씨를 골라 줘. 친구가 무엇을 챙기면 좋을까? 준비한 친구와 날씨를 만나자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "ee81a3db35ed60b74a1a8de57ec0e9d1ecab1c88fbf237ce4884a382ceee69c7"
     },
     {
       "id": "age_30_05",
@@ -1666,7 +1786,10 @@
         ]
       ],
       "narration": "빈 버스가 왔네. 색을 골라 줘. 손가락으로 자유롭게 칠해 볼까? 친구들이 네 버스를 타러 왔어.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "cfced0b5566dac82a424a4929b6183a8349327936991b184f56d67fab1635277"
     },
     {
       "id": "age_30_06",
@@ -1714,7 +1837,10 @@
         ]
       ],
       "narration": "톡, 소리가 인사해. 톡톡, 이번엔 두 번이야. 쉬었다 톡. 네 소리도 들려줘.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "244efa9325c2a4e913b253f8f9d5afcef53288b39fd783691f377ff118e0b7a8"
     },
     {
       "id": "age_36_01",
@@ -1764,7 +1890,10 @@
         ]
       ],
       "narration": "모모 모자가 어디로 갔지? 다른 자리도 살펴볼까? 찾은 모자를 모모에게 건네자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "88ba04b5e40bbaebcf211ef6879f92f5003375a4ef063223fdbf37b5c36ee318"
     },
     {
       "id": "age_36_02",
@@ -1815,7 +1944,10 @@
         ]
       ],
       "narration": "소풍에 가져갈 열매를 골라 줘. 두리는 어떤 열매가 궁금할까? 우리 소풍 자리가 완성됐어.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "a2fdffdbcdc295bddf48a14abe901589604b86a69109d7160dfe99d692fb8542"
     },
     {
       "id": "age_36_03",
@@ -1866,7 +1998,10 @@
         ]
       ],
       "narration": "풀숲 친구를 톡 찾아 줘. 친구는 어떤 인사를 할까? 너의 인사도 보여 줄래?",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "875c0b0408354f0fba397cbbeec1ce158d704278c22e534d48ff4a2dc31f57e0"
     },
     {
       "id": "age_36_04",
@@ -1918,7 +2053,10 @@
         ]
       ],
       "narration": "어떤 날씨 문을 열까? 그 날씨에 친구는 어떻게 쉴까? 몸으로 날씨를 작게 표현해 봐.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "6249fbeea51dffbd6ecd8fbb935024a7f79e2142379275e5e5862f46ba5d74da"
     },
     {
       "id": "age_36_05",
@@ -1969,7 +2107,10 @@
         ]
       ],
       "narration": "구름에 어떤 색을 더할까? 선도 점도 모두 좋아. 네 구름이 숲에 둥실 떠올랐어.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "096b3a7ab510646ca6a63d672088e5a7e57cf1503024566b155ffcc08ca76ca2"
     },
     {
       "id": "age_36_06",
@@ -2021,7 +2162,10 @@
         ]
       ],
       "narration": "친구가 쉴 집을 지어볼까? 큰 조각을 골라 빈 자리에 놓자. 지붕까지 놓으니 포근한 집이네.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "7cd1e232da4457188f55a72c2cf6d8cca38d35e1fa672e3f3fd547696dd09b6f"
     },
     {
       "id": "age_48_01",
@@ -2073,7 +2217,10 @@
         ]
       ],
       "narration": "두리가 비 오는 소풍을 준비한대. 누리는 쉬는 자리를 찾고 있어. 모모에게 마지막 물건을 건네자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "f4c690137d0d6b3b234c9f340768197e827cd3c9547feb17f7fffe7601fe3c62"
     },
     {
       "id": "age_48_02",
@@ -2125,7 +2272,10 @@
         ]
       ],
       "narration": "둥근 발자국이 나무 옆에 있네. 풀숲에도 단서가 숨어 있어. 단서를 보고 친구를 만나자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "0a5b5d4a87c57971832424530bc24021115941abe97852cfe5f2d33a977b615d"
     },
     {
       "id": "age_48_03",
@@ -2174,7 +2324,10 @@
         ]
       ],
       "narration": "가게 물건을 어떻게 놓을까? 같은 색끼리 집을 찾아 줘. 다른 기준으로도 놓을 수 있어.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "7345e4c06c5db384313863b648190b87d492092808ab20642c2b66891694755e"
     },
     {
       "id": "age_48_04",
@@ -2226,7 +2379,10 @@
         ]
       ],
       "narration": "누리가 장난감을 놓쳤대. 곁에 가거나 어른을 불러 볼까? 친구가 쉴 때 기다려 줘도 좋아.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "0371f6186e71dab43fcb8d458f1ba00e73119467820544d705ff64beccbad780"
     },
     {
       "id": "age_48_05",
@@ -2278,7 +2434,10 @@
         ]
       ],
       "narration": "우리 같이 정원 한 장을 그리자. 이번에는 옆 사람 차례야. 서로의 그림에 작은 꽃을 더해 줘.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "485bbb6687dcf16e6f3af811f268bb21b6007c446de324206c32f656e7fa65f2"
     },
     {
       "id": "age_48_06",
@@ -2330,7 +2489,10 @@
         ]
       ],
       "narration": "첫 빗방울 소리를 골라 줘. 다음 소리는 누가 이어 줄까? 마지막 소리를 더해 합주를 듣자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "6b8ba25a28d7f27e1da9b0f35d282b90197f982aa3286234575b251e69e1c603"
     },
     {
       "id": "age_60_01",
@@ -2379,7 +2541,10 @@
         ]
       ],
       "narration": "처음 약속은 같은 색끼리야. 새 약속! 이번에는 크기를 봐. 바뀐 약속대로 다시 진열해 줘.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "1f90186d4aa64d27f68f829a55405958beec5292e1aff9fe1858d229a4077b51"
     },
     {
       "id": "age_60_02",
@@ -2431,7 +2596,10 @@
         ]
       ],
       "narration": "친구들이 모두 타고 싶대. 빈 자리에 친구를 한 명씩 놓자. 빠진 친구가 없는지 함께 보자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "b53c144bf7053de64a7a38c64f72cc59fdae30a604231fc5db752d0ba1faf7d4"
     },
     {
       "id": "age_60_03",
@@ -2483,7 +2651,10 @@
         ]
       ],
       "narration": "바람이 오는 숲에 집을 지어 줘. 바람을 불러 보고 조각을 살펴보자. 움직인 자리를 다른 모양으로 바꿔봐.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "59a95049b7420ed022b4d7200f793bc4835b1edc6d3784eeda5254f2ee84431c"
     },
     {
       "id": "age_60_04",
@@ -2535,7 +2706,10 @@
         ]
       ],
       "narration": "이야기가 시작될 길을 골라 줘. 누가 함께 가면 좋을까? 친구를 돕는 방법을 고르면 이야기가 끝나.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "5b79f9fcc453a1cac5b034416199e5a7c8b223ca734a2ce8f093c8422116760f"
     },
     {
       "id": "age_60_05",
@@ -2587,7 +2761,10 @@
         ]
       ],
       "narration": "내가 먼저 딩동. 이제 네 차례야. 네가 고른 소리를 따라 해볼게. 우리 소리를 이어서 들어보자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "559f8b0bb9d4971131491a8f3fbaf3e9b71c1d594cd55522182d529750f4e1f4"
     },
     {
       "id": "age_60_06",
@@ -2639,7 +2816,10 @@
         ]
       ],
       "narration": "친구들이 함께 쓸 정원을 만들자. 서로 원하는 꽃을 빈 곳에 놓아 줘. 꽃 사이에 쉴 자리도 남겨 볼까?",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "37af90d66ea60d3f53dd80f90e0b0d669a9cc41ce14c3e5c5b3859fbd6ac4947"
     },
     {
       "id": "age_72_01",
@@ -2691,7 +2871,10 @@
         ]
       ],
       "narration": "친구 집까지 길이 끊어졌네. 빈 자리에 큰 길 조각을 놓아 줘. 친구가 지나갈 길을 따라 살펴보자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "67a5e8b09f8bb78e747d83bde5b90f9964f08bc4ce63460a87cb5570a4a38646"
     },
     {
       "id": "age_72_02",
@@ -2743,7 +2926,10 @@
         ]
       ],
       "narration": "오늘 탐험할 날씨를 골라 줘. 숲에서 쓸 물건을 골라 챙기자. 비가 온다면 어떤 준비를 바꿀까?",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "f77342352f3d8af82a57a1b7dd9c04ad75c45a90f46c18e9f4493686dfaeef4b"
     },
     {
       "id": "age_72_03",
@@ -2795,7 +2981,10 @@
         ]
       ],
       "narration": "소리 그림을 빈 칸에 놓아 줘. 네 악보를 처음부터 들어보자. 그림 순서를 바꾸면 어떻게 들릴까?",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "22e8109b59baf88eec2208da35cd8bb1afc416abb33631acaf72729e30ab963b"
     },
     {
       "id": "age_72_04",
@@ -2844,7 +3033,10 @@
         ]
       ],
       "narration": "그림 편지를 같은 색끼리 모아 줘. 이번엔 크기로 배달할 거야. 새 약속에 맞게 편지를 옮겨 줘.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "a63d3eb18f1d983b4a03508e63dc847c785cf5d2438c44d64060a7a675f64f16"
     },
     {
       "id": "age_72_05",
@@ -2896,7 +3088,10 @@
         ]
       ],
       "narration": "두리가 건널 다리를 만들어 줘. 조각을 놓고 두리가 지나가는지 보자. 빈 곳을 고쳐 다른 다리도 시험해 봐.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "25d0eea99a167a042c4812569f45f02ea9d980b759af9bb52977d222d493cdd1"
     },
     {
       "id": "age_72_06",
@@ -2948,7 +3143,10 @@
         ]
       ],
       "narration": "누리는 시끄러운 곳에서 잠깐 쉬고 싶대. 모모는 같이 놀고 싶었대. 두 마음을 들어보자. 친구 둘에게 어떤 자리를 제안할까?",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "86c4c52e6a888a3fe6f983032093e59f9ebfe0f0ccb3861ecb3d3ce75c205fe0"
     },
     {
       "id": "age_84_01",
@@ -3000,7 +3198,10 @@
         ]
       ],
       "narration": "우리 숲 축제를 어디에서 열까? 어떤 놀이와 친구를 초대할까? 모두 편하게 즐길 쉼터도 골라 줘.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "19f2a78a468043afc8e62c3b7f9131b1508c962f5c0d8552296ceac2f70b37f1"
     },
     {
       "id": "age_84_02",
@@ -3052,7 +3253,10 @@
         ]
       ],
       "narration": "누구나 편하게 다닐 숲을 만들자. 길 옆에 쉼터와 꽃을 놓아 줘. 조용히 쉬고 싶은 친구 자리도 살펴봐.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "0ece9d2338beb832314f578d4f6ab83c305f8adc3a7026283e16bcee2140151f"
     },
     {
       "id": "age_84_03",
@@ -3104,7 +3308,10 @@
         ]
       ],
       "narration": "이야기가 시작될 그림을 골라 줘. 뜻밖의 일이 생겼어. 어떤 일이었을까? 네가 고른 마지막 장면으로 이야기를 마쳐.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "f64262b9e7b0313bbcc42905671204248babfa682047bba742de9c6605a7a432"
     },
     {
       "id": "age_84_04",
@@ -3156,7 +3363,10 @@
         ]
       ],
       "narration": "움직일 그림과 쉴 그림을 골라 줘. 그림을 따라 손을 움직였다 쉬어 보자. 이번에는 네가 만든 약속으로 놀자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "6b5a0d2870a8efa43ee67cecf9f70d3257cfd07ba966c17f3f399bdf718a5036"
     },
     {
       "id": "age_84_05",
@@ -3208,7 +3418,10 @@
         ]
       ],
       "narration": "첫 탐정은 길 위의 단서를 살펴봐. 다음 탐정은 풀숲의 단서를 살펴봐. 서로 본 것을 말하고 친구를 찾아보자.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "ea88c2c6920a59b64199cf42cabdeb8143ab50ea52dca45bef6475ef0fa5acfe"
     },
     {
       "id": "age_84_06",
@@ -3260,7 +3473,12 @@
         ]
       ],
       "narration": "산책길마다 소리 그림을 놓아 줘. 길을 따라 네 음악을 들어보자. 한 곳의 소리를 바꿔 가족에게 들려줘.",
-      "reviewStatus": "NEEDS_HUMAN_REVIEW"
+      "reviewStatus": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
+      "approvedContentSha256": "b6356afe9d0d7c8fdec6f0e65bea3d6af2241ef75174e42d6da9ee8fee8f1331"
     }
-  ]
+  ],
+  "status": "APPROVED",
+  "reviewRecord": "production/age_pack/REVIEW_STATUS_2026-09-29.md"
 }

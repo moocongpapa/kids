@@ -1,6 +1,6 @@
 {
   "version": "age-journeys-v1",
-  "status": "NEEDS_HUMAN_REVIEW",
+  "status": "APPROVED",
   "jobs": [
     {
       "id": "age_06_01_guide",
@@ -19,9 +19,9 @@
         "peakDbfs": -4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "0ea0f9f1a00146b87d289cfece3cdc54a9996a4dd46ddf03cd0f2a09a8080be7",
       "sourceMetrics": {
         "durationSeconds": 14.84,
@@ -34,7 +34,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_06_01_guide.wav"
-      }
+      },
+      "approvedContentSha256": "16379be17c7f1b4b923dec9d3ae5d2f853816f048c1ef8b3dbe41b1fd4ae39d7"
     },
     {
       "id": "age_06_02_guide",
@@ -53,9 +54,9 @@
         "peakDbfs": -4.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "88d6fed607c4847140b879bfe0397f588bca79a718828e35fe4526eea904a34a",
       "sourceMetrics": {
         "durationSeconds": 13,
@@ -68,7 +69,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_06_02_guide.wav"
-      }
+      },
+      "approvedContentSha256": "44552ae384d66b475d84f819cd6aebbc11f1980999e0aa12414056775bd9b03e"
     },
     {
       "id": "age_06_03_guide",
@@ -87,9 +89,9 @@
         "peakDbfs": -5.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "13a3f0d96843726540bc1cc34c54739a6254e9b78185d255ae743ad60abc5618",
       "sourceMetrics": {
         "durationSeconds": 13.56,
@@ -102,7 +104,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_06_03_guide.wav"
-      }
+      },
+      "approvedContentSha256": "1bcdbcfcfaf4001540ccdf0d1f155bf3a45ef3f0482dcc7fe9c0ae0d17fc5dfc"
     },
     {
       "id": "age_06_04_guide",
@@ -121,9 +124,9 @@
         "peakDbfs": -4.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "012f4cd5a224e7092d837d93042b8a751d522fb9b69b8a10266f69de654f5836",
       "sourceMetrics": {
         "durationSeconds": 12.8,
@@ -136,7 +139,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_06_04_guide.wav"
-      }
+      },
+      "approvedContentSha256": "deeb8ff90c716fe504636d1121bb0ad2e5919bc54b2984a93f1fce7e8e17d2be"
     },
     {
       "id": "age_06_05_guide",
@@ -155,9 +159,9 @@
         "peakDbfs": -5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "fa7a75a86b478bb52c7cb68f0bb82671bc3ad23fa32a47b7dd678701e682c7b5",
       "sourceMetrics": {
         "durationSeconds": 14.04,
@@ -170,7 +174,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_06_05_guide.wav"
-      }
+      },
+      "approvedContentSha256": "035f77d754484fca796bf5a585e91d061d3455ea81c3bb627380c420ea8140df"
     },
     {
       "id": "age_06_06_guide",
@@ -189,9 +194,9 @@
         "peakDbfs": -4.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "1f7ac91db1325110ce4a12ecf04b858b97fedee74adadba6b93f36201bca0992",
       "sourceMetrics": {
         "durationSeconds": 14.64,
@@ -204,7 +209,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_06_06_guide.wav"
-      }
+      },
+      "approvedContentSha256": "cd02539a3493e476088cd37086106273c07bcf0d1c881253dbdd49effe7ee0dd"
     },
     {
       "id": "age_09_01_guide",
@@ -223,9 +229,9 @@
         "peakDbfs": -6.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "db927d4adb97c62ef525d0d20be49a50fa0b017a9f583c463910d79dba6a8e90",
       "sourceMetrics": {
         "durationSeconds": 14.76,
@@ -238,7 +244,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_09_01_guide.wav"
-      }
+      },
+      "approvedContentSha256": "9194cc9d8675dc8edd21b77b50e9e8a05238563fd1bcf1a2819ffde3bb3307e2"
     },
     {
       "id": "age_09_02_guide",
@@ -257,9 +264,9 @@
         "peakDbfs": -5.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "74ca81f464e72d048077db210a8d133560ae6a8e36f6e638d755f3c1bc0521a6",
       "sourceMetrics": {
         "durationSeconds": 11.92,
@@ -272,7 +279,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_09_02_guide.wav"
-      }
+      },
+      "approvedContentSha256": "6db9f7ae11c32bc2683d5391af75866028cb4afe9acaad9b1af2c3d16ff75c19"
     },
     {
       "id": "age_09_03_guide",
@@ -291,9 +299,9 @@
         "peakDbfs": -5.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "280ecaf4a37d31f4a6341783300cad5c9261401a9880cda3df87dce96e2a16aa",
       "sourceMetrics": {
         "durationSeconds": 11,
@@ -306,7 +314,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_09_03_guide.wav"
-      }
+      },
+      "approvedContentSha256": "a16bacb74464a4b246eb626f66953aeb96ebe0e8f7a0213645e3220d67f518f8"
     },
     {
       "id": "age_09_04_guide",
@@ -325,9 +334,9 @@
         "peakDbfs": -5.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "09f3da6bd9578c0fad6f336f32b9d87f6c01beedd97461c8ac90fd7746288b1e",
       "sourceMetrics": {
         "durationSeconds": 11.24,
@@ -340,7 +349,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_09_04_guide.wav"
-      }
+      },
+      "approvedContentSha256": "038fed78cf3c29802fabe2441609e09e1e6977ca908017c1deeda3f37fb1a98e"
     },
     {
       "id": "age_09_05_guide",
@@ -359,9 +369,9 @@
         "peakDbfs": -6.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "adb8911580495b906597228b57f976a3a9dfb1c83e51e1321d7e0c882a1ed6d7",
       "sourceMetrics": {
         "durationSeconds": 12.76,
@@ -374,7 +384,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_09_05_guide.wav"
-      }
+      },
+      "approvedContentSha256": "d7db2d6a00dcb88c1b54b9ecdccd4f6501c03375053731b8efba307b1c5a0b00"
     },
     {
       "id": "age_09_06_guide",
@@ -393,9 +404,9 @@
         "peakDbfs": -4.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "dd55744fd411e83d11d22ef92d173d4e599a14a37b6826366623cdcce28721dc",
       "sourceMetrics": {
         "durationSeconds": 12.08,
@@ -408,7 +419,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_09_06_guide.wav"
-      }
+      },
+      "approvedContentSha256": "199bd32e99832c2850cb50091f823eda5d5cc8d3dd6d556a8f07573fd2cc56f7"
     },
     {
       "id": "age_12_01_guide",
@@ -427,9 +439,9 @@
         "peakDbfs": -5.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "886e5d6538925ec559dccf1a1f368a1ecb1442a120e3c54bf70f0c3dbda78f61",
       "sourceMetrics": {
         "durationSeconds": 13.88,
@@ -442,7 +454,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_12_01_guide.wav"
-      }
+      },
+      "approvedContentSha256": "571a7e82cec254f0990fc4a30306acc8e99bc19ae65651d5ce882e5ab305de60"
     },
     {
       "id": "age_12_02_guide",
@@ -461,9 +474,9 @@
         "peakDbfs": -4.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "03733bafd26f9bc90e7213ac15588cea9e93a0c2df9b37488e0955a8dd4ea607",
       "sourceMetrics": {
         "durationSeconds": 12.56,
@@ -476,7 +489,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_12_02_guide.wav"
-      }
+      },
+      "approvedContentSha256": "fba2eba1e07e8c15f07859803ec035d05546000d49b097653a474ef9945de44a"
     },
     {
       "id": "age_12_03_guide",
@@ -495,9 +509,9 @@
         "peakDbfs": -4.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "b4ee9c3f2f056a479a6307e0c58fb055fd76558c5271cedb78d96285ef682b90",
       "sourceMetrics": {
         "durationSeconds": 11.96,
@@ -510,7 +524,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_12_03_guide.wav"
-      }
+      },
+      "approvedContentSha256": "f03a2bfe4161949277b8421fbbb01d75c919b89205e70fbf3304643e96707b46"
     },
     {
       "id": "age_12_04_guide",
@@ -529,9 +544,9 @@
         "peakDbfs": -6.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "9cb0c107a25c22f08c4295b56b83a132d0cf52370fbe9722491f180e9655b2f9",
       "sourceMetrics": {
         "durationSeconds": 12.28,
@@ -544,7 +559,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_12_04_guide.wav"
-      }
+      },
+      "approvedContentSha256": "f2bdab8fc717802f3e922125b63a9907371c792b642a6198648a89bdab5d80c9"
     },
     {
       "id": "age_12_05_guide",
@@ -563,9 +579,9 @@
         "peakDbfs": -4.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "f84a2706566ff65d459ce285799d0285ce0c3f38ce26fb7e0849074089c95955",
       "sourceMetrics": {
         "durationSeconds": 12.76,
@@ -578,7 +594,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_12_05_guide.wav"
-      }
+      },
+      "approvedContentSha256": "cb581dd73d1d7070506ec44fae24746ac4d0c0acc026ade37b7b88c13f1b24a9"
     },
     {
       "id": "age_12_06_guide",
@@ -597,9 +614,9 @@
         "peakDbfs": -6.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "06cb7e3f508b03298bd659015ae1cea142179303f6bc6462a1765180333f7253",
       "sourceMetrics": {
         "durationSeconds": 11.12,
@@ -612,7 +629,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_12_06_guide.wav"
-      }
+      },
+      "approvedContentSha256": "1498db40f683415647864193ee0f092789531ed529d9d2fa4d6552bd972c6979"
     },
     {
       "id": "age_15_01_guide",
@@ -631,9 +649,9 @@
         "peakDbfs": -5.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "e408351dfb1e70839aaae006ee05864977b893734d374c5cbf1d861c6aaa62fa",
       "sourceMetrics": {
         "durationSeconds": 11.76,
@@ -646,7 +664,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_15_01_guide.wav"
-      }
+      },
+      "approvedContentSha256": "57ef05f31844e1952052b7a26b05e5df3cd5c3ec803efa5f24746726d13e726e"
     },
     {
       "id": "age_15_02_guide",
@@ -665,9 +684,9 @@
         "peakDbfs": -4.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "86cb7467244854c06f89968ab13825d7be3b947ed1ca853cd128e32d034c67d7",
       "sourceMetrics": {
         "durationSeconds": 13,
@@ -680,7 +699,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_15_02_guide.wav"
-      }
+      },
+      "approvedContentSha256": "7d35f448653412b08685a648a61c73b5c597ad82d56acbdf6bc61c9b70bc8abc"
     },
     {
       "id": "age_15_03_guide",
@@ -699,9 +719,9 @@
         "peakDbfs": -4.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "6ec56a25a1f91e6098a2df5bac7d951e22bcc0b80c3bea26fea2352d401dbf0f",
       "sourceMetrics": {
         "durationSeconds": 12.16,
@@ -714,7 +734,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_15_03_guide.wav"
-      }
+      },
+      "approvedContentSha256": "5fde1188a0caa88bf088da847167a63cc88efe3cf7bd6b1509ead81737c25c03"
     },
     {
       "id": "age_15_04_guide",
@@ -733,9 +754,9 @@
         "peakDbfs": -3.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "0c6534f5e6061773f8f7d7888d9ad0d8ca9b459cafb062e84654420730aee774",
       "sourceMetrics": {
         "durationSeconds": 11.24,
@@ -748,7 +769,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_15_04_guide.wav"
-      }
+      },
+      "approvedContentSha256": "aab5f639b6fad72add40d8b91a4b95bc9ca6bb0e4256cc0a23d63969b695faf6"
     },
     {
       "id": "age_15_05_guide",
@@ -767,9 +789,9 @@
         "peakDbfs": -6.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "c736ccb62ca3c2ef118a6cea610dee79edd08931c451a9bf5cb545a32d9e26e2",
       "sourceMetrics": {
         "durationSeconds": 12.04,
@@ -782,7 +804,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_15_05_guide.wav"
-      }
+      },
+      "approvedContentSha256": "28f91c4a3520f21675734119dc02c89c13064f82f1e5a46fce7de1c241da94b5"
     },
     {
       "id": "age_15_06_guide",
@@ -801,9 +824,9 @@
         "peakDbfs": -4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "2460f661aa22fc8cd1267ce2d81f6a1b7ddd9967729e11d2e59c4ff4e853798a",
       "sourceMetrics": {
         "durationSeconds": 12.76,
@@ -816,7 +839,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_15_06_guide.wav"
-      }
+      },
+      "approvedContentSha256": "a7aa30c126662adaed4c3f58601e10ac7959a033e00935c9c578e5f77f349dcd"
     },
     {
       "id": "age_18_01_guide",
@@ -835,9 +859,9 @@
         "peakDbfs": -5.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "0b196861176c97fa997c6f2a3dba657873d3b74b735b5eb980de65c1c0fb5309",
       "sourceMetrics": {
         "durationSeconds": 10.84,
@@ -850,7 +874,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_18_01_guide.wav"
-      }
+      },
+      "approvedContentSha256": "be220f51d38ee8200e5ef834b9caeddb32c4e6a40aec41aa7de90bff109d3b29"
     },
     {
       "id": "age_18_02_guide",
@@ -869,9 +894,9 @@
         "peakDbfs": -6.6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "5559327c5bc0d968a52c82b20e69697b5170bfaa9e7b8f0d19124d9a4c5cbacd",
       "sourceMetrics": {
         "durationSeconds": 11.44,
@@ -884,7 +909,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_18_02_guide.wav"
-      }
+      },
+      "approvedContentSha256": "8447544ca1c7398de31a9459e2e5c9ff3c442f44c9183286430af3085780bcb9"
     },
     {
       "id": "age_18_03_guide",
@@ -903,9 +929,9 @@
         "peakDbfs": -4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "9024f899c1c1278f79d29f74b9bff2a4f3575682aec7472b18952b105791131e",
       "sourceMetrics": {
         "durationSeconds": 13.08,
@@ -918,7 +944,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_18_03_guide.wav"
-      }
+      },
+      "approvedContentSha256": "daa5e9eac2b9934483f4879ea1905ea2ea27b7d26b4effbf5ac107ba14a08a8e"
     },
     {
       "id": "age_18_04_guide",
@@ -937,9 +964,9 @@
         "peakDbfs": -4.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "e5b023b7555f9b0c8d5f5f5441f850032fe4bbbfc69bd8cfc368b66d619ae3ef",
       "sourceMetrics": {
         "durationSeconds": 12.72,
@@ -952,7 +979,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_18_04_guide.wav"
-      }
+      },
+      "approvedContentSha256": "92a4e280b0acb93db0f3d9dae7683bfcfcfb9c912d8a59cb15d7884d17bec7b0"
     },
     {
       "id": "age_18_05_guide",
@@ -971,9 +999,9 @@
         "peakDbfs": -4.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "eac58c1fd4421706420d16313d761a1016aeba027ab6e5f89c661cab0c2e0195",
       "sourceMetrics": {
         "durationSeconds": 12.6,
@@ -986,7 +1014,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_18_05_guide.wav"
-      }
+      },
+      "approvedContentSha256": "13c0393701cfc579de41fea0db371aa1fbcf197ef71c4d865f1d116c997ee889"
     },
     {
       "id": "age_18_06_guide",
@@ -1005,9 +1034,9 @@
         "peakDbfs": -3.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "1c10f5acf766cb259ee9182e0f50ab10931130396837fcf9dd72956c4c3d358b",
       "sourceMetrics": {
         "durationSeconds": 12.68,
@@ -1020,7 +1049,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_18_06_guide.wav"
-      }
+      },
+      "approvedContentSha256": "d078e2a88c720fe75ad20c845f52db0a8e02e6b23eba3aee9aa0083e34f34987"
     },
     {
       "id": "age_24_01_step_0",
@@ -1039,9 +1069,9 @@
         "peakDbfs": -5.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "a11856ad22f2a4d82d37c31575570679d4840024d55eef5357f46dd76177d95d",
       "sourceMetrics": {
         "durationSeconds": 4.4,
@@ -1054,7 +1084,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_01_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "7377f74b29fd6f6f94d66953e178afb6d69b7397405db03783673e30c37a52bc"
     },
     {
       "id": "age_24_01_step_1",
@@ -1073,9 +1104,9 @@
         "peakDbfs": -5.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "558b01e7baa427d3635c3b9d2ddbb50bc3897e6d461cbcddbadc81a2762a338d",
       "sourceMetrics": {
         "durationSeconds": 4.8,
@@ -1088,7 +1119,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_01_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "2ac5e8921318889ea6dc981ed1a9e8c94769264e58833cbb20907d56906cd584"
     },
     {
       "id": "age_24_01_step_2",
@@ -1107,9 +1139,9 @@
         "peakDbfs": -6.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "2b6c0dec213758174f6385667a379deedef33249b70fec3e63b0e5c4fe7fb885",
       "sourceMetrics": {
         "durationSeconds": 4.52,
@@ -1122,7 +1154,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_01_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "7710d0432f06268dfb235f978ed7b13f00122c338c0f2dc8d30e2d7fb3a8a7a6"
     },
     {
       "id": "age_24_02_step_0",
@@ -1141,9 +1174,9 @@
         "peakDbfs": -6.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "dc5ce2098b4d6d23e7d397fd9f1984a4906aa59ba7023f528b0ba68673f85854",
       "sourceMetrics": {
         "durationSeconds": 3.6,
@@ -1156,7 +1189,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_02_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "c5da39c7284f2f23a26fcceb01ebca26be4f508fa99a8b666ec76ff4eea640e5"
     },
     {
       "id": "age_24_02_step_1",
@@ -1175,9 +1209,9 @@
         "peakDbfs": -4.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "c858490cb2a2b62d7d4d69681eeb68ca569a8012e5f09cf080bd22cae60615cc",
       "sourceMetrics": {
         "durationSeconds": 3.64,
@@ -1190,7 +1224,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_02_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "6aa79ebbba85a0d98d5a8de43a179b256325e2c64232ada68296badfcd183d04"
     },
     {
       "id": "age_24_02_step_2",
@@ -1209,9 +1244,9 @@
         "peakDbfs": -7.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "ab6625710f1d95c94da48bd3c4c860aa89a52fae2958a78c33f43a14c093f485",
       "sourceMetrics": {
         "durationSeconds": 3.44,
@@ -1224,7 +1259,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_02_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "bb10f5568b2f363068f18995ae734edd60fa5553826e4a6526bb6d70804f3325"
     },
     {
       "id": "age_24_03_step_0",
@@ -1243,9 +1279,9 @@
         "peakDbfs": -6.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "32de9f03af3646b52fcbfa6f4ffdea216e052972812b49d2651ed54322fa9343",
       "sourceMetrics": {
         "durationSeconds": 2.6,
@@ -1258,7 +1294,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_03_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "0e3509f03f7aaa4430a3effe8a1db1ef01a5a0e533ee2b344740e42e65e6a16b"
     },
     {
       "id": "age_24_03_step_1",
@@ -1277,9 +1314,9 @@
         "peakDbfs": -3.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "d821b5a05595833ced4e1eb4705eb16c145936f98114c3dac8a9e5bfefadb2cd",
       "sourceMetrics": {
         "durationSeconds": 3.24,
@@ -1292,7 +1329,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_03_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "f10e97330be53e3cced9c362df732ae241104133f81837d2a0f2cafc2e52551c"
     },
     {
       "id": "age_24_03_step_2",
@@ -1311,9 +1349,9 @@
         "peakDbfs": -7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "3bec7fc764857124617714406ad7aa9f2ad3955b4f5bac34b06460d0fd262004",
       "sourceMetrics": {
         "durationSeconds": 3.96,
@@ -1326,7 +1364,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_03_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "d720fc361aa9a19f4f6a2b7efb5cecadd5170996f3cb62246d6bbdbbcbf69d2c"
     },
     {
       "id": "age_24_04_step_0",
@@ -1345,9 +1384,9 @@
         "peakDbfs": -5.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "7a1abc99137d8a239ff10e7adff1f70426d7fe6e107c5a39538c19003dcf9a61",
       "sourceMetrics": {
         "durationSeconds": 3.84,
@@ -1360,7 +1399,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_04_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "f43d7f95f5daa6218240fb2e60bb515d714e6eebfe2fc304e4410a637f8e6f23"
     },
     {
       "id": "age_24_04_step_1",
@@ -1379,9 +1419,9 @@
         "peakDbfs": -8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "818909f9f3264b1c303cb4ed0c067a25a92c8ab7266fd9ad88fe40a06b357b51",
       "sourceMetrics": {
         "durationSeconds": 2.76,
@@ -1394,7 +1434,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_04_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "e40eb825f0857ecbf227f91e3cd6bf0ab00332018212d1c068970ded6afbbe34"
     },
     {
       "id": "age_24_04_step_2",
@@ -1413,9 +1454,9 @@
         "peakDbfs": -4.6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "891a1c52a6d0201ec3f4ea0c67fc06e3525b2350e43581205e63e5f94b3e0729",
       "sourceMetrics": {
         "durationSeconds": 4.08,
@@ -1428,7 +1469,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_04_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "30006f3cc88ec53a1064faf2aed35669b359c8a9b9331d18ca30af63bd40155a"
     },
     {
       "id": "age_24_05_step_0",
@@ -1447,9 +1489,9 @@
         "peakDbfs": -5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "03e25bf6b2bf5234ccc834cdf2b6f9de50fd30631875f1b61cc6154f95445017",
       "sourceMetrics": {
         "durationSeconds": 3.56,
@@ -1462,7 +1504,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_05_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "f5f8cd6bfc8407b46fa05102dffa11acf94698f0248144732cfd0d95f780794e"
     },
     {
       "id": "age_24_05_step_1",
@@ -1481,9 +1524,9 @@
         "peakDbfs": -3.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "7044223e65322966be6cae5b04037675f7e1e23b86ae6182fd3d7febe92c52f6",
       "sourceMetrics": {
         "durationSeconds": 5.32,
@@ -1496,7 +1539,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_05_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "db046b8413e0ffc0ad7bb2e8f58c3e5bb13051a50b33e092c360e96f8a8d0224"
     },
     {
       "id": "age_24_05_step_2",
@@ -1515,9 +1559,9 @@
         "peakDbfs": -6.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "adc9c3212250c4412e6a9a0400e40aed2f5090ecd7875a64e12be175a3e8c238",
       "sourceMetrics": {
@@ -1531,7 +1575,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_05_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "008365dee3e49d7315ca9fcb62a13d97a7d874b80b0d1cbd1c554a47f5d49927"
     },
     {
       "id": "age_24_06_step_0",
@@ -1550,9 +1595,9 @@
         "peakDbfs": -3.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "23e5ff03e8f221cec99030c3d0c12541e62614d0a75354a490f7b7faa2282607",
       "sourceMetrics": {
@@ -1566,7 +1611,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_06_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "59d57e84690d9615f8bda432b00c59e6525e136547977b038f8411477ed52090"
     },
     {
       "id": "age_24_06_step_1",
@@ -1585,9 +1631,9 @@
         "peakDbfs": -5.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "04097b656fd015837a32f1bf5493fd0fac3047ef0b79d1dd062b94e044474a3f",
       "sourceMetrics": {
@@ -1601,7 +1647,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_06_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "808a6c534e7e93172dddb84b75b2954d062f2414f4dedb6fea9fe2da5e5766e9"
     },
     {
       "id": "age_24_06_step_2",
@@ -1620,9 +1667,9 @@
         "peakDbfs": -7.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "1968a903a16dad86f84fdbabf2008d409b5096a53573c4cee3a4acff437a9f42",
       "sourceMetrics": {
@@ -1636,7 +1683,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_24_06_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "4b24d1ce2a5e24ea292d614e205c3a3e7a706295fe6bc6b26d681f8565f3daf8"
     },
     {
       "id": "age_30_01_step_0",
@@ -1655,9 +1703,9 @@
         "peakDbfs": -6.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "ce764ab6fe41491f0128603d8b667c057f670d2416a71dba37c619033c838776",
       "sourceMetrics": {
         "durationSeconds": 2.4,
@@ -1670,7 +1718,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_01_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "74b225451d7c4d4867ac51ca67acb74d8ae46845858466303732018ae08ddb0a"
     },
     {
       "id": "age_30_01_step_1",
@@ -1689,9 +1738,9 @@
         "peakDbfs": -5.6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "496e7f0d01306a3a9e4844a36f1a9391d252a8a5159fb2c88191f2b588d0dea8",
       "sourceMetrics": {
         "durationSeconds": 3.36,
@@ -1704,7 +1753,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_01_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "92d13289771b32c7daa576d747b6caa6c771f6cbb1e86a4d0237f226c6610749"
     },
     {
       "id": "age_30_01_step_2",
@@ -1723,9 +1773,9 @@
         "peakDbfs": -6.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "ea8d1b56b5b768332a905fc9f5473d629bb7ad0f9931311675c2e6978f63a43f",
       "sourceMetrics": {
         "durationSeconds": 2.68,
@@ -1738,7 +1788,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_01_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "c9f38f72079209c0b25191685ebdcfe50a17551b98aac7d5497eb1bb96659422"
     },
     {
       "id": "age_30_02_step_0",
@@ -1757,9 +1808,9 @@
         "peakDbfs": -5.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "67fa04fda5cd9df22c3645b288be14476c9d92fad5a761dcb3b3ac5547b9c13b",
       "sourceMetrics": {
         "durationSeconds": 3.08,
@@ -1772,7 +1823,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_02_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "3b0f8c20813b13b957c1c2cc7c1d8004ba0660a0c497e5dfa92be9ede3073e47"
     },
     {
       "id": "age_30_02_step_1",
@@ -1791,9 +1843,9 @@
         "peakDbfs": -6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "9632ac7db63a8bedd8df0671ba70e17b82289cf83c9a7fb9f228a5826d14e651",
       "sourceMetrics": {
         "durationSeconds": 2.68,
@@ -1806,7 +1858,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_02_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "497b1765ffe416c920032fd54b022f8b35b3d00ec1c5ba96b5c77b4b35a0b0ec"
     },
     {
       "id": "age_30_02_step_2",
@@ -1825,9 +1878,9 @@
         "peakDbfs": -4.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "05c2527d89caf8b55f8cb12129d2497f11d2921df9660680b0a33caad3b1ba04",
       "sourceMetrics": {
         "durationSeconds": 3.24,
@@ -1840,7 +1893,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_02_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "61dcf64a5d2406e17d725ed887c415d83c0524611d6643af107ee3fca989756d"
     },
     {
       "id": "age_30_03_step_0",
@@ -1859,9 +1913,9 @@
         "peakDbfs": -4.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "91c2ab7cc5322c821db769a035e8fb2b3de0c4989e0733fa3fbce20a9bc07280",
       "sourceMetrics": {
@@ -1875,7 +1929,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_03_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "8d0b650cfdbc427cf0cb03d2c922bd978d44c7068b546c6edb126e3f553e71ab"
     },
     {
       "id": "age_30_03_step_1",
@@ -1894,9 +1949,9 @@
         "peakDbfs": -9.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "248705b263fddabfd3849c3b7f2fb363c94ee7bac26fb26f0471252f8e52efd6",
       "sourceMetrics": {
@@ -1910,7 +1965,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_03_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "afc417829f818ac8db8c7a451a10524ac71ca3abe0bbfa4f2c6a7f61d46493ef"
     },
     {
       "id": "age_30_03_step_2",
@@ -1929,9 +1985,9 @@
         "peakDbfs": -5.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "72966077c0b4c667b6b15bdf2b04a86fbc1311dd975dc277d551d92c1287085b",
       "sourceMetrics": {
@@ -1945,7 +2001,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_03_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "4ac20a438686e9cf58056e17e8f0a490e7b5d8e8dc3cef8f169c40a53c1932b5"
     },
     {
       "id": "age_30_04_step_0",
@@ -1964,9 +2021,9 @@
         "peakDbfs": -7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "ddb07dfedc1358e0de814c7b8a087950c81c85c9c3436327bf1a68712fa69997",
       "sourceMetrics": {
@@ -1980,7 +2037,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_04_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "cdd86d0ee37438d28b721a643503111b83c1d504ae7169a46c640ffe95fcc6ab"
     },
     {
       "id": "age_30_04_step_1",
@@ -1999,9 +2057,9 @@
         "peakDbfs": -6.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "0689e03dd9d82610866f125b564b323e57010ac3f6c5aa4f20c4ab0032f1f20d",
       "sourceMetrics": {
@@ -2015,7 +2073,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_04_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "9e37de23e8e9559b0acae64e07a597054d99229ee06855a504e038547a2dfd01"
     },
     {
       "id": "age_30_04_step_2",
@@ -2034,9 +2093,9 @@
         "peakDbfs": -5.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "f6803e7cdebba786c0e17cdd3cafa4310d937fb90b772338cc6758a6e1add3af",
       "sourceMetrics": {
@@ -2050,7 +2109,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_04_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "df76e59ad4c9f2c8fddec72246b313a1398ecccc2dba541515a751259b51cb62"
     },
     {
       "id": "age_30_05_step_0",
@@ -2069,9 +2129,9 @@
         "peakDbfs": -4.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "27a15753a6a55ed486b7ee0fa7f8efc1cf5436399d53b0bb488b874c6c89704d",
       "sourceMetrics": {
@@ -2085,7 +2145,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_05_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "8773e5f2125939ca9a27b56d1f1be367d70f2e62dbbb726d4f2c1d70f8765ad7"
     },
     {
       "id": "age_30_05_step_1",
@@ -2104,9 +2165,9 @@
         "peakDbfs": -6.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "38eecfb97b350eea470510cc4bcf8a6cca1b192f14e4e4cabc5af0b6a83a020c",
       "sourceMetrics": {
@@ -2120,7 +2181,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_05_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "13aafc73fafcd12cd64983484bd076d0b9f0360b891204c8803d4f186ce8c22e"
     },
     {
       "id": "age_30_05_step_2",
@@ -2139,9 +2201,9 @@
         "peakDbfs": -6.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "14219c1ed750c475fefe96ae6093dcea9a6a808b6ff2319175647d8aa997e044",
       "sourceMetrics": {
@@ -2155,7 +2217,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_05_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "a63caffd507d02d4a8987d201ce1ca2f36205e5e3cf9cd2fbee64ba69ce20d9a"
     },
     {
       "id": "age_30_06_step_0",
@@ -2174,9 +2237,9 @@
         "peakDbfs": -5.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "044ed3c9a5d303fe03c74d791bda65a4c5944e398cbf2d399d23cac8399c63e1",
       "sourceMetrics": {
@@ -2190,7 +2253,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_06_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "52ff6ff4ff8a6aa77a1d808f5528fdd368bbd083e362667549ac52a0e7e086a8"
     },
     {
       "id": "age_30_06_step_1",
@@ -2209,9 +2273,9 @@
         "peakDbfs": -6.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "00cca785cb96109281b5076eb636c329311c80690cf9eb797a9bf59d5e2cb68e",
       "sourceMetrics": {
@@ -2226,7 +2290,8 @@
         "truePeakTargetDb": -3,
         "additionalHeadroomDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_06_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "45dc4991bb9784c0c3f330bc56bd940417093e41767c673dcd495f7b8eba5e53"
     },
     {
       "id": "age_30_06_step_2",
@@ -2245,9 +2310,9 @@
         "peakDbfs": -5.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "98e59138f09d8081a4fa08dd2d91b75684fcc30d42c0e1551206e2955ca0d91a",
       "sourceMetrics": {
@@ -2261,7 +2326,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_30_06_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "1ea201cc1499ecb7b97ed36889a3c608d2529bfeb697b22fa80b6b04bd909c5c"
     },
     {
       "id": "age_36_01_step_0",
@@ -2280,9 +2346,9 @@
         "peakDbfs": -7.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "a38e1aa12b6e7ada1b23462257c47326bb6b2fea4a657c82e5126dd4aa5879bc",
       "sourceMetrics": {
@@ -2296,7 +2362,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_01_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "2a7e7fde35c0a7a8a72c033877bd67d9c5e6135b4a3c35dc966a1bb719aef5e7"
     },
     {
       "id": "age_36_01_step_1",
@@ -2315,9 +2382,9 @@
         "peakDbfs": -7.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "859adea9dc05df38e6a791a6a90b8771ca4199a2656d62e34cea2af39ae9cdba",
       "sourceMetrics": {
@@ -2331,7 +2398,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_01_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "eb33fa7fdf1f8e96d8da451c1cf996f4b86eeb1c266b8867200b53992ac46215"
     },
     {
       "id": "age_36_01_step_2",
@@ -2350,9 +2418,9 @@
         "peakDbfs": -6.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "eb3c8f665151b07db099b20d165c10ca54a7323e601de951df848dcb869ab742",
       "sourceMetrics": {
@@ -2366,7 +2434,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_01_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "0624a1892aa17d6a304d8a687d1e0023c58258783457779e7b50d4a24232719d"
     },
     {
       "id": "age_36_02_step_0",
@@ -2385,9 +2454,9 @@
         "peakDbfs": -5.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "recoveryNote": "Recovered Gemini preview WAV after overlapping producer processes were stopped. Exact model provenance was not retained; content still requires listening review.",
       "sourceSha256": "fa6f4290627d6d36b65f0f6223d473098658c3c953c7cb32faded423bc00c44d",
       "sourceMetrics": {
@@ -2401,7 +2470,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_02_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "2d65abf631f86bc14a3af65bf0ac91cfada5af1d36dcb3e19f42d3b0c4c72450"
     },
     {
       "id": "age_36_02_step_1",
@@ -2420,9 +2490,9 @@
         "peakDbfs": -7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "c0d0ee26e55653a4dddcd42afc1ed4596f51cde3bc81387524a91242e2761764",
       "sourceMetrics": {
         "durationSeconds": 3.16,
@@ -2435,7 +2505,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_02_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "95e8f27ae182eba3a599c3c820e23281afab589bb6f0599343b18f9237ec4c5c"
     },
     {
       "id": "age_36_02_step_2",
@@ -2454,9 +2525,9 @@
         "peakDbfs": -6.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "61147e5528f8123fde75b0b9032b848ddc925b88bfc150ab34f03400cdc0ac14",
       "sourceMetrics": {
         "durationSeconds": 2.44,
@@ -2469,7 +2540,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_02_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "9ae2a959a1094c3f6129ee4e2fd79784c34ea77067874e9dc0ea67de7a032fdb"
     },
     {
       "id": "age_36_03_step_0",
@@ -2488,9 +2560,9 @@
         "peakDbfs": -4.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "af07a3da38bc097824d48eb0c57ae745317da507ad3407a9fe159964f52cf824",
       "sourceMetrics": {
         "durationSeconds": 3.16,
@@ -2503,7 +2575,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_03_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "9a6c583ca68f7de2039804aaf591704c634a25ebc2d00b6d4f6fb05f238c178a"
     },
     {
       "id": "age_36_03_step_1",
@@ -2522,9 +2595,9 @@
         "peakDbfs": -6.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "d8b8c0c43fbe3b18acb291e16d5452e93fa3a1a9abfe15935cb213789e7f0aeb",
       "sourceMetrics": {
         "durationSeconds": 2.76,
@@ -2537,7 +2610,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_03_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "74459b3e9cd5d31e3f7a8fa163412bc6d5368d9f37410a8a9dee17a612bca1eb"
     },
     {
       "id": "age_36_03_step_2",
@@ -2556,9 +2630,9 @@
         "peakDbfs": -7.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "40d34d09daf38b86000e86074a9ed9ea10121d5564cb5401d0daf4ceac4e58d2",
       "sourceMetrics": {
         "durationSeconds": 2.2,
@@ -2571,7 +2645,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_03_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "5affbb5d34a011bb5e402408f349ee08024fcac7d6bfb280eee4d349fb897f2e"
     },
     {
       "id": "age_36_04_step_0",
@@ -2590,9 +2665,9 @@
         "peakDbfs": -4.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "5701722f80fda9489b8de2100928563f3e2046d711e7a916ed26dd5498e3594a",
       "sourceMetrics": {
         "durationSeconds": 2.44,
@@ -2605,7 +2680,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_04_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "8d4bff1a76839be56cedbaa03221c13abce8c7b31efb7107d534ee766d48c7ac"
     },
     {
       "id": "age_36_04_step_1",
@@ -2624,9 +2700,9 @@
         "peakDbfs": -7.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "c2b6214f067c8e1ec315844fe1a9aa9ceec290bde004dad79c17f8380c122535",
       "sourceMetrics": {
         "durationSeconds": 2.84,
@@ -2639,7 +2715,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_04_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "3d2f4e0892c8e76e88829e5a7082ccb5cdeaedf82cc94f6586a19130152e55c8"
     },
     {
       "id": "age_36_04_step_2",
@@ -2658,9 +2735,9 @@
         "peakDbfs": -8.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "8dc1e8017b9cad7ea9375d1ebe813c4e757b30fb666683aee7aeca14321b15c3",
       "sourceMetrics": {
         "durationSeconds": 2.92,
@@ -2673,7 +2750,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_04_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "319ae7a86e87fd6be292cbb4aec0bca260eb4f3e868fb1863c3b51c3cd23321d"
     },
     {
       "id": "age_36_05_step_0",
@@ -2692,9 +2770,9 @@
         "peakDbfs": -6.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "d087e0c7a89990c636af9fa3ece498d04f2d34c16df00645e4338238912c54c6",
       "sourceMetrics": {
         "durationSeconds": 2.68,
@@ -2707,7 +2785,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_05_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "e6b3af3f662915827bd65714e4835640dd900f1748804de3a7f7e6792bf52076"
     },
     {
       "id": "age_36_05_step_1",
@@ -2726,9 +2805,9 @@
         "peakDbfs": -6.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "88fd6875bc4d1c9cf13d02134bf89eb6bfb90622382e075a33019c7c02ea96b3",
       "sourceMetrics": {
         "durationSeconds": 2.84,
@@ -2741,7 +2820,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_05_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "fa1fd4f62b98197287b61c7eca05f2cde755037258893ccf573f0d3bd84f770b"
     },
     {
       "id": "age_36_05_step_2",
@@ -2760,9 +2840,9 @@
         "peakDbfs": -6.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "f9d3ab4f06d7fd31f2e14947f67657955121a0b4df2adbe41b5822445965be36",
       "sourceMetrics": {
         "durationSeconds": 3.92,
@@ -2775,7 +2855,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_05_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "04a892e042d9d47e5fb38aea5827c0864ac6575e593eb65abfe22bade7b5938e"
     },
     {
       "id": "age_36_06_step_0",
@@ -2794,9 +2875,9 @@
         "peakDbfs": -6.6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "6d2edbec9851dc88e6d589d3394aeeecac77dd84a03dae0108e79bfb3b9285b0",
       "sourceMetrics": {
         "durationSeconds": 2.72,
@@ -2809,7 +2890,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_06_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "26921d0da82b17db4999cb2ecbcf3145cf27c3951054e39dc3ef9e5b9d5fb4f5"
     },
     {
       "id": "age_36_06_step_1",
@@ -2828,9 +2910,9 @@
         "peakDbfs": -7.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "6400aefe652846e812220b71ec0f2cd81089c42a1168e52ddde0485a6112de34",
       "sourceMetrics": {
         "durationSeconds": 3.28,
@@ -2843,7 +2925,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_06_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "eb43904543355fc7052b44dc1d758763d56a04e7cc5683412a781f78ea847e0f"
     },
     {
       "id": "age_36_06_step_2",
@@ -2862,9 +2945,9 @@
         "peakDbfs": -9.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "06ba635393cbcdf2fc432f9eaa2582801d85e6d280c27b9f65aba17e2045bd5d",
       "sourceMetrics": {
         "durationSeconds": 3.04,
@@ -2878,7 +2961,8 @@
         "truePeakTargetDb": -3,
         "additionalHeadroomDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_36_06_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "660b7b2d0339f10d5636894ad230aa72590c2303851d0d573dc13f7657afbff2"
     },
     {
       "id": "age_48_01_step_0",
@@ -2897,9 +2981,9 @@
         "peakDbfs": -7.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "44f4177f4eb4ba2fffbcafa4fe52ba6562db434dd402ce79ffa4cfbaa08e6cfb",
       "sourceMetrics": {
         "durationSeconds": 3.44,
@@ -2912,7 +2996,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_01_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "3404e8e730c853e55112e1391b9472d9f0a1a16beddbbcca9598a8fcf5bf84c3"
     },
     {
       "id": "age_48_01_step_1",
@@ -2931,9 +3016,9 @@
         "peakDbfs": -6.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "f08b5892a9a1e193b5069998a3777ecc6ac8690cda9ed2498484593b90878ed9",
       "sourceMetrics": {
         "durationSeconds": 3,
@@ -2946,7 +3031,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_01_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "a6365367198131f00dfddd2d69d4c3e88f67f56d6ab3305358798709bbfb184a"
     },
     {
       "id": "age_48_01_step_2",
@@ -2965,9 +3051,9 @@
         "peakDbfs": -8.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "36aaac3da1ecec68a9dd13793f519703808aecce0a64fd4e8c6dc9cbef82d55b",
       "sourceMetrics": {
         "durationSeconds": 2.96,
@@ -2980,7 +3066,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_01_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "1f54a18c9ee841dab4ee2935c76f0985e0d1a4a7070c25de415e9d42fb5e0dce"
     },
     {
       "id": "age_48_02_step_0",
@@ -2999,9 +3086,9 @@
         "peakDbfs": -4.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "947fad3efdeacc0c394bc54072ebab1e145d1dbe5104e10489d21a7002f62d52",
       "sourceMetrics": {
         "durationSeconds": 3.12,
@@ -3014,7 +3101,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_02_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "9ce98a13ccd00047969a022950242a79c8e45020eef5a4977a55fc18a81463e2"
     },
     {
       "id": "age_48_02_step_1",
@@ -3033,9 +3121,9 @@
         "peakDbfs": -6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "00363bf28239efb834ab3f45a5dc0854e6be873b06b1b687443e647220cb7a11",
       "sourceMetrics": {
         "durationSeconds": 2.8,
@@ -3048,7 +3136,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_02_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "a88e969316a79de12bafc6460518d631e144393b9811edb9e79b0729ee533216"
     },
     {
       "id": "age_48_02_step_2",
@@ -3067,9 +3156,9 @@
         "peakDbfs": -6.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "497e7fde042e5bfd83bce26f8afd0f7e36a51af92a39c5a0ecfd9bb114b727d0",
       "sourceMetrics": {
         "durationSeconds": 2.68,
@@ -3082,7 +3171,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_02_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "cc48369fd7b63488468181aa06eb87562b89b8dcaf61337c4ba57f06ecf63da2"
     },
     {
       "id": "age_48_03_step_0",
@@ -3101,9 +3191,9 @@
         "peakDbfs": -6.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "a0f4f12f674923237e452aa424919205bd60c52a7099668c33a6c7dd36da6364",
       "sourceMetrics": {
         "durationSeconds": 2.8,
@@ -3116,7 +3206,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_03_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "38075975d51aefb4a8d990d3aeb50c3fda6e9cce741085eaa9c9e255ae810d3d"
     },
     {
       "id": "age_48_03_step_1",
@@ -3135,9 +3226,9 @@
         "peakDbfs": -5.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "4779e240f9683d0f177794f309ffeab118fabb7cf626e75b272d528e881dcbe6",
       "sourceMetrics": {
         "durationSeconds": 2.68,
@@ -3150,7 +3241,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_03_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "e8a70bfd94335ab3b1fc6cf52a4c6206e07f1a6dca09e8776975a4ab37a5331f"
     },
     {
       "id": "age_48_03_step_2",
@@ -3169,9 +3261,9 @@
         "peakDbfs": -7.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "6327f2870d50bcb3e2450f13c5723c36bcaa52c49652713ed8d984fc76a273de",
       "sourceMetrics": {
         "durationSeconds": 2.52,
@@ -3184,7 +3276,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_03_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "bf610cf160c2e8eb8a2f5065d04499b381789e0ceb87a51539a31d6b91cda5ea"
     },
     {
       "id": "age_48_04_step_0",
@@ -3203,9 +3296,9 @@
         "peakDbfs": -8.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "249d720fd837614c655e2b64d6d2c890dedfb8800826c133715e6b604912ae25",
       "sourceMetrics": {
         "durationSeconds": 3.16,
@@ -3218,7 +3311,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_04_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "8657f6dbd6deab79c0d22db59fc284aede8f78be6618bc99cf7f4bb458f32700"
     },
     {
       "id": "age_48_04_step_1",
@@ -3237,9 +3331,9 @@
         "peakDbfs": -8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "8e44d591da38d431203c10c782028129019aad4c9f5c63ac60b5832c59491482",
       "sourceMetrics": {
         "durationSeconds": 3,
@@ -3252,7 +3346,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_04_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "519d71bf07cb573b3dfd3a2394b27c648bf71c4e5775d397009ba41091d76ef2"
     },
     {
       "id": "age_48_04_step_2",
@@ -3271,9 +3366,9 @@
         "peakDbfs": -6.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "de43f3ac56c6dfcac84ceb4c7a9e32c65b580aae986b2766880d51ada47c9596",
       "sourceMetrics": {
         "durationSeconds": 2.96,
@@ -3286,7 +3381,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_04_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "0c61b3ca8a74453acfed0b68bc6d10253eb5a2648798539361aa9c770812b9e2"
     },
     {
       "id": "age_48_05_step_0",
@@ -3305,9 +3401,9 @@
         "peakDbfs": -6.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "028c81f3fa9c8d2bc7261fa9bafbf3fcba5c738be0dd509f524ba6f00d37e960",
       "sourceMetrics": {
         "durationSeconds": 3.12,
@@ -3320,7 +3416,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_05_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "e9b02ef2b8050a13c3345847f9681c1f53b20ae442bf163e420fefa9055c7da7"
     },
     {
       "id": "age_48_05_step_1",
@@ -3339,9 +3436,9 @@
         "peakDbfs": -7.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "fb5837ea3fd2ee55e0a1f6bb5ca7c6f77c233e37e407b19736b0d329b22f5a4c",
       "sourceMetrics": {
         "durationSeconds": 2.36,
@@ -3354,7 +3451,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_05_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "c87acabff4759cb6df1ba1fae3df6b328e549b85e8e12fd81d9aefbeb3f8f6b7"
     },
     {
       "id": "age_48_05_step_2",
@@ -3373,9 +3471,9 @@
         "peakDbfs": -5.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "87738e60c1309d8b694b4b92c541c092c5cf3cae6f525166c9ed41a48d0fe2d3",
       "sourceMetrics": {
         "durationSeconds": 3.56,
@@ -3388,7 +3486,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_05_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "2abc8ebff1255f8ba958256a395832e00233e3de419db89e0a2dfd2ff2c3d641"
     },
     {
       "id": "age_48_06_step_0",
@@ -3407,9 +3506,9 @@
         "peakDbfs": -6.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "d2c50495dcb61761cf697e5ea2618ac81bc213d0a397249d281075a7caf354c6",
       "sourceMetrics": {
         "durationSeconds": 2.64,
@@ -3422,7 +3521,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_06_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "2dcb10ffde0814f67a96d0792de2630bdbf40cf68467f1f6ae151c16f759b68f"
     },
     {
       "id": "age_48_06_step_1",
@@ -3441,9 +3541,9 @@
         "peakDbfs": -7.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "67ed4d5c4c180666ebf67189541ef7fac8f3f842ba811dbbdb861d4333221f94",
       "sourceMetrics": {
         "durationSeconds": 2.8,
@@ -3456,7 +3556,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_06_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "8c9d630779eb132be5545b8b9f6eaa0213b9b2eea8c77ff7261d785afe3d4dd0"
     },
     {
       "id": "age_48_06_step_2",
@@ -3475,9 +3576,9 @@
         "peakDbfs": -5.3,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "9bad85164be4a2f0d576cbaef36812edd087e6d4c4767e2b81c718e262101d8c",
       "sourceMetrics": {
         "durationSeconds": 3.08,
@@ -3490,7 +3591,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_48_06_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "e307ef27453c2aef079bc9a6b5014d635538262df55c478a9c91566a3149a387"
     },
     {
       "id": "age_60_01_step_0",
@@ -3509,9 +3611,9 @@
         "peakDbfs": -5.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "0c1cbae98621211d4fefc158d58391a9a49b2935da9b24f42a28b3688029afa1",
       "sourceMetrics": {
         "durationSeconds": 3.04,
@@ -3524,7 +3626,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_01_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "3afd2a4e6d9847b48be3e5610f57f8c3588142ddc8441918df3e45dc82fc6f21"
     },
     {
       "id": "age_60_01_step_1",
@@ -3543,9 +3646,9 @@
         "peakDbfs": -4.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "4f03648e3be60ba83836bca821afb970a76109ed091783b98b1555cf502bab0a",
       "sourceMetrics": {
         "durationSeconds": 3.68,
@@ -3558,7 +3661,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_01_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "8a3d09b5366add711069a8b373b5329f764687cb4af9b39158cf4eaa8aeff53a"
     },
     {
       "id": "age_60_01_step_2",
@@ -3577,9 +3681,9 @@
         "peakDbfs": -5.6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "75305fdffcbcab8fef048711305f3b24ae951b6ab4c5ed20e6f72c92501e5e71",
       "sourceMetrics": {
         "durationSeconds": 2.92,
@@ -3592,7 +3696,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_01_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "6981bd439d1f9a2ee186f5b0ba4014a1877c2146b72fbd9af5ab9afe6de6b82c"
     },
     {
       "id": "age_60_02_step_0",
@@ -3611,9 +3716,9 @@
         "peakDbfs": -4.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "01207e3dd1dc0608705f03e49052ba9fed5598df7d5e538941df2df40ba0d94b",
       "sourceMetrics": {
         "durationSeconds": 2.72,
@@ -3626,7 +3731,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_02_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "319e24fd6b33787234c162db94291bed1c93dac9bdcfac8046d30165be45425f"
     },
     {
       "id": "age_60_02_step_1",
@@ -3645,9 +3751,9 @@
         "peakDbfs": -5.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "03e94f98501d0e21086038c850c37a9650f2adf6c0cba2a9112b4774badcba40",
       "sourceMetrics": {
         "durationSeconds": 3.2,
@@ -3660,7 +3766,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_02_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "0293e9a914aaa1643175fab33460d236a7c64c5bc8bdd648f69f79af15026fd7"
     },
     {
       "id": "age_60_02_step_2",
@@ -3679,9 +3786,9 @@
         "peakDbfs": -4.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "d4272ee9acf5bd052c61b9c30d7b4a5abaa9c1780996f3512064be48288f69c1",
       "sourceMetrics": {
         "durationSeconds": 2.84,
@@ -3694,7 +3801,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_02_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "e8264827aed2c784d6c594db7a7e0889c8b2c0379cb2fb808408b6e2b48f6997"
     },
     {
       "id": "age_60_03_step_0",
@@ -3713,9 +3821,9 @@
         "peakDbfs": -6.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "45376637ca6c61e2dc0b493e5349beb4befbd0785af2b55cc6754e84cd31334c",
       "sourceMetrics": {
         "durationSeconds": 3.2,
@@ -3728,7 +3836,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_03_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "3bc4d31758cf71b9f0082919847f4e38fce3ef19992fb029edac79102f8ec00c"
     },
     {
       "id": "age_60_03_step_1",
@@ -3747,9 +3856,9 @@
         "peakDbfs": -5.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "84da0cdfc6a92b6e800ee932d088338bee4d04d76a885259a9d8e56433713d78",
       "sourceMetrics": {
         "durationSeconds": 3.32,
@@ -3762,7 +3871,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_03_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "428283d112f09a3f99d3c6b5c60848e7df1cf70496f448f39d127548b2e8265f"
     },
     {
       "id": "age_60_03_step_2",
@@ -3781,9 +3891,9 @@
         "peakDbfs": -5.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "75489e6ca1dbfab5adf1cf6a0fe266bd041c65e78f1af09102498072603f8913",
       "sourceMetrics": {
         "durationSeconds": 3.12,
@@ -3796,7 +3906,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_03_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "991f0ad67f9005c2fdebe99aa9bcd76f10e6f1b85b5da559942b9801f214e762"
     },
     {
       "id": "age_60_04_step_0",
@@ -3815,9 +3926,9 @@
         "peakDbfs": -6.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "3f3c720e23ed73313b45e5423551d0ebe5860fe3ccc15e04d0c0e7d1a04aa585",
       "sourceMetrics": {
         "durationSeconds": 3.12,
@@ -3830,7 +3941,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_04_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "808d5f27104bb84ebb438f8bcfa4f92de8270259e054a190f43aa5af9ac11513"
     },
     {
       "id": "age_60_04_step_1",
@@ -3849,9 +3961,9 @@
         "peakDbfs": -5.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "e298bb3dc2eae51fe2130c92c27d98e7db1c6b1a1ded732074c0c78e6b0a08a9",
       "sourceMetrics": {
         "durationSeconds": 2.28,
@@ -3864,7 +3976,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_04_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "527710a6b3e13520d2540a142a74abbe52a4aca7530e6924ce154a8e99bc265c"
     },
     {
       "id": "age_60_04_step_2",
@@ -3883,9 +3996,9 @@
         "peakDbfs": -6.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "467b3fb4d186006818a36a177c803f9f782183f5c8fa7f1e0b09b0c241298004",
       "sourceMetrics": {
         "durationSeconds": 3.56,
@@ -3898,7 +4011,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_04_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "6834a1be862310099540cf76231b55562ff3cb59d2b0770865abe1298ebe4272"
     },
     {
       "id": "age_60_05_step_0",
@@ -3917,9 +4031,9 @@
         "peakDbfs": -3.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "c57a87ad3e3c584bf57b2f4b225792614b731310e06d72215d6f0a9e43ab5645",
       "sourceMetrics": {
         "durationSeconds": 4.12,
@@ -3932,7 +4046,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_05_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "e7e6abe1136608a76c5650ea1a44dcbf4acc8e44caa4e912ada21eddb36d7beb"
     },
     {
       "id": "age_60_05_step_1",
@@ -3951,9 +4066,9 @@
         "peakDbfs": -5.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "72e3a37055f1644c75a68462154d02b8a3268e89683e6a2af3bcf258ebdb23bc",
       "sourceMetrics": {
         "durationSeconds": 2.56,
@@ -3966,7 +4081,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_05_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "69975a282e422035688183b9180a22aac23fd7db21a45fa94165c8502e465ea4"
     },
     {
       "id": "age_60_05_step_2",
@@ -3985,9 +4101,9 @@
         "peakDbfs": -8.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "8ef7f9e7e892bde3f626c6797ea772889a5ff5c2a2675378fb56782e13dbd031",
       "sourceMetrics": {
         "durationSeconds": 2.72,
@@ -4000,7 +4116,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_05_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "b271737a191df48e526c99abc3c69ad29d8ca6fb6e741b45f81cf60fb0e8a1ac"
     },
     {
       "id": "age_60_06_step_0",
@@ -4019,9 +4136,9 @@
         "peakDbfs": -5.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "0664a1c320d2959e4499cc71e723283c35b5b262f144011a6ef43d7e22a053b0",
       "sourceMetrics": {
         "durationSeconds": 3,
@@ -4034,7 +4151,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_06_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "6fe8c3c90f4d2869eb11e252dca79e41ded5d3b4065949359e6b7c9172d9977e"
     },
     {
       "id": "age_60_06_step_1",
@@ -4053,9 +4171,9 @@
         "peakDbfs": -6.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "b3c7923b96b168ab173c81b015dbb3620ff02ed6c71212fdf3cf35e2f62760ed",
       "sourceMetrics": {
         "durationSeconds": 3.28,
@@ -4068,7 +4186,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_06_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "c94c87b4585afbb2878c9b1cac2dd38ec719037e769ebb17b11e67d705f6bb38"
     },
     {
       "id": "age_60_06_step_2",
@@ -4087,9 +4206,9 @@
         "peakDbfs": -6.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "d0a6e874e42d498441c9987404fab388fab36fd4758a6255d2c51c89a97a95b7",
       "sourceMetrics": {
         "durationSeconds": 3.64,
@@ -4102,7 +4221,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_60_06_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "0070b02c429b7626f6d957f0d79b8924c18f53d12c8c80936e840cbb67b73102"
     },
     {
       "id": "age_72_01_step_0",
@@ -4121,9 +4241,9 @@
         "peakDbfs": -6.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "c585a285f55a1bec99e686665d2e786d26cc5df413ec5f4971320d9469d39dd2",
       "sourceMetrics": {
         "durationSeconds": 2.84,
@@ -4136,7 +4256,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_01_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "305ae59ea148ac1087f43219481621e462c124d9767a1d8b4825224662f98197"
     },
     {
       "id": "age_72_01_step_1",
@@ -4155,9 +4276,9 @@
         "peakDbfs": -4.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "a7335e33ff0eafcd6cc9af31123e11ea10768d38f3f2246468befe593f155811",
       "sourceMetrics": {
         "durationSeconds": 3.04,
@@ -4170,7 +4291,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_01_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "7656a4a0b6b9dfd24c51790c7b31238e0e3ad728476f68a5feb89d73d2a2f914"
     },
     {
       "id": "age_72_01_step_2",
@@ -4189,9 +4311,9 @@
         "peakDbfs": -6.6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "f502d85801e982cc6c9069df7ca316aa71345ef3f6261fc66761b69b175c0a12",
       "sourceMetrics": {
         "durationSeconds": 3.12,
@@ -4204,7 +4326,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_01_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "c147b1cc40de21b0aef0e876fab302d97e6588cc103658bd7e5d951ea57f2afd"
     },
     {
       "id": "age_72_02_step_0",
@@ -4223,9 +4346,9 @@
         "peakDbfs": -6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "78a049de6b528edb8df249b0709cc8c4c2e9c8a3809c71052db5eb171691b561",
       "sourceMetrics": {
         "durationSeconds": 2.68,
@@ -4238,7 +4361,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_02_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "29bb2c9cf862d679ec1273d72a4ea8d0f00f8c3cfa5fbb66eae83c417af1367e"
     },
     {
       "id": "age_72_02_step_1",
@@ -4257,9 +4381,9 @@
         "peakDbfs": -7.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "ac5f3b4b4ad3b8400474a60266a88c8c37be240c53fe93edf61b09540cee798c",
       "sourceMetrics": {
         "durationSeconds": 2.96,
@@ -4272,7 +4396,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_02_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "c292a95e29abe740000c165897e7bfd5d691e3d5f5a23973d65441d75f9f7628"
     },
     {
       "id": "age_72_02_step_2",
@@ -4291,9 +4416,9 @@
         "peakDbfs": -4.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "d7dbe003fafb1909b2fc9f30a0f1f8cd0c149985f98dc4f94851fc1ab18cb090",
       "sourceMetrics": {
         "durationSeconds": 3.2,
@@ -4306,7 +4431,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_02_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "b7546364f86048194b4ac667751ac7beaef1fe0007c0babaea522f774b5d8e2c"
     },
     {
       "id": "age_72_03_step_0",
@@ -4325,9 +4451,9 @@
         "peakDbfs": -6.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "738ad0b78c55acfacc6aa0d194261abc07022ac9141df3e591cb87edb9288079",
       "sourceMetrics": {
         "durationSeconds": 2.96,
@@ -4340,7 +4466,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_03_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "2499eba6009254b57cc14114c6474096e1de6a0eeb1ea88b5eee01d540e63e13"
     },
     {
       "id": "age_72_03_step_1",
@@ -4359,9 +4486,9 @@
         "peakDbfs": -6.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "a3d8bb9f09697367ff256f9c345faa6a12dfac1b0bcf47678deea946e109ffa7",
       "sourceMetrics": {
         "durationSeconds": 2.76,
@@ -4374,7 +4501,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_03_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "e6381a7bcb576986f9b6c86ce1f01aada1c534510ec7515a9bf3e6209ccab064"
     },
     {
       "id": "age_72_03_step_2",
@@ -4393,9 +4521,9 @@
         "peakDbfs": -6.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "11dc1d575fb81ac34dff45893d7acb68256644c62bb51dfa76ce9f7f4c680df9",
       "sourceMetrics": {
         "durationSeconds": 3.16,
@@ -4408,7 +4536,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_03_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "6a99b4f9ac31b8141d6bd132959721b1f40be41e25539ba9b73db067cd8c8b31"
     },
     {
       "id": "age_72_04_step_0",
@@ -4427,9 +4556,9 @@
         "peakDbfs": -5.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "dd7f62b83685009362920db7d7f4630ba454b7e20bd04c906d90fa2475148e18",
       "sourceMetrics": {
         "durationSeconds": 3.04,
@@ -4442,7 +4571,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_04_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "17fa56d628f912fbfdcefe618746bee8cda714dc2efafeb030d659a14eef8dd5"
     },
     {
       "id": "age_72_04_step_1",
@@ -4461,9 +4591,9 @@
         "peakDbfs": -6.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "5d898a9b0040d0230c75449ec48c939b4ae21549ee839e72d0a6765a61bfeaf3",
       "sourceMetrics": {
         "durationSeconds": 2.4,
@@ -4476,7 +4606,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_04_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "ed7a1171706622acc5b13c1fe874ae1dcacc27a31ae653397e7e0e2167b3eb76"
     },
     {
       "id": "age_72_04_step_2",
@@ -4495,9 +4626,9 @@
         "peakDbfs": -5.6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "e6b211e856759c438dc016f0dfece7706d559edd7d5d04668a866be25463a5d1",
       "sourceMetrics": {
         "durationSeconds": 3,
@@ -4510,7 +4641,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_04_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "36ed0b2e81b4bde366d3e24c10a0a38c371cbc687d58c29bebc3c01977f25354"
     },
     {
       "id": "age_72_05_step_0",
@@ -4529,9 +4661,9 @@
         "peakDbfs": -7.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "1b1e20d0116672aab5e2adf7b96be4a49d7f052c07b367870b3f3957ee4ac6f1",
       "sourceMetrics": {
         "durationSeconds": 2.8,
@@ -4544,7 +4676,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_05_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "5add87cfd35003c8a12d72dedc91928faa69a1ec7f7dd27dff48b8895951269d"
     },
     {
       "id": "age_72_05_step_1",
@@ -4563,9 +4696,9 @@
         "peakDbfs": -5.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "b9c4b0758458f477a4bc4b20ac640013f2ab1b1dff12b16ff8c5706a657701f6",
       "sourceMetrics": {
         "durationSeconds": 3.4,
@@ -4578,7 +4711,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_05_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "a8eb596b427d1b0af81dc8023ccb41dac1b9f26e43310b783fbec4aad939a07a"
     },
     {
       "id": "age_72_05_step_2",
@@ -4597,9 +4731,9 @@
         "peakDbfs": -5.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "daebc5a6ff4c140a96573187257e7e53622e96460c2400546eae696ad5a0439c",
       "sourceMetrics": {
         "durationSeconds": 3.44,
@@ -4612,7 +4746,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_05_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "b6b1fda3d59a9cb455d194aa09435ca5ba6afb426ec3b72279579680bb4d0019"
     },
     {
       "id": "age_72_06_step_0",
@@ -4631,9 +4766,9 @@
         "peakDbfs": -4.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "7ac0d6247050e9f3112e452b272bfa76693656c12614551b7e8556c4943aa428",
       "sourceMetrics": {
         "durationSeconds": 3.96,
@@ -4646,7 +4781,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_06_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "6d4e2cfc6074955372afd97ee2439930b5e6e7a752bae0977fce748eb9c5442d"
     },
     {
       "id": "age_72_06_step_1",
@@ -4665,9 +4801,9 @@
         "peakDbfs": -5.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "939783dec36c5ce1c876de2578f8cdde64aebdb852dce097527e21c0c79f5301",
       "sourceMetrics": {
         "durationSeconds": 4.84,
@@ -4680,7 +4816,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_06_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "24fc2056ef389a22a9531d9b0812ac3a9b974c875d1a979b297de6411db86c9e"
     },
     {
       "id": "age_72_06_step_2",
@@ -4699,9 +4836,9 @@
         "peakDbfs": -3.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "3e7fd0b826f7cdcd6b6932018b9d742c5a050226db55e604a49848102be0214a",
       "sourceMetrics": {
         "durationSeconds": 3.16,
@@ -4714,7 +4851,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_72_06_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "d3e99512c1c48e6bb24435d8ec1769084ce75d2cea9edfcd2c40ffca555fef8e"
     },
     {
       "id": "age_84_01_step_0",
@@ -4733,9 +4871,9 @@
         "peakDbfs": -7.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "8538714f9c0de23155a4ecb1f55bff0502b2b53d6d990f8cf292b322be336be7",
       "sourceMetrics": {
         "durationSeconds": 2.96,
@@ -4748,7 +4886,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_01_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "d8ea75f9a786916b010e97a4d053de511938264fc002be6e6d77fda6939da58d"
     },
     {
       "id": "age_84_01_step_1",
@@ -4767,9 +4906,9 @@
         "peakDbfs": -5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "2a2edad21f9e3741972a1b2391097f42473b81f277a1e27129c49566cf783236",
       "sourceMetrics": {
         "durationSeconds": 2.92,
@@ -4782,7 +4921,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_01_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "8ad1a3bd4ea22a5dfd909eb00f3ff7eed52bcf5e7148cba594dad9518410aff5"
     },
     {
       "id": "age_84_01_step_2",
@@ -4801,9 +4941,9 @@
         "peakDbfs": -6.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "02615c082598bf0493230b546c589e06ae1b5725f115fd565768d682d5bca0dd",
       "sourceMetrics": {
         "durationSeconds": 3.4,
@@ -4816,7 +4956,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_01_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "c5f6b35330c7452d4b2c1cf949afe0fc0dc8cad3e5c504eaf3128bd27a473190"
     },
     {
       "id": "age_84_02_step_0",
@@ -4835,9 +4976,9 @@
         "peakDbfs": -6.7,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "90a0f1ef928939ddfe4054fff25d831b472bbebb07842ecfe976f7cee500a8fe",
       "sourceMetrics": {
         "durationSeconds": 3,
@@ -4850,7 +4991,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_02_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "cdec49584eae7c046a00724fa24b3abf206dd08438032d6d3bd075404607b0c1"
     },
     {
       "id": "age_84_02_step_1",
@@ -4869,9 +5011,9 @@
         "peakDbfs": -6.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "75b0327aca98e42c620b4e3bebe6f245daba8d4312471bee904f5c34112c94d6",
       "sourceMetrics": {
         "durationSeconds": 3.12,
@@ -4884,7 +5026,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_02_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "fc912aed8c84b7f96cdf3091f11631991d6026eef0552b0c1a3705b87848ec84"
     },
     {
       "id": "age_84_02_step_2",
@@ -4903,9 +5046,9 @@
         "peakDbfs": -7.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "dbc564f712e7ae067a062e1d94cee206af3b45bf7b6bca9932cbd544240bce1d",
       "sourceMetrics": {
         "durationSeconds": 3.2,
@@ -4918,7 +5061,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_02_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "e44d4639ba8826814dfed88ce2c8909705c7d3f4a942b62a2b2b28dd13ac57c6"
     },
     {
       "id": "age_84_03_step_0",
@@ -4937,9 +5081,9 @@
         "peakDbfs": -5.8,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "8a6ac2c11a62e6d8901d3315a03cf2a0d00dc727262237a2b6dbfcb6342f1d4f",
       "sourceMetrics": {
         "durationSeconds": 2.96,
@@ -4952,7 +5096,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_03_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "315d661e49785b76b51cc8b5d3b309dbc21552cf8af2de715be4136caba5a2f6"
     },
     {
       "id": "age_84_03_step_1",
@@ -4971,9 +5116,9 @@
         "peakDbfs": -4.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "7374b95d7742b8f54ad1d21b2f31a18418dd590012622e3154fd8913c30c53d5",
       "sourceMetrics": {
         "durationSeconds": 4,
@@ -4986,7 +5131,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_03_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "09cbbc157b53682393bc05b4cc435db3fcb49fb91359e6b4234f608a73d91103"
     },
     {
       "id": "age_84_03_step_2",
@@ -5005,9 +5151,9 @@
         "peakDbfs": -6.4,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "3061320b358a1286c76e882a44806b29e7716405cb0d25d3b5c572b1dfb23445",
       "sourceMetrics": {
         "durationSeconds": 3.88,
@@ -5020,7 +5166,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_03_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "79b6cc5f8e53f4df326581f63dc68922fd5559f0f3c4154969985936bdd2054a"
     },
     {
       "id": "age_84_04_step_0",
@@ -5039,9 +5186,9 @@
         "peakDbfs": -4.6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "27eb0fa1362d88c29bad0d80b1ac0574236147ac4e96331e28b827b6f3dc1553",
       "sourceMetrics": {
         "durationSeconds": 3.48,
@@ -5054,7 +5201,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_04_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "ba2e0df301f69a6e984fa498d076ba65522b3928717c13ebdc5a2a0d0e183cff"
     },
     {
       "id": "age_84_04_step_1",
@@ -5073,9 +5221,9 @@
         "peakDbfs": -5.2,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "8d7f69ed145eb5f34bc242294f8eab9a9bc68cdaa95da5414f93a27f44a262cc",
       "sourceMetrics": {
         "durationSeconds": 4.2,
@@ -5088,7 +5236,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_04_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "62b0d0fe23c5880e4f3a6c23130e5331c87f8a7769779ff4110f652996978d9b"
     },
     {
       "id": "age_84_04_step_2",
@@ -5107,9 +5256,9 @@
         "peakDbfs": -7.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "9abcb2a47eebd49d1e01f644ccd03381054becd7857f2a25ef0988bb56a60e5b",
       "sourceMetrics": {
         "durationSeconds": 3.44,
@@ -5122,7 +5271,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_04_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "30f3ac6fb40ee87d4f755be82e971260d1688c79114d99f7e47199976e88daf5"
     },
     {
       "id": "age_84_05_step_0",
@@ -5141,9 +5291,9 @@
         "peakDbfs": -5.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "8f43f9ae4d6ee7979f37a2796c075957d1eece2b378af3c095865bf2bf7f9cf2",
       "sourceMetrics": {
         "durationSeconds": 3.64,
@@ -5156,7 +5306,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_05_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "78559667de6780f9839d884e20ab7e8fe86efb31ecd7ed627d2ce8424a39dc12"
     },
     {
       "id": "age_84_05_step_1",
@@ -5175,9 +5326,9 @@
         "peakDbfs": -5.6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "b9415261982563f4277164ec362c94531fbccdf677e1f81c4e2d3e19b5734e29",
       "sourceMetrics": {
         "durationSeconds": 4.12,
@@ -5190,7 +5341,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_05_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "9383de983897c14e2e23240351945ee7cc138928e54983627d385dc18533243d"
     },
     {
       "id": "age_84_05_step_2",
@@ -5209,9 +5361,9 @@
         "peakDbfs": -6.6,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "7eefa548433294d64fb868d0be435434c5a23def537885298ad196141f9d73d3",
       "sourceMetrics": {
         "durationSeconds": 3.48,
@@ -5224,7 +5376,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_05_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "27ccc277302916c9914ea6b0e042fa6892b7070b310b116870d4a09d90dc51e2"
     },
     {
       "id": "age_84_06_step_0",
@@ -5243,9 +5396,9 @@
         "peakDbfs": -4.9,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "42a7fc4436caedb9e726d4bef0b9adc8ac979c6db5e3226ada9fc7ec9c98b0f8",
       "sourceMetrics": {
         "durationSeconds": 3.2,
@@ -5258,7 +5411,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_06_step_0.wav"
-      }
+      },
+      "approvedContentSha256": "e78dbaba09729ed2b2f914bb9a6ee2430cc24dd2a03279a81dc1938ad8bc1a36"
     },
     {
       "id": "age_84_06_step_1",
@@ -5277,9 +5431,9 @@
         "peakDbfs": -6.1,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "23d7df5f04f6441190fceb807e412b6a10559ca1b95bdf2135f97313590f72c7",
       "sourceMetrics": {
         "durationSeconds": 2.72,
@@ -5292,7 +5446,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_06_step_1.wav"
-      }
+      },
+      "approvedContentSha256": "29d9dd0cf5c7bb5fea38a4927f4cbd37fe9747aebdb63b0362fd8719850c21ba"
     },
     {
       "id": "age_84_06_step_2",
@@ -5311,9 +5466,9 @@
         "peakDbfs": -7.5,
         "clippedSamples": 0
       },
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "sourceSha256": "b71df0470149869374a3b80db035c0c0c35515c341eeb604f709df04c33276c8",
       "sourceMetrics": {
         "durationSeconds": 3.44,
@@ -5326,9 +5481,11 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_84_06_step_2.wav"
-      }
+      },
+      "approvedContentSha256": "0fccaf90c657059f42e0ade425966cbc9323d7b1b3ec25942f0e4460f8f9e319"
     }
   ],
   "generationAuthorization": "Owner requested Gemini media production in this Codex task, 2026-09-29.",
-  "rightsNotice": "Generation authorization is not provider clearance. Confirm redistribution terms before child release."
+  "rightsNotice": "Owner attested review and usage rights for this content pack on 2026-09-29. This records the owner confirmation, not a written provider clearance.",
+  "reviewRecord": "production/age_pack/REVIEW_STATUS_2026-09-29.md"
 }

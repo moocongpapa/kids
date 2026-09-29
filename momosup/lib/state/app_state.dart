@@ -59,8 +59,13 @@ class AppState extends ChangeNotifier {
 
   List<AgeJourney> journeys = [];
   final Set<String> _journeyReviews = {};
+  final Map<String, bool> _journeyVisibility = {};
   bool journeyApproved(AgeJourney item) =>
-      item.audioReady && _journeyReviews.contains(item.reviewKey);
+      item.audioReady &&
+      _journeyVisibility[item.reviewKey] != false &&
+      (item.bundledApproved ||
+          _journeyReviews.contains(item.reviewKey) ||
+          _journeyVisibility[item.reviewKey] == true);
   Future<void> loadJourneys() async {
     journeys = await AgeJourneyRepository().load();
     notifyListeners();
@@ -68,15 +73,20 @@ class AppState extends ChangeNotifier {
 
   Future<void> reviewJourney(AgeJourney item, {required bool approved}) async {
     if (approved && !item.audioReady) throw StateError('음성 준비가 끝나지 않았어요.');
-    if (approved) {
-      _journeyReviews.add(item.reviewKey);
+    final updated = {..._journeyVisibility};
+    if (approved && item.bundledApproved) {
+      // Showing publisher-approved content is not a new local review receipt.
+      updated.remove(item.reviewKey);
     } else {
-      _journeyReviews.remove(item.reviewKey);
+      updated[item.reviewKey] = approved;
     }
     await _storage.write(
-      key: 'journey_reviews_v1',
-      value: jsonEncode(_journeyReviews.toList()),
+      key: 'journey_visibility_v1',
+      value: jsonEncode(updated),
     );
+    _journeyVisibility
+      ..clear()
+      ..addAll(updated);
     notifyListeners();
   }
 
@@ -93,6 +103,12 @@ class AppState extends ChangeNotifier {
 
   Future<void> load() async {
     try {
+      final rawVisibility = await _storage.read(key: 'journey_visibility_v1');
+      if (rawVisibility != null) {
+        _journeyVisibility.addAll(
+          Map<String, bool>.from(jsonDecode(rawVisibility) as Map),
+        );
+      }
       final rawReviews = await _storage.read(key: 'journey_reviews_v1');
       if (rawReviews != null) {
         _journeyReviews.addAll(

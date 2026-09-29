@@ -3,6 +3,7 @@ import path from 'node:path';
 import { createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 import { jobsFor } from './generate_age_audio.mjs';
+import { hasApprovedReview } from './content_review.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const read=p=>JSON.parse(fs.readFileSync(path.join(root,p)));
 const pack=read('assets/content/age_journeys.json');const speech=read('assets/content/age_audio_manifest.json');const music=read('assets/content/age_music_manifest.json');
@@ -28,6 +29,7 @@ for(const job of [...speech.jobs,...music.jobs]){
  const hash=createHash('sha256').update(fs.readFileSync(file)).digest('hex');if(hash!==job.sha256)issues.push(`Changed file ${job.id}`);
  if(!job.metrics||job.metrics.clippedSamples>0||job.metrics.peakDbfs==null||job.metrics.peakDbfs< -50)issues.push(`Invalid audio metrics ${job.id}`);
 }
-const pending=[...speech.jobs,...music.jobs].filter(j=>j.status!=='APPROVED'||!j.humanReviewedAt||!j.rightsEvidence).length;
-console.log(JSON.stringify({activities:pack.activities.length,caregiver:pack.activities.filter(a=>a.mechanic==='caregiver').length,digital:pack.activities.filter(a=>a.mechanic!=='caregiver').length,speech:speech.jobs.length,expectedSpeech:expected.length,music:music.jobs.length,pendingHumanMediaReview:pending,issues},null,2));
-if(issues.length||process.argv.includes('--release')&&pending)process.exitCode=1;
+const pendingActivities=pack.activities.filter(a=>!hasApprovedReview(a,'reviewStatus')).length;
+const pending=[...speech.jobs,...music.jobs].filter(j=>!hasApprovedReview(j)).length;
+console.log(JSON.stringify({activities:pack.activities.length,caregiver:pack.activities.filter(a=>a.mechanic==='caregiver').length,digital:pack.activities.filter(a=>a.mechanic!=='caregiver').length,speech:speech.jobs.length,expectedSpeech:expected.length,music:music.jobs.length,pendingHumanActivityReview:pendingActivities,pendingHumanMediaReview:pending,issues},null,2));
+if(issues.length||process.argv.includes('--release')&&(pending+pendingActivities))process.exitCode=1;

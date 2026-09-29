@@ -143,7 +143,7 @@ class _JourneyLibraryScreenState extends State<JourneyLibraryScreen> {
               padding: const EdgeInsets.all(20),
               children: [
                 if (widget.parent) ...[
-                  const Text('72개 놀이 · 보호자 미리보기\n월령에 맞는 실제 놀이와 짧은 장면을 만나보세요.'),
+                  const Text('72개 놀이 · 보호자 안내\n월령에 맞는 실제 놀이와 짧은 장면을 만나보세요.'),
                   const SizedBox(height: 16),
                   DropdownButtonFormField<int>(
                     initialValue: journeyBands
@@ -184,7 +184,9 @@ class _JourneyLibraryScreenState extends State<JourneyLibraryScreen> {
                               '${a.world} · ${a.minutes}분 안팎\n${a.isCaregiver
                                   ? '화면 밖 놀이 안내'
                                   : widget.appState.journeyApproved(a)
-                                  ? '이 기기 검수 완료'
+                                  ? '검수 완료 · 이용 가능'
+                                  : a.bundledApproved
+                                  ? '이 기기에서 숨김'
                                   : '새 콘텐츠 검수 대기'}',
                             )
                           : null,
@@ -418,7 +420,9 @@ class _JourneyDetailScreenState extends State<JourneyDetailScreen>
             const SizedBox(height: 16),
             Text(
               a.audioReady
-                  ? 'Gemini로 만든 새 안내 음성 · 청취 검수 대상'
+                  ? a.bundledApproved
+                        ? '안내 음성 · 검수와 사용권 확인 완료'
+                        : 'Gemini로 만든 새 안내 음성 · 청취 검수 대상'
                   : '음성 제작 중 · 글 안내와 화면 미리보기를 확인할 수 있어요.',
             ),
             Wrap(
@@ -483,67 +487,108 @@ class _JourneyDetailScreenState extends State<JourneyDetailScreen>
               label: Text(a.isCaregiver ? '안내 끝 · 휴대폰 내려놓기' : '이 단계로 직접 미리 놀기'),
             ),
             const SizedBox(height: 24),
-            const Text(
-              '이 기기에서 검수하기',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const Text(
-              '실제로 확인한 항목만 선택해 주세요. 대본이나 음성이 바뀌면 다시 검수합니다. 이 기록은 공개 출시 승인과 별개예요.',
-            ),
-            CheckboxListTile(
-              contentPadding: EdgeInsets.zero,
-              title: const Text('세 단계 대본·놀이 동작·안전을 확인했어요'),
-              value: script,
-              onChanged: (v) => setState(() => script = v!),
-            ),
-            CheckboxListTile(
-              contentPadding: EdgeInsets.zero,
-              title: const Text('모든 안내의 발음·내용·음량을 직접 들었어요'),
-              value: listened,
-              onChanged: (v) => setState(() => listened = v!),
-            ),
-            CheckboxListTile(
-              contentPadding: EdgeInsets.zero,
-              title: const Text('새 음성을 이 아동용 앱에 쓸 권리를 확인했어요'),
-              value: rights,
-              onChanged: (v) => setState(() => rights = v!),
-            ),
-            FilledButton(
-              onPressed: !saving && script && listened && rights && a.audioReady
-                  ? () async {
-                      setState(() => saving = true);
-                      try {
-                        await widget.appState.reviewJourney(a, approved: true);
-                        if (context.mounted) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                a.isCaregiver
-                                    ? '보호자 안내의 검수를 기록했어요.'
-                                    : '이 월령의 아이 홈에서 놀이를 열 수 있어요.',
-                              ),
-                            ),
-                          );
-                        }
-                      } catch (_) {
-                        if (mounted) {
-                          setState(() => error = '검수 기록을 저장하지 못했어요.');
-                        }
-                      } finally {
-                        if (mounted) setState(() => saving = false);
-                      }
-                    }
-                  : null,
-              child: Text(a.isCaregiver ? '보호자 안내 검수 기록' : '이 기기 아이 홈에 공개'),
-            ),
-            if (widget.appState.journeyApproved(a))
-              TextButton(
-                onPressed: () async {
-                  await widget.appState.reviewJourney(a, approved: false);
-                  if (mounted) setState(() {});
-                },
-                child: const Text('이 기기 공개 취소'),
+            if (a.bundledApproved) ...[
+              const Text(
+                '검수·사용권 확인 완료',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
+              Text(
+                a.isCaregiver
+                    ? '보호자가 안내를 확인한 뒤 아이와 화면 밖에서 함께 놀아 주세요.'
+                    : '아이 월령에 맞춰 홈에 나타납니다. 이 기기에서만 숨기거나 다시 보이게 할 수 있어요.',
+              ),
+              if (!a.isCaregiver)
+                FilledButton(
+                  onPressed: saving
+                      ? null
+                      : () async {
+                          setState(() => saving = true);
+                          try {
+                            await widget.appState.reviewJourney(
+                              a,
+                              approved: !widget.appState.journeyApproved(a),
+                            );
+                          } catch (_) {
+                            if (mounted) {
+                              setState(() => error = '설정을 저장하지 못했어요.');
+                            }
+                          } finally {
+                            if (mounted) setState(() => saving = false);
+                          }
+                        },
+                  child: Text(
+                    widget.appState.journeyApproved(a)
+                        ? '이 기기에서 숨기기'
+                        : '이 기기에서 다시 보이기',
+                  ),
+                ),
+            ] else ...[
+              const Text(
+                '이 기기에서 검수하기',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              const Text(
+                '실제로 확인한 항목만 선택해 주세요. 대본이나 음성이 바뀌면 다시 검수합니다. 이 기록은 공개 출시 승인과 별개예요.',
+              ),
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('세 단계 대본·놀이 동작·안전을 확인했어요'),
+                value: script,
+                onChanged: (v) => setState(() => script = v!),
+              ),
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('모든 안내의 발음·내용·음량을 직접 들었어요'),
+                value: listened,
+                onChanged: (v) => setState(() => listened = v!),
+              ),
+              CheckboxListTile(
+                contentPadding: EdgeInsets.zero,
+                title: const Text('새 음성을 이 아동용 앱에 쓸 권리를 확인했어요'),
+                value: rights,
+                onChanged: (v) => setState(() => rights = v!),
+              ),
+              FilledButton(
+                onPressed:
+                    !saving && script && listened && rights && a.audioReady
+                    ? () async {
+                        setState(() => saving = true);
+                        try {
+                          await widget.appState.reviewJourney(
+                            a,
+                            approved: true,
+                          );
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  a.isCaregiver
+                                      ? '보호자 안내의 검수를 기록했어요.'
+                                      : '이 월령의 아이 홈에서 놀이를 열 수 있어요.',
+                                ),
+                              ),
+                            );
+                          }
+                        } catch (_) {
+                          if (mounted) {
+                            setState(() => error = '검수 기록을 저장하지 못했어요.');
+                          }
+                        } finally {
+                          if (mounted) setState(() => saving = false);
+                        }
+                      }
+                    : null,
+                child: Text(a.isCaregiver ? '보호자 안내 검수 기록' : '이 기기 아이 홈에 공개'),
+              ),
+              if (widget.appState.journeyApproved(a))
+                TextButton(
+                  onPressed: () async {
+                    await widget.appState.reviewJourney(a, approved: false);
+                    if (mounted) setState(() {});
+                  },
+                  child: const Text('이 기기에서 숨기기'),
+                ),
+            ],
           ],
         ),
       ),

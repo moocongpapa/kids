@@ -395,7 +395,7 @@ class ParentHubScreen extends StatelessWidget {
                     _HubTile(
                       icon: Icons.forest_rounded,
                       title: '월령별 놀이 72개',
-                      subtitle: '6개월~만 7세 · 세 단계 · 새 음성 검수',
+                      subtitle: '6개월~만 7세 · 세 단계 · 놀이와 음성 안내',
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute<void>(
                           builder: (_) => JourneyLibraryScreen(

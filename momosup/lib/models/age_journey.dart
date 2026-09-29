@@ -25,7 +25,7 @@ String journeyBandLabel(int months) {
 }
 
 class AgeJourney {
-  AgeJourney(this.data, {this.audio = const {}}) {
+  AgeJourney(this.data, {this.audio = const {}, this.bundledApproved = false}) {
     if (steps.length != 3 ||
         variants.length != 3 ||
         id.isEmpty ||
@@ -45,6 +45,9 @@ class AgeJourney {
   }
   final Map<String, dynamic> data;
   final Map<String, String> audio;
+
+  /// Set only after the repository verifies the script and every audio receipt.
+  final bool bundledApproved;
   String get id => data['id'] as String;
   String get title => data['title'] as String;
   String get summary => data['summary'] as String;

@@ -1,6 +1,6 @@
 {
-  "status": "NEEDS_HUMAN_REVIEW",
-  "notice": "Adult preview only. Lyrics, sound level and child-app rights need review.",
+  "status": "APPROVED",
+  "notice": "Owner confirmed lyrics, listening review and usage rights on 2026-09-29. Caregiver demonstration only; never auto-played for infants.",
   "jobs": [
     {
       "id": "age_06_06_song",
@@ -12,9 +12,9 @@
       "sha256": "b9101595bdfda62c13859efbd95e472110893b5478bbb8576d40c65fc91c52bc",
       "model": "lyria-3-clip-preview",
       "generatedAt": "2026-09-29T03:45:13.694Z",
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "metrics": {
         "durationSeconds": 30.17,
         "sampleRate": 24000,
@@ -33,7 +33,8 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_06_06_song.mp3"
-      }
+      },
+      "approvedContentSha256": "e174ca5f5c4de16f3048291e17d05781c5ac5c2729f164511e567bc22eaad6a7"
     },
     {
       "id": "age_15_05_song",
@@ -45,9 +46,9 @@
       "sha256": "8ca0e7e79d36efa1c4a39a3cfd6d8fc8741fcb6fc35db77e4fc65df47488908f",
       "model": "lyria-3-clip-preview",
       "generatedAt": "2026-09-29T03:45:29.382Z",
-      "status": "NEEDS_HUMAN_REVIEW",
-      "humanReviewedAt": null,
-      "rightsEvidence": null,
+      "status": "APPROVED",
+      "humanReviewedAt": "2026-09-29T04:23:48Z",
+      "rightsEvidence": "Owner confirmed human review and usage rights in this Codex task on 2026-09-29; see production/age_pack/REVIEW_STATUS_2026-09-29.md.",
       "metrics": {
         "durationSeconds": 29.4,
         "sampleRate": 24000,
@@ -66,7 +67,9 @@
         "loudnessTargetLufs": -20,
         "truePeakTargetDb": -3,
         "sourceArchive": "production/audio_wav/age_pack/age_15_05_song.mp3"
-      }
+      },
+      "approvedContentSha256": "d62ef3abf7d58818e78df1f9908a821e5fd511dd434f2c176b48cf635f8c33df"
     }
-  ]
+  ],
+  "reviewRecord": "production/age_pack/REVIEW_STATUS_2026-09-29.md"
 }

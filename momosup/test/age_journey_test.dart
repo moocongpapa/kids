@@ -2,6 +2,8 @@ import 'package:momosup/data/journey_recommendation.dart';
 
 import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -32,7 +34,17 @@ Future<AppState> prepare(int age) async {
   return state;
 }
 
+class ReviewTestBundle extends CachingAssetBundle {
+  ReviewTestBundle(this.overrides);
+  final Map<String, List<int>> overrides;
+  @override
+  Future<ByteData> load(String key) async => overrides.containsKey(key)
+      ? ByteData.sublistView(Uint8List.fromList(overrides[key]!))
+      : rootBundle.load(key);
+}
+
 late List<AgeJourney> fixture;
+late List<AgeJourney> approvedPack;
 Future<List<AgeJourney>> drafts() async => fixture;
 Future<List<AgeJourney>> readDrafts() async {
   final pack = jsonDecode(
@@ -46,6 +58,7 @@ Future<List<AgeJourney>> readDrafts() async {
 void main() {
   setUpAll(() async {
     fixture = await readDrafts();
+    approvedPack = await AgeJourneyRepository().load();
   });
   test('매달 정확히 여섯 놀이이며 영아는 보호자용만 있다', () async {
     final pack = await drafts();
@@ -119,8 +132,8 @@ void main() {
     await reloaded.reviewJourney(validated, approved: false);
     expect(reloaded.journeyApproved(validated), isFalse);
   });
-  test('저장된 새 음성은 해시·대본 일치만 미리보기에 로드한다', () async {
-    final items = await AgeJourneyRepository().load();
+  test('검수·사용권·해시가 검증된 72개 놀이는 새 기기에서도 승인된다', () async {
+    final items = approvedPack;
     expect(items.length, 72);
     final manifest = jsonDecode(
       await rootBundle.loadString('assets/content/age_audio_manifest.json'),
@@ -133,7 +146,121 @@ void main() {
       (manifest['jobs'] as List).length + (music['jobs'] as List).length,
     );
     final state = await prepare(24);
-    expect(items.any(state.journeyApproved), isFalse);
+    expect(items.every((a) => a.bundledApproved), isTrue);
+    expect(items.every(state.journeyApproved), isTrue);
+    for (var age = 6; age <= 95; age++) {
+      final profile = baseProfile.copyWith(ageMonths: age);
+      final visible = items.where(
+        (a) =>
+            state.journeyApproved(a) &&
+            !a.isCaregiver &&
+            journeyEligible(a, profile),
+      );
+      expect(visible.length, age < 24 ? 0 : 6, reason: '$age개월');
+    }
+  });
+  test('승인 후 대본·음성·가사 변경이나 검수·권리 누락은 번들 승인을 무효화한다', () async {
+    Future<Map<String, dynamic>> read(String name) async =>
+        jsonDecode(await rootBundle.loadString('assets/content/$name'))
+            as Map<String, dynamic>;
+    final pack = await read('age_journeys.json');
+    final speech = await read('age_audio_manifest.json');
+    final music = await read('age_music_manifest.json');
+    final rows = pack['activities'] as List;
+    Map<String, dynamic> jobFor(int index) => (speech['jobs'] as List)
+        .cast<Map<String, dynamic>>()
+        .firstWhere((j) => j['activityId'] == rows[index]['id']);
+    rows[0]['title'] = '바뀐 놀이';
+    jobFor(1)['status'] = 'NEEDS_HUMAN_REVIEW';
+    jobFor(2)['rightsEvidence'] = null;
+    final overrides = <String, List<int>>{};
+    overrides[jobFor(3)['file'] as String] = [1, 2, 3];
+    final replaced = jobFor(4);
+    overrides[replaced['file'] as String] = [4, 5, 6];
+    replaced['sha256'] = sha256.convert([4, 5, 6]).toString();
+    music['jobs'][0]['lyrics'] = '수정된 가사';
+    rows[6]['humanReviewedAt'] = null;
+    overrides.addAll({
+      'assets/content/age_journeys.json': utf8.encode(jsonEncode(pack)),
+      'assets/content/age_audio_manifest.json': utf8.encode(jsonEncode(speech)),
+      'assets/content/age_music_manifest.json': utf8.encode(jsonEncode(music)),
+    });
+    final loaded = await AgeJourneyRepository(
+      bundle: ReviewTestBundle(overrides),
+    ).load();
+    expect(loaded.take(7).every((a) => !a.bundledApproved), isTrue);
+    expect(loaded.skip(7).every((a) => a.bundledApproved), isTrue);
+    expect(loaded[3].audioReady, isFalse);
+    expect(
+      loaded[4].audioReady,
+      isTrue,
+    ); // A rehashed replacement is still unapproved.
+    final state = await prepare(24);
+    expect(loaded.take(7).any(state.journeyApproved), isFalse);
+  });
+  test('번들 승인 놀이의 기기별 숨김과 복원이 재시작 후에도 유지된다', () async {
+    final state = await prepare(24);
+    final item = approvedPack.firstWhere((a) => a.minAge == 24);
+    expect(state.journeyApproved(item), isTrue);
+    await state.reviewJourney(item, approved: false);
+    final reloaded = AppState();
+    await reloaded.load();
+    expect(reloaded.journeyApproved(item), isFalse);
+    await reloaded.reviewJourney(item, approved: true);
+    final restored = AppState();
+    await restored.load();
+    expect(restored.journeyApproved(item), isTrue);
+    expect(
+      restored.journeyApproved(AgeJourney(item.data, audio: item.audio)),
+      isFalse,
+      reason: '다시 보이기는 취소된 번들 승인을 대신하는 로컬 검수가 아니다',
+    );
+  });
+  testWidgets('새 기기의 24개월 홈에서 승인 놀이가 바로 열린다', (tester) async {
+    final state = await prepare(24);
+    state.journeys = approvedPack;
+    final semantics = tester.ensureSemantics();
+    try {
+      final recommended = recommendJourneys(state.activeProfile!, approvedPack);
+      await tester.pumpWidget(
+        MaterialApp(
+          home: HomeScreen(appState: state, catalog: const []),
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(find.bySemanticsLabel(recommended.first.title), findsOneWidget);
+      expect(find.bySemanticsLabel('다른 숲 놀이'), findsOneWidget);
+      await tester.tap(find.bySemanticsLabel(recommended.first.title));
+      await tester.pumpAndSettle();
+      expect(find.byType(JourneyPlayScreen), findsOneWidget);
+      expect(find.byTooltip('놀이 시작'), findsOneWidget);
+      await tester.pumpWidget(const SizedBox.shrink());
+    } finally {
+      semantics.dispose();
+    }
+  });
+  testWidgets('승인된 놀이 상세에는 재검수 없이 숨김·복원 설정이 나온다', (tester) async {
+    final state = await prepare(24);
+    final item = approvedPack.firstWhere((a) => a.minAge == 24);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: JourneyDetailScreen(
+          journey: item,
+          appState: state,
+          profile: state.activeProfile!,
+        ),
+      ),
+    );
+    await tester.scrollUntilVisible(find.text('이 기기에서 숨기기'), 300);
+    expect(find.text('검수·사용권 확인 완료'), findsOneWidget);
+    expect(find.byType(CheckboxListTile), findsNothing);
+    await tester.tap(find.text('이 기기에서 숨기기'));
+    await tester.pumpAndSettle();
+    expect(state.journeyApproved(item), isFalse);
+    await tester.tap(find.text('이 기기에서 다시 보이기'));
+    await tester.pumpAndSettle();
+    expect(state.journeyApproved(item), isTrue);
+    await tester.pumpWidget(const SizedBox.shrink());
   });
   testWidgets('6개월 홈은 모든 아이 게임과 음소거 해제를 숨긴다', (tester) async {
     final state = await prepare(6);
@@ -185,12 +312,25 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
   testWidgets('추천 영아 놀이도 PIN을 거친 뒤 정확한 안내로 이동한다', (tester) async {
-    final state=await prepare(6);state.journeys=fixture;
-    await tester.pumpWidget(MaterialApp(home:HomeScreen(appState:state,catalog:const [])));await tester.pumpAndSettle();
-    final title=fixture.first.title;await tester.scrollUntilVisible(find.text(title),150);await tester.tap(find.text(title));await tester.pumpAndSettle();
-    expect(find.text('보호자만 들어갈 수 있어요'),findsOneWidget);
-    await tester.enterText(find.byType(TextField),'123456');await tester.tap(find.text('보호자 화면 열기'));await tester.pumpAndSettle();
-    expect(find.byType(JourneyDetailScreen),findsOneWidget);expect(find.text(title),findsOneWidget);await tester.pumpWidget(const SizedBox.shrink());
+    final state = await prepare(6);
+    state.journeys = fixture;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: HomeScreen(appState: state, catalog: const []),
+      ),
+    );
+    await tester.pumpAndSettle();
+    final title = fixture.first.title;
+    await tester.scrollUntilVisible(find.text(title), 150);
+    await tester.tap(find.text(title));
+    await tester.pumpAndSettle();
+    expect(find.text('보호자만 들어갈 수 있어요'), findsOneWidget);
+    await tester.enterText(find.byType(TextField), '123456');
+    await tester.tap(find.text('보호자 화면 열기'));
+    await tester.pumpAndSettle();
+    expect(find.byType(JourneyDetailScreen), findsOneWidget);
+    expect(find.text(title), findsOneWidget);
+    await tester.pumpWidget(const SizedBox.shrink());
   });
   for (final mechanic in [
     'reveal',

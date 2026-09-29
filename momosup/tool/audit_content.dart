@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'package:crypto/crypto.dart';
 
+import 'package:momosup/models/content_review.dart';
+
 /// Local release audit. This cannot replace listening, looking, or legal review.
 void main(List<String> args) {
   final release = args.contains('--release');
@@ -78,31 +80,43 @@ void main(List<String> args) {
     }
   }
 
-  // The age pack is bundled for parent preview; it must never silently inherit
-  // the original ten activities' release approval.
+  // Each new activity and recording needs its own exact-content receipt.
   final agePack = jsonDecode(
     File('assets/content/age_journeys.json').readAsStringSync(),
   ) as Map<String, dynamic>;
   for (final row in agePack['activities'] as List) {
-    if (row['reviewStatus'] != 'APPROVED') {
-      issues.add('${row['id']}: 새 월령 놀이의 공개 출시 검수 대기');
+    if (!hasApprovedReview(
+      row as Map<String, dynamic>,
+      statusField: 'reviewStatus',
+    )) {
+      issues.add('${row['id']}: 월령 놀이 승인 누락 또는 승인 후 내용 변경');
     }
   }
+  var ageMediaCount = 0;
   for (final source in ['age_audio_manifest.json', 'age_music_manifest.json']) {
     final media = jsonDecode(
       File('assets/content/$source').readAsStringSync(),
     ) as Map<String, dynamic>;
     for (final row in media['jobs'] as List) {
-      if (row['status'] != 'APPROVED' ||
-          row['humanReviewedAt'] == null ||
-          row['rightsEvidence'] == null) {
-        issues.add('${row['id']}: 새 미디어 청취·권리 검수 대기');
+      ageMediaCount++;
+      if (!hasApprovedReview(row as Map<String, dynamic>)) {
+        issues.add('${row['id']}: 미디어 승인 누락 또는 승인 후 내용 변경');
+      }
+      final path = row['file'] as String?;
+      if (path == null ||
+          !RegExp(r'^assets/audio/age_pack/[a-z0-9_]+\.(wav|m4a|mp3)$')
+              .hasMatch(path) ||
+          !File(path).existsSync() ||
+          sha256.convert(File(path).readAsBytesSync()).toString() !=
+              row['sha256']) {
+        issues.add('${row['id']}: 미디어 파일 누락 또는 해시 불일치');
       }
     }
   }
 
   stdout.writeln(
-    '콘텐츠 ${activities.length}개, 음성 작업 ${jobs.length}개, 이미지 ${assets.length}개',
+    '콘텐츠 ${activities.length + (agePack['activities'] as List).length}개, '
+    '음성·노래 ${jobs.length + ageMediaCount}개, 이미지 ${assets.length}개',
   );
   stdout.writeln('출시 전 미완료 ${issues.length}건');
   for (final issue in issues.take(20)) {
