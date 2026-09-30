@@ -71,7 +71,35 @@ flutter test
 flutter run
 ```
 
-작업 환경에는 임시 Flutter 3.47.5 SDK가 `/private/tmp/kids_flutter_sdk`에 설치되어 있다. 임시 폴더는 장기 보존을 기대하면 안 된다. Xcode 27·iOS 27 시뮬레이터와 Android Studio·Android SDK·Android 17(API 37) ARM 에뮬레이터를 설치했다. iOS 시뮬레이터용 빌드, Android 디버그 APK 빌드, 양쪽 가상 기기의 첫 화면 실행을 확인했다. 현재 iOS 프로젝트는 Swift Package Manager로 빌드되지만 CocoaPods는 설치되어 있지 않아 Flutter 진단에 경고가 남는다. Android 관련 Flutter 진단에도 현재 앱에 쓰지 않는 SDK 부가 기능들의 미수락 라이선스 경고가 남는다. 실기기는 아직 없어 양 플랫폼의 실기기 빌드와 동작은 검증하지 못했다.
+아이폰 네이티브 흐름 검사(부팅한 시뮬레이터의 ID 사용):
+
+Xcode 27에서는 **Xcode → Open Developer Tool → Device Hub**에서 시뮬레이터 창을 연다. 일반 앱 실행 대상은 `lib/main.dart`이며, 아래 통합 테스트 대상은 자동 검사 전용이다.
+
+```sh
+flutter drive --driver=test_driver/iphone_smoke.dart \
+  --target=integration_test/iphone_smoke_test.dart -d <SIMULATOR_ID>
+# 검사 후 일반 앱으로 다시 실행
+flutter run -t lib/main.dart -d <SIMULATOR_ID>
+```
+
+검사는 메모리 안의 가상 가족 프로필로 홈·악기 놀이·보호자 PIN·영상 미리보기 3편의 네이티브 재생·탐색·종료·음소거·회전을 확인한다. 기기에 저장된 프로필과 Keychain을 읽거나 수정하지 않는다. 화면 캡처는 임시 폴더 `momosup-iphone-test`에 저장하며, `MOMOSUP_TEST_SCREENSHOTS` 환경변수로 경로를 바꿀 수 있다. 실제 카카오 계정 로그인과 실기기 스피커·무음 스위치·통화 중단 동작은 별도 실기기 검사가 필요하다.
+
+2026-09-30: iOS 설정 파일의 누락된 배열 닫기 태그를 수정했고, 설정 파일 검사·일반 앱 iOS 시뮬레이터 빌드·홈/장난감/영상/온보딩 회귀 검사 26개·통합 테스트 코드 정적 분석을 통과했다. 네이티브 통합 테스트는 시뮬레이터 부팅/설치 지연으로 아직 완료하지 못했으며, 영상 3편·음성·회전의 아이폰 검사 통과 기록은 없다.
+
+2026-10-01: Flutter 3.47.5 SDK를 `/Users/wanseok/Developer/flutter`에 영구 설치하고 `~/.zprofile`에 실행 경로를 추가했다. 이전 임시 SDK가 삭제되면서 Xcode 빌드 스크립트와 `integration_test` Swift 패키지 링크가 끊어져 종료 코드 127과 의존성 그래프 오류가 발생했다. SDK를 옮긴 경우 아래 명령으로 생성 설정과 패키지 링크를 다시 만든다. `Generated.xcconfig`나 플러그인 캐시의 소스를 직접 수정하지 않는다.
+
+```sh
+cd /Users/wanseok/Developer/kids/momosup
+flutter clean
+flutter pub get
+flutter build ios --simulator --debug --config-only -t lib/main.dart
+```
+
+그다음 Xcode에서 `ios/Runner.xcworkspace`를 열고 Runner 스킴과 아이폰 시뮬레이터를 선택해 실행한다. 플러그인의 deprecated API 메시지는 경고이며, SDK 경로 누락과 구분해 확인한다. SDK 설치는 [Flutter 공식 설치 안내](https://docs.flutter.dev/install/manual)를 따른다.
+
+복구 검증: 영구 SDK로 일반 앱의 iOS 시뮬레이터 디버그 빌드가 41초 만에 성공했다. `integration_test` 패키지 연결이 영구 경로를 가리키고 생성 설정에 이전 임시 SDK 참조가 없는 것을 확인했다. `Info.plist` 검사와 통합 테스트 코드 정적 분석도 통과했다. 네이티브 통합 테스트 전체 실행은 아직 완료하지 않았다.
+
+Xcode 27·iOS 27 시뮬레이터와 Android Studio·Android SDK·Android 17(API 37) ARM 에뮬레이터를 설치했다. iOS 시뮬레이터용 빌드, Android 디버그 APK 빌드, 양쪽 가상 기기의 첫 화면 실행을 확인했다. 현재 iOS 프로젝트는 Swift Package Manager로 빌드되지만 CocoaPods는 설치되어 있지 않아 Flutter 진단에 경고가 남는다. Android 관련 Flutter 진단에도 현재 앱에 쓰지 않는 SDK 부가 기능들의 미수락 라이선스 경고가 남는다. 실기기는 아직 없어 양 플랫폼의 실기기 빌드와 동작은 검증하지 못했다.
 
 ## 콘텐츠 제작 경로
 
@@ -101,7 +129,7 @@ node tool/generate_gemini_tts.mjs --activity animal_tracks --limit 2 --rights-ev
 
 ## 다음 사용자 준비 항목
 
-1. iOS·Android 가상 기기의 빌드와 첫 화면 실행은 확인했다. Flutter SDK를 임시 폴더 밖에 영구 설치하고 실행 경로를 설정한다. 향후 CocoaPods를 쓰는 iOS 플러그인을 추가하면 별도 설치가 필요하다. 아이 관찰 전에 실제 Android/iPhone/iPad를 확보해 양 플랫폼에서 직접 실행한다.
+1. iOS·Android 가상 기기의 빌드와 첫 화면 실행은 확인했고 Flutter SDK 영구 설치와 실행 경로 설정을 완료했다. 향후 CocoaPods를 쓰는 iOS 플러그인을 추가하면 별도 설치가 필요하다. 아이 관찰 전에 실제 Android/iPhone/iPad를 확보해 양 플랫폼에서 직접 실행한다.
 2. Render 스테이징 서비스와 전용 Postgres는 싱가포르에 배포됐다. 수동 배포·복구·비용 점검은 [backend/README.md](backend/README.md)를 따른다. Codex·Google Pro 실제 청구액도 확인한다. 로그인 정보나 API 키를 채팅에 붙여넣지 말 것.
 3. 아직 없는 카카오 개발자 앱·Apple·Google Play 개발자 계정 준비. 외부 서비스 키와 서명 설정 없이는 실제 로그인·스토어 배포·결제를 붙일 수 없다.
 4. 창업자가 확인한 사용권의 원본 약관·허용 근거를 저장소 밖에 보관한다. 새 자산은 같은 검수·권리 확인 과정을 거쳐야 한다.
