@@ -95,13 +95,15 @@ class _JourneyDetectiveSceneState extends State<JourneyDetectiveScene> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Flexible(child: AvatarImage(
-                                  avatar: ['momo', 'duri', 'nuri'][i],
-                                  size: widget.count == 3 ? 48 : 72,
-                                  interactive: false,
-                                  lowStimulation: widget.quiet,
-                                  showBlush: found && i == widget.target,
-                                )),
+                                Flexible(
+                                  child: AvatarImage(
+                                    avatar: ['momo', 'duri', 'nuri'][i],
+                                    size: widget.count == 3 ? 48 : 72,
+                                    interactive: false,
+                                    lowStimulation: widget.quiet,
+                                    showBlush: found && i == widget.target,
+                                  ),
+                                ),
                                 Icon(clues[i], size: 28, color: forestInk),
                               ],
                             ),

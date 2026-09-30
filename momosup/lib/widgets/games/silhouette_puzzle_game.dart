@@ -165,7 +165,9 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
       _totalMatched++;
     });
 
+    GameFeedback.success(lowStimulation: widget.lowStimulation);
     SoundEffects.instance.snap();
+    SoundEffects.instance.playSuccessPitch(_matched.length - 1);
 
     if (!widget.lowStimulation) {
       final key = _targetKeys[id];
@@ -189,6 +191,7 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
 
   void _onRoundComplete() {
     _addTimer(const Duration(milliseconds: 600), () {
+      GameFeedback.celebration(lowStimulation: widget.lowStimulation);
       SoundEffects.instance.tada();
 
       if (!widget.lowStimulation) {
@@ -315,24 +318,34 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
                           : Colors.transparent,
                       shape: BoxShape.circle,
                     ),
-                    child: Draggable<String>(
-                      data: id,
-                      maxSimultaneousDrags: isMatched ? 0 : 1,
-                      feedback: _buildDraggableFeedback(id, size),
-                      childWhenDragging: Opacity(
-                        opacity: 0.3,
-                        child: _buildTrayBase(id, true, size: size),
-                      ),
-                      onDraggableCanceled: (velocity, offset) {
-                        SoundEffects.instance.boing();
-                        if (_hoveredWrongTarget != null) {
-                          _targetKeys[_hoveredWrongTarget]?.currentState
-                              ?.shake();
-                        }
-                      },
-                      child: ForestFloat(
-                        still: widget.lowStimulation,
-                        child: _buildTrayBase(id, false, size: size),
+                    child: IdleNudge(
+                      active: !isMatched,
+                      enabled: !widget.lowStimulation,
+                      child: Draggable<String>(
+                        data: id,
+                        maxSimultaneousDrags: isMatched ? 0 : 1,
+                        onDragStarted: () => GameFeedback.tap(
+                          lowStimulation: widget.lowStimulation,
+                        ),
+                        feedback: _buildDraggableFeedback(id, size),
+                        childWhenDragging: Opacity(
+                          opacity: 0.3,
+                          child: _buildTrayBase(id, true, size: size),
+                        ),
+                        onDraggableCanceled: (velocity, offset) {
+                          GameFeedback.light(
+                            lowStimulation: widget.lowStimulation,
+                          );
+                          SoundEffects.instance.boing();
+                          if (_hoveredWrongTarget != null) {
+                            _targetKeys[_hoveredWrongTarget]?.currentState
+                                ?.shake();
+                          }
+                        },
+                        child: ForestFloat(
+                          still: widget.lowStimulation,
+                          child: _buildTrayBase(id, false, size: size),
+                        ),
                       ),
                     ),
                   ),

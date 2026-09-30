@@ -82,10 +82,7 @@ class _HandGuideHintState extends State<HandGuideHint>
                   ],
                 ),
                 child: const Center(
-                  child: Text(
-                    '👆',
-                    style: TextStyle(fontSize: 26),
-                  ),
+                  child: Text('👆', style: TextStyle(fontSize: 26)),
                 ),
               ),
             ),

@@ -191,11 +191,8 @@ class _SortingGameState extends State<SortingGame>
         );
       });
 
-      if (sorted.length > 4) {
-        SoundEffects.instance.snap();
-      } else {
-        SoundEffects.instance.pop();
-      }
+      GameFeedback.success(lowStimulation: widget.lowStimulation);
+      SoundEffects.instance.playSuccessPitch(sorted.length - 1);
 
       (isBigBasket ? _bigBasketAnim : _smallBasketAnim).forward(from: 0);
       showMessage(
@@ -203,6 +200,7 @@ class _SortingGameState extends State<SortingGame>
         false,
       );
     } else {
+      GameFeedback.light(lowStimulation: widget.lowStimulation);
       SoundEffects.instance.boing();
       showMessage('이쪽이 아니야~ 🤔', true);
 
@@ -224,6 +222,7 @@ class _SortingGameState extends State<SortingGame>
   }
 
   void handleRoundComplete() {
+    GameFeedback.celebration(lowStimulation: widget.lowStimulation);
     SoundEffects.instance.tada();
     final size = MediaQuery.sizeOf(context);
     if (!widget.lowStimulation) {
@@ -484,23 +483,33 @@ class _SortingGameState extends State<SortingGame>
                                       : Colors.transparent,
                                   shape: BoxShape.circle,
                                 ),
-                                child: ForestFloat(
-                                  still: widget.lowStimulation,
-                                  offset: a.float,
-                                  child: Draggable<Acorn>(
-                                    data: a,
-                                    feedback: Material(
-                                      color: Colors.transparent,
+                                child: IdleNudge(
+                                  active: !isSorted && !isFlyingBack,
+                                  enabled: !widget.lowStimulation,
+                                  child: ForestFloat(
+                                    still: widget.lowStimulation,
+                                    offset: a.float,
+                                    child: Draggable<Acorn>(
+                                      data: a,
+                                      onDragStarted: () => GameFeedback.tap(
+                                        lowStimulation: widget.lowStimulation,
+                                      ),
+                                      feedback: Material(
+                                        color: Colors.transparent,
+                                        child: buildAcorn(
+                                          a,
+                                          mood: FaceMood.surprised,
+                                        ),
+                                      ),
+                                      childWhenDragging: Opacity(
+                                        opacity: 0.2,
+                                        child: buildAcorn(a),
+                                      ),
                                       child: buildAcorn(
                                         a,
-                                        mood: FaceMood.surprised,
+                                        mood: FaceMood.happy,
                                       ),
                                     ),
-                                    childWhenDragging: Opacity(
-                                      opacity: 0.2,
-                                      child: buildAcorn(a),
-                                    ),
-                                    child: buildAcorn(a, mood: FaceMood.happy),
                                   ),
                                 ),
                               ),

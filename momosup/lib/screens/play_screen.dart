@@ -1,4 +1,5 @@
-import '../utils/audio_cleanup.dart';
+import '../utils/sound_effects.dart';
+import '../utils/narration_player.dart';
 import '../utils/play_session.dart';
 import '../utils/play_checkpoint.dart';
 import '../utils/audio_policy.dart';
@@ -10,7 +11,6 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:just_audio/just_audio.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../models/activity.dart';
@@ -52,8 +52,7 @@ class PlayScreen extends StatefulWidget {
 class _PlayScreenState extends State<PlayScreen> {
   late final PlaySession session;
   late final PlayCheckpoint checkpoint;
-  AudioPlayer? _voice;
-  AudioPlayer get voice => _voice ??= AudioPlayer();
+  late final NarrationPlayer narration;
   final GlobalKey drawingKey = GlobalKey();
   final sceneScroll = ScrollController();
   final List<ArtMark> strokes = [];
@@ -75,6 +74,7 @@ class _PlayScreenState extends State<PlayScreen> {
   @override
   void initState() {
     super.initState();
+    narration = NarrationPlayer(playAsset: widget.playAsset);
     AudioPolicy.instance.configure(widget.profile);
     final savedWork = widget.isParentPreview && !widget.restoreSaved
         ? null
@@ -125,10 +125,10 @@ class _PlayScreenState extends State<PlayScreen> {
       onPause: () {
         checkpoint.event('interruptions');
         audioRequest++;
-        _voice?.stop();
+        narration.stop();
       },
       onResume: () {
-        if (phase == 1) playAudio(['prompt']);
+        if (phase < 2) playAudio(phase == 0 ? ['intro'] : ['prompt']);
       },
     );
     if (!widget.isParentPreview &&
@@ -149,6 +149,7 @@ class _PlayScreenState extends State<PlayScreen> {
 
   @override
   void dispose() {
+    SoundEffects.instance.stopAll();
     if (!widget.isParentPreview) {
       ForestAudio.instance.startBgm(
         enabled: widget.profile.musicOn && !widget.profile.caregiverMode,
@@ -156,7 +157,7 @@ class _PlayScreenState extends State<PlayScreen> {
     }
     session.dispose();
     checkpoint.dispose();
-    if (_voice != null) disposeAudioPlayer(_voice!);
+    narration.dispose();
     sceneScroll.dispose();
     super.dispose();
   }
@@ -165,19 +166,12 @@ class _PlayScreenState extends State<PlayScreen> {
     if (audioFailed || !AudioPolicy.instance.canVoice) return;
     final request = ++audioRequest;
     try {
-      if (widget.playAsset == null) await voice.stop();
-      for (final id in lineIds) {
-        if (!mounted || request != audioRequest) return;
+      final paths = lineIds.map((id) {
         final path = widget.activity.audioFiles[id];
         if (path == null) throw StateError('필수 음성이 없습니다: $id');
-        if (widget.playAsset != null) {
-          await widget.playAsset!(path);
-          continue;
-        }
-        await voice.setAsset(path);
-        if (!mounted || request != audioRequest) return;
-        await voice.play();
-      }
+        return path;
+      }).toList();
+      await narration.speak(paths);
     } catch (error) {
       if (!mounted || request != audioRequest) return;
       assert(() {
@@ -185,13 +179,14 @@ class _PlayScreenState extends State<PlayScreen> {
         return true;
       }());
       setState(() => audioFailed = true);
-      if (widget.playAsset == null) await voice.stop();
+      await narration.stop();
     }
   }
 
   Future<void> finish() async {
     if (phase == 2 || finishing) return;
     finishing = true;
+    SoundEffects.instance.stopAll();
     session.finish();
     if (widget.activity.mode == PlayMode.color &&
         strokes.isNotEmpty &&
@@ -456,6 +451,7 @@ class _PlayScreenState extends State<PlayScreen> {
           });
           checkpoint.event('actions');
           checkpoint.changed();
+          SoundEffects.instance.pop();
           playAudio(['choice_$index', 'reaction_$index']);
         },
       ),

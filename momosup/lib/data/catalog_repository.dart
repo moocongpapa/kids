@@ -10,18 +10,22 @@ class CatalogRepository {
 
   Future<List<Activity>> load() async {
     final sourceBytes = await rootBundle.load('assets/content/catalog.json');
-    final source = utf8.decode(sourceBytes.buffer.asUint8List(
-      sourceBytes.offsetInBytes,
-      sourceBytes.lengthInBytes,
-    ));
+    final source = utf8.decode(
+      sourceBytes.buffer.asUint8List(
+        sourceBytes.offsetInBytes,
+        sourceBytes.lengthInBytes,
+      ),
+    );
     final decoded = jsonDecode(source) as Map<String, dynamic>;
     final manifestBytes = await rootBundle.load(
       'assets/content/audio_manifest.json',
     );
-    final manifestSource = utf8.decode(manifestBytes.buffer.asUint8List(
-      manifestBytes.offsetInBytes,
-      manifestBytes.lengthInBytes,
-    ));
+    final manifestSource = utf8.decode(
+      manifestBytes.buffer.asUint8List(
+        manifestBytes.offsetInBytes,
+        manifestBytes.lengthInBytes,
+      ),
+    );
     final manifest = jsonDecode(manifestSource) as Map<String, dynamic>;
     final jobs = <String, Map<String, dynamic>>{};
     for (final value in manifest['jobs'] as List<dynamic>) {
@@ -54,21 +58,28 @@ class CatalogRepository {
     for (final id in activity.requiredAudioIds) {
       final job = jobs['${activity.id}::$id'];
       final filePath = activity.audioFiles[id];
-      if (job == null || job['status'] != 'APPROVED' ||
+      if (job == null ||
+          job['status'] != 'APPROVED' ||
           !_hasValue(job['humanReviewedAt']) ||
           !_hasValue(job['commercialRightsEvidence']) ||
-          !_hasValue(job['sha256']) || filePath == null ||
+          !_hasValue(job['sha256']) ||
+          filePath == null ||
           filePath != job['suggestedFile'] ||
-          !filePath.startsWith('assets/audio/') || filePath.contains('..') ||
+          !filePath.startsWith('assets/audio/') ||
+          filePath.contains('..') ||
           job['text'] != _scriptFor(activity, id)) {
         return false;
       }
       try {
         final bytes = await rootBundle.load(filePath);
-        final hash = sha256.convert(bytes.buffer.asUint8List(
-          bytes.offsetInBytes,
-          bytes.lengthInBytes,
-        )).toString();
+        final hash = sha256
+            .convert(
+              bytes.buffer.asUint8List(
+                bytes.offsetInBytes,
+                bytes.lengthInBytes,
+              ),
+            )
+            .toString();
         if (hash != job['sha256']) return false;
       } catch (_) {
         return false;
@@ -81,11 +92,16 @@ class CatalogRepository {
 
   String? _scriptFor(Activity activity, String id) {
     switch (id) {
-      case 'intro': return activity.intro;
-      case 'prompt': return activity.prompt;
-      case 'outro': return activity.outro;
-      case 'offscreen': return activity.offscreen;
-      case 'song': return activity.verses.join('\n');
+      case 'intro':
+        return activity.intro;
+      case 'prompt':
+        return activity.prompt;
+      case 'outro':
+        return activity.outro;
+      case 'offscreen':
+        return activity.offscreen;
+      case 'song':
+        return activity.verses.join('\n');
     }
     final parts = id.split('_');
     if (parts.length != 2) return null;

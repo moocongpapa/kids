@@ -93,7 +93,6 @@ class ForestExperimentGame extends FlameGame {
         canvas.restore();
       }
     }
-
   }
 
   @override
@@ -126,6 +125,7 @@ class _ForestExperimentSceneState extends State<ForestExperimentScene> {
     super.initState();
     if (widget.trial != null) game.run(widget.trial!, widget.quiet);
   }
+
   @override
   void didUpdateWidget(ForestExperimentScene old) {
     super.didUpdateWidget(old);

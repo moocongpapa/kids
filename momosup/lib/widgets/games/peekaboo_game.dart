@@ -91,7 +91,6 @@ class _PeekabooGameState extends State<PeekabooGame> {
         setState(() {
           spotTeaseCount[target] = (spotTeaseCount[target] ?? 0) + 1;
         });
-        SoundEffects.instance.whoosh();
       }
 
       _scheduleTease();
@@ -112,12 +111,18 @@ class _PeekabooGameState extends State<PeekabooGame> {
   void _handleTap(int i) {
     if (spotRevealState[i] == 2) return;
 
+    GameFeedback.tap(lowStimulation: widget.lowStimulation);
+
     if (widget.stage < 2) {
       setState(() {
         spotRevealState[i] = 2;
         totalFound++;
       });
+      GameFeedback.success(lowStimulation: widget.lowStimulation);
       SoundEffects.instance.snap();
+      SoundEffects.instance.playSuccessPitch(
+        spotRevealState.values.where((v) => v == 2).length - 1,
+      );
       _particlesKey.currentState?.burst(
         origin: _getSpotCenter(i),
         count: 8,
@@ -127,14 +132,18 @@ class _PeekabooGameState extends State<PeekabooGame> {
     } else {
       if (spotRevealState[i] == 0) {
         setState(() => spotRevealState[i] = 1);
+        GameFeedback.light(lowStimulation: widget.lowStimulation);
         SoundEffects.instance.pop();
       } else if (spotRevealState[i] == 1) {
         setState(() {
           spotRevealState[i] = 2;
           totalFound++;
         });
-        SoundEffects.instance.snap();
+        GameFeedback.success(lowStimulation: widget.lowStimulation);
         SoundEffects.instance.whoosh();
+        SoundEffects.instance.playSuccessPitch(
+          spotRevealState.values.where((v) => v == 2).length - 1,
+        );
         _particlesKey.currentState?.burst(
           origin: _getSpotCenter(i),
           count: 8,
@@ -149,6 +158,7 @@ class _PeekabooGameState extends State<PeekabooGame> {
     if (spotRevealState.values.where((v) => v == 2).length ==
         activeSpots.length) {
       widget.onComplete?.call();
+      GameFeedback.celebration(lowStimulation: widget.lowStimulation);
       if (widget.lowStimulation) return;
       Future.delayed(const Duration(milliseconds: 500), () {
         if (!mounted) return;
@@ -203,13 +213,17 @@ class _PeekabooGameState extends State<PeekabooGame> {
                               Positioned(
                                 left: spotPositions[i].dx,
                                 top: spotPositions[i].dy,
-                                child: _PeekabooSpot(
-                                  revealState: spotRevealState[i] ?? 0,
-                                  teaseCount: spotTeaseCount[i] ?? 0,
-                                  character: spotCharacter[i] ?? 'momo',
-                                  bush: spotBush[i] ?? ForestObject.bush,
-                                  lowStimulation: widget.lowStimulation,
-                                  onTap: () => _handleTap(i),
+                                child: IdleNudge(
+                                  active: (spotRevealState[i] ?? 0) < 2,
+                                  enabled: !widget.lowStimulation,
+                                  child: _PeekabooSpot(
+                                    revealState: spotRevealState[i] ?? 0,
+                                    teaseCount: spotTeaseCount[i] ?? 0,
+                                    character: spotCharacter[i] ?? 'momo',
+                                    bush: spotBush[i] ?? ForestObject.bush,
+                                    lowStimulation: widget.lowStimulation,
+                                    onTap: () => _handleTap(i),
+                                  ),
                                 ),
                               ),
                           Positioned.fill(

@@ -1,4 +1,4 @@
-import '../utils/audio_cleanup.dart';
+import '../utils/narration_player.dart';
 import '../widgets/journey_detective_scene.dart';
 import '../game/build_experiment.dart';
 import '../utils/play_session.dart';
@@ -19,7 +19,6 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 
 import '../models/age_journey.dart';
 import '../models/child_profile.dart';
@@ -246,7 +245,7 @@ class JourneyDetailScreen extends StatefulWidget {
 
 class _JourneyDetailScreenState extends State<JourneyDetailScreen>
     with WidgetsBindingObserver {
-  final player = AudioPlayer();
+  late final NarrationPlayer narration;
   int stage = 0;
   int audioRequest = 0;
   bool script = false,
@@ -259,6 +258,7 @@ class _JourneyDetailScreenState extends State<JourneyDetailScreen>
   @override
   void initState() {
     super.initState();
+    narration = NarrationPlayer();
     WidgetsBinding.instance.addObserver(this);
     stage = widget.profile.stageFor(widget.journey.id);
     ForestAudio.instance.pauseBgm();
@@ -271,7 +271,7 @@ class _JourneyDetailScreenState extends State<JourneyDetailScreen>
 
   Future<void> stop() async {
     audioRequest++;
-    if (player.processingState != ProcessingState.idle) await player.stop();
+    await narration.stop();
     if (mounted) setState(() => playing = false);
   }
 
@@ -280,17 +280,15 @@ class _JourneyDetailScreenState extends State<JourneyDetailScreen>
     final path = widget.journey.audio[id];
     if (path == null) return;
     try {
-      await player.stop();
-      await player.setAsset(path);
       if (!mounted || away || request != audioRequest) return;
       setState(() {
         playing = true;
         error = null;
       });
-      await player.play();
-      if (mounted) setState(() => playing = false);
+      await narration.speak([path]);
+      if (mounted && request == audioRequest) setState(() => playing = false);
     } catch (_) {
-      if (mounted) {
+      if (mounted && request == audioRequest) {
         setState(() {
           error = '음성을 재생하지 못했어요. 다시 들어 주세요.';
           playing = false;
@@ -302,7 +300,7 @@ class _JourneyDetailScreenState extends State<JourneyDetailScreen>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    disposeAudioPlayer(player);
+    narration.dispose();
     super.dispose();
   }
 
@@ -635,8 +633,7 @@ class JourneyPlayScreen extends StatefulWidget {
 }
 
 class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
-  AudioPlayer? _player;
-  AudioPlayer get player => _player ??= AudioPlayer();
+  late final NarrationPlayer narration;
   late final PlaySession session;
   late final PlayCheckpoint checkpoint;
   final sceneScroll = ScrollController();
@@ -689,6 +686,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
   @override
   void initState() {
     super.initState();
+    narration = NarrationPlayer(playAsset: widget.playAsset);
     AudioPolicy.instance.configure(widget.profile);
     sequenceSeed = widget.randomSeed ?? sequenceSeed;
     final saved = widget.preview && !widget.restoreSaved
@@ -768,7 +766,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
         checkpoint.event('interruptions');
         token++;
         voiceRequest++;
-        _player?.stop();
+        narration.stop();
         if (mounted) {
           setState(() {
             if (a.mechanic != 'build') busy = false;
@@ -777,7 +775,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
         }
       },
       onResume: () {
-        if (started && !ended) narrate();
+        if (!ended) narrate();
       },
     );
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -804,14 +802,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
       return;
     }
     try {
-      if (widget.playAsset == null) {
-        await player.stop();
-        await player.setAsset(path);
-        if (!mounted || mine != voiceRequest || ended) return;
-        await player.play();
-      } else {
-        await widget.playAsset!(path);
-      }
+      await narration.speak([path]);
       if (mounted && mine == voiceRequest && audioFailed) {
         setState(() => audioFailed = false);
       }
@@ -845,7 +836,8 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     if (sceneScroll.hasClients) sceneScroll.jumpTo(0);
     token++;
     voiceRequest++;
-    _player?.stop();
+    narration.stop();
+    SoundEffects.instance.stopAll();
     setState(() => ended = true);
     session.finish();
   }
@@ -859,7 +851,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     }
     token++;
     voiceRequest++;
-    _player?.stop();
+    narration.stop();
     setState(() {
       step++;
       trialResult = null;
@@ -879,6 +871,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     if (busy) return;
     final mine = token;
     setState(() => busy = true);
+    await narration.stop();
     for (var i = 0; i < slotCount; i++) {
       if (!mounted || ended || token != mine) break;
       setState(() => activeNote = i);
@@ -898,11 +891,12 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
 
   @override
   void dispose() {
+    SoundEffects.instance.stopAll();
     token++;
     voiceRequest++;
     checkpoint.dispose();
     session.dispose();
-    if (_player != null) disposeAudioPlayer(_player!);
+    narration.dispose();
     sceneScroll.dispose();
     if (!widget.preview) {
       ForestAudio.instance.startBgm(enabled: widget.profile.musicOn);
@@ -1337,7 +1331,13 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
       if (trials.length > 30) trials.removeAt(0);
     });
     checkpoint.changed();
-    if (sound) SoundEffects.instance.pop();
+    if (sound) {
+      if (trialResult!.success) {
+        SoundEffects.instance.snap();
+      } else {
+        SoundEffects.instance.whoosh();
+      }
+    }
   }
 
   Widget _build() => Column(

@@ -190,20 +190,65 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
                                   preview: true,
                                   restoreSaved: collection == 3,
                                 ),
-                                trailing: Row(mainAxisSize: MainAxisSize.min, children: [
-                                  PopupMenuButton<int>(tooltip: '이 놀이의 도움 단계', icon: const Icon(Icons.tune_rounded),
-                                    initialValue: p.activityStages[e.id] ?? -1,
-                                    itemBuilder: (_) => [for (var i = -1; i < 3; i++) PopupMenuItem(value: i,
-                                      child: Text(['월령·프로필 설정 따르기','함께 시작 · 그림 도움','혼자 탐색 · 도움 선택','비교·규칙 바꾸기'][i+1]))],
-                                    onSelected: (stage) async {
-                                      final stages = {...p.activityStages};
-                                      if (stage < 0) { stages.remove(e.id); } else { stages[e.id] = stage; }
-                                      try { await state.updateProfile(p.copyWith(activityStages: stages)); }
-                                      catch (_) { if (context.mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('단계를 저장하지 못했어요. 다시 시도해 주세요.'))); }
-                                    }),
-                                  IconButton(tooltip: '좋아하는 놀이', icon: Icon(p.favoriteJourneys.contains(e.id) ? Icons.favorite : Icons.favorite_border),
-                                    onPressed: () => _favorite(p, e)),
-                                ]),
+                                trailing: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    PopupMenuButton<int>(
+                                      tooltip: '이 놀이의 도움 단계',
+                                      icon: const Icon(Icons.tune_rounded),
+                                      initialValue:
+                                          p.activityStages[e.id] ?? -1,
+                                      itemBuilder: (_) => [
+                                        for (var i = -1; i < 3; i++)
+                                          PopupMenuItem(
+                                            value: i,
+                                            child: Text(
+                                              [
+                                                '월령·프로필 설정 따르기',
+                                                '함께 시작 · 그림 도움',
+                                                '혼자 탐색 · 도움 선택',
+                                                '비교·규칙 바꾸기',
+                                              ][i + 1],
+                                            ),
+                                          ),
+                                      ],
+                                      onSelected: (stage) async {
+                                        final stages = {...p.activityStages};
+                                        if (stage < 0) {
+                                          stages.remove(e.id);
+                                        } else {
+                                          stages[e.id] = stage;
+                                        }
+                                        try {
+                                          await state.updateProfile(
+                                            p.copyWith(activityStages: stages),
+                                          );
+                                        } catch (_) {
+                                          if (context.mounted) {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                  '단계를 저장하지 못했어요. 다시 시도해 주세요.',
+                                                ),
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      },
+                                    ),
+                                    IconButton(
+                                      tooltip: '좋아하는 놀이',
+                                      icon: Icon(
+                                        p.favoriteJourneys.contains(e.id)
+                                            ? Icons.favorite
+                                            : Icons.favorite_border,
+                                      ),
+                                      onPressed: () => _favorite(p, e),
+                                    ),
+                                  ],
+                                ),
                               ),
                           ],
                         )
@@ -275,7 +320,13 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
   Future<void> _favorite(ChildProfile p, PlayEntry e) async {
     final ids = [...p.favoriteJourneys];
     ids.contains(e.id) ? ids.remove(e.id) : ids.add(e.id);
-    try { await widget.appState.updateProfile(p.copyWith(favoriteJourneys: ids)); }
-    catch (_) { if (mounted) ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('즐겨찾기를 저장하지 못했어요.'))); }
+    try {
+      await widget.appState.updateProfile(p.copyWith(favoriteJourneys: ids));
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(const SnackBar(content: Text('즐겨찾기를 저장하지 못했어요.')));
+      }
+    }
   }
 }

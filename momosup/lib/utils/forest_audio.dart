@@ -10,7 +10,15 @@ import 'package:just_audio/just_audio.dart';
 class ForestAudio {
   ForestAudio._() {
     AudioPolicy.instance.addListener(() {
-      if (!AudioPolicy.instance.canMusic) pauseBgm();
+      if (!AudioPolicy.instance.canMusic) {
+        pauseBgm();
+      } else if (_isInitialized) {
+        unawaited(
+          _bgmPlayer
+              .setVolume(AudioPolicy.instance.musicGain)
+              .catchError((Object _) {}),
+        );
+      }
     });
   }
   static final ForestAudio instance = ForestAudio._();
@@ -26,7 +34,7 @@ class ForestAudio {
     try {
       await _bgmPlayer.setAsset('assets/audio/bgm_forest.wav');
       await _bgmPlayer.setLoopMode(LoopMode.all);
-      await _bgmPlayer.setVolume(0.40);
+      await _bgmPlayer.setVolume(AudioPolicy.instance.musicGain);
       _isInitialized = true;
     } catch (e) {
       if (kDebugMode) {

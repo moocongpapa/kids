@@ -170,6 +170,7 @@ class _XylophoneGameState extends State<XylophoneGame>
       _playedNotes.add(index);
     });
 
+    GameFeedback.light(lowStimulation: widget.lowStimulation);
     SoundEffects.instance.playNote(index);
 
     if (!widget.lowStimulation) {
@@ -205,6 +206,7 @@ class _XylophoneGameState extends State<XylophoneGame>
     } else if (_currentMode == GameMode.follow) {
       if (_melodyProgress < _melodySequence.length &&
           index == _melodySequence[_melodyProgress]) {
+        GameFeedback.success(lowStimulation: widget.lowStimulation);
         setState(() {
           _melodyProgress++;
         });
@@ -216,6 +218,7 @@ class _XylophoneGameState extends State<XylophoneGame>
   }
 
   void _completeMelody() {
+    GameFeedback.celebration(lowStimulation: widget.lowStimulation);
     SoundEffects.instance.tada();
     widget.onComplete?.call();
     if (!widget.lowStimulation) {
@@ -351,7 +354,11 @@ class _XylophoneGameState extends State<XylophoneGame>
       onTapDown: (_) => _playNote(index),
       onTapUp: (_) => setState(() => _activeBar = null),
       onTapCancel: () => setState(() => _activeBar = null),
-      child: bar,
+      child: IdleNudge(
+        active: isNextInMelody,
+        enabled: !widget.lowStimulation,
+        child: bar,
+      ),
     );
 
     final semanticBar = Semantics(

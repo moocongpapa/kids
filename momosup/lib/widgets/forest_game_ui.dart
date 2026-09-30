@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import 'avatar_image.dart';
+import 'cute_game_effects.dart';
 
 const forestInk = Color(0xFF284E3D);
 const forestCream = Color(0xFFFFF4D6);
@@ -318,11 +319,13 @@ class ForestCompletion extends StatelessWidget {
     this.quiet = false,
     this.preview = false,
     this.saved = false,
+    this.sticker,
     super.key,
   });
   final String avatar, offscreen;
   final VoidCallback onHome;
   final bool quiet, preview, saved;
+  final ForestSticker? sticker;
   @override
   Widget build(BuildContext context) {
     final compact = MediaQuery.sizeOf(context).height < 700;
@@ -339,7 +342,24 @@ class ForestCompletion extends StatelessWidget {
             color: forestInk,
           ),
         ),
-        SizedBox(height: compact ? 8 : 24),
+        if (sticker != null) ...[
+          const SizedBox(height: 6),
+          ForestStickerBadge(
+            sticker: sticker!,
+            size: compact ? 76 : 90,
+            animate: !quiet,
+          ),
+          const SizedBox(height: 4),
+          Text(
+            '${sticker!.name} 획득!',
+            style: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+              color: forestInk,
+            ),
+          ),
+        ],
+        SizedBox(height: compact ? 8 : 20),
         ForestFloat(
           still: quiet,
           child: SizedBox(

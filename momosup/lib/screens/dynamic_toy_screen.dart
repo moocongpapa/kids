@@ -19,6 +19,7 @@ import '../widgets/games/sorting_game.dart';
 import '../widgets/games/peekaboo_game.dart';
 import '../widgets/games/xylophone_game.dart';
 import '../widgets/games/silhouette_puzzle_game.dart';
+import '../widgets/cute_game_effects.dart';
 
 class DynamicToyScreen extends StatefulWidget {
   const DynamicToyScreen({
@@ -81,6 +82,7 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
 
   @override
   void dispose() {
+    SoundEffects.instance.stopAll();
     ForestAudio.instance.startBgm(
       enabled: widget.profile.musicOn && !widget.profile.caregiverMode,
     );
@@ -93,11 +95,26 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
     if (ended) return;
     setState(() => ended = true);
     session.finish();
-    SoundEffects.instance.tada();
+    SoundEffects.instance.stopAll();
+    SoundEffects.instance.whoosh();
   }
 
   void markComplete() {
-    if (!complete) setState(() => complete = true);
+    if (!complete) {
+      setState(() => complete = true);
+      final sticker = ForestSticker.forToy(widget.toyType.name);
+      widget.appState.saveWork(
+        widget.profile.id,
+        'sticker_${widget.toyType.name}',
+        sticker.toJson(),
+      );
+      final quiet =
+          widget.profile.lowStimulation ||
+          MediaQuery.disableAnimationsOf(context);
+      if (!quiet && mounted) {
+        ForestStickerModal.show(context, sticker: sticker);
+      }
+    }
   }
 
   String get title => switch (widget.toyType) {
@@ -158,6 +175,11 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
                                   avatar: avatar,
                                   offscreen: offscreen,
                                   quiet: quiet,
+                                  sticker: complete
+                                      ? ForestSticker.forToy(
+                                          widget.toyType.name,
+                                        )
+                                      : null,
                                   onHome: () => Navigator.of(context).pop(),
                                 ),
                               )

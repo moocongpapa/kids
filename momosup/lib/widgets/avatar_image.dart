@@ -39,18 +39,24 @@ class _AvatarImageState extends State<AvatarImage>
     );
     _scaleAnimation = TweenSequence<double>([
       TweenSequenceItem(
-        tween: Tween<double>(begin: 1.0, end: 0.88)
-            .chain(CurveTween(curve: Curves.easeIn)),
+        tween: Tween<double>(
+          begin: 1.0,
+          end: 0.88,
+        ).chain(CurveTween(curve: Curves.easeIn)),
         weight: 30,
       ),
       TweenSequenceItem(
-        tween: Tween<double>(begin: 0.88, end: 1.14)
-            .chain(CurveTween(curve: Curves.easeOutBack)),
+        tween: Tween<double>(
+          begin: 0.88,
+          end: 1.14,
+        ).chain(CurveTween(curve: Curves.easeOutBack)),
         weight: 40,
       ),
       TweenSequenceItem(
-        tween: Tween<double>(begin: 1.14, end: 1.0)
-            .chain(CurveTween(curve: Curves.easeInOut)),
+        tween: Tween<double>(
+          begin: 1.14,
+          end: 1.0,
+        ).chain(CurveTween(curve: Curves.easeInOut)),
         weight: 30,
       ),
     ]).animate(_controller);
@@ -84,7 +90,8 @@ class _AvatarImageState extends State<AvatarImage>
 
   @override
   Widget build(BuildContext context) {
-    final shouldBlush = !widget.lowStimulation &&
+    final shouldBlush =
+        !widget.lowStimulation &&
         !widget.avatar.contains('upset') &&
         (widget.showBlush || (widget.interactive && _controller.isAnimating));
 
@@ -101,10 +108,7 @@ class _AvatarImageState extends State<AvatarImage>
             filterQuality: FilterQuality.medium,
           ),
           if (shouldBlush)
-            CharacterBlushOverlay(
-              size: widget.size,
-              isBlushing: true,
-            ),
+            CharacterBlushOverlay(size: widget.size, isBlushing: true),
         ],
       ),
     );
@@ -120,10 +124,7 @@ class _AvatarImageState extends State<AvatarImage>
         animation: _controller,
         builder: (context, child) => Transform.rotate(
           angle: _rotationAnimation.value,
-          child: Transform.scale(
-            scale: _scaleAnimation.value,
-            child: child,
-          ),
+          child: Transform.scale(scale: _scaleAnimation.value, child: child),
         ),
         child: imageWidget,
       ),

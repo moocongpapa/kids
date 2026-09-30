@@ -136,7 +136,7 @@ class _ObservationScreenState extends State<ObservationScreen> {
                 const Divider(height: 32),
                 Text('새 관찰 기록', style: Theme.of(context).textTheme.titleLarge),
                 DropdownButtonFormField<String>(
-              isExpanded: true,
+                  isExpanded: true,
                   initialValue: activityId,
                   decoration: const InputDecoration(labelText: '실제로 함께한 놀이'),
                   items: [
@@ -158,7 +158,7 @@ class _ObservationScreenState extends State<ObservationScreen> {
                     ),
                   ),
                 DropdownButtonFormField<String>(
-              isExpanded: true,
+                  isExpanded: true,
                   initialValue: device,
                   decoration: const InputDecoration(labelText: '사용한 기기'),
                   items: [

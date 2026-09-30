@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 /// Lightweight particle system for toddler game celebrations.
@@ -21,8 +22,10 @@ class GameParticlesState extends State<GameParticles>
   @override
   void initState() {
     super.initState();
-    _ticker = AnimationController(vsync: this, duration: const Duration(seconds: 1))
-      ..addListener(_tick);
+    _ticker = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 1),
+    )..addListener(_tick);
   }
 
   @override
@@ -78,21 +81,23 @@ class GameParticlesState extends State<GameParticles>
     for (var i = 0; i < count; i++) {
       final angle = _rng.nextDouble() * math.pi * 2;
       final speed = spread * (.4 + _rng.nextDouble() * .6);
-      _particles.add(_Particle(
-        x: origin.dx,
-        y: origin.dy,
-        vx: math.cos(angle) * speed,
-        vy: math.sin(angle) * speed - spread * .6,
-        size: style == ParticleStyle.confetti
-            ? 4 + _rng.nextDouble() * 6
-            : 5 + _rng.nextDouble() * 8,
-        color: colors[_rng.nextInt(colors.length)],
-        life: .7 + _rng.nextDouble() * .5,
-        rotation: _rng.nextDouble() * math.pi * 2,
-        rotSpeed: (_rng.nextDouble() - .5) * 8,
-        shape: style,
-        gravity: gravity,
-      ));
+      _particles.add(
+        _Particle(
+          x: origin.dx,
+          y: origin.dy,
+          vx: math.cos(angle) * speed,
+          vy: math.sin(angle) * speed - spread * .6,
+          size: style == ParticleStyle.confetti
+              ? 4 + _rng.nextDouble() * 6
+              : 5 + _rng.nextDouble() * 8,
+          color: colors[_rng.nextInt(colors.length)],
+          life: .7 + _rng.nextDouble() * .5,
+          rotation: _rng.nextDouble() * math.pi * 2,
+          rotSpeed: (_rng.nextDouble() - .5) * 8,
+          shape: style,
+          gravity: gravity,
+        ),
+      );
     }
     if (!_ticker.isAnimating) {
       _lastT = null;
@@ -101,12 +106,20 @@ class GameParticlesState extends State<GameParticles>
   }
 
   /// Convenience: small sparkle puff.
-  void sparkle(Offset origin) =>
-      burst(origin: origin, count: 6, style: ParticleStyle.sparkles, spread: 60);
+  void sparkle(Offset origin) => burst(
+    origin: origin,
+    count: 6,
+    style: ParticleStyle.sparkles,
+    spread: 60,
+  );
 
   /// Convenience: big celebration.
-  void celebrate(Offset origin) =>
-      burst(origin: origin, count: 24, style: ParticleStyle.confetti, spread: 160);
+  void celebrate(Offset origin) => burst(
+    origin: origin,
+    count: 24,
+    style: ParticleStyle.confetti,
+    spread: 160,
+  );
 
   // ── internals ───────────────────────────────────────────────
 
@@ -161,7 +174,8 @@ class _Particle {
     required this.rotSpeed,
     required this.shape,
     required this.gravity,
-  }) : age = 0, alpha = 1.0;
+  }) : age = 0,
+       alpha = 1.0;
 }
 
 class _ParticlePainter extends CustomPainter {
@@ -186,7 +200,11 @@ class _ParticlePainter extends CustomPainter {
         case ParticleStyle.confetti:
           canvas.drawRRect(
             RRect.fromRectAndRadius(
-              Rect.fromCenter(center: Offset.zero, width: p.size, height: p.size * .55),
+              Rect.fromCenter(
+                center: Offset.zero,
+                width: p.size,
+                height: p.size * .55,
+              ),
               Radius.circular(p.size * .15),
             ),
             paint,

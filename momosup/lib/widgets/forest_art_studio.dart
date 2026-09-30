@@ -1,3 +1,5 @@
+import '../utils/sound_effects.dart';
+
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -144,6 +146,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
                         if (widget.locked || drawingPointer != null) return;
                         drawingPointer = d.pointer;
                         begin(d.localPosition, box.biggest);
+                        SoundEffects.instance.pop();
                       },
                       onPointerMove: (d) {
                         if (widget.locked ||

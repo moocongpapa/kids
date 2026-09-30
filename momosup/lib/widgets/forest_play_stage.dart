@@ -187,7 +187,9 @@ class PlayPiece extends StatelessWidget {
             duration: quiet ? Duration.zero : const Duration(milliseconds: 200),
             curve: Curves.easeOutBack,
             child: AnimatedContainer(
-              duration: quiet ? Duration.zero : const Duration(milliseconds: 180),
+              duration: quiet
+                  ? Duration.zero
+                  : const Duration(milliseconds: 180),
               width: size,
               height: size,
               decoration: BoxDecoration(

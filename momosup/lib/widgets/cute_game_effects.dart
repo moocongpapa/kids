@@ -1,16 +1,13 @@
 import 'dart:async';
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import '../utils/sound_effects.dart';
 import 'game_particles.dart';
 
-enum FaceMood {
-  idle,
-  happy,
-  surprised,
-  dizzy,
-  singing,
-}
+enum FaceMood { idle, happy, surprised, dizzy, singing }
 
 /// An adorable vector face overlay (eyes, blush, mouth) that brings fruits,
 /// acorns, notes, and props to life with blinking and varied moods.
@@ -137,8 +134,16 @@ class _CuteFacePainter extends CustomPainter {
       canvas.drawCircle(const Offset(18, 26), 4.5, eyePaint);
       canvas.drawCircle(const Offset(42, 26), 4.5, eyePaint);
       // Highlights
-      canvas.drawCircle(const Offset(16.5, 24.5), 1.6, Paint()..color = Colors.white);
-      canvas.drawCircle(const Offset(40.5, 24.5), 1.6, Paint()..color = Colors.white);
+      canvas.drawCircle(
+        const Offset(16.5, 24.5),
+        1.6,
+        Paint()..color = Colors.white,
+      );
+      canvas.drawCircle(
+        const Offset(40.5, 24.5),
+        1.6,
+        Paint()..color = Colors.white,
+      );
     } else if (mood == FaceMood.dizzy) {
       // Swirly dizzy eyes x x
       canvas.drawLine(const Offset(14, 23), const Offset(22, 29), mouthPaint);
@@ -149,8 +154,16 @@ class _CuteFacePainter extends CustomPainter {
       // Normal friendly eyes with cute sparkle highlight
       canvas.drawCircle(const Offset(18, 26), 3.4, eyePaint);
       canvas.drawCircle(const Offset(42, 26), 3.4, eyePaint);
-      canvas.drawCircle(const Offset(17, 24.5), 1.3, Paint()..color = Colors.white);
-      canvas.drawCircle(const Offset(41, 24.5), 1.3, Paint()..color = Colors.white);
+      canvas.drawCircle(
+        const Offset(17, 24.5),
+        1.3,
+        Paint()..color = Colors.white,
+      );
+      canvas.drawCircle(
+        const Offset(41, 24.5),
+        1.3,
+        Paint()..color = Colors.white,
+      );
     }
 
     // Mouth
@@ -166,14 +179,15 @@ class _CuteFacePainter extends CustomPainter {
         ..moveTo(24, 32)
         ..quadraticBezierTo(30, 42, 36, 32)
         ..close();
-      canvas.drawPath(
-        mouthPath,
-        Paint()..color = const Color(0xFFE56A70),
-      );
+      canvas.drawPath(mouthPath, Paint()..color = const Color(0xFFE56A70));
       // Tiny tongue
       canvas.save();
       canvas.clipPath(mouthPath);
-      canvas.drawCircle(const Offset(30, 39), 5, Paint()..color = const Color(0xFFFF9BA2));
+      canvas.drawCircle(
+        const Offset(30, 39),
+        5,
+        Paint()..color = const Color(0xFFFF9BA2),
+      );
       canvas.restore();
     } else if (mood == FaceMood.dizzy) {
       // Wobbly mouth ~
@@ -207,11 +221,7 @@ class CuteBubblesLayer extends StatefulWidget {
   final GlobalKey<GameParticlesState>? particlesKey;
   final bool enabled;
 
-  const CuteBubblesLayer({
-    super.key,
-    this.particlesKey,
-    this.enabled = true,
-  });
+  const CuteBubblesLayer({super.key, this.particlesKey, this.enabled = true});
 
   @override
   State<CuteBubblesLayer> createState() => _CuteBubblesLayerState();
@@ -256,8 +266,10 @@ class _CuteBubblesLayerState extends State<CuteBubblesLayer>
   @override
   void initState() {
     super.initState();
-    _ticker = AnimationController(vsync: this, duration: const Duration(seconds: 10))
-      ..addListener(_tick);
+    _ticker = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 10),
+    )..addListener(_tick);
   }
 
   @override
@@ -298,15 +310,17 @@ class _CuteBubblesLayerState extends State<CuteBubblesLayer>
 
     // Spawn new bubble occasionally (max 6 active bubbles at a time)
     if (_bubbles.length < 6 && _rng.nextDouble() < 0.03) {
-      _bubbles.add(_BubbleItem(
-        id: _nextId++,
-        x: 0.1 + _rng.nextDouble() * 0.8,
-        y: size.height + 40,
-        size: 38 + _rng.nextDouble() * 26,
-        speed: 35 + _rng.nextDouble() * 30,
-        swayOffset: _rng.nextDouble() * math.pi * 2,
-        color: _bubbleColors[_rng.nextInt(_bubbleColors.length)],
-      ));
+      _bubbles.add(
+        _BubbleItem(
+          id: _nextId++,
+          x: 0.1 + _rng.nextDouble() * 0.8,
+          y: size.height + 40,
+          size: 38 + _rng.nextDouble() * 26,
+          speed: 35 + _rng.nextDouble() * 30,
+          swayOffset: _rng.nextDouble() * math.pi * 2,
+          color: _bubbleColors[_rng.nextInt(_bubbleColors.length)],
+        ),
+      );
     }
 
     // Move bubbles up
@@ -344,7 +358,9 @@ class _CuteBubblesLayerState extends State<CuteBubblesLayer>
 
     return Stack(
       children: _bubbles.map((b) {
-        final xPos = (b.x * screenWidth) + math.sin(_elapsed * 2.0 + b.swayOffset) * 16.0;
+        final xPos =
+            (b.x * screenWidth) +
+            math.sin(_elapsed * 2.0 + b.swayOffset) * 16.0;
         return Positioned(
           left: xPos - b.size / 2,
           top: b.y - b.size / 2,
@@ -436,7 +452,9 @@ class CharacterBlushOverlay extends StatelessWidget {
                   height: size * 0.11,
                   decoration: BoxDecoration(
                     color: const Color(0xFFFF6584).withAlpha(160),
-                    borderRadius: BorderRadius.all(Radius.elliptical(size * 0.18, size * 0.11)),
+                    borderRadius: BorderRadius.all(
+                      Radius.elliptical(size * 0.18, size * 0.11),
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFFFF6584).withAlpha(120),
@@ -456,7 +474,9 @@ class CharacterBlushOverlay extends StatelessWidget {
                   height: size * 0.11,
                   decoration: BoxDecoration(
                     color: const Color(0xFFFF6584).withAlpha(160),
-                    borderRadius: BorderRadius.all(Radius.elliptical(size * 0.18, size * 0.11)),
+                    borderRadius: BorderRadius.all(
+                      Radius.elliptical(size * 0.18, size * 0.11),
+                    ),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFFFF6584).withAlpha(120),
@@ -469,6 +489,471 @@ class CharacterBlushOverlay extends StatelessWidget {
               ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Tactile game feedback (Haptic impacts) wrapped safely for toddlers
+/// and sensitive sound/touch settings.
+class GameFeedback {
+  /// Subtle tick for taps and drag pickup
+  static void tap({bool lowStimulation = false}) {
+    if (lowStimulation) return;
+    HapticFeedback.selectionClick();
+  }
+
+  /// Light bump for snapping or touching targets
+  static void light({bool lowStimulation = false}) {
+    if (lowStimulation) return;
+    HapticFeedback.lightImpact();
+  }
+
+  /// Satisfying bump on success (feeding, matching, sorting)
+  static void success({bool lowStimulation = false}) {
+    if (lowStimulation) return;
+    HapticFeedback.mediumImpact();
+  }
+
+  /// Big celebration impact on round or game completion
+  static void celebration({bool lowStimulation = false}) {
+    if (lowStimulation) return;
+    HapticFeedback.heavyImpact();
+  }
+}
+
+/// Plays a playful hop-and-wobble motion when a toddler hesitates for 4+ seconds,
+/// gently nudging their attention without disruptive overlay popups.
+class IdleNudge extends StatefulWidget {
+  final Widget child;
+  final bool enabled;
+  final Duration idleDuration;
+  final bool active;
+
+  const IdleNudge({
+    super.key,
+    required this.child,
+    this.enabled = true,
+    this.idleDuration = const Duration(milliseconds: 4200),
+    this.active = true,
+  });
+
+  @override
+  State<IdleNudge> createState() => _IdleNudgeState();
+}
+
+class _IdleNudgeState extends State<IdleNudge>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _hopAnimation;
+  late final Animation<double> _wobbleAnimation;
+  Timer? _idleTimer;
+  bool _isNudging = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 700),
+    );
+    _hopAnimation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween(
+          begin: 0.0,
+          end: -12.0,
+        ).chain(CurveTween(curve: Curves.easeOutQuad)),
+        weight: 40,
+      ),
+      TweenSequenceItem(
+        tween: Tween(
+          begin: -12.0,
+          end: 0.0,
+        ).chain(CurveTween(curve: Curves.bounceOut)),
+        weight: 60,
+      ),
+    ]).animate(_controller);
+
+    _wobbleAnimation = TweenSequence<double>([
+      TweenSequenceItem(tween: Tween(begin: 0.0, end: -0.09), weight: 25),
+      TweenSequenceItem(tween: Tween(begin: -0.09, end: 0.09), weight: 50),
+      TweenSequenceItem(tween: Tween(begin: 0.09, end: 0.0), weight: 25),
+    ]).animate(_controller);
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        if (mounted) {
+          setState(() => _isNudging = false);
+          _resetIdleTimer();
+        }
+      }
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _resetIdleTimer();
+  }
+
+  @override
+  void didUpdateWidget(IdleNudge oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (!widget.active || !widget.enabled) {
+      _idleTimer?.cancel();
+      if (_controller.isAnimating) _controller.stop();
+      _isNudging = false;
+    } else if (oldWidget.active != widget.active ||
+        oldWidget.enabled != widget.enabled) {
+      _resetIdleTimer();
+    }
+  }
+
+  void _resetIdleTimer() {
+    _idleTimer?.cancel();
+    if (!widget.enabled || !widget.active) return;
+    if (MediaQuery.disableAnimationsOf(context)) return;
+
+    _idleTimer = Timer(widget.idleDuration, () {
+      if (!mounted || !widget.active || !widget.enabled) return;
+      if (MediaQuery.disableAnimationsOf(context)) return;
+      setState(() => _isNudging = true);
+      _controller.forward(from: 0.0);
+    });
+  }
+
+  @override
+  void dispose() {
+    _idleTimer?.cancel();
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!widget.enabled || MediaQuery.disableAnimationsOf(context)) {
+      return widget.child;
+    }
+
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        if (!_isNudging && !_controller.isAnimating) return child!;
+        return Transform.translate(
+          offset: Offset(0, _hopAnimation.value),
+          child: Transform.rotate(angle: _wobbleAnimation.value, child: child),
+        );
+      },
+      child: widget.child,
+    );
+  }
+}
+
+/// Collectible shiny treasure stickers awarded to toddlers for completing games.
+class ForestSticker {
+  final String id;
+  final String name;
+  final String description;
+  final IconData icon;
+  final Color primaryColor;
+  final Color glowColor;
+  final String badgeEmoji;
+
+  const ForestSticker({
+    required this.id,
+    required this.name,
+    required this.description,
+    required this.icon,
+    required this.primaryColor,
+    required this.glowColor,
+    required this.badgeEmoji,
+  });
+
+  Map<String, dynamic> toJson() => {
+    'id': id,
+    'name': name,
+    'description': description,
+    'badgeEmoji': badgeEmoji,
+  };
+
+  static const List<ForestSticker> catalog = [
+    ForestSticker(
+      id: 'golden_acorn',
+      name: '황금 도토리',
+      description: '숲속 다람쥐가 선물한 반짝이는 황금 도토리예요!',
+      icon: Icons.eco_rounded,
+      primaryColor: Color(0xFFF59E0B),
+      glowColor: Color(0xFFFDE68A),
+      badgeEmoji: '🌰',
+    ),
+    ForestSticker(
+      id: 'rainbow_berry',
+      name: '무지개 열매',
+      description: '달콤한 꿀향기가 나는 알록달록 무지개 열매예요!',
+      icon: Icons.bubble_chart_rounded,
+      primaryColor: Color(0xFFEC4899),
+      glowColor: Color(0xFFFBCFE8),
+      badgeEmoji: '🍓',
+    ),
+    ForestSticker(
+      id: 'star_clover',
+      name: '별빛 네잎클로버',
+      description: '밤하늘 별빛을 듬뿍 머금은 행운의 클로버예요!',
+      icon: Icons.filter_vintage_rounded,
+      primaryColor: Color(0xFF10B981),
+      glowColor: Color(0xFFA7F3D0),
+      badgeEmoji: '🍀',
+    ),
+    ForestSticker(
+      id: 'musical_note',
+      name: '노래하는 멜로디',
+      description: '실로폰 소리를 닮아 맑고 고운 소리가 나요!',
+      icon: Icons.music_note_rounded,
+      primaryColor: Color(0xFF6366F1),
+      glowColor: Color(0xFFC7D2FE),
+      badgeEmoji: '🎵',
+    ),
+    ForestSticker(
+      id: 'puzzle_crown',
+      name: '숲속 영웅 왕관',
+      description: '그림자를 멋지게 맞춘 숲속 작은 영웅의 왕관!',
+      icon: Icons.auto_awesome_rounded,
+      primaryColor: Color(0xFF8B5CF6),
+      glowColor: Color(0xFFDDD6FE),
+      badgeEmoji: '👑',
+    ),
+  ];
+
+  static ForestSticker forToy(String toyName) {
+    switch (toyName) {
+      case 'feeding':
+        return catalog[1];
+      case 'sorting':
+        return catalog[0];
+      case 'peekaboo':
+        return catalog[2];
+      case 'xylophone':
+        return catalog[3];
+      case 'puzzle':
+      default:
+        return catalog[4];
+    }
+  }
+}
+
+/// Shiny collectible sticker badge with gold/star accents.
+class ForestStickerBadge extends StatelessWidget {
+  final ForestSticker sticker;
+  final double size;
+  final bool animate;
+
+  const ForestStickerBadge({
+    super.key,
+    required this.sticker,
+    this.size = 110,
+    this.animate = true,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [sticker.glowColor, sticker.primaryColor],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: sticker.primaryColor.withAlpha(120),
+            blurRadius: 16,
+            spreadRadius: 3,
+            offset: const Offset(0, 4),
+          ),
+          const BoxShadow(
+            color: Colors.white70,
+            blurRadius: 6,
+            spreadRadius: -2,
+            offset: Offset(-2, -2),
+          ),
+        ],
+        border: Border.all(color: const Color(0xFFFFE082), width: 3.5),
+      ),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(sticker.badgeEmoji, style: TextStyle(fontSize: size * 0.42)),
+            const SizedBox(height: 2),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
+              decoration: BoxDecoration(
+                color: Colors.black.withAlpha(50),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Text(
+                sticker.name,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  fontSize: size * 0.12,
+                  letterSpacing: -0.3,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Celebration pop-up dialog that awards the ForestSticker on game completion.
+class ForestStickerModal extends StatefulWidget {
+  final ForestSticker sticker;
+  final VoidCallback onDismiss;
+  final bool lowStimulation;
+
+  const ForestStickerModal({
+    super.key,
+    required this.sticker,
+    required this.onDismiss,
+    this.lowStimulation = false,
+  });
+
+  static Future<void> show(
+    BuildContext context, {
+    required ForestSticker sticker,
+    bool lowStimulation = false,
+  }) {
+    return showGeneralDialog(
+      context: context,
+      barrierDismissible: true,
+      barrierLabel: '보물 스티커',
+      barrierColor: Colors.black.withAlpha(140),
+      transitionDuration: const Duration(milliseconds: 350),
+      pageBuilder: (ctx, anim1, anim2) => ForestStickerModal(
+        sticker: sticker,
+        onDismiss: () => Navigator.of(ctx).pop(),
+        lowStimulation: lowStimulation,
+      ),
+      transitionBuilder: (ctx, anim1, anim2, child) {
+        final curve = CurvedAnimation(parent: anim1, curve: Curves.easeOutBack);
+        return ScaleTransition(scale: curve, child: child);
+      },
+    );
+  }
+
+  @override
+  State<ForestStickerModal> createState() => _ForestStickerModalState();
+}
+
+class _ForestStickerModalState extends State<ForestStickerModal> {
+  final GlobalKey<GameParticlesState> _particlesKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    if (!widget.lowStimulation) {
+      GameFeedback.celebration();
+      SoundEffects.instance.tada();
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _particlesKey.currentState?.burst(
+          origin: const Offset(160, 160),
+          count: 24,
+          style: ParticleStyle.confetti,
+          spread: 220,
+        );
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Material(
+        color: Colors.transparent,
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (!widget.lowStimulation)
+              Positioned.fill(
+                child: IgnorePointer(child: GameParticles(key: _particlesKey)),
+              ),
+            Container(
+              width: 310,
+              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 26),
+              decoration: BoxDecoration(
+                color: const Color(0xFFFFFDF5),
+                borderRadius: BorderRadius.circular(28),
+                border: Border.all(color: const Color(0xFFD3BA99), width: 3),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x33000000),
+                    blurRadius: 24,
+                    offset: Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text(
+                    '숲속 보물 발견! ✨',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w900,
+                      color: Color(0xFF2C1E14),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  ForestStickerBadge(
+                    sticker: widget.sticker,
+                    size: 110,
+                    animate: !widget.lowStimulation,
+                  ),
+                  const SizedBox(height: 14),
+                  Text(
+                    widget.sticker.description,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF5D4037),
+                      height: 1.3,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: widget.onDismiss,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF388E3C),
+                      foregroundColor: Colors.white,
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 28,
+                        vertical: 12,
+                      ),
+                    ),
+                    child: const Text(
+                      '가방에 담기 🎒',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );

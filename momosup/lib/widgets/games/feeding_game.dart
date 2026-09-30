@@ -185,7 +185,9 @@ class _FeedingGameState extends State<FeedingGame>
       _chewing = true;
       currentText = '냠냠!';
     });
+    GameFeedback.success(lowStimulation: widget.lowStimulation);
     SoundEffects.instance.chew();
+    SoundEffects.instance.playSuccessPitch(eatenIndices.length - 1);
     _chewController.forward(from: 0.0).then((_) {
       if (!mounted) return;
 
@@ -238,6 +240,7 @@ class _FeedingGameState extends State<FeedingGame>
       setState(() {
         currentText = '배부르다! 😊';
       });
+      GameFeedback.celebration(lowStimulation: widget.lowStimulation);
       SoundEffects.instance.snap();
 
       if (!widget.lowStimulation) {
@@ -478,24 +481,34 @@ class _FeedingGameState extends State<FeedingGame>
                       enabled: !isDisabled,
                       onTap: isDisabled ? null : () => _triggerEat(i),
                       child: ExcludeSemantics(
-                        child: Draggable<int>(
-                          data: i,
-                          maxSimultaneousDrags: isDisabled ? 0 : 1,
-                          feedback: Material(
-                            color: Colors.transparent,
-                            child: fruitWidget(
-                              fruitObj,
-                              size: 84,
-                              mood: FaceMood.surprised,
+                        child: IdleNudge(
+                          active: !isDisabled,
+                          enabled: !widget.lowStimulation,
+                          child: Draggable<int>(
+                            data: i,
+                            maxSimultaneousDrags: isDisabled ? 0 : 1,
+                            onDragStarted: () => GameFeedback.tap(
+                              lowStimulation: widget.lowStimulation,
                             ),
-                          ),
-                          childWhenDragging: fruitWidget(fruitObj, faded: true),
-                          child: GestureDetector(
-                            onTap: isDisabled ? null : () => _triggerEat(i),
-                            child: fruitWidget(
+                            feedback: Material(
+                              color: Colors.transparent,
+                              child: fruitWidget(
+                                fruitObj,
+                                size: 84,
+                                mood: FaceMood.surprised,
+                              ),
+                            ),
+                            childWhenDragging: fruitWidget(
                               fruitObj,
-                              faded: isEaten,
-                              mood: isEaten ? FaceMood.idle : FaceMood.happy,
+                              faded: true,
+                            ),
+                            child: GestureDetector(
+                              onTap: isDisabled ? null : () => _triggerEat(i),
+                              child: fruitWidget(
+                                fruitObj,
+                                faded: isEaten,
+                                mood: isEaten ? FaceMood.idle : FaceMood.happy,
+                              ),
                             ),
                           ),
                         ),
