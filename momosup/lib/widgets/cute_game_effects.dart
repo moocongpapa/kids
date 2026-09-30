@@ -784,28 +784,35 @@ class ForestStickerBadge extends StatelessWidget {
         border: Border.all(color: const Color(0xFFFFE082), width: 3.5),
       ),
       child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(sticker.badgeEmoji, style: TextStyle(fontSize: size * 0.42)),
-            const SizedBox(height: 2),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 1.5),
-              decoration: BoxDecoration(
-                color: Colors.black.withAlpha(50),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Text(
-                sticker.name,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w800,
-                  fontSize: size * 0.12,
-                  letterSpacing: -0.3,
+        child: FittedBox(
+          fit: BoxFit.scaleDown,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(sticker.badgeEmoji, style: TextStyle(fontSize: size * 0.42)),
+              const SizedBox(height: 2),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 6,
+                  vertical: 1.5,
+                ),
+                decoration: BoxDecoration(
+                  color: Colors.black.withAlpha(50),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Text(
+                  sticker.name,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w800,
+                    fontSize: size * 0.12,
+                    letterSpacing: -0.3,
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

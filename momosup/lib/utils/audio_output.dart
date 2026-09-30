@@ -16,9 +16,11 @@ class AssetAudioOutput implements AudioOutput {
   final Future<void> Function(String)? callback;
   AudioPlayer? _player;
   String path = '';
+  int _revision = 0;
   AudioPlayer get player => _player ??= AudioPlayer();
   @override
   Future<void> load(String value) async {
+    _revision++;
     path = value;
     if (callback == null) await player.setAsset(value);
   }
@@ -29,14 +31,25 @@ class AssetAudioOutput implements AudioOutput {
   }
 
   @override
-  Future<void> play() => callback == null ? player.play() : callback!(path);
+  Future<void> play() async {
+    if (callback != null) {
+      await callback!(path);
+      return;
+    }
+    final revision = _revision;
+    await player.seek(Duration.zero);
+    if (revision == _revision) await player.play();
+  }
+
   @override
   Future<void> stop() async {
+    _revision++;
     await _player?.stop();
   }
 
   @override
   Future<void> dispose() async {
+    _revision++;
     if (_player != null) await disposeAudioPlayer(_player!);
   }
 }

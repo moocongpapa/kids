@@ -89,6 +89,7 @@ void main() {
         MaterialApp(
           theme: ThemeData(fontFamily: 'NotoSansKR'),
           home: DynamicToyScreen(
+            playAsset: (_) async {},
             toyType: toy,
             appState: appState,
             profile: profile,

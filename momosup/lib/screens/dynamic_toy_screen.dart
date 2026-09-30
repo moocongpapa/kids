@@ -1,3 +1,9 @@
+import 'dart:async';
+
+import '../data/toy_audio_repository.dart';
+import '../utils/narration_player.dart';
+import '../utils/toy_music_player.dart';
+import '../utils/audio_output.dart';
 import '../data/play_catalog.dart';
 export '../data/play_catalog.dart' show DynamicToyType;
 import '../utils/play_session.dart';
@@ -27,9 +33,15 @@ class DynamicToyScreen extends StatefulWidget {
     required this.appState,
     required this.profile,
     this.preview = false,
+    this.audioPack,
+    this.playAsset,
+    this.musicOutput,
     super.key,
   });
   final bool preview;
+  final ToyAudioPack? audioPack;
+  final Future<void> Function(String)? playAsset;
+  final AudioOutput? musicOutput;
   final DynamicToyType toyType;
   final AppState appState;
   final ChildProfile profile;
@@ -40,6 +52,12 @@ class DynamicToyScreen extends StatefulWidget {
 class _DynamicToyScreenState extends State<DynamicToyScreen> {
   late final PlaySession session;
   late final PlayCheckpoint checkpoint;
+  late final NarrationPlayer narration;
+  late final ToyMusicPlayer music;
+  ToyAudioPack? audio;
+  String instruction = 'intro';
+  int audioRequest = 0;
+  bool audioFailed = false;
   bool ended = false;
   bool complete = false;
 
@@ -47,6 +65,8 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
   void initState() {
     super.initState();
     AudioPolicy.instance.configure(widget.profile);
+    narration = NarrationPlayer(playAsset: widget.playAsset);
+    music = ToyMusicPlayer(output: widget.musicOutput);
     checkpoint = PlayCheckpoint(
       widget.appState,
       widget.profile.id,
@@ -66,26 +86,82 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
               ),
             ),
       onExpire: finish,
-      onPause: () => checkpoint.event('interruptions'),
-      onResume: () {},
+      onPause: () {
+        checkpoint.event('interruptions');
+        audioRequest++;
+        narration.stop();
+      },
+      onResume: () {
+        if (!ended) speak(instruction);
+      },
       onCheckpoint: checkpoint.checkpoint,
     );
     if (widget.profile.ageMonths < 36 || widget.profile.ageMonths >= 72) {
       ended = true;
       return;
     }
-    ForestAudio.instance.pauseBgm();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) session.start();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      session.start();
+      await ForestAudio.instance.pauseBgm();
+      if (mounted) await loadAudio();
     });
+  }
+
+  Future<void> loadAudio() async {
+    try {
+      final pack = widget.audioPack ?? await ToyAudioRepository().load();
+      if (!mounted) return;
+      audio = pack;
+      if (!ended) {
+        music.start(
+          widget.toyType == DynamicToyType.xylophone
+              ? null
+              : pack.music[widget.toyType.name],
+        );
+      }
+      await speak(ended ? 'outro' : instruction);
+    } catch (_) {
+      if (mounted) setState(() => audioFailed = true);
+    }
+  }
+
+  Future<void> speak(String cue) async {
+    if (!mounted || session.paused || (ended && cue != 'outro')) return;
+    final request = ++audioRequest;
+    final path = audio?.cue(widget.toyType.name, cue);
+    if (path == null) {
+      if (audio != null) setState(() => audioFailed = true);
+      return;
+    }
+    try {
+      await narration.speak([path]);
+      if (mounted && request == audioRequest && audioFailed) {
+        setState(() => audioFailed = false);
+      }
+    } catch (_) {
+      if (mounted && request == audioRequest) {
+        setState(() => audioFailed = true);
+      }
+    }
+  }
+
+  void changeMusicMode(bool follow) {
+    instruction = follow ? 'follow' : 'intro';
+    speak(instruction);
   }
 
   @override
   void dispose() {
+    audioRequest++;
+    narration.dispose();
+    music.dispose();
     SoundEffects.instance.stopAll();
-    ForestAudio.instance.startBgm(
-      enabled: widget.profile.musicOn && !widget.profile.caregiverMode,
-    );
+    if (!widget.preview) {
+      ForestAudio.instance.startBgm(
+        enabled: widget.profile.musicOn && !widget.profile.caregiverMode,
+      );
+    }
     session.dispose();
     checkpoint.dispose();
     super.dispose();
@@ -96,18 +172,24 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
     setState(() => ended = true);
     session.finish();
     SoundEffects.instance.stopAll();
-    SoundEffects.instance.whoosh();
+    music.stop();
+    narration.stop();
+    speak('outro');
   }
 
   void markComplete() {
+    if (ended || !mounted) return;
     if (!complete) {
       setState(() => complete = true);
+      speak('complete');
       final sticker = ForestSticker.forToy(widget.toyType.name);
-      widget.appState.saveWork(
-        widget.profile.id,
-        'sticker_${widget.toyType.name}',
-        sticker.toJson(),
-      );
+      if (!widget.preview) {
+        widget.appState.saveWork(
+          widget.profile.id,
+          'sticker_${widget.toyType.name}',
+          sticker.toJson(),
+        );
+      }
       final quiet =
           widget.profile.lowStimulation ||
           MediaQuery.disableAnimationsOf(context);
@@ -163,8 +245,22 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
                 children: [
                   ForestHeader(
                     title: title,
+                    preview: widget.preview,
+                    onReplay: () {
+                      if (audio == null || audioFailed) {
+                        loadAudio();
+                      } else {
+                        speak(ended ? 'outro' : instruction);
+                      }
+                    },
                     onExit: ended ? () => Navigator.of(context).pop() : finish,
                   ),
+                  if (audioFailed)
+                    TextButton.icon(
+                      onPressed: loadAudio,
+                      icon: const Icon(Icons.volume_up_rounded),
+                      label: const Text('소리 다시 듣기'),
+                    ),
                   Expanded(
                     child: Center(
                       child: ConstrainedBox(
@@ -226,6 +322,11 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
                                                   ),
                                                 DynamicToyType.xylophone =>
                                                   XylophoneGame(
+                                                    onModeChanged:
+                                                        changeMusicMode,
+                                                    onNote: () {
+                                                      narration.stop();
+                                                    },
                                                     lowStimulation: quiet,
                                                     stage: widget.profile.stageFor(
                                                       'toy_${widget.toyType.name}',

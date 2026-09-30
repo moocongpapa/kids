@@ -104,6 +104,7 @@ void main() {
     await show(
       tester,
       DynamicToyScreen(
+        playAsset: (_) async {},
         toyType: DynamicToyType.feeding,
         appState: state,
         profile: profile,

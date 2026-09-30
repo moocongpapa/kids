@@ -35,7 +35,8 @@ class AudioPolicy extends ChangeNotifier {
     return base * (lowStimulation ? .65 : 1) * (speaking ? .38 : 1);
   }
 
-  double voiceGain(String path) => path.contains('/age_pack/') ? 1 : .65;
+  double voiceGain(String path) =>
+      path.contains('/age_pack/') || path.contains('/toy_pack/') ? 1 : .65;
   bool get canVoice => voice && !muted && !suspended;
   bool get canEffects => effects && !muted && !suspended;
   bool get canMusic => music && !muted && !suspended;

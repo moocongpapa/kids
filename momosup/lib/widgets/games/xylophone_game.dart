@@ -20,11 +20,15 @@ class _FloatingNote {
 class XylophoneGame extends StatefulWidget {
   const XylophoneGame({
     this.onComplete,
+    this.onModeChanged,
+    this.onNote,
     this.lowStimulation = false,
     this.stage = 1,
     super.key,
   });
   final VoidCallback? onComplete;
+  final ValueChanged<bool>? onModeChanged;
+  final VoidCallback? onNote;
   final bool lowStimulation;
   final int stage;
 
@@ -171,6 +175,7 @@ class _XylophoneGameState extends State<XylophoneGame>
     });
 
     GameFeedback.light(lowStimulation: widget.lowStimulation);
+    widget.onNote?.call();
     SoundEffects.instance.playNote(index);
 
     if (!widget.lowStimulation) {
@@ -568,6 +573,7 @@ class _XylophoneGameState extends State<XylophoneGame>
             _currentMode = mode;
             _melodyProgress = 0;
           });
+          widget.onModeChanged?.call(mode == GameMode.follow);
         }
       },
       leaf: true,
