@@ -43,6 +43,28 @@ class KakaoShareModal extends StatefulWidget {
 class _KakaoShareModalState extends State<KakaoShareModal> {
   bool copied = false;
 
+  Future<void> _shareViaKakao(String shareText) async {
+    final didShareDirect = await KakaoAuthService.instance.shareChildProfileKakaoTalk(
+      profile: widget.profile,
+      inviterName: widget.payload.inviterName,
+      inviterRole: widget.payload.inviterRole,
+      shareUrl: widget.payload.toShareUrl(),
+      inviteCode: widget.payload.code,
+    );
+
+    if (!mounted) return;
+    if (didShareDirect) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('카카오톡으로 초대장을 전송했어요!'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    } else {
+      _copy(shareText, '카카오톡 초대 메시지');
+    }
+  }
+
   void _copy(String text, String label) {
     Clipboard.setData(ClipboardData(text: text));
     setState(() => copied = true);
@@ -247,7 +269,7 @@ class _KakaoShareModalState extends State<KakaoShareModal> {
                   borderRadius: BorderRadius.circular(18),
                 ),
               ),
-              onPressed: () => _copy(shareText, '카카오톡 초대 메시지'),
+              onPressed: () => _shareViaKakao(shareText),
               icon: const Icon(Icons.chat_bubble, size: 22),
               label: const Text(
                 '카카오톡으로 초대장 보내기',

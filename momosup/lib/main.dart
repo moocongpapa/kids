@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 import 'data/catalog_repository.dart';
 import 'models/activity.dart';
@@ -7,6 +8,12 @@ import 'state/app_state.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  KakaoSdk.init(
+    nativeAppKey: const String.fromEnvironment(
+      'KAKAO_NATIVE_APP_KEY',
+      defaultValue: 'a661beaef8c57f975952f84ebe609804',
+    ),
+  );
   runApp(const MomosupApp());
 }
 
