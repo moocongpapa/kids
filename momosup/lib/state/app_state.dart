@@ -10,6 +10,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../models/child_profile.dart';
+import '../models/parent_account.dart';
+import '../models/family_share.dart';
 import '../models/age_journey.dart';
 import '../data/age_journey_repository.dart';
 
@@ -57,11 +59,30 @@ class AppState extends ChangeNotifier {
   static const _selectedKey = 'prototype_selected_v1';
   static const _pinKey = 'prototype_parent_pin_v1';
   static const _recordsKey = 'prototype_records_v1';
+  static const _parentAccountKey = 'parent_account_v1';
 
   final FlutterSecureStorage _storage;
   final List<ChildProfile> _profiles = [];
   final List<PlayRecord> _records = [];
   final List<PlayObservation> _observations = [];
+  ParentAccount? _parentAccount;
+  ParentAccount? get parentAccount => _parentAccount;
+  bool get hasParentAccount => _parentAccount != null;
+
+  Future<void> setParentAccount(ParentAccount account) async {
+    _parentAccount = account;
+    await _storage.write(
+      key: _parentAccountKey,
+      value: jsonEncode(account.toJson()),
+    );
+    notifyListeners();
+  }
+
+  Future<void> logoutParentAccount() async {
+    _parentAccount = null;
+    await _storage.delete(key: _parentAccountKey);
+    notifyListeners();
+  }
   List<PlayObservation> get observations => List.unmodifiable(_observations);
   Future<void> _storeObservations(List<PlayObservation> next) async {
     await _storage.write(
@@ -215,6 +236,12 @@ class AppState extends ChangeNotifier {
           List<String>.from(jsonDecode(rawReviews) as List),
         );
       }
+      final rawAccount = await _storage.read(key: _parentAccountKey);
+      if (rawAccount != null) {
+        _parentAccount = ParentAccount.fromJson(
+          jsonDecode(rawAccount) as Map<String, dynamic>,
+        );
+      }
       final rawProfiles = await _storage.read(key: _profilesKey);
       final rawRecords = await _storage.read(key: _recordsKey);
       _selectedId = await _storage.read(key: _selectedKey);
@@ -340,6 +367,135 @@ class AppState extends ChangeNotifier {
     await _saveProfiles();
     await _saveRecords();
     notifyListeners();
+  }
+
+  Future<FamilyInvitePayload> createFamilyInvite(
+    ChildProfile profile, {
+    required String inviterRole,
+  }) async {
+    final familyId = profile.familyId ?? 'fam_${profile.id}';
+    final code = profile.inviteCode ??
+        'MOMO-${(Random().nextInt(8999) + 1000)}-KIDS';
+    final inviter = _parentAccount?.nickname ?? '모모보호자';
+
+    final payload = FamilyInvitePayload(
+      code: code,
+      familyId: familyId,
+      childId: profile.id,
+      childName: profile.nickname,
+      birthDate: profile.birthDate ?? '',
+      gender: profile.gender,
+      avatar: profile.avatar,
+      inviterName: inviter,
+      inviterRole: inviterRole,
+      ageMonths: profile.ageMonths,
+      createdAt: DateTime.now(),
+    );
+
+    var updatedMembers = List<FamilyMember>.from(profile.sharedMembers);
+    if (!updatedMembers.any((m) => m.isOwner)) {
+      updatedMembers.add(
+        FamilyMember(
+          id: _parentAccount?.id ?? 'owner_${profile.id}',
+          name: inviter,
+          role: inviterRole,
+          isOwner: true,
+          joinedAt: DateTime.now(),
+        ),
+      );
+    }
+
+    final updated = profile.copyWith(
+      familyId: familyId,
+      inviteCode: code,
+      ownerParentId: profile.ownerParentId ?? _parentAccount?.id,
+      ownerName: profile.ownerName ?? inviter,
+      sharedMembers: updatedMembers,
+      isShared: true,
+    );
+
+    await updateProfile(updated);
+    return payload;
+  }
+
+  Future<ChildProfile> acceptFamilyInvite(
+    String rawCodeOrUrl, {
+    required String myName,
+    required String myRole,
+  }) async {
+    final payload = FamilyInvitePayload.fromRaw(rawCodeOrUrl);
+    if (payload == null) {
+      throw const FormatException('유효하지 않은 초대 코드 또는 링크입니다.');
+    }
+
+    final existingIndex = _profiles.indexWhere((p) => p.id == payload.childId);
+    if (existingIndex >= 0) {
+      final existing = _profiles[existingIndex];
+      var members = List<FamilyMember>.from(existing.sharedMembers);
+      if (!members.any((m) => m.name == myName && m.role == myRole)) {
+        members.add(
+          FamilyMember(
+            id: _parentAccount?.id ??
+                'member_${DateTime.now().millisecondsSinceEpoch}',
+            name: myName,
+            role: myRole,
+            isOwner: false,
+            joinedAt: DateTime.now(),
+          ),
+        );
+      }
+      final updated = existing.copyWith(
+        isShared: true,
+        sharedMembers: members,
+      );
+      await updateProfile(updated);
+      await selectProfile(updated.id);
+      return updated;
+    }
+
+    final memberList = [
+      FamilyMember(
+        id: 'owner_${payload.familyId}',
+        name: payload.inviterName,
+        role: payload.inviterRole,
+        isOwner: true,
+        joinedAt: payload.createdAt,
+      ),
+      FamilyMember(
+        id: _parentAccount?.id ??
+            'member_${DateTime.now().millisecondsSinceEpoch}',
+        name: myName,
+        role: myRole,
+        isOwner: false,
+        joinedAt: DateTime.now(),
+      ),
+    ];
+
+    final newProfile = ChildProfile(
+      id: payload.childId,
+      nickname: payload.childName,
+      birthDate: payload.birthDate.isNotEmpty ? payload.birthDate : null,
+      gender: payload.gender,
+      avatar: payload.avatar,
+      ageMonths: payload.ageMonths,
+      level: '기본',
+      answers: const [3, 3, 3, 3, 3],
+      isShared: true,
+      familyId: payload.familyId,
+      ownerName: payload.inviterName,
+      inviteCode: payload.code,
+      sharedMembers: memberList,
+    );
+
+    await addProfile(newProfile);
+    await selectProfile(newProfile.id);
+    return newProfile;
+  }
+
+  Future<void> leaveFamilyShare(String profileId) async {
+    final index = _profiles.indexWhere((p) => p.id == profileId);
+    if (index < 0) return;
+    await deleteProfile(profileId);
   }
 
   Future<void> recordPlay({

@@ -18,6 +18,8 @@ import '../widgets/avatar_image.dart';
 import '../widgets/forest_background.dart';
 import '../widgets/forest_game_ui.dart';
 import 'parent_screen.dart';
+import 'parent_onboarding_screen.dart';
+import 'family_invite_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({required this.appState, required this.catalog, super.key});
@@ -78,7 +80,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               catalog: widget.catalog,
               initialJourney: initialJourney,
             )
-          : ParentSetupScreen(appState: widget.appState),
+          : ParentOnboardingScreen(appState: widget.appState),
     ),
   );
 
@@ -148,51 +150,96 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   Widget _welcome() => Center(
     child: SingleChildScrollView(
       padding: const EdgeInsets.all(24),
-      child: Column(
-        children: [
-          ForestFloat(child: AvatarImage(avatar: 'momo', size: 230)),
-          const SizedBox(height: 12),
-          const Text(
-            '우리 같이 놀자!',
-            style: TextStyle(
-              fontSize: 27,
-              fontWeight: FontWeight.w900,
-              color: forestInk,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(maxWidth: 480),
+        child: Column(
+          children: [
+            ForestFloat(child: AvatarImage(avatar: 'momo', size: 210)),
+            const SizedBox(height: 12),
+            const Text(
+              '모모숲에 오신 것을\n환영해요!',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 27,
+                fontWeight: FontWeight.w900,
+                color: forestInk,
+                height: 1.3,
+              ),
             ),
-          ),
-          const SizedBox(height: 22),
-          ForestAction(
-            label: '보호자 설정 시작',
-            onPressed: openParent,
-            leaf: true,
-            icon: Icons.lock_person_rounded,
-            size: 88,
-            caption: '보호자 시작',
-          ),
-          const SizedBox(height: 18),
-          const Text(
-            '보호자가 먼저 아이의 놀이를 준비해 주세요.',
-            textAlign: TextAlign.center,
-            style: TextStyle(color: forestInk, fontSize: 13),
-          ),
-          if (kDebugMode && !widget.appState.hasPin)
-            TextButton(
-              onPressed: () async {
-                await widget.appState.setParentPin('1234');
-                await widget.appState.addProfile(
-                  const ChildProfile(
-                    id: 'demo_child',
-                    nickname: '모모친구',
-                    ageMonths: 48,
-                    avatar: 'momo',
-                    level: '기본',
-                    answers: [3, 3, 3, 3, 3],
+            const SizedBox(height: 10),
+            const Text(
+              '보호자(부모님)의 카카오 계정으로 안전하게 등록하고\n아이의 맞춤 숲속 놀이를 시작해 보세요.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: forestInk, fontSize: 13, height: 1.4),
+            ),
+            const SizedBox(height: 22),
+            SizedBox(
+              width: double.infinity,
+              height: 56,
+              child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFEE500),
+                  foregroundColor: const Color(0xFF191919),
+                  elevation: 0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18),
                   ),
-                );
-              },
-              child: const Text('개발용 둘러보기'),
+                ),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => ParentOnboardingScreen(
+                      appState: widget.appState,
+                    ),
+                  ),
+                ),
+                icon: const Icon(Icons.chat_bubble, size: 22),
+                label: const Text(
+                  '카카오로 3초 만에 시작하기',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
             ),
-        ],
+            const SizedBox(height: 10),
+            SizedBox(
+              width: double.infinity,
+              height: 48,
+              child: OutlinedButton.icon(
+                style: OutlinedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => FamilyInviteAcceptScreen(
+                      appState: widget.appState,
+                    ),
+                  ),
+                ),
+                icon: const Icon(Icons.link_rounded, size: 18),
+                label: const Text('가족 초대 링크/코드 등록'),
+              ),
+            ),
+            const SizedBox(height: 14),
+            if (kDebugMode && !widget.appState.hasPin)
+              TextButton(
+                onPressed: () async {
+                  await widget.appState.setParentPin('1234');
+                  await widget.appState.addProfile(
+                    const ChildProfile(
+                      id: 'demo_child',
+                      nickname: '모모친구',
+                      ageMonths: 48,
+                      avatar: 'momo',
+                      level: '기본',
+                      answers: [3, 3, 3, 3, 3],
+                    ),
+                  );
+                },
+                child: const Text('개발용 둘러보기'),
+              ),
+          ],
+        ),
       ),
     ),
   );

@@ -1,3 +1,5 @@
+import 'family_share.dart';
+
 class ChildProfile {
   const ChildProfile({
     required this.id,
@@ -7,6 +9,13 @@ class ChildProfile {
     required this.level,
     required this.answers,
     this.gender = '선택하지 않음',
+    this.birthDate,
+    this.familyId,
+    this.ownerParentId,
+    this.ownerName,
+    this.isShared = false,
+    this.sharedMembers = const [],
+    this.inviteCode,
     this.dailyLimitMinutes = 15,
     this.musicOn = true,
     this.voiceOn = true,
@@ -25,6 +34,13 @@ class ChildProfile {
   final String level;
   final List<int> answers;
   final String gender;
+  final String? birthDate; // YYYY-MM-DD
+  final String? familyId;
+  final String? ownerParentId;
+  final String? ownerName;
+  final bool isShared;
+  final List<FamilyMember> sharedMembers;
+  final String? inviteCode;
   final int dailyLimitMinutes;
   final bool musicOn;
   final bool voiceOn, effectsOn;
@@ -36,6 +52,26 @@ class ChildProfile {
       (activityStages[activityId] ?? effectivePlayStage).clamp(0, 2);
   final List<String> favoriteJourneys;
   bool get caregiverMode => ageMonths < 24;
+
+  static int calculateAgeMonths(DateTime birth, [DateTime? targetNow]) {
+    final today = targetNow ?? DateTime.now();
+    var months = (today.year - birth.year) * 12 + today.month - birth.month;
+    if (today.day < birth.day) {
+      months--;
+    }
+    return months.clamp(0, 120);
+  }
+
+  String get birthDateLabel {
+    if (birthDate == null || birthDate!.isEmpty) return '';
+    try {
+      final parts = birthDate!.split('-');
+      if (parts.length == 3) {
+        return '${parts[0]}년 ${int.tryParse(parts[1]) ?? parts[1]}월 ${int.tryParse(parts[2]) ?? parts[2]}일생';
+      }
+    } catch (_) {}
+    return birthDate!;
+  }
 
   /// -1 follows age and the parent's stated need for help, never a diagnosis.
   /// Explicit saved stages (including legacy stage 0) remain unchanged.
@@ -62,6 +98,13 @@ class ChildProfile {
     String? level,
     List<int>? answers,
     String? gender,
+    String? birthDate,
+    String? familyId,
+    String? ownerParentId,
+    String? ownerName,
+    bool? isShared,
+    List<FamilyMember>? sharedMembers,
+    String? inviteCode,
     int? dailyLimitMinutes,
     bool? musicOn,
     bool? voiceOn,
@@ -79,6 +122,13 @@ class ChildProfile {
     level: level ?? this.level,
     answers: answers ?? this.answers,
     gender: gender ?? this.gender,
+    birthDate: birthDate ?? this.birthDate,
+    familyId: familyId ?? this.familyId,
+    ownerParentId: ownerParentId ?? this.ownerParentId,
+    ownerName: ownerName ?? this.ownerName,
+    isShared: isShared ?? this.isShared,
+    sharedMembers: sharedMembers ?? this.sharedMembers,
+    inviteCode: inviteCode ?? this.inviteCode,
     dailyLimitMinutes: dailyLimitMinutes ?? this.dailyLimitMinutes,
     musicOn: musicOn ?? this.musicOn,
     voiceOn: voiceOn ?? this.voiceOn,
@@ -98,6 +148,13 @@ class ChildProfile {
     'level': level,
     'answers': answers,
     'gender': gender,
+    if (birthDate != null) 'birthDate': birthDate,
+    if (familyId != null) 'familyId': familyId,
+    if (ownerParentId != null) 'ownerParentId': ownerParentId,
+    if (ownerName != null) 'ownerName': ownerName,
+    'isShared': isShared,
+    'sharedMembers': sharedMembers.map((m) => m.toJson()).toList(),
+    if (inviteCode != null) 'inviteCode': inviteCode,
     'dailyLimitMinutes': dailyLimitMinutes,
     'musicOn': musicOn,
     'voiceOn': voiceOn,
@@ -117,6 +174,16 @@ class ChildProfile {
     level: json['level'] as String? ?? '기본',
     answers: List<int>.from((json['answers'] as List<dynamic>?) ?? const []),
     gender: json['gender'] as String? ?? '선택하지 않음',
+    birthDate: json['birthDate'] as String?,
+    familyId: json['familyId'] as String?,
+    ownerParentId: json['ownerParentId'] as String?,
+    ownerName: json['ownerName'] as String?,
+    isShared: json['isShared'] as bool? ?? false,
+    sharedMembers: (json['sharedMembers'] as List<dynamic>?)
+            ?.map((m) => FamilyMember.fromJson(m as Map<String, dynamic>))
+            .toList() ??
+        const [],
+    inviteCode: json['inviteCode'] as String?,
     dailyLimitMinutes: json['dailyLimitMinutes'] as int? ?? 15,
     musicOn: json['musicOn'] as bool? ?? true,
     voiceOn: json['voiceOn'] as bool? ?? true,

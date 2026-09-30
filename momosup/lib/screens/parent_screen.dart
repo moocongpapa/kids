@@ -15,6 +15,9 @@ import '../models/child_profile.dart';
 import '../state/app_state.dart';
 import '../utils/forest_audio.dart';
 import '../widgets/avatar_image.dart';
+import '../widgets/kakao_share_modal.dart';
+import 'family_management_screen.dart';
+import 'parent_onboarding_screen.dart';
 import 'play_screen.dart';
 
 class ParentSetupScreen extends StatefulWidget {
@@ -318,8 +321,63 @@ class ParentHubScreen extends StatelessWidget {
               child: ListView(
                 padding: const EdgeInsets.all(20),
                 children: [
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: appState.hasParentAccount
+                          ? const Color(0xFFFFFBE6)
+                          : Colors.white,
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(
+                        color: appState.hasParentAccount
+                            ? const Color(0xFFFEE500)
+                            : const Color(0xFFE5DECC),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFFEE500),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: const Icon(
+                            Icons.chat_bubble,
+                            size: 16,
+                            color: Color(0xFF191919),
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Text(
+                            appState.hasParentAccount
+                                ? '카카오 연동 계정: ${appState.parentAccount!.nickname}'
+                                : '카카오 계정 미연동 상태',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 13,
+                              color: Color(0xFF284E3D),
+                            ),
+                          ),
+                        ),
+                        if (!appState.hasParentAccount)
+                          TextButton(
+                            onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute<void>(
+                                builder: (_) => ParentOnboardingScreen(
+                                  appState: appState,
+                                ),
+                              ),
+                            ),
+                            child: const Text('연동하기'),
+                          ),
+                      ],
+                    ),
+                  ),
                   const _NoticeCard(
-                    text: '비공개 시제품 · 계정 로그인, 결제, 서버 동기화는 준비 중입니다.',
+                    text: '비공개 시제품 · 카카오 계정으로 아이 프로필을 가족과 안전하게 공유할 수 있습니다.',
                   ),
                   const SizedBox(height: 16),
                   if (profile != null)
@@ -335,8 +393,27 @@ class ParentHubScreen extends StatelessWidget {
                       child: ListTile(
                         leading: AvatarImage(avatar: item.avatar, size: 48),
                         title: Text(item.nickname),
-                        subtitle: Text(
-                          '${item.ageLabel} · ${item.level} 시작 단계',
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              item.birthDateLabel.isNotEmpty
+                                  ? '${item.birthDateLabel} (${item.ageLabel}) · ${item.level} 시작 단계'
+                                  : '${item.ageLabel} · ${item.level} 시작 단계',
+                            ),
+                            if (item.isShared || item.sharedMembers.isNotEmpty)
+                              Padding(
+                                padding: const EdgeInsets.only(top: 2),
+                                child: Text(
+                                  '👨‍👩‍👧 가족 공유 중 (${item.sharedMembers.isEmpty ? 1 : item.sharedMembers.length}명)',
+                                  style: const TextStyle(
+                                    color: Color(0xFF477A53),
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                          ],
                         ),
                         trailing: item.id == profile?.id
                             ? const Icon(
@@ -350,6 +427,7 @@ class ParentHubScreen extends StatelessWidget {
                   ),
                   Wrap(
                     spacing: 8,
+                    runSpacing: 8,
                     children: [
                       OutlinedButton.icon(
                         onPressed: () => Navigator.of(context).push(
@@ -361,7 +439,7 @@ class ParentHubScreen extends StatelessWidget {
                         icon: const Icon(Icons.person_add_alt_1_rounded),
                         label: const Text('아이 추가'),
                       ),
-                      if (profile != null)
+                      if (profile != null) ...[
                         OutlinedButton.icon(
                           onPressed: () => Navigator.of(context).push(
                             MaterialPageRoute<void>(
@@ -374,6 +452,32 @@ class ParentHubScreen extends StatelessWidget {
                           icon: const Icon(Icons.edit_outlined),
                           label: const Text('프로필 수정'),
                         ),
+                        ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: const Color(0xFFFEE500),
+                            foregroundColor: const Color(0xFF191919),
+                            elevation: 0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          onPressed: () async {
+                            final payload = await appState.createFamilyInvite(
+                              profile,
+                              inviterRole: '가족',
+                            );
+                            if (!context.mounted) return;
+                            KakaoShareModal.show(
+                              context,
+                              profile: profile,
+                              payload: payload,
+                              parentAccount: appState.parentAccount,
+                            );
+                          },
+                          icon: const Icon(Icons.chat_bubble, size: 16),
+                          label: const Text('가족 초대 (카카오톡)'),
+                        ),
+                      ],
                     ],
                   ),
                   const SizedBox(height: 18),
@@ -383,6 +487,19 @@ class ParentHubScreen extends StatelessWidget {
                       '${profile.dailyLimitMinutes}분 이용',
                     ),
                     const SizedBox(height: 12),
+                    _HubTile(
+                      icon: Icons.family_restroom_rounded,
+                      title: '가족 공유 관리 (카카오톡)',
+                      subtitle: '배우자·조부모님과 아이 프로필 공유 및 초대장 발송',
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => FamilyManagementScreen(
+                            appState: appState,
+                            profile: profile,
+                          ),
+                        ),
+                      ),
+                    ),
                     _HubTile(
                       icon: Icons.tune_rounded,
                       title: '이용시간·소리 설정',
@@ -504,6 +621,7 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
   late int ageMonths;
   late String avatar;
   late String gender;
+  late String? birthDate;
   late List<int> answers;
   late bool preschool;
   late int playStage;
@@ -533,6 +651,7 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
     final initial = widget.initial;
     nickname = TextEditingController(text: initial?.nickname ?? '');
     ageMonths = (initial?.ageMonths ?? 36).clamp(6, 95);
+    birthDate = initial?.birthDate;
     preschool = initial?.preschool ?? true;
     playStage = initial?.playStage ?? -1;
     avatar = initial?.avatar ?? 'momo';
@@ -540,6 +659,38 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
     answers = initial?.answers.length == 5
         ? List<int>.from(initial!.answers)
         : List<int>.filled(5, 3);
+  }
+
+  Future<void> _pickBirthDate() async {
+    DateTime initialDate;
+    if (birthDate != null && birthDate!.isNotEmpty) {
+      try {
+        initialDate = DateTime.parse(birthDate!);
+      } catch (_) {
+        initialDate = DateTime.now().subtract(Duration(days: ageMonths * 30));
+      }
+    } else {
+      initialDate = DateTime.now().subtract(Duration(days: ageMonths * 30));
+    }
+
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: DateTime.now().subtract(const Duration(days: 365 * 10)),
+      lastDate: DateTime.now(),
+      locale: const Locale('ko', 'KR'),
+      helpText: '아이 생년월일 선택',
+    );
+    if (picked != null) {
+      final y = picked.year;
+      final m = picked.month.toString().padLeft(2, '0');
+      final d = picked.day.toString().padLeft(2, '0');
+      final calculated = ChildProfile.calculateAgeMonths(picked);
+      setState(() {
+        birthDate = '$y-$m-$d';
+        ageMonths = calculated.clamp(6, 95);
+      });
+    }
   }
 
   @override
@@ -563,12 +714,19 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
             widget.initial?.id ??
             DateTime.now().microsecondsSinceEpoch.toString(),
         nickname: name,
+        birthDate: birthDate,
         ageMonths: ageMonths,
         avatar: avatar,
         gender: gender,
         level: recommendLevel(),
         preschool: preschool,
         playStage: playStage,
+        familyId: widget.initial?.familyId,
+        ownerParentId: widget.initial?.ownerParentId,
+        ownerName: widget.initial?.ownerName,
+        isShared: widget.initial?.isShared ?? false,
+        sharedMembers: widget.initial?.sharedMembers ?? const [],
+        inviteCode: widget.initial?.inviteCode,
         favoriteJourneys: widget.initial?.favoriteJourneys ?? const [],
         answers: List<int>.from(answers),
         dailyLimitMinutes: widget.initial?.dailyLimitMinutes ?? 15,
@@ -640,6 +798,31 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
                 decoration: const InputDecoration(
                   labelText: '아이 별명',
                   border: OutlineInputBorder(),
+                ),
+              ),
+              const SizedBox(height: 12),
+              InkWell(
+                onTap: _pickBirthDate,
+                borderRadius: BorderRadius.circular(20),
+                child: InputDecorator(
+                  decoration: const InputDecoration(
+                    labelText: '아이 생년월일',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(
+                      Icons.calendar_today_rounded,
+                      color: Color(0xFF477A53),
+                    ),
+                  ),
+                  child: Text(
+                    birthDate != null && birthDate!.isNotEmpty
+                        ? '$birthDate ($ageMonths개월)'
+                        : '생년월일을 선택해 주세요 (달력 열기)',
+                    style: TextStyle(
+                      color: birthDate != null && birthDate!.isNotEmpty
+                          ? Colors.black87
+                          : Colors.black45,
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
