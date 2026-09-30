@@ -438,9 +438,9 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   _ => const [
                     Offset(40, 170),
                     Offset(240, 170),
-                    Offset(4, 345),
-                    Offset(142, 328),
-                    Offset(278, 345),
+                    Offset(16, 345),
+                    Offset(146, 330),
+                    Offset(276, 345),
                   ],
                 };
           return Center(
