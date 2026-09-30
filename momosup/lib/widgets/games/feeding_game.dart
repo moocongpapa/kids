@@ -8,6 +8,7 @@ import '../avatar_image.dart';
 import '../forest_game_ui.dart';
 import '../hand_guide_hint.dart';
 import '../game_particles.dart';
+import '../cute_game_effects.dart';
 
 class FeedingGame extends StatefulWidget {
   const FeedingGame({
@@ -295,12 +296,22 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
               alignment: Alignment.center,
               transform: Matrix4.diagonal3Values(chewSx, chewSy * blinkSy, 1.0)
                 ..rotateZ(rotateZ),
-              child: AvatarImage(
-                key: _momoKey,
-                avatar: 'momo',
-                size: size,
-                interactive: true,
-                lowStimulation: widget.lowStimulation,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  AvatarImage(
+                    key: _momoKey,
+                    avatar: 'momo',
+                    size: size,
+                    interactive: true,
+                    lowStimulation: widget.lowStimulation,
+                  ),
+                  if (!widget.lowStimulation)
+                    CharacterBlushOverlay(
+                      isBlushing: hovering || _chewing,
+                      size: size,
+                    ),
+                ],
               ),
             ),
           ),
@@ -309,11 +320,24 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
     );
   }
 
-  Widget fruitWidget(ForestObject fruit, {bool faded = false, double size = 76}) => Opacity(
+  Widget fruitWidget(ForestObject fruit, {bool faded = false, double size = 76, FaceMood mood = FaceMood.idle}) => Opacity(
     opacity: faded ? 0.16 : 1.0,
     child: SizedBox.square(
       dimension: size,
-      child: ForestProp(fruit, size: size - 4),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          ForestProp(fruit, size: size - 4),
+          if (!faded && !widget.lowStimulation)
+            Positioned(
+              top: size * 0.22,
+              child: CuteFace(
+                size: size * 0.58,
+                mood: mood,
+              ),
+            ),
+        ],
+      ),
     ),
   );
 
@@ -425,12 +449,16 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
                           maxSimultaneousDrags: isDisabled ? 0 : 1,
                           feedback: Material(
                             color: Colors.transparent,
-                            child: fruitWidget(fruitObj),
+                            child: fruitWidget(fruitObj, size: 84, mood: FaceMood.surprised),
                           ),
                           childWhenDragging: fruitWidget(fruitObj, faded: true),
                           child: GestureDetector(
                             onTap: isDisabled ? null : () => _triggerEat(i),
-                            child: fruitWidget(fruitObj, faded: isEaten),
+                            child: fruitWidget(
+                              fruitObj,
+                              faded: isEaten,
+                              mood: isEaten ? FaceMood.idle : FaceMood.happy,
+                            ),
                           ),
                         ),
                       ),
@@ -455,6 +483,10 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
             ),
           ],
         ),
+        CuteBubblesLayer(
+          particlesKey: _particlesKey,
+          enabled: !widget.lowStimulation,
+        ),
         if (flyingFruit != null)
           TweenAnimationBuilder<double>(
             tween: Tween(begin: 0.0, end: 1.0),
@@ -473,7 +505,7 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
                 top: baseY + curveY - 38,
                 child: Transform.scale(
                   scale: scale,
-                  child: fruitWidget(flyingFruit!.fruit, size: 76),
+                  child: fruitWidget(flyingFruit!.fruit, size: 76, mood: FaceMood.happy),
                 ),
               );
             },

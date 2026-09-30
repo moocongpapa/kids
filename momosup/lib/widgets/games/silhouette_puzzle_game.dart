@@ -7,6 +7,7 @@ import '../avatar_image.dart';
 import '../forest_game_ui.dart';
 import '../hand_guide_hint.dart';
 import '../game_particles.dart';
+import '../cute_game_effects.dart';
 
 class SilhouettePuzzleGame extends StatefulWidget {
   final VoidCallback? onComplete;
@@ -202,17 +203,41 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
     });
   }
 
-  Widget _buildItem(String id, {required double size, bool silhouette = false}) {
+  Widget _buildItem(String id, {required double size, bool silhouette = false, FaceMood? faceMood}) {
     Widget item;
     if (['momo', 'duri', 'nuri'].contains(id)) {
-      item = AvatarImage(
-        avatar: id,
-        size: size,
-        interactive: false,
-        lowStimulation: widget.lowStimulation,
+      item = Stack(
+        alignment: Alignment.center,
+        children: [
+          AvatarImage(
+            avatar: id,
+            size: size,
+            interactive: false,
+            lowStimulation: widget.lowStimulation,
+          ),
+          if (!silhouette)
+            CharacterBlushOverlay(
+              size: size,
+              isBlushing: true,
+            ),
+        ],
       );
     } else {
-      item = ForestProp(id == 'berry' ? ForestObject.berry : ForestObject.acorn, size: size);
+      item = Stack(
+        alignment: Alignment.center,
+        children: [
+          ForestProp(id == 'berry' ? ForestObject.berry : ForestObject.acorn, size: size),
+          if (!silhouette && !widget.lowStimulation)
+            Positioned(
+              top: size * (id == 'berry' ? 0.32 : 0.38),
+              child: CuteFace(
+                mood: faceMood ?? FaceMood.happy,
+                size: size * 0.36,
+                animateBlink: !widget.lowStimulation,
+              ),
+            ),
+        ],
+      );
     }
 
     if (silhouette) {
@@ -236,7 +261,7 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
         ]
       ),
       alignment: Alignment.center,
-      child: isEmpty ? null : _buildItem(id, size: size * 0.8),
+      child: isEmpty ? null : _buildItem(id, size: size * 0.8, faceMood: FaceMood.idle),
     );
   }
 
@@ -244,8 +269,8 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
     return Material(
       color: Colors.transparent,
       child: Transform.scale(
-        scale: 1.1,
-        child: _buildItem(id, size: size * 0.9),
+        scale: 1.15,
+        child: _buildItem(id, size: size * 0.9, faceMood: FaceMood.surprised),
       ),
     );
   }
@@ -286,7 +311,10 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
                         _targetKeys[_hoveredWrongTarget]?.currentState?.shake();
                       }
                     },
-                    child: _buildTrayBase(id, false, size: size),
+                    child: ForestFloat(
+                      still: widget.lowStimulation,
+                      child: _buildTrayBase(id, false, size: size),
+                    ),
                   ),
                 ),
               ),
@@ -310,6 +338,8 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
     return Stack(
       key: _stackKey,
       children: [
+        if (!widget.lowStimulation)
+          CuteBubblesLayer(particlesKey: _particlesKey),
         Column(
           children: [
             SizedBox(height: compact ? 6 : 16),

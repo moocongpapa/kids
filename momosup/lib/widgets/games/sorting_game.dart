@@ -7,6 +7,7 @@ import '../../utils/sound_effects.dart';
 import '../forest_game_ui.dart';
 import '../game_particles.dart';
 import '../hand_guide_hint.dart';
+import '../cute_game_effects.dart';
 
 class Acorn {
   final int id;
@@ -258,8 +259,16 @@ class _SortingGameState extends State<SortingGame> with TickerProviderStateMixin
                         alignment: Alignment.center,
                         children: [
                           ForestProp(ForestObject.basket, size: isBig ? extent : extent * 0.8),
+                          if (!widget.lowStimulation)
+                            Positioned(
+                              top: isBig ? extent * 0.44 : extent * 0.38,
+                              child: CuteFace(
+                                size: isBig ? 36 : 28,
+                                mood: isHovered ? FaceMood.surprised : FaceMood.happy,
+                              ),
+                            ),
                           Positioned(
-                            bottom: isBig ? extent * 0.2 : extent * 0.16,
+                            bottom: isBig ? extent * 0.16 : extent * 0.12,
                             child: SizedBox(
                               width: isBig ? extent * 0.6 : extent * 0.5,
                               child: Wrap(
@@ -288,10 +297,23 @@ class _SortingGameState extends State<SortingGame> with TickerProviderStateMixin
     );
   }
 
-  Widget buildAcorn(Acorn a) {
-    return ColorFiltered(
-      colorFilter: ColorFilter.mode(a.hue.withAlpha(40), BlendMode.srcATop),
-      child: ForestProp(ForestObject.acorn, size: a.size),
+  Widget buildAcorn(Acorn a, {FaceMood mood = FaceMood.idle}) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        ColorFiltered(
+          colorFilter: ColorFilter.mode(a.hue.withAlpha(40), BlendMode.srcATop),
+          child: ForestProp(ForestObject.acorn, size: a.size),
+        ),
+        if (!widget.lowStimulation)
+          Positioned(
+            top: a.size * 0.32,
+            child: CuteFace(
+              size: a.size * 0.54,
+              mood: mood,
+            ),
+          ),
+      ],
     );
   }
 
@@ -381,9 +403,12 @@ class _SortingGameState extends State<SortingGame> with TickerProviderStateMixin
                                 offset: a.float,
                                 child: Draggable<Acorn>(
                                   data: a,
-                                  feedback: Material(color: Colors.transparent, child: buildAcorn(a)),
+                                  feedback: Material(
+                                    color: Colors.transparent,
+                                    child: buildAcorn(a, mood: FaceMood.surprised),
+                                  ),
                                   childWhenDragging: Opacity(opacity: 0.2, child: buildAcorn(a)),
-                                  child: buildAcorn(a),
+                                  child: buildAcorn(a, mood: FaceMood.happy),
                                 ),
                               ),
                             ),
@@ -396,6 +421,10 @@ class _SortingGameState extends State<SortingGame> with TickerProviderStateMixin
             const SizedBox(height: 16),
           ],
         ),
+        CuteBubblesLayer(
+          particlesKey: _particlesKey,
+          enabled: !widget.lowStimulation,
+        ),
         for (final f in _flying)
           FlyingAcornWidget(
             key: ValueKey(f.id),
@@ -403,6 +432,7 @@ class _SortingGameState extends State<SortingGame> with TickerProviderStateMixin
             start: f.start,
             end: f.end,
             isCorrect: f.isCorrect,
+            lowStimulation: widget.lowStimulation,
             onComplete: () {
               if (mounted) {
                 setState(() {
@@ -434,6 +464,7 @@ class FlyingAcornWidget extends StatefulWidget {
   final Offset start;
   final Offset end;
   final bool isCorrect;
+  final bool lowStimulation;
   final VoidCallback onComplete;
 
   const FlyingAcornWidget({
@@ -442,6 +473,7 @@ class FlyingAcornWidget extends StatefulWidget {
     required this.start,
     required this.end,
     required this.isCorrect,
+    this.lowStimulation = false,
     required this.onComplete,
   });
 
@@ -521,12 +553,25 @@ class _FlyingAcornWidgetState extends State<FlyingAcornWidget> with SingleTicker
           child: child!,
         );
       },
-      child: ColorFiltered(
-        colorFilter: ColorFilter.mode(widget.acorn.hue.withAlpha(40), BlendMode.srcATop),
-        child: SizedBox.square(
-          dimension: widget.acorn.size,
-          child: ForestProp(ForestObject.acorn, size: widget.acorn.size),
-        ),
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          ColorFiltered(
+            colorFilter: ColorFilter.mode(widget.acorn.hue.withAlpha(40), BlendMode.srcATop),
+            child: SizedBox.square(
+              dimension: widget.acorn.size,
+              child: ForestProp(ForestObject.acorn, size: widget.acorn.size),
+            ),
+          ),
+          if (!widget.lowStimulation)
+            Positioned(
+              top: widget.acorn.size * 0.32,
+              child: CuteFace(
+                size: widget.acorn.size * 0.54,
+                mood: widget.isCorrect ? FaceMood.happy : FaceMood.dizzy,
+              ),
+            ),
+        ],
       ),
     );
   }

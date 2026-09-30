@@ -6,6 +6,7 @@ import '../../utils/sound_effects.dart';
 import '../avatar_image.dart';
 import '../forest_game_ui.dart';
 import '../game_particles.dart';
+import '../cute_game_effects.dart';
 
 class PeekabooGame extends StatefulWidget {
   const PeekabooGame({this.onComplete, this.lowStimulation = false, super.key});
@@ -164,83 +165,91 @@ class _PeekabooGameState extends State<PeekabooGame> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        FittedBox(
-          fit: BoxFit.scaleDown,
-          child: ForestProgress(
-            count: spotRevealState.values.where((v) => v == 2).length,
-            total: 3,
-          ),
-        ),
-        if (!widget.lowStimulation) ...[
-          const SizedBox(height: 8),
-          Text(
-            '라운드 $round/5',
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: forestInk,
+        Column(
+          children: [
+            FittedBox(
+              fit: BoxFit.scaleDown,
+              child: ForestProgress(
+                count: spotRevealState.values.where((v) => v == 2).length,
+                total: 3,
+              ),
             ),
-          ),
-        ],
-        Expanded(
-          child: LayoutBuilder(
-            builder: (_, box) => Center(
-              child: FittedBox(
-                fit: BoxFit.contain,
-                child: SizedBox(
-                  width: 380,
-                  height: 420,
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      for (int i = 0; i < 5; i++)
-                        if (activeSpots.contains(i))
-                          Positioned(
-                            left: spotPositions[i].dx,
-                            top: spotPositions[i].dy,
-                            child: _PeekabooSpot(
-                              revealState: spotRevealState[i] ?? 0,
-                              teaseCount: spotTeaseCount[i] ?? 0,
-                              character: spotCharacter[i] ?? 'momo',
-                              bush: spotBush[i] ?? ForestObject.bush,
-                              lowStimulation: widget.lowStimulation,
-                              onTap: () => _handleTap(i),
+            if (!widget.lowStimulation) ...[
+              const SizedBox(height: 8),
+              Text(
+                '라운드 $round/5',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: forestInk,
+                ),
+              ),
+            ],
+            Expanded(
+              child: LayoutBuilder(
+                builder: (_, box) => Center(
+                  child: FittedBox(
+                    fit: BoxFit.contain,
+                    child: SizedBox(
+                      width: 380,
+                      height: 420,
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          for (int i = 0; i < 5; i++)
+                            if (activeSpots.contains(i))
+                              Positioned(
+                                left: spotPositions[i].dx,
+                                top: spotPositions[i].dy,
+                                child: _PeekabooSpot(
+                                  revealState: spotRevealState[i] ?? 0,
+                                  teaseCount: spotTeaseCount[i] ?? 0,
+                                  character: spotCharacter[i] ?? 'momo',
+                                  bush: spotBush[i] ?? ForestObject.bush,
+                                  lowStimulation: widget.lowStimulation,
+                                  onTap: () => _handleTap(i),
+                                ),
+                              ),
+                          Positioned.fill(
+                            child: IgnorePointer(
+                              child: GameParticles(key: _particlesKey),
                             ),
                           ),
-                      Positioned.fill(
-                        child: IgnorePointer(
-                          child: GameParticles(key: _particlesKey),
-                        ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
+            SizedBox(
+              height: 66,
+              child: totalFound == 15
+                  ? ForestAction(
+                      label: '다시 하기',
+                      icon: Icons.refresh_rounded,
+                      size: 60,
+                      onPressed: () {
+                        setState(() {
+                          round = 1;
+                          totalFound = 0;
+                          _setupRound();
+                        });
+                      },
+                    )
+                  : const Icon(
+                      Icons.touch_app_rounded,
+                      size: 32,
+                      color: Color(0xFF779363),
+                    ),
+            ),
+          ],
         ),
-        SizedBox(
-          height: 66,
-          child: totalFound == 15
-              ? ForestAction(
-                  label: '다시 하기',
-                  icon: Icons.refresh_rounded,
-                  size: 60,
-                  onPressed: () {
-                    setState(() {
-                      round = 1;
-                      totalFound = 0;
-                      _setupRound();
-                    });
-                  },
-                )
-              : const Icon(
-                  Icons.touch_app_rounded,
-                  size: 38,
-                  color: Color(0xFF779363),
-                ),
+        CuteBubblesLayer(
+          particlesKey: _particlesKey,
+          enabled: !widget.lowStimulation,
         ),
       ],
     );
@@ -390,13 +399,31 @@ class _PeekabooSpotState extends State<_PeekabooSpot> with TickerProviderStateMi
                     bottom: bottom,
                     child: Transform.rotate(
                       angle: waveAngle,
-                      child: AvatarImage(
-                        avatar: widget.character,
-                        size: 106,
-                        interactive: widget.revealState == 2,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          AvatarImage(
+                            avatar: widget.character,
+                            size: 106,
+                            interactive: widget.revealState == 2,
+                          ),
+                          if (!widget.lowStimulation && widget.revealState == 2)
+                            const CharacterBlushOverlay(
+                              isBlushing: true,
+                              size: 106,
+                            ),
+                        ],
                       ),
                     ),
                   ),
+                  if (widget.revealState == 0 && !widget.lowStimulation && widget.teaseCount > 0)
+                    Positioned(
+                      bottom: 58 + math.sin(_teaseController.value * math.pi) * 16,
+                      child: Opacity(
+                        opacity: (_teaseController.value * 2).clamp(0.0, 1.0),
+                        child: const CuteFace(size: 36, mood: FaceMood.surprised),
+                      ),
+                    ),
                   Transform.rotate(
                     angle: teaseAngle,
                     child: ForestFloat(

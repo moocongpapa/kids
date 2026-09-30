@@ -4,6 +4,7 @@ import '../../utils/sound_effects.dart';
 import '../avatar_image.dart';
 import '../forest_game_ui.dart';
 import '../game_particles.dart';
+import '../cute_game_effects.dart';
 
 enum GameMode { freePlay, follow }
 
@@ -53,6 +54,7 @@ class _XylophoneGameState extends State<XylophoneGame> with TickerProviderStateM
 
   static const _notes = ['도', '레', '미', '파', '솔', '라', '시', '도'];
   static const _noteLabels = ['도', '레', '미', '파', '솔', '라', '시', '높은 도'];
+  static const _fairyIcons = ['🍓', '🍊', '🍋', '🌱', '💧', '🐦', '🍇', '💖'];
   static const _colors = [
     Color(0xFFD98C76),
     Color(0xFFE6A766),
@@ -236,6 +238,22 @@ class _XylophoneGameState extends State<XylophoneGame> with TickerProviderStateM
                     alignment: Alignment.center,
                     children: [
                        Positioned(
+                          top: 8,
+                          child: Text(
+                             _fairyIcons[index],
+                             style: TextStyle(fontSize: barHeight > 100 ? 16 : 13),
+                          ),
+                       ),
+                       if (barHeight > 100)
+                         Positioned(
+                            top: 30,
+                            child: CuteFace(
+                               mood: isActive ? FaceMood.singing : FaceMood.happy,
+                               size: 14,
+                               animateBlink: !widget.lowStimulation,
+                            ),
+                         ),
+                       Positioned(
                           bottom: 12,
                           child: Text(
                              index == 7 ? '도' : _notes[index],
@@ -287,6 +305,10 @@ class _XylophoneGameState extends State<XylophoneGame> with TickerProviderStateM
       return Stack(
          key: _stackKey,
          children: [
+            if (!widget.lowStimulation)
+              CuteBubblesLayer(
+                particlesKey: _particlesKey,
+              ),
             Column(
                children: [
                   if (!widget.lowStimulation) ...[
@@ -309,7 +331,16 @@ class _XylophoneGameState extends State<XylophoneGame> with TickerProviderStateM
                                  builder: (context, child) {
                                     return Transform.rotate(
                                        angle: _dancerController.value * 0.05,
-                                       child: const AvatarImage(avatar: 'momo', size: 60, interactive: true),
+                                       child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                             const AvatarImage(avatar: 'momo', size: 60, interactive: true),
+                                             CharacterBlushOverlay(
+                                                size: 60,
+                                                isBlushing: _activeBar != null,
+                                             ),
+                                          ],
+                                       ),
                                     );
                                  },
                               ),
