@@ -1,9 +1,9 @@
 {
-  "status": "PAUSED_BY_OWNER_UNTIL_2026_10_01",
-  "savedAt": "2026-09-30T07:39:18.200Z",
-  "reason": "Video model daily request quota; owner requested resuming tomorrow",
+  "status": "WAITING_VIDEO_DAILY_QUOTA_RESET",
+  "savedAt": "2026-09-30T22:16:51.501Z",
+  "reason": "Owner resumed production. One video scene completed; the next request hit the daily quota. All three title voices and music tracks generated and automatically reviewed; waiting for video reset.",
   "completeFilmCount": 0,
-  "automatedSceneCount": 19,
+  "automatedSceneCount": 20,
   "fullSequenceReviewed": false,
   "scenes": [
     {
@@ -321,6 +321,38 @@
       }
     },
     {
+      "id": "story_cloud_10",
+      "text": "모모가 가슴에 날개를 얹어요. 아까는 속상했어. 지금은 조금 좋아. 누리가 웃어요. 말해 줘서 고마워.",
+      "visual": "Warm close-up of Momo touching its chest, looking back at the fallen leaves then at the newly built tiny shelter. Nuri listens warmly. Small contented smile, no magical transformation.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 12.84,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "ddc6c9e943a4f88b34881811a2c4773f606538984606e80fb8e8fb77095ce478",
+      "sourceVideoSha256": "ea3231a53e400a7057404bb442aa232530cd54e18d23b11c995635ac71d34cbf",
+      "sourceSpeechSha256": "3f9a060d8483e0bfb3673710379e168c00c8db7fb64bfa3ead736f28bed6e770",
+      "sha256": "372c9c01f83026c0fe9b8500fbb35bb9c520529701bc3ba088a5c16bcca97e51",
+      "review": {
+        "transcript": {
+          "transcript": "모모가 가슴에 날개를 얹어요. 아까는 속상했어. 지금은 조금 좋아. 누리가 웃어요. 말해 줘서 고마워.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": ""
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "Momo touches its chest and smiles warmly next to the leaf shelter with Nuri. Framing is a medium two-shot rather than a close-up, but the essential actions and props align well."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T22:11:47.886Z"
+      }
+    },
+    {
       "id": "story_swing_00",
       "text": "숲에 새 그네가 생겼어요. 튼튼한 나무 아래, 낮고 작은 그네예요. 모모와 두리, 누리가 눈을 반짝였어요.",
       "visual": "Establishing shot of one low sturdy wooden swing in the same forest clearing. Momo, Duri and Nuri approach from a path, curious and delighted. Swing is stationary.",
@@ -588,6 +620,50 @@
         "passed": true,
         "model": "gemini-3.8-flash",
         "checkedAt": "2026-09-30T07:13:57.512Z"
+      }
+    }
+  ],
+  "lastVideoQuotaCheck": {
+    "dateKST": "2026-10-01",
+    "successfulResumedScenes": [
+      "story_cloud_10"
+    ],
+    "blockedNextScene": "story_cloud_11",
+    "model": "gemini-omni-1.1-flash",
+    "limitRequestsPerDay": 20,
+    "retryAfterFromAPI": "1h48m1s",
+    "estimatedRetryAtKST": "2026-10-01 09:00 KST",
+    "resetConfirmed": false
+  },
+  "completedEpisodeAudio": [
+    {
+      "episode": "story_cloud",
+      "reviewPassed": true,
+      "titleAudioAsset": "assets/stories/story_cloud_title.m4a",
+      "musicAsset": "assets/stories/story_cloud_music.m4a",
+      "assetHashes": {
+        "title": "6cdbdc763a485c99ea1abac17a2bb1e9070044dcc93440089f3e98855bec4f99",
+        "music": "2e90c155884eec914382aea4bc07ee624ceca6281829c2156b3d7d1309df29c2"
+      }
+    },
+    {
+      "episode": "story_swing",
+      "reviewPassed": true,
+      "titleAudioAsset": "assets/stories/story_swing_title.m4a",
+      "musicAsset": "assets/stories/story_swing_music.m4a",
+      "assetHashes": {
+        "title": "11626cf708c576daf9bab34ed109454cff3401e9dd7c7054d1b387edde32f584",
+        "music": "2ff9f6ae81cb66a35461496544fe861ce38b473fd9d26b73afcf38c5c654b97e"
+      }
+    },
+    {
+      "episode": "story_moon",
+      "reviewPassed": true,
+      "titleAudioAsset": "assets/stories/story_moon_title.m4a",
+      "musicAsset": "assets/stories/story_moon_music.m4a",
+      "assetHashes": {
+        "title": "0bd74e1fb612dc4249b1a62e098e116ede6b41c26a33bd56108e7a61dbdaf934",
+        "music": "4e3f66826fb17212eddeb822faedb5465949f0db5e196259d3004cd953d27fd5"
       }
     }
   ]

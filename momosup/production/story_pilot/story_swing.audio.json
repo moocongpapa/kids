@@ -1,0 +1,30 @@
+{
+  "episode": "story_swing",
+  "title": "그네 하나, 친구 셋",
+  "finalAudioReview": {
+    "titleReview": {
+      "transcript": "그네 하나, 친구 셋.",
+      "abruptNoise": false,
+      "music": false
+    },
+    "musicReview": {
+      "voice": false,
+      "abruptNoise": false,
+      "notes": "The audio features acoustic guitar fingerpicking, joined towards the end by a gentle musical swell with no voice or abrupt sounds."
+    },
+    "model": "gemini-3.8-flash",
+    "passed": true,
+    "checkedAt": "2026-09-30T22:14:26.915Z"
+  },
+  "musicPrompt": "Instrumental only, absolutely no voice, singing or humming. Gentle warm watercolor woodland animation underscore, about 30 seconds. Playful acoustic guitar and soft marimba, lightly bouncing but never busy. No sharp impacts or sudden changes, sparse arrangement with plenty of room for Korean narration, soft ending.",
+  "titleAudioAsset": "assets/stories/story_swing_title.m4a",
+  "musicAsset": "assets/stories/story_swing_music.m4a",
+  "assetHashes": {
+    "title": "11626cf708c576daf9bab34ed109454cff3401e9dd7c7054d1b387edde32f584",
+    "music": "2ff9f6ae81cb66a35461496544fe861ce38b473fd9d26b73afcf38c5c654b97e"
+  },
+  "voiceModel": "gemini-3.8-flash-tts",
+  "musicModel": "lyria-3-clip-preview",
+  "createdAt": "2026-09-30T22:14:26.915Z",
+  "status": "AUTOMATED_AUDIO_REVIEW_PASSED"
+}

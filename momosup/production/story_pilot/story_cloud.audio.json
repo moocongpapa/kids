@@ -1,0 +1,30 @@
+{
+  "episode": "story_cloud",
+  "title": "구름아, 내 마음을 들어줘",
+  "finalAudioReview": {
+    "titleReview": {
+      "transcript": "구름아 내 마음을 들어줘",
+      "abruptNoise": false,
+      "music": false
+    },
+    "musicReview": {
+      "voice": false,
+      "abruptNoise": false,
+      "notes": "Gentle acoustic guitar music playing throughout."
+    },
+    "model": "gemini-3.8-flash",
+    "passed": true,
+    "checkedAt": "2026-09-30T22:13:53.032Z"
+  },
+  "musicPrompt": "Instrumental only, absolutely no voice, singing or humming. Gentle warm watercolor woodland animation underscore, about 30 seconds. Tender soft acoustic guitar and warm felt piano, reassuring with a little gentle humor. No sharp impacts or sudden changes, sparse arrangement with plenty of room for Korean narration, soft ending.",
+  "titleAudioAsset": "assets/stories/story_cloud_title.m4a",
+  "musicAsset": "assets/stories/story_cloud_music.m4a",
+  "assetHashes": {
+    "title": "6cdbdc763a485c99ea1abac17a2bb1e9070044dcc93440089f3e98855bec4f99",
+    "music": "2e90c155884eec914382aea4bc07ee624ceca6281829c2156b3d7d1309df29c2"
+  },
+  "voiceModel": "gemini-3.8-flash-tts",
+  "musicModel": "lyria-3-clip-preview",
+  "createdAt": "2026-09-30T22:13:53.041Z",
+  "status": "AUTOMATED_AUDIO_REVIEW_PASSED"
+}

@@ -1,0 +1,30 @@
+{
+  "episode": "story_moon",
+  "title": "사라진 달빛을 찾아서",
+  "finalAudioReview": {
+    "titleReview": {
+      "transcript": "사라진 달빛을 찾아서",
+      "abruptNoise": false,
+      "music": false
+    },
+    "musicReview": {
+      "voice": false,
+      "abruptNoise": false,
+      "notes": "Dramatic classical orchestral music"
+    },
+    "model": "gemini-3.8-flash",
+    "passed": true,
+    "checkedAt": "2026-09-30T22:14:59.443Z"
+  },
+  "musicPrompt": "Instrumental only, absolutely no voice, singing or humming. Gentle warm watercolor woodland animation underscore, about 30 seconds. Wonder and quiet curiosity, soft celesta and warm strings, no suspense, no ominous sounds. No sharp impacts or sudden changes, sparse arrangement with plenty of room for Korean narration, soft ending.",
+  "titleAudioAsset": "assets/stories/story_moon_title.m4a",
+  "musicAsset": "assets/stories/story_moon_music.m4a",
+  "assetHashes": {
+    "title": "0bd74e1fb612dc4249b1a62e098e116ede6b41c26a33bd56108e7a61dbdaf934",
+    "music": "4e3f66826fb17212eddeb822faedb5465949f0db5e196259d3004cd953d27fd5"
+  },
+  "voiceModel": "gemini-3.8-flash-tts",
+  "musicModel": "lyria-3-clip-preview",
+  "createdAt": "2026-09-30T22:14:59.444Z",
+  "status": "AUTOMATED_AUDIO_REVIEW_PASSED"
+}

@@ -36,8 +36,36 @@ function speechPayload(text){
  payload.input[0].content[0].annotations[0].style='Dry studio spoken voice only, absolutely no background music or sound effects. Warm expressive Korean adult storyteller. Natural clear Korean for young children, gentle character inflections, conversational pace with short breaths. Read exactly this text. No added words, no humming, no singing. Silence behind the voice.';
  return payload;
 }
+async function prepareEpisodeAudio(e,dir){
+ // Spoken title for the large, text-optional story selection screen.
+ const titleRaw=path.join(dir,'title.wav');
+ if(!existsSync(titleRaw))await fs.writeFile(titleRaw,extractWav(await request(speechPayload(e.title))));
+ ff(['-i',titleRaw,'-af','loudnorm=I=-20:TP=-3:LRA=7','-c:a','aac','-b:a','64k','-ar','24000',path.join(out,e.id+'_title.m4a')]);
+ const musicRaw=path.join(dir,'music.mp3');
+ const musicPrompt=`Instrumental only, absolutely no voice, singing or humming. Gentle warm watercolor woodland animation underscore, about 30 seconds. ${e.id==='story_moon'?'Wonder and quiet curiosity, soft celesta and warm strings, no suspense, no ominous sounds.':e.id==='story_swing'?'Playful acoustic guitar and soft marimba, lightly bouncing but never busy.':'Tender soft acoustic guitar and warm felt piano, reassuring with a little gentle humor.'} No sharp impacts or sudden changes, sparse arrangement with plenty of room for Korean narration, soft ending.`;
+ if(!existsSync(musicRaw)){const r=await request({model:'lyria-3-clip-preview',input:musicPrompt});const a=content(r).find(c=>c.type==='audio');if(!a?.data)throw new Error('No music');await fs.writeFile(musicRaw,Buffer.from(a.data,'base64'));}
+ ff(['-i',musicRaw,'-af',`loudnorm=I=-25:TP=-5:LRA=6,afade=t=in:d=1,afade=t=out:st=${Math.max(0,duration(musicRaw)-2)}:d=2`,'-c:a','aac','-b:a','64k','-ar','24000',path.join(out,e.id+'_music.m4a')]);
+ const titleBytes=await fs.readFile(path.join(out,e.id+'_title.m4a'));
+ const musicBytes=await fs.readFile(path.join(out,e.id+'_music.m4a'));
+ const titleReview=json(await request({model:'gemini-3.8-flash',input:[{type:'text',text:'Transcribe exactly the audible Korean words. JSON only: {"transcript":string,"abruptNoise":boolean,"music":boolean}.'},{type:'audio',mime_type:'audio/mp4',data:titleBytes.toString('base64')}]}));
+ const musicReview=json(await request({model:'gemini-3.8-flash',input:[{type:'text',text:'Listen to the full clip. JSON only: {"voice":boolean,"abruptNoise":boolean,"notes":string}. Voice includes speech, singing and humming. Abrupt noise includes startling impacts, screams or glitches.'},{type:'audio',mime_type:'audio/mp4',data:musicBytes.toString('base64')}]}));
+ const finalAudioReview={titleReview,musicReview,model:'gemini-3.8-flash',passed:normalize(titleReview.transcript??'')===normalize(e.title)&&!titleReview.abruptNoise&&!titleReview.music&&!musicReview.voice&&!musicReview.abruptNoise,checkedAt:new Date().toISOString()};
+ const result={episode:e.id,title:e.title,finalAudioReview,musicPrompt,
+  titleAudioAsset:`assets/stories/${e.id}_title.m4a`,musicAsset:`assets/stories/${e.id}_music.m4a`,
+  assetHashes:{title:hash(titleBytes),music:hash(musicBytes)},
+  voiceModel:'gemini-3.8-flash-tts',musicModel:'lyria-3-clip-preview',
+  createdAt:new Date().toISOString(),status:finalAudioReview.passed?'AUTOMATED_AUDIO_REVIEW_PASSED':'REVIEW_REQUIRED'};
+ await fs.writeFile(path.join(root,'production/story_pilot',e.id+'.audio.json'),JSON.stringify(result,null,2)+'\n');
+ return result;
+}
 async function runEpisode(e){
  const dir=path.join(work,e.id);await fs.mkdir(dir,{recursive:true});
+ if(args.includes('--audio-only')){
+  const audio=await prepareEpisodeAudio(e,dir);
+  console.log('AUDIO_COMPLETE',e.id,audio.status);
+  if(!audio.finalAudioReview.passed)throw new Error('Audio review required '+e.id);
+  return;
+ }
  const records=[];
  for(let i=0;i<e.scenes.length;i++){
   const s=e.scenes[i], id=`${e.id}_${String(i).padStart(2,'0')}`, stem=path.join(dir,id), specHash=hash(JSON.stringify(s)+visualStyle);
@@ -117,19 +145,7 @@ async function runEpisode(e){
  const concat=path.join(dir,'concat.txt');await fs.writeFile(concat,records.map(r=>`file '${path.join(dir,r.id+'.mp4')}'`).join('\n'));
  const final=path.join(out,e.id+'.mp4');ff(['-f','concat','-safe','0','-i',concat,'-c','copy','-movflags','+faststart',final]);
   ff(['-ss','7','-i',final,'-frames:v','1','-vf','scale=960:540','-q:v','3',path.join(out,e.id+'.jpg')]);
- // Spoken title for the large, text-optional story selection screen.
- const titleRaw=path.join(dir,'title.wav');
- if(!existsSync(titleRaw))await fs.writeFile(titleRaw,extractWav(await request(speechPayload(e.title))));
- ff(['-i',titleRaw,'-af','loudnorm=I=-20:TP=-3:LRA=7','-c:a','aac','-b:a','64k','-ar','24000',path.join(out,e.id+'_title.m4a')]);
- const musicRaw=path.join(dir,'music.mp3');
- const musicPrompt=`Instrumental only, absolutely no voice, singing or humming. Gentle warm watercolor woodland animation underscore, about 30 seconds. ${e.id==='story_moon'?'Wonder and quiet curiosity, soft celesta and warm strings, no suspense, no ominous sounds.':e.id==='story_swing'?'Playful acoustic guitar and soft marimba, lightly bouncing but never busy.':'Tender soft acoustic guitar and warm felt piano, reassuring with a little gentle humor.'} No sharp impacts or sudden changes, sparse arrangement with plenty of room for Korean narration, soft ending.`;
- if(!existsSync(musicRaw)){const r=await request({model:'lyria-3-clip-preview',input:musicPrompt});const a=content(r).find(c=>c.type==='audio');if(!a?.data)throw new Error('No music');await fs.writeFile(musicRaw,Buffer.from(a.data,'base64'));}
- ff(['-i',musicRaw,'-af',`loudnorm=I=-25:TP=-5:LRA=6,afade=t=in:d=1,afade=t=out:st=${Math.max(0,duration(musicRaw)-2)}:d=2`,'-c:a','aac','-b:a','64k','-ar','24000',path.join(out,e.id+'_music.m4a')]);
- const titleBytes=await fs.readFile(path.join(out,e.id+'_title.m4a'));
- const musicBytes=await fs.readFile(path.join(out,e.id+'_music.m4a'));
- const titleReview=json(await request({model:'gemini-3.8-flash',input:[{type:'text',text:'Transcribe exactly the audible Korean words. JSON only: {"transcript":string,"abruptNoise":boolean,"music":boolean}.'},{type:'audio',mime_type:'audio/mp4',data:titleBytes.toString('base64')}]}));
- const musicReview=json(await request({model:'gemini-3.8-flash',input:[{type:'text',text:'Listen to the full clip. JSON only: {"voice":boolean,"abruptNoise":boolean,"notes":string}. Voice includes speech, singing and humming. Abrupt noise includes startling impacts, screams or glitches.'},{type:'audio',mime_type:'audio/mp4',data:musicBytes.toString('base64')}]}));
- const finalAudioReview={titleReview,musicReview,model:'gemini-3.8-flash',passed:normalize(titleReview.transcript??'')===normalize(e.title)&&!titleReview.abruptNoise&&!titleReview.music&&!musicReview.voice&&!musicReview.abruptNoise,checkedAt:new Date().toISOString()};
+ const {finalAudioReview,musicPrompt}=await prepareEpisodeAudio(e,dir);
  const bytes=await fs.readFile(final);
  const result={...e,scenes:records,finalAudioReview,durationSeconds:duration(final),videoAsset:`assets/stories/${e.id}.mp4`,posterAsset:`assets/stories/${e.id}.jpg`,titleAudioAsset:`assets/stories/${e.id}_title.m4a`,musicAsset:`assets/stories/${e.id}_music.m4a`,bytes:bytes.length,sha256:hash(bytes),videoModel:'gemini-omni-1.1-flash',voiceModel:'gemini-3.8-flash-tts',musicModel:'lyria-3-clip-preview',musicPrompt,voice:'Kore',createdAt:new Date().toISOString(),humanReviewedAt:null,applicationAuthorization:'Owner explicitly requested production and app integration of three age-targeted story films on 2026-09-30.',status:finalAudioReview.passed?'APPLIED_ON_OWNER_REQUEST':'REVIEW_REQUIRED'};
  await fs.writeFile(path.join(root,'production/story_pilot',e.id+'.json'),JSON.stringify(result,null,2)+'\n');
