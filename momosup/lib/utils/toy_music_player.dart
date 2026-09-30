@@ -8,12 +8,16 @@ import 'audio_policy.dart';
 /// A screen-owned background loop. Speech ducks it; leaving or finishing the
 /// toy cancels pending loads too. Xylophone intentionally supplies no track.
 class ToyMusicPlayer with WidgetsBindingObserver {
-  ToyMusicPlayer({AudioOutput? output})
+  ToyMusicPlayer({AudioOutput? output, this.speechGain = .08})
     : output = output ?? AssetAudioOutput(null) {
     AudioPolicy.instance.addListener(_sync);
     WidgetsBinding.instance.addObserver(this);
   }
   final AudioOutput output;
+  final double speechGain;
+  double get _gain => AudioPolicy.instance.speaking
+      ? speechGain.clamp(0.0, 1.0)
+      : AudioPolicy.instance.musicGain;
   String? _path;
   bool _wanted = false, _away = false, _disposed = false, _running = false;
   int _request = 0;
@@ -49,9 +53,7 @@ class ToyMusicPlayer with WidgetsBindingObserver {
       return;
     }
     if (_running) {
-      unawaited(
-        output.volume(AudioPolicy.instance.musicGain).catchError((Object _) {}),
-      );
+      unawaited(output.volume(_gain).catchError((Object _) {}));
     } else {
       unawaited(_loop());
     }
@@ -75,7 +77,7 @@ class ToyMusicPlayer with WidgetsBindingObserver {
         Future<void>? playing;
         await _enqueue(() async {
           if (!current()) return;
-          await output.volume(AudioPolicy.instance.musicGain);
+          await output.volume(_gain);
           if (current()) {
             playing = output.play();
             unawaited(playing!.catchError((Object _) {}));

@@ -22,7 +22,9 @@ class StoryPlayback extends ChangeNotifier with WidgetsBindingObserver {
     this.preview = false,
     ToyMusicPlayer? music,
     Stopwatch? watch,
-  }) : music = music ?? ToyMusicPlayer(),
+  }) : music =
+           music ??
+           ToyMusicPlayer(speechGain: profile.lowStimulation ? .12 : .22),
        watch = watch ?? Stopwatch() {
     limitSeconds = preview
         ? 420

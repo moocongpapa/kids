@@ -18,8 +18,10 @@ for(const item of [...catalog.episodes,...catalog.previews??[]]){
   const m=decode.stderr.match(/Duration: (\d+):(\d+):([\d.]+)/);
   const seconds=m?Number(m[1])*3600+Number(m[2])*60+Number(m[3]):null;
   const peak=Number(decode.stderr.match(/max_volume: (-?[\d.]+)/)?.[1]);
-  const record={file:relative,bytes:bytes.length,seconds,peakDb:peak,decoded:decode.status===0};
-  if(!record.decoded||seconds===null||seconds<=0||peak>=-.5)report.errors.push('media:'+relative);
+  const mean=Number(decode.stderr.match(/mean_volume: (-?[\d.]+)/)?.[1]);
+  const record={file:relative,bytes:bytes.length,seconds,peakDb:peak,meanDb:mean,decoded:decode.status===0};
+  if(!record.decoded||seconds===null||seconds<=0||!Number.isFinite(peak)||peak>=-.5||peak< -60)report.errors.push('media:'+relative);
+  if(relative.endsWith('.mp4')&&(!/Video: h264/.test(decode.stderr)||!/1280x720/.test(decode.stderr)||!/Audio: aac/.test(decode.stderr)))report.errors.push('format:'+relative);
   if(relative.endsWith('.mp4')&&Math.abs(seconds-item.durationSeconds)>1)report.errors.push('duration:'+relative);
   report.assets.push(record);
  }

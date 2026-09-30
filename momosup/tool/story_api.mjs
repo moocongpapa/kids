@@ -10,9 +10,10 @@ if(!key){
 }
 export async function request(payload){
  if(!key)throw new Error('Local GEMINI_API_KEY is missing');
- for(let attempt=0;attempt<4;attempt++){
+ for(let attempt=0;attempt<8;attempt++){
   const r=await fetch('https://generativelanguage.googleapis.com/v1beta/interactions',{method:'POST',headers:{'content-type':'application/json','x-goog-api-key':key},body:JSON.stringify(payload),signal:AbortSignal.timeout(360000)});
   if(r.ok)return r.json();
+  let spendRateLimited=false;
   if(r.status===429){
    const error=await r.json().catch(()=>({}));
    const details=error.error?.details??[];
@@ -20,11 +21,20 @@ export async function request(payload){
    if(/monthly spending cap|spend(ing)? (cap|limit)/i.test(error.error?.message??'')) {
     throw new Error('PROJECT_SPEND_CAP_REACHED: resume only after the owner raises the project cap.');
    }
+   if(/requests per day|daily (?:request )?(?:limit|quota)/i.test(error.error?.message??'')){
+    throw new Error(`DAILY_REQUEST_QUOTA_REACHED (${payload.model}): resume only after reset or an approved quota increase.`);
+   }
+   spendRateLimited=/spend-based rate|spending rate/i.test(error.error?.message??'');
    console.log('Quota',JSON.stringify(details.flatMap(d=>(d.violations??[]).map(v=>({quotaId:v.quotaId,quotaValue:v.quotaValue,quotaMetric:v.quotaMetric})))));
   }
-  if(![429,500,502,503,504].includes(r.status)||attempt===3)throw new Error(`Gemini HTTP ${r.status} (${payload.model})`);
+  if(![429,500,502,503,504].includes(r.status)||attempt===7)throw new Error(`Gemini HTTP ${r.status} (${payload.model})`);
   console.log('Transient API status',r.status,payload.model,'retry',attempt+1);
-  await new Promise(resolve=>setTimeout(resolve,15000*(attempt+1)));
+  // Spend rate quotas use a rolling window. Wait without changing project/model.
+  const delay=spendRateLimited?120000:Math.min(60000,15000*(attempt+1));
+  console.log('Next API retry after',delay/1000,'seconds');
+  for(let remaining=delay;remaining>0;remaining-=60000){
+   await new Promise(resolve=>setTimeout(resolve,Math.min(60000,remaining)));
+  }
  }
 }
 export const content=r=>r.steps?.filter(s=>s.type==='model_output').flatMap(s=>s.content??[])??[];

@@ -2,10 +2,10 @@
 
 ## 현재 상태
 
-**완성본 3편은 아직 제작되지 않았다.** Google API가 프로젝트 월간 지출 상한 초과를 반환해 추가 영상·음성·음악 생성이 중단됐다. 한도 해제 확인 전에는 추가 생성 요청을 하지 않는다.
+**완성본 3편은 아직 제작되지 않았다.** 9월 30일 사용자가 월간 지출 한도를 올린 뒤 제작을 재개했다. 이후 영상 모델의 일일 20회 제한 응답을 받았고, 사용자가 “내일 작업하자”라고 요청해 모든 생성을 중단했다. [다음 작업 인계](RESUME_2026-10-01.md)를 먼저 읽는다.
 
 - 전체 대본: 3편, 52장면. `../../tool/story_pilot_scripts.mjs`에 한국어 대사와 장면별 연출이 있다.
-- 생성·장면별 자동 검수·인코딩 완료: 각 3장면, 총 9장면.
+- 로컬 생성·장면별 자동 검수·인코딩 완료: 마음 편 10장면, 그네 편 6장면, 달빛 편 3장면. 총 19장면이며 전체 연결 검수는 아직 진행 중이다. 달빛 02번은 물 표면만 보이는 컷으로 추가 수정한다.
 - 보호자 전용 첫 장면 미리보기: 각 약 47초, 총 약 2분 21초.
 - 아이에게 공개한 완성 스토리: **0편**.
 - 장면 연결을 다시 검토하면서 등장인물·낮밤·소품의 연속성 문제를 발견했다. 추가 수정 목록은 `visual_review.json`에 있으며, 자동 검수 통과만으로 완성본을 공개하지 않는다.
@@ -25,7 +25,9 @@
 - 한국어 음성: `gemini-3.8-flash-tts`, Kore. 생성 후 별도 받아쓰기로 대사 일치를 검사했다.
 - 계획된 음악: Lyria. **새 스토리 음악은 아직 생성되지 않았다.** 현재 미리보기에는 내레이션만 들어 있다.
 - 스타일 이미지 `forest_reference.png`: built-in imagegen으로 기존 모모·두리·누리를 참고해 제작. 프롬프트는 원본 캐릭터를 유지한 따뜻한 수채화 숲, 낮은 나무 그네, 연못, 글자 없는 16:9 구성이다.
-- 첫 생성에는 전체 숲 레퍼런스를 사용했다. 원하지 않는 친구가 나타나는 문제가 있어, 후속 코드는 장면에 필요한 캐릭터만 분리 참조하고 달빛 편의 밤 조명을 명시하도록 수정했다. 수정된 생성은 아직 실행하지 않았다.
+- 첫 생성에는 전체 숲 레퍼런스를 사용했다. 현재는 필요한 캐릭터만 분리 참조하고 앞 장면의 마지막 프레임을 함께 사용한다. 무너진 집의 상태·모모의 감정·등장 순서·달빛의 밤 조명을 검사한다. 마음 편 01–07번의 수정된 연결을 장면 모아보기로 확인했다.
+- 음성 검사는 말의 높낮이를 반주로 오인하지 않도록 보완했다. 대사는 일치해야 하며, 독립된 감탄사 `앗/아/어`, 응답 `응/음`만 동등 표현으로 허용하고 실제 받아쓰기를 기록한다. 제목은 정확히 일치해야 한다.
+- 그네 편의 아직 제작하지 않은 06·07·11·15번 대사는 실제로 재생하지 않는 노래 종료 대신 그네를 멈추고 다음 친구에게 자리를 바꾸는 행동에 맞춰 수정했다.
 - `*.preview.json`은 실제 생성한 9장면의 원본·음성·최종 영상 SHA-256과 자동 검수 기록이다. 큰 원본과 거절된 테이크는 Git에서 제외한 `../story_work/`에 보존한다. 키는 기존 로컬 환경에서만 읽는다.
 - 미리보기는 1280×720 H.264/AAC로 앱에 번들해 오프라인 재생한다. 원격 저장소/CDN에는 배포하지 않았다.
 
@@ -47,16 +49,16 @@
 - iPhone Air/iOS 27 시뮬레이터 AVPlayer에서 3편 모두 1280×720 재생, 2.8초 이상 위치 진행, 정지 확인.
 - 실제 휴대폰 청취, 전체 완성본 관람, 실제 가족 관찰은 미실시.
 
-## 한도 해제 후 재개
+## 10월 1일 재개
 
-Google AI Studio의 해당 프로젝트 월간 지출 상한을 조정한 뒤 실행한다. 구독 플랜 이름으로 API 한도 해제를 추정하지 않는다.
+월간 지출 한도는 해제됐다. 영상 일일 요청 제한은 별도다. API가 안내한 일일 재개 시점은 10월 1일 약 09:00 KST다. 구독 플랜 이름으로 API 한도 해제를 추정하지 않으며, 일일 제한 응답을 받으면 다른 프로젝트나 모델로 우회하지 않고 멈춘다. 순간 지출 속도 제한은 순차 요청과 대기로 처리한다.
 
 ```sh
 # momosup 디렉터리. FFmpeg가 PATH에 있어야 한다.
 node tool/generate_story_pilot.mjs
-node tool/generate_story_pilot.mjs --generate --episode=story_cloud --repair-scenes=story_cloud_01
+node tool/generate_story_pilot.mjs --generate --episode=story_cloud
 node tool/generate_story_pilot.mjs --generate --episode=story_swing
-node tool/generate_story_pilot.mjs --generate --episode=story_moon --repair-scenes=story_moon_00,story_moon_02
+node tool/generate_story_pilot.mjs --generate --episode=story_moon --repair-scenes=story_moon_02
 ```
 
 첫 명령은 비용 없는 계획 출력이다. `STORY_FFMPEG=/절대/경로/ffmpeg`도 지원한다. 이번에 쓴 임시 실행 파일은 `/private/tmp/kids-story-tools/imageio_ffmpeg/binaries/ffmpeg-macos-aarch64-v7.1`이다. 임시 경로를 영구 설치로 간주하지 않는다.
@@ -71,6 +73,6 @@ flutter test
 flutter run -t tool/story_native_smoke.dart -d <기기-ID>
 ```
 
-`--publish`는 세 완성본·모든 장면 검수·제목/음악 검수·해시·연속성 수정 완료가 없으면 실패한다. 작업 완료 후 main 커밋·푸시한다.
+게시 전에 각 편에 `node tool/review_story_film.mjs --episode=<ID>`와 `node tool/inspect_story_scenes.mjs --episode=<ID>`를 실행한다. `--publish`는 세 완성본·모든 장면 검수·제목/음악 검수·해시가 맞는 전체 영상 검수·최종 장면 모아보기 검사 기록이 없으면 실패한다. 네이티브 검사는 음성과 BGM의 동시 재생, 중간 이동, 끝에서 정지까지 확인한다. 작업 완료 후 main 커밋·푸시한다.
 
 공식 문서: [Gemini 영상](https://ai.google.dev/gemini-api/docs/omni), [API 가격](https://ai.google.dev/gemini-api/docs/pricing), [Flutter video_player](https://pub.dev/packages/video_player).

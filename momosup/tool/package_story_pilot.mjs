@@ -10,10 +10,8 @@ const hash=b=>createHash('sha256').update(b).digest('hex');
 const args=process.argv.slice(2);
 const preview=args.includes('--previews'), publish=args.includes('--publish');
 if(preview===publish)throw new Error('Choose --previews or --publish. Publishing requires all three complete, reviewed episodes.');
-if(publish){
- const review=JSON.parse(await fs.readFile(path.join(root,'production/story_pilot/visual_review.json')));
- if(review.publishBlocked)throw new Error('Scene continuity corrections and final full-film inspection are still required.');
-}
+const visualReview=publish?JSON.parse(await fs.readFile(path.join(root,'production/story_pilot/visual_review.json'))):null;
+if(publish&&visualReview.publishBlocked!==false)throw new Error('Scene continuity corrections and final full-film inspection are still required.');
 function ff(a){const r=spawnSync(ffmpeg,['-hide_banner','-loglevel','error','-y',...a],{encoding:'utf8'});if(r.status!==0)throw new Error(r.stderr.slice(-800));}
 const packed=[];
 for(const e of episodes){
@@ -45,6 +43,9 @@ for(const e of episodes){
    throw new Error('Incomplete production/review '+e.id);
   const bytes=await fs.readFile(path.join(root,item.videoAsset));
   if(hash(bytes)!==item.sha256)throw new Error('Changed video '+e.id);
+  const fullReview=JSON.parse(await fs.readFile(path.join(root,'production/story_pilot',e.id+'.film_review.json')));
+  if(!fullReview.passed||fullReview.sha256!==item.sha256)throw new Error('Full-film review required '+e.id);
+  if(!visualReview.reviewedFilms?.some(f=>f.id===e.id&&f.sha256===item.sha256))throw new Error('Final contact-sheet inspection required '+e.id);
   item.automatedReviewPassed=true;
  }
  const {scenes,palette,musicPrompt,...metadata}=item;
@@ -55,5 +56,5 @@ for(const e of episodes){
  packed.push(metadata);
  console.log(item.id,item.durationSeconds,'seconds',item.status);
 }
-const catalog={version:'story-pilot-2026-09-30',productionStatus:preview?'AWAITING_GEMINI_PROJECT_SPEND_CAP':'COMPLETE',episodes:preview?[]:packed,previews:preview?packed:[]};
+const catalog={version:'story-pilot-2026-09-30'+(publish?'-full':''),productionStatus:preview?'AWAITING_GEMINI_PROJECT_SPEND_CAP':'COMPLETE',episodes:preview?[]:packed,previews:preview?packed:[]};
 await fs.writeFile(path.join(root,'assets/content/story_catalog.json'),JSON.stringify(catalog,null,2)+'\n');

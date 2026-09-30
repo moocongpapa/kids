@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -202,6 +203,33 @@ void main() {
     for (final draft in parent.where((e) => e.productionPreview)) {
       expect(draft.availableFor(testProfile.copyWith(ageMonths: 84)), isFalse);
     }
+  });
+  test('완성 카탈로그에는 연령별 영상 3편과 음성·음악이 들어 있다', () async {
+    final films = await const StoryRepository().load();
+    final catalog = jsonDecode(
+      await rootBundle.loadString('assets/content/story_catalog.json'),
+    ) as Map<String, dynamic>;
+    if (catalog['productionStatus'] != 'COMPLETE') {
+      expect(films, isEmpty);
+      return;
+    }
+    expect(films.map((e) => e.id), [
+      'story_cloud',
+      'story_swing',
+      'story_moon',
+    ]);
+    expect(films.first.durationSeconds, inInclusiveRange(170, 230));
+    for (final film in films.skip(1)) {
+      expect(film.durationSeconds, inInclusiveRange(290, 390));
+    }
+    expect(films.every((e) => e.musicAsset.isNotEmpty), isTrue);
+    expect(
+      StoryRepository.forProfile(
+        films,
+        testProfile.copyWith(ageMonths: 30),
+      ).single.id,
+      'story_cloud',
+    );
   });
   test('실제 재생 시간만 합산하고 멈춤과 버퍼링 시간을 제외한다', () async {
     final state = await setup(), video = FakeVideo(), clock = Clock();

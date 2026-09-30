@@ -1,0 +1,594 @@
+{
+  "status": "PAUSED_BY_OWNER_UNTIL_2026_10_01",
+  "savedAt": "2026-09-30T07:39:18.200Z",
+  "reason": "Video model daily request quota; owner requested resuming tomorrow",
+  "completeFilmCount": 0,
+  "automatedSceneCount": 19,
+  "fullSequenceReviewed": false,
+  "scenes": [
+    {
+      "id": "story_cloud_00",
+      "text": "모모가 나뭇잎을 쌓아요. 하나 올리고, 또 올리고. 작은 잎사귀 집이에요. 모모가 방긋 웃어요. 기분이 좋아요.",
+      "visual": "Momo the green bird stacks a little leaf house on a flat mossy stone. Close view of the delicate leaves and proud smile. Duri and Nuri are not present.",
+      "targetSeconds": 15,
+      "seconds": 16,
+      "voiceSeconds": 13.36,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "c1d190c1769abae36d96088a6e0a8a9193e35326c234709465b41680bf1671f7",
+      "sourceVideoSha256": "f2b40a745ae7b782062add940ed16452e9714b908de0f539bde3eff6ad0be05b",
+      "sourceSpeechSha256": "ac3308f3b7d1f4e52b400f42ccefe33746de5c3732bb82d684c49e8b56f5c0c4",
+      "sha256": "9a3c5c53e42d77e89c4ee8a4b106f44eea99cd8180fe62f8168cd6bb9510b376",
+      "review": {
+        "transcript": {
+          "transcript": "모모가 나뭇잎을 쌓아요. 하나 올리고 또 올리고. 작은 잎사귀 집이에요. 모모가 방긋 웃어요. 기분이 좋아요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "Momo stacks leaves into a small structure on a mossy stone and displays a proud smile as expected."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:52:02.927Z"
+      }
+    },
+    {
+      "id": "story_cloud_01",
+      "text": "살랑! 바람이 불었어요. 잎사귀 집이 팔랑팔랑. 앗, 납작해졌네! 모모의 웃음도 쏙 들어갔어요.",
+      "visual": "A soft breeze scatters the tiny leaf house. Leaves flutter down safely. Momo opens its eyes in surprise and its smile fades. No storm.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 12.12,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "6abb7514f16dca0e6a66aa8b78d0dc27e521a8bf7ee26006c650468300a54594",
+      "sourceVideoSha256": "67b4587a458f8a2996779b67d53763ebb7fedfbcdaa5ff57059e66038ce430d8",
+      "sourceSpeechSha256": "c09347a778f6bce4f55c07e0db7e55836d7116c48bfd79193fcce35f58c8e66f",
+      "sha256": "3b9042a62918a4c4acc72054016917ea7d48c1897019de7891c09bbea0dd87f7",
+      "review": {
+        "transcript": {
+          "transcript": "살랑 바람이 불었어요. 잎사귀 집이 팔랑팔랑. 앗 납작해졌네. 모모의 웃음도 쏙 들어갔어요.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": ""
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The animation accurately shows the breeze scattering the leaf pile, with Momo opening its eyes and transitioning to a surprised expression."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:26:30.476Z"
+      }
+    },
+    {
+      "id": "story_cloud_02",
+      "text": "모모가 고개를 푹 숙여요. 날개도 축 처졌어요. 마음이 어떤 걸까요? 잠깐, 모모의 얼굴을 볼까요?",
+      "visual": "Quiet close shot of Momo with drooping wings beside the fallen leaves. Subtle blinking and breathing. Gentle sad expression, not crying intensely. Leave time to observe the face.",
+      "targetSeconds": 15,
+      "seconds": 16,
+      "voiceSeconds": 13.24,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "7cb249355c0482c3628dcb9545d7bfba81562508cb9ab8f2da6e89e2f0098002",
+      "sourceVideoSha256": "e0ad31b608fd3a4ef06ea81512f319c19dde86957e2d7b553ef0209007e3e3ce",
+      "sourceSpeechSha256": "03f7223652a2ed522a57e522b06d35052ace6ca66dab0ef5661cc9deb4bf06e6",
+      "sha256": "1b7ec228f397d45c454c0bed2aee544e0a245a4a5398acc8d4c3b620311e962b",
+      "review": {
+        "transcript": {
+          "transcript": "모모가 고개를 푹 숙여요. 날개도 축 처졌어요. 마음이 어떤 걸까요? 잠깐! 모모의 얼굴을 볼까요?",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "Momo is shown beside the collapsed leaves with a subtle sad expression, blinking, and gentle breathing movements matching all continuity requirements."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:22:11.050Z"
+      }
+    },
+    {
+      "id": "story_cloud_03",
+      "text": "구름 친구 누리가 왔어요. 모모야, 무슨 일이야? 모모는 대답 대신, 흩어진 잎사귀를 가리켰어요.",
+      "visual": "Nuri the small white cloud friend walks in and gently crouches beside Momo. Momo points with a wing at the scattered leaf house. Nuri listens attentively.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 9.92,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "a022768f6f71d31a2e777d1db87e1be263c2add3ed91637b66c103b54d276aa4",
+      "sourceVideoSha256": "c70ecdf12e7163d4a72cd7fa80dbe6e6ae705439b9dc38cbf59dca59d855d387",
+      "sourceSpeechSha256": "3e8f4aa20012cd6d0ba0c7fc55365ad48c9db4a3a561c48b7316acd30b0426ec",
+      "sha256": "344d238920f008c26338720f78377a4a21d26a9936d33973e136fee3cf3f902b",
+      "review": {
+        "transcript": {
+          "transcript": "구름 친구 누리가 왔어요. 모모야, 무슨 일이야? 모모는 대답 대신 흩어진 잎사귀를 가리켰어요.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": ""
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "Nuri enters and crouches beside Momo, who gestures toward the fallen leaves while looking sad. Characters and continuity align with the prompt."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:27:27.505Z"
+      }
+    },
+    {
+      "id": "story_cloud_04",
+      "text": "누리가 가만히 기다려요. 모모가 작은 목소리로 말했어요. 내 집이 무너져서, 속상해. 누리가 고개를 끄덕여요.",
+      "visual": "Two-shot of the friends at eye level. Momo touches its chest then indicates the leaves with a subdued expression. Nuri gives a slow sympathetic nod. Soft breeze in background.",
+      "targetSeconds": 15,
+      "seconds": 16,
+      "voiceSeconds": 13.4,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "716463d90b86dd410604924b8821cc429fd975123bbd536001c2b58fbc0d36b6",
+      "sourceVideoSha256": "d4c2fdf644aa2386a3af14146e372734f1747dfb24167379caa69253dc528bb9",
+      "sourceSpeechSha256": "5a6889bb5f8eb800bab2bb490fc05848695daac3147c3f82952ce9d2eb8b1d1f",
+      "sha256": "bbb910368ddcb779c67880c42b4f026a78249376a14de8be9a50dbb008acdcb3",
+      "review": {
+        "transcript": {
+          "transcript": "누리가 가만히 기다려요. 모모가 작은 목소리로 말했어요. 내 집이 무너져서 속상해. 누리가 고개를 끄덕여요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The animation captures the required actions, somber mood, and continuity elements with appropriate characters and setting."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:25:51.625Z"
+      }
+    },
+    {
+      "id": "story_cloud_05",
+      "text": "속상했구나. 열심히 만들었는데. 누리는 모모 옆에 앉았어요. 모모는 아직 속상해요. 그래도 혼자는 아니에요.",
+      "visual": "Nuri sits quietly close to Momo without forcing a smile or hug. Momo remains a little sad, shoulders relaxing. A comforting still woodland moment with living background.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 12.24,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "84efacb9655bb934c4ccee7e5ed339364e3255ad4dc9fb70f48775d408795cd6",
+      "sourceVideoSha256": "45c69bd90422c89b3a5d6ad590b2be0062d76fa56d21d0a106611ad2cf80d30a",
+      "sourceSpeechSha256": "5f6b0fe5338fde8b27f75f3cc453e2aff9c36fcc6a9a7df205de1e7b28050dbd",
+      "sha256": "292031775c280c3307872e48d8a57b4e420f8b37dc80cb71f6db007e24bdf2f2",
+      "review": {
+        "transcript": {
+          "transcript": "속상했구나. 열심히 만들었는데. 누리는 모모 옆에 앉았어요. 모모는 아직 속상해요. 그래도 혼자는 아니에요.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": ""
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The video faithfully depicts Momo and Nuri in a quiet, comforting woodland setting with subtle animation and matching emotional tones."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:28:51.921Z"
+      }
+    },
+    {
+      "id": "story_cloud_06",
+      "text": "그때, 잎사귀 하나가 누리 머리에 착! 누리가 눈을 위로 굴려요. 어라? 내 머리에 누가 앉았지?",
+      "visual": "A single golden leaf lands on Nuri curly head. Nuri looks upward with a funny curious expression and gently pats its head but misses the leaf. Momo notices.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 11.24,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "e30c99b2ba87af9c824c9f01e3835a65ea95e6c19eed9f79935cfa16305ae323",
+      "sourceVideoSha256": "676d0e353f37af813d8e2e68ee6b4f36f3cfbb18e8d6b63264565c8fe9fe14a5",
+      "sourceSpeechSha256": "015ed6a6eb6ac074f44e50cca7e671815ba9a5f942b8e1a6b8bc4129c86cbcec",
+      "sha256": "2ae049dc79498510fc8b8f039d4a4ac1a52ce850062c88f8772cc16dfaf756c8",
+      "review": {
+        "transcript": {
+          "transcript": "그때, 잎사귀 하나가 누리 머리에 착! 누리가 눈을 위로 굴려요. 어라? 내 머리에 누가 앉았지?",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": "A woman narrates expressively without any background music or abrupt noise."
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The animation accurately portrays the falling leaf landing on Nuri, Nuri's curious reaction and missed pat, and Momo noticing while maintaining continuity and appropriate character designs."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:29:57.044Z"
+      }
+    },
+    {
+      "id": "story_cloud_07",
+      "text": "모모가 피식 웃어요. 잎사귀 모자야! 누리가 살짝 인사해요. 안녕하세요, 모자 구름입니다. 모모가 또 웃어요.",
+      "visual": "Nuri makes a tiny theatrical bow wearing the leaf as a hat. Momo giggles and its wings bounce softly. Comical but calm animation, no exaggerated camera.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 12.4,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "e01dd72669a366abf419659bb440aface59ef99a084bdf014ac07bc26d8a811d",
+      "sourceVideoSha256": "77876488e8c0faa14f69565e5d86ec9bdb345f2f9524277e6e3b2d039829ccca",
+      "sourceSpeechSha256": "c07d856ae31ba634a1c3864786173cdd8f4bd7c1c81c3882c63e70f150063de1",
+      "sha256": "8e90eff2e7f61152255da1658b390defa629fd05f3ff50b10d5f5f696ad323bd",
+      "review": {
+        "transcript": {
+          "transcript": "모모가 피식 웃어요. 잎사귀 모자야. 누리가 살짝 인사해요. 안녕하세요, 모자 구름입니다. 모모가 또 웃어요.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": ""
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "Nuri places a leaf on their head and takes a theatrical bow, prompting Momo to laugh with gently fluttering wings. Cast, props, and lighting align with instructions."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:31:00.619Z"
+      }
+    },
+    {
+      "id": "story_cloud_08",
+      "text": "모모가 말했어요. 누리야, 나랑 다시 만들래? 이번에는 작은 집으로. 누리가 대답해요. 응, 같이 해 보자.",
+      "visual": "Momo gestures invitingly toward a sheltered place beside a root. Nuri nods. They select a few broad leaves, planning a much smaller house.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 10.56,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "441caf9c86c89895a53070af954d64d208787d2713372a7eadf892281e90d1d5",
+      "sourceVideoSha256": "321d8e558a9bdfaab095f426c6fc0d9c9beb433fe1d238405fb765d929b1bb7c",
+      "sourceSpeechSha256": "f5ebdc3eb9532b2cd132d10e7d5285fb343faefb2ec3bfc3dbe4dd987ee5eb4e",
+      "sha256": "bf0551afdaaaeca10a93eea4658f0793d32bbb9b8408faf26f04ecabfc572f41",
+      "review": {
+        "transcript": {
+          "transcript": "모모가 말했어요. 누리야, 나랑 다시 만들래? 이번에는 작은 집으로. 누리가 대답해요. 응, 같이 해 보자.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": ""
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "Momo gestures to Nuri, who nods in agreement, and both characters pick up leaves from the stone as described."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:32:11.044Z"
+      }
+    },
+    {
+      "id": "story_cloud_09",
+      "text": "작은 잎 하나, 큰 잎 하나. 모모가 올리고, 누리가 잡아요. 삐뚤빼뚤해도 괜찮아요. 둘이 만든 집이에요.",
+      "visual": "The two friends build a low two-leaf tent protected by a broad tree root. Nuri holds one leaf while Momo leans the other against it. The small tent stays upright.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 12.16,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "ca0510b8cc09bf260f78cbf1865d027d9eb510d5b82f629209a9529f58557c6a",
+      "sourceVideoSha256": "b620bed12bed6ad4c944c3f8e549c475382c5e7d774104b6defd5a6b7eade117",
+      "sourceSpeechSha256": "2b5a86dc94f166f877430b06def2c5f870ebc4da022a2ff413df741e2ae7c0ea",
+      "sha256": "6f696c07ea8842d3388460c8d0fd60d852014c34d0431fa1c8583edf7942b081",
+      "review": {
+        "transcript": {
+          "transcript": "작은 잎 하나, 큰 잎 하나. 모모가 올리고 누리가 잡아요. 삐뚤빼뚤해도 괜찮아요. 둘이 만든 집이에요.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": ""
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The animation matches the prompt well, showing Nuri and Momo successfully building a two-leaf tent on a flat stone beneath a tree."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:33:38.082Z"
+      }
+    },
+    {
+      "id": "story_swing_00",
+      "text": "숲에 새 그네가 생겼어요. 튼튼한 나무 아래, 낮고 작은 그네예요. 모모와 두리, 누리가 눈을 반짝였어요.",
+      "visual": "Establishing shot of one low sturdy wooden swing in the same forest clearing. Momo, Duri and Nuri approach from a path, curious and delighted. Swing is stationary.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 13.04,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "98d0a2f00c4125c5b9e98e24e160a01554563539a01a8515e7c156ab244f2f39",
+      "sourceVideoSha256": "2a3a552b19fe1ced8f10f787f5506a2e1aae0206c630aecd85dc211c81e520ff",
+      "sourceSpeechSha256": "9351551dfcf784b7a81d65682ea2ce077f625f4972ae1516303d1c2cb451d27a",
+      "sha256": "b89bdb52db5ea0b508ce6882911f4f5a7df6a7178933b361220218584cc1d078",
+      "review": {
+        "transcript": {
+          "transcript": "숲에 새 그네가 생겼어요. 튼튼한 나무 아래 낮고 작은 그네예요. 모모와 두리, 누리가 눈을 반짝였어요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The characters approach along the path towards the stationary wooden swing in the clearing, showing curious and happy expressions."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:53:22.642Z"
+      }
+    },
+    {
+      "id": "story_swing_01",
+      "text": "내가 먼저! 나도 타고 싶어! 세 친구가 동시에 말했어요. 그네는 하나인데, 타고 싶은 친구는 셋이에요.",
+      "visual": "The three friends each raise a wing or paw eagerly near the single empty swing, stopping at a safe distance. Friendly overlapping gestures, no pushing or crowding onto seat.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 11.12,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "cc9107f7f0ee1432a41b72a4d52a016abae77f3e35b92aae76a7782e6bad4464",
+      "sourceVideoSha256": "20cf72878815dd11e1477afbd175c1f56047431f5624c7700f0cf7975ccb588d",
+      "sourceSpeechSha256": "fbdb78d20ac33f93015b65ddae70d086abef6c9df7b57c063c7e1c4e71f5d23d",
+      "sha256": "26c4fbc2300ddc4012571cba5a925b090829c6215a6fb8ef77690213898f77a9",
+      "review": {
+        "transcript": {
+          "transcript": "내가 먼저! 나도 타고 싶어! 세 친구가 동시에 말했어요. 그네는 하나인데 타고 싶은 친구는 셋이에요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The characters animate smoothly, eagerly gesturing near the swing while maintaining safe spacing in a friendly manner."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:54:36.242Z"
+      }
+    },
+    {
+      "id": "story_swing_02",
+      "text": "두리가 그네를 바라봐요. 셋이 모두 앉을 수 있을까? 작은 자리에 엉덩이를 대어 보려다, 멈췄어요. 너무 좁네.",
+      "visual": "Duri measures the small empty swing seat with its paws and looks at the three friends. They remain on ground. Clearly one rider only; nobody climbs or jumps.",
+      "targetSeconds": 15,
+      "seconds": 17,
+      "voiceSeconds": 14.36,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "5f5180a1037c3b0127bf0a70c69fd8377eb0089f91ebc584ce3abaa0f3d527df",
+      "sourceVideoSha256": "e7cdff795636055a5e3abff74c694b11c1bd6b77515baf93027988492d498752",
+      "sourceSpeechSha256": "aa1b541647993f1d0cc655446f958808deda1220fa94119005362539373a035e",
+      "sha256": "778377ed5b9cd32880b96f476377a76ac284c030d9809a30fee66094b4a693b4",
+      "review": {
+        "transcript": {
+          "transcript": "두리가 그네를 바라봐요. 셋이 모두 앉을 수 있을까? 작은 자리에 엉덩이를 대어 보려다 멈췄어요. 너무 좁네.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "Duri checks the swing seat with his paws, and all characters remain safely on the ground without climbing."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:55:52.791Z"
+      }
+    },
+    {
+      "id": "story_swing_03",
+      "text": "모모가 날개를 번쩍 들어요. 목소리가 제일 큰 친구부터? 두리는 입을 열었다가 닫았어요. 누리는 뒤로 쏙 숨었어요.",
+      "visual": "Momo eagerly raises a wing suggesting an idea. Duri starts to respond then hesitates. Nuri quietly hides partly behind Duri. Small emotional close-ups, no yelling.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 13.12,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "18aa819e746bd038b4ec95496733dfa15193436054c07cddbb1b23736ca015eb",
+      "sourceVideoSha256": "4f20f099b8fa669ab34d725edca51d36cca8371e66b03ca7136f3d1e9d4434a9",
+      "sourceSpeechSha256": "b3c90418700e938088742346e09f9034481dd53834c9a3b6af9db7b072d606bd",
+      "sha256": "c36d2561a53e84ca71535ca2eb69276e02cff127fd6d42a0d5f4b4d678a35403",
+      "review": {
+        "transcript": {
+          "transcript": "모모가 날개를 번쩍 들어요. 목소리가 제일 큰 친구부터? 두리는 입을 열었다가 닫았어요. 누리는 뒤로 쏙 숨었어요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The scene accurately features the allowed cast, emotional close-ups, and all specified actions including Momo gesturing, Duri hesitating, and Nuri stepping behind Duri."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:09:45.883Z"
+      }
+    },
+    {
+      "id": "story_swing_04",
+      "text": "모모가 누리를 봤어요. 누리야, 너도 타고 싶어? 누리가 끄덕여요. 응. 나는 큰 소리가 잘 안 나와.",
+      "visual": "Momo turns toward shy Nuri and lowers itself to Nuri eye level. Nuri comes out from behind Duri and quietly nods toward the swing. Duri listens.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 12.4,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "dd177fd64fc831ad1ae0bf2f3fb1c3b4662a59e9eb7eb0b1a482e4603b98fb30",
+      "sourceVideoSha256": "1847a3386055cb3e4f194c8964528428bad7ad37826b0430bd5a3514c3473b2a",
+      "sourceSpeechSha256": "dd449ddc088f7233e8a3439d96ae6eedd10a7d4d258468a452a716c984a5ea33",
+      "sha256": "e9972db3747d28a4663c9c3df7a8b58e737105b98668b107c97193197c234c42",
+      "review": {
+        "transcript": {
+          "transcript": "모모가 누리를 봤어요. 누리야, 너도 타고 싶어? 누리가 끄덕여요. 응. 나는 큰 소리가 잘 안 나와.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The animation captures the characters, environment, and core interactions accurately, with Momo leaning down and Nuri stepping forward and nodding."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:12:20.856Z"
+      }
+    },
+    {
+      "id": "story_swing_05",
+      "text": "모모가 날개를 내렸어요. 큰 소리 말고, 차례를 정하자. 누리가 말해요. 먼저 온 두리, 그다음 모모, 그다음 나.",
+      "visual": "Friends sit on a mossy bench well outside swing path. Nuri points gently to Duri, Momo, then itself. All nod to agree on a sequence.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 13,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "a779a382fb80a39995f14c8ad24eb45efaf2afb0af5475e6d0b8060773b5092c",
+      "sourceVideoSha256": "7bded72d38c993eeef27e42e4a2e9f17d303cc29f2e59e1b1d53ff28bbdcad0a",
+      "sourceSpeechSha256": "5808417d575cecdedcaca51143dd01e9ad842c0d56865eaa0bfbd5eb7e593a9c",
+      "sha256": "472a46b57ae2439f391d514bc1cfc1a04d0d60de31ef85f8a287ab16d38a3b48",
+      "review": {
+        "transcript": {
+          "transcript": "모모가 날개를 내렸어요. 큰 소리 말고 차례를 정하자. 누리가 말해요. 먼저 온 두리, 그다음 모모, 그다음 나.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The animation correctly portrays Momo, Duri, and Nuri in the forest setting. Nuri points to the friends and itself, followed by nods of agreement."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:13:26.914Z"
+      }
+    },
+    {
+      "id": "story_moon_00",
+      "text": "해가 지고, 달이 떠올랐어요. 모모와 두리는 넓고 마른 길에서 연못을 바라봐요. 물 위에도 동그란 달이 보였어요.",
+      "visual": "Peaceful dusk, a full moon in sky and its clear reflection on still small pond. Momo and Duri stand well back on a broad dry path. Soft bright twilight, no scary darkness.",
+      "targetSeconds": 15,
+      "seconds": 16,
+      "voiceSeconds": 13.6,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "09090b3fe8d772b6af1b67169a364cc38fd2174bf8cfabf09e22fd63628bdce9",
+      "sourceVideoSha256": "b22b1862a403038fc234d2cb2bc101cd2067167771a71c2030d35a436b5ef036",
+      "sourceSpeechSha256": "6573708c83e120a9d0ddf8a06066d168018737b14c91f4b475bc81af4d559231",
+      "sha256": "367a251997ec20a9f68b06c5b78bd0f0efc4d2893bbf7987b329a9cc4565b429",
+      "review": {
+        "transcript": {
+          "transcript": "해가 지고 달이 떠올랐어요. 모모와 두리는 넓고 마른 길에서 연못을 바라봐요. 물 위에도 동그란 달이 보였어요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The animation features Momo and Duri peacefully by the moonlit pond with fireflies, matching the described scene and cast."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:10:30.419Z"
+      }
+    },
+    {
+      "id": "story_moon_01",
+      "text": "두리가 속삭여요. 하늘에 하나, 연못에 하나. 달이 둘일까? 모모가 고개를 갸웃해요. 가까이 살펴보자. 길 위에서!",
+      "visual": "Two friends look up at full moon then toward its reflection from safe dry path. Duri points up then down, puzzled. Momo tilts its head, keeping a clear distance from bank.",
+      "targetSeconds": 15,
+      "seconds": 16,
+      "voiceSeconds": 13.44,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "aeeb4c36f1a65da8683c283820857929b454adb315875f384ab53783dc39668e",
+      "sourceVideoSha256": "1d6370472789f50b237444c9cf0d59bde481e51a6c3700bffacd7c2e33af7bcb",
+      "sourceSpeechSha256": "7de3fe96ca005193f1cf85861b6dada03f26369798a185298b2bffb1de6727d7",
+      "sha256": "7ea50d6780c807ae15085dd34b758a74d7229ca8800fadecdb9fac715a5ec6cb",
+      "review": {
+        "transcript": {
+          "transcript": "두리가 속삭여요. 하늘에 하나, 연못에 하나. 달이 둘일까? 모모가 고개를 갸웃해요. 가까이 살펴보자. 길 위에서",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The characters stand safely on the path, with the bear pointing up at the moon and down toward the water while the bird reacts curiously."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:52:55.494Z"
+      }
+    },
+    {
+      "id": "story_moon_02",
+      "text": "그때, 바람이 살랑 불었어요. 물결이 찰랑찰랑. 동그란 달이 길게 늘어나더니, 반짝이는 조각처럼 흩어졌어요.",
+      "visual": "Close view of pond surface as a mild breeze creates ripples. Round full moon reflection stretches into shimmering broken highlights. Moon itself remains round in sky, no literal fragments.",
+      "targetSeconds": 15,
+      "seconds": 17,
+      "voiceSeconds": 14.24,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "a43b93142e7f1b31ca7392e4af4179c2dcc97922ce212424d7f39d182a021ae2",
+      "sourceVideoSha256": "b11ffd644c0f30554c52c49662d8451e84150f2cdbaea659b7cd9f97c887c235",
+      "sourceSpeechSha256": "02fffc818ac64e15866538b53f3b624a657f78a80ce5b086b56919270f56ff83",
+      "sha256": "155229501b3e56a025845858d5f1f924369ab41543f07d9e19696f83818b436b",
+      "review": {
+        "transcript": {
+          "transcript": "그때, 바람이 살랑 불었어요. 물결이 찰랑찰랑. 동그란 달이 길게 늘어나더니 반짝이는 조각처럼 흩어졌어요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The animation shows the rippling pond reflecting the full moon in a serene twilight forest. Momo and Duri appear as permitted characters, matching the visual style and peaceful tone."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T07:13:57.512Z"
+      }
+    }
+  ]
+}

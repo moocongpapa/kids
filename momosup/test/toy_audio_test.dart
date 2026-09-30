@@ -96,6 +96,21 @@ void main() {
     music.dispose();
     await audio.flush();
   });
+  test('이야기 음악은 지정한 내레이션 믹스를 사용하고 음소거를 따른다', () async {
+    final output = audio.FakeOutput();
+    final music = ToyMusicPlayer(output: output, speechGain: .22);
+    final speech = Object();
+    AudioPolicy.instance.beginSpeech(speech);
+    music.start('story_score');
+    await audio.flush();
+    expect(output.volumes.last, .22);
+    AudioPolicy.instance.mute(true);
+    await audio.flush();
+    expect(output.playback!.isCompleted, isTrue);
+    music.dispose();
+    AudioPolicy.instance.endSpeech(speech);
+    await audio.flush();
+  });
 
   final fixturePack = ToyAudioPack({
     for (final toy in DynamicToyType.values)
