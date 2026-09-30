@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../utils/sound_effects.dart';
+import '../utils/audio_policy.dart';
 import 'game_particles.dart';
 
 enum FaceMood { idle, happy, surprised, dizzy, singing }
@@ -867,7 +868,9 @@ class _ForestStickerModalState extends State<ForestStickerModal> {
     super.initState();
     if (!widget.lowStimulation) {
       GameFeedback.celebration();
-      SoundEffects.instance.tada();
+      if (!AudioPolicy.instance.speaking) {
+        SoundEffects.instance.tada();
+      }
       WidgetsBinding.instance.addPostFrameCallback((_) {
         _particlesKey.currentState?.burst(
           origin: const Offset(160, 160),

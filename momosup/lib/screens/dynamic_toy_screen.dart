@@ -250,7 +250,13 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
                       if (audio == null || audioFailed) {
                         loadAudio();
                       } else {
-                        speak(ended ? 'outro' : instruction);
+                        speak(
+                          ended
+                              ? 'outro'
+                              : complete
+                              ? 'complete'
+                              : instruction,
+                        );
                       }
                     },
                     onExit: ended ? () => Navigator.of(context).pop() : finish,

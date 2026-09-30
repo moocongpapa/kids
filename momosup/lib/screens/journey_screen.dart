@@ -14,6 +14,7 @@ import '../widgets/forest_play_stage.dart';
 import '../widgets/forest_art_studio.dart';
 import '../widgets/journey_picnic_scene.dart';
 import '../widgets/journey_garden_scene.dart';
+import '../widgets/cute_game_effects.dart';
 
 import 'dart:async';
 import 'dart:math' as math;
@@ -838,6 +839,10 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     voiceRequest++;
     narration.stop();
     SoundEffects.instance.stopAll();
+    if (!quiet) {
+      GameFeedback.celebration(lowStimulation: quiet);
+      SoundEffects.instance.tada();
+    }
     setState(() => ended = true);
     session.finish();
   }

@@ -29,8 +29,8 @@ class AudioPolicy extends ChangeNotifier {
   double effectGain(String name) {
     final base = switch (name) {
       'sfx_pop' || 'sfx_whoosh' || 'sfx_boing' => .28,
-      'sfx_tada' => .32,
-      _ => .48,
+      'sfx_chew' || 'sfx_snap' || 'sfx_tada' => .32,
+      _ => .45,
     };
     return base * (lowStimulation ? .65 : 1) * (speaking ? .38 : 1);
   }
