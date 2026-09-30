@@ -1,3 +1,5 @@
+import 'observation_screen.dart';
+import 'play_library_screen.dart';
 import '../widgets/parent_today_play.dart';
 import '../models/age_journey.dart';
 import 'journey_screen.dart';
@@ -396,14 +398,16 @@ class ParentHubScreen extends StatelessWidget {
                     ),
                     _HubTile(
                       icon: Icons.auto_stories_rounded,
-                      title: '기존 놀이 10개 미리보기',
-                      subtitle: '현재 승인된 놀이의 대본과 화면',
-                      onTap: () => Navigator.of(context).push(
+                      title: '전체 놀이·이어하기',
+                      subtitle: '월령 놀이·기존 놀이·장난감 · 즐겨찾기와 저장 기록',
+                      onTap: () => Navigator.push(
+                        context,
                         MaterialPageRoute<void>(
-                          builder: (_) => PreviewCatalogScreen(
+                          builder: (_) => PlayLibraryScreen(
                             appState: appState,
-                            profile: profile,
                             catalog: catalog,
+                            profile: profile,
+                            parent: true,
                           ),
                         ),
                       ),
@@ -418,6 +422,21 @@ class ParentHubScreen extends StatelessWidget {
                             appState: appState,
                             profile: profile,
                             parent: true,
+                          ),
+                        ),
+                      ),
+                    ),
+                    _HubTile(
+                      icon: Icons.family_restroom_rounded,
+                      title: '가족 놀이 관찰',
+                      subtitle: '준비 안내·실제 관찰 기록·문제 요약',
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => ObservationScreen(
+                            state: appState,
+                            profile: profile,
+                            catalog: catalog,
                           ),
                         ),
                       ),
@@ -779,6 +798,7 @@ class ParentSettingsScreen extends StatefulWidget {
 class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
   late int limit = widget.profile.dailyLimitMinutes;
   late bool music = widget.profile.musicOn;
+  late bool voice = widget.profile.voiceOn, effects = widget.profile.effectsOn;
   late bool lowStimulation = widget.profile.lowStimulation;
 
   Future<void> save() async {
@@ -786,6 +806,8 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
       widget.profile.copyWith(
         dailyLimitMinutes: limit,
         musicOn: music,
+        voiceOn: voice,
+        effectsOn: effects,
         lowStimulation: lowStimulation,
       ),
     );
@@ -813,9 +835,21 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
           ),
           SwitchListTile(
             value: music,
-            title: const Text('음악 사용'),
-            subtitle: const Text('첫 시제품에는 실제 음원 파일이 없습니다.'),
+            title: const Text('배경음악'),
+            subtitle: const Text('숲에서 들리는 배경음악을 켭니다.'),
             onChanged: (value) => setState(() => music = value),
+          ),
+          SwitchListTile(
+            value: voice,
+            title: const Text('안내 음성'),
+            subtitle: const Text('놀이 방법을 말로 들려줍니다.'),
+            onChanged: (v) => setState(() => voice = v),
+          ),
+          SwitchListTile(
+            value: effects,
+            title: const Text('악기와 효과음'),
+            subtitle: const Text('연주·물건 조작·캐릭터 반응 소리입니다.'),
+            onChanged: (v) => setState(() => effects = v),
           ),
           SwitchListTile(
             value: lowStimulation,
@@ -824,7 +858,7 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
             onChanged: (value) => setState(() => lowStimulation = value),
           ),
           const SizedBox(height: 16),
-          const Text('음성·효과음의 별도 조절과 이용 가능 시간대는 공개 MVP 전에 추가합니다.'),
+          const Text('홈의 소리 끄기는 모든 소리를 잠시 끕니다. 저장한 설정은 유지됩니다.'),
           const SizedBox(height: 20),
           FilledButton(onPressed: save, child: const Text('저장')),
         ],

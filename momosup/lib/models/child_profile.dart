@@ -9,10 +9,13 @@ class ChildProfile {
     this.gender = '선택하지 않음',
     this.dailyLimitMinutes = 15,
     this.musicOn = true,
+    this.voiceOn = true,
+    this.effectsOn = true,
     this.lowStimulation = false,
     this.preschool = true,
     this.playStage = -1,
     this.favoriteJourneys = const [],
+    this.activityStages = const {},
   });
 
   final String id;
@@ -24,9 +27,13 @@ class ChildProfile {
   final String gender;
   final int dailyLimitMinutes;
   final bool musicOn;
+  final bool voiceOn, effectsOn;
   final bool lowStimulation;
   final bool preschool;
   final int playStage;
+  final Map<String, int> activityStages;
+  int stageFor(String activityId) =>
+      (activityStages[activityId] ?? effectivePlayStage).clamp(0, 2);
   final List<String> favoriteJourneys;
   bool get caregiverMode => ageMonths < 24;
 
@@ -57,10 +64,13 @@ class ChildProfile {
     String? gender,
     int? dailyLimitMinutes,
     bool? musicOn,
+    bool? voiceOn,
+    bool? effectsOn,
     bool? lowStimulation,
     bool? preschool,
     int? playStage,
     List<String>? favoriteJourneys,
+    Map<String, int>? activityStages,
   }) => ChildProfile(
     id: id,
     nickname: nickname ?? this.nickname,
@@ -71,10 +81,13 @@ class ChildProfile {
     gender: gender ?? this.gender,
     dailyLimitMinutes: dailyLimitMinutes ?? this.dailyLimitMinutes,
     musicOn: musicOn ?? this.musicOn,
+    voiceOn: voiceOn ?? this.voiceOn,
+    effectsOn: effectsOn ?? this.effectsOn,
     lowStimulation: lowStimulation ?? this.lowStimulation,
     preschool: preschool ?? this.preschool,
     playStage: playStage ?? this.playStage,
     favoriteJourneys: favoriteJourneys ?? this.favoriteJourneys,
+    activityStages: activityStages ?? this.activityStages,
   );
 
   Map<String, dynamic> toJson() => {
@@ -87,10 +100,13 @@ class ChildProfile {
     'gender': gender,
     'dailyLimitMinutes': dailyLimitMinutes,
     'musicOn': musicOn,
+    'voiceOn': voiceOn,
+    'effectsOn': effectsOn,
     'lowStimulation': lowStimulation,
     'preschool': preschool,
     'playStage': playStage,
     'favoriteJourneys': favoriteJourneys,
+    'activityStages': activityStages,
   };
 
   factory ChildProfile.fromJson(Map<String, dynamic> json) => ChildProfile(
@@ -103,9 +119,14 @@ class ChildProfile {
     gender: json['gender'] as String? ?? '선택하지 않음',
     dailyLimitMinutes: json['dailyLimitMinutes'] as int? ?? 15,
     musicOn: json['musicOn'] as bool? ?? true,
+    voiceOn: json['voiceOn'] as bool? ?? true,
+    effectsOn: json['effectsOn'] as bool? ?? true,
     lowStimulation: json['lowStimulation'] as bool? ?? false,
     preschool: json['preschool'] as bool? ?? true,
     playStage: (json['playStage'] as int? ?? -1).clamp(-1, 2),
+    activityStages: Map<String, int>.from(
+      json['activityStages'] as Map? ?? const {},
+    ),
     favoriteJourneys: List<String>.from(
       json['favoriteJourneys'] as List? ?? const [],
     ),

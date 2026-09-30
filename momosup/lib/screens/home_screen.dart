@@ -1,3 +1,6 @@
+import '../data/play_catalog.dart';
+import 'play_library_screen.dart';
+import '../utils/audio_policy.dart';
 import '../widgets/journey_garden_scene.dart';
 import '../models/age_journey.dart';
 import '../data/journey_recommendation.dart';
@@ -6,7 +9,6 @@ import 'journey_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import '../data/recommendation.dart';
 import '../models/activity.dart';
 import '../models/child_profile.dart';
 import '../state/app_state.dart';
@@ -15,9 +17,7 @@ import '../utils/sound_effects.dart';
 import '../widgets/avatar_image.dart';
 import '../widgets/forest_background.dart';
 import '../widgets/forest_game_ui.dart';
-import 'dynamic_toy_screen.dart';
 import 'parent_screen.dart';
-import 'play_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({required this.appState, required this.catalog, super.key});
@@ -27,11 +27,19 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   int area = 0;
+  void syncAudio() {
+    final p = widget.appState.activeProfile;
+    if (p != null) AudioPolicy.instance.configure(p);
+  }
+
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    widget.appState.addListener(syncAudio);
+    syncAudio();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ForestAudio.instance.startBgm(
         enabled:
@@ -43,8 +51,23 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    widget.appState.removeListener(syncAudio);
     ForestAudio.instance.stopBgm();
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (ModalRoute.of(context)?.isCurrent != true) return;
+    if (state != AppLifecycleState.resumed) {
+      AudioPolicy.instance.suspend(true);
+    } else {
+      AudioPolicy.instance.suspend(false);
+      ForestAudio.instance.startBgm(
+        enabled: widget.appState.activeProfile?.musicOn ?? false,
+      );
+    }
   }
 
   void openParent([AgeJourney? initialJourney]) => Navigator.of(context).push(
@@ -231,7 +254,11 @@ class _HomeScreenState extends State<HomeScreen> {
       );
     }
     final reachedLimit =
-        widget.appState.minutesToday(profile.id) >= profile.dailyLimitMinutes;
+        widget.appState.secondsRemaining(
+          profile.id,
+          profile.dailyLimitMinutes,
+        ) <=
+        0;
     if (reachedLimit) {
       return Center(
         child: SingleChildScrollView(
@@ -264,114 +291,41 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     }
-    final visible = recommendedFor(
-      profile,
-      widget.catalog.where((a) => a.isFullyApproved),
-      count: widget.catalog.length,
-    );
-    final entries = <_WorldEntry>[];
-    if (area == 0) {
-      const toys = [
-        (DynamicToyType.feeding, ForestObject.berry, '냠냠', '열매 먹이기'),
-        (DynamicToyType.sorting, ForestObject.basket, '쏙쏙', '도토리 분류'),
-        (DynamicToyType.peekaboo, ForestObject.bush, '까꿍', '풀숲 까꿍'),
-        (DynamicToyType.xylophone, ForestObject.music, '딩동', '물방울 실로폰'),
-        (DynamicToyType.puzzle, ForestObject.puzzle, '착착', '그림자 퍼즐'),
-      ];
-      final fresh = widget.appState.journeys
-          .where(
-            (a) =>
-                !a.isCaregiver &&
-                journeyEligible(a, profile) &&
-                widget.appState.journeyApproved(a),
-          )
-          .toList();
-      if (fresh.isNotEmpty) {
-        for (final journey in recommendJourneys(
-          profile,
-          fresh,
-          played: widget.appState.records
-              .where((r) => r.profileId == profile.id)
-              .map((r) => r.activityId)
-              .toSet(),
-        )) {
-          entries.add(
-            _WorldEntry(
-              journeyProp(journey.symbols.first),
-              '',
-              journey.title,
-              () => Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (_) => JourneyPlayScreen(
-                    journey: journey,
-                    appState: widget.appState,
-                    profile: profile,
-                  ),
-                ),
-              ),
-              journeyId: journey.id,
-              avatar: journey.avatar,
-            ),
-          );
-        }
-        entries.add(
-          _WorldEntry(
-            ForestObject.home,
-            '놀이숲',
-            '다른 숲 놀이',
-            () => Navigator.push(
-              context,
-              MaterialPageRoute<void>(
-                builder: (_) => JourneyLibraryScreen(
-                  appState: widget.appState,
-                  profile: profile,
-                ),
+    final available = availablePlay(widget.appState, widget.catalog, profile);
+    final section = area == 0
+        ? recommendPlay(widget.appState, widget.catalog, profile)
+        : available
+              .where((e) => e.area == PlayArea.values[area - 1])
+              .take(3)
+              .toList();
+    final entries = <_WorldEntry>[
+      for (final e in section)
+        _WorldEntry(
+          journeyProp(e.symbol),
+          '',
+          e.title,
+          () => openPlay(context, e, widget.appState, profile),
+          journeyId: e.journey?.id,
+          avatar: e.avatar,
+        ),
+      if (available.isNotEmpty)
+        _WorldEntry(
+          ForestObject.home,
+          '놀이숲',
+          '다른 숲 놀이',
+          () => Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (_) => PlayLibraryScreen(
+                appState: widget.appState,
+                catalog: widget.catalog,
+                profile: profile,
+                initialArea: area == 0 ? null : PlayArea.values[area - 1],
               ),
             ),
           ),
-        );
-      }
-      for (final toy
-          in fresh.isNotEmpty ||
-                  profile.ageMonths < 36 ||
-                  profile.ageMonths >= 72
-              ? const <(DynamicToyType, ForestObject, String, String)>[]
-              : toys) {
-        entries.add(
-          _WorldEntry(toy.$2, toy.$3, toy.$4, () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => DynamicToyScreen(
-                  toyType: toy.$1,
-                  appState: widget.appState,
-                  profile: profile,
-                ),
-              ),
-            );
-          }),
-        );
-      }
-    } else {
-      final mode = [PlayMode.touch, PlayMode.color, PlayMode.move][area - 1];
-      for (final activity in visible.where((a) => a.mode == mode)) {
-        final art = activityArt(activity);
-        entries.add(
-          _WorldEntry(art.$1, art.$2, activity.title, () {
-            Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => PlayScreen(
-                  activity: activity,
-                  appState: widget.appState,
-                  profile: profile,
-                  isParentPreview: false,
-                ),
-              ),
-            );
-          }),
-        );
-      }
-    }
+        ),
+    ];
     if (entries.isEmpty) {
       return Semantics(
         label: '보호자 검수가 끝나면 놀이가 나타나요',

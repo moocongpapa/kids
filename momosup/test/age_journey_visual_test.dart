@@ -32,6 +32,7 @@ void main() {
           home: scenario == 'caregiver'
               ? JourneyDetailScreen(journey: a, appState: state, profile: p)
               : JourneyPlayScreen(
+                  randomSeed: 42,
                   journey: a,
                   appState: state,
                   profile: p,

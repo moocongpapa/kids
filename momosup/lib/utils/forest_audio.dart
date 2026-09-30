@@ -1,12 +1,18 @@
 import 'dart:async';
 
+import 'audio_policy.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:just_audio/just_audio.dart';
 
 /// Forest ambience & background music controller.
 /// Provides a soothing, immersive forest soundscape with birds and gentle melodies.
 class ForestAudio {
-  ForestAudio._();
+  ForestAudio._() {
+    AudioPolicy.instance.addListener(() {
+      if (!AudioPolicy.instance.canMusic) pauseBgm();
+    });
+  }
   static final ForestAudio instance = ForestAudio._();
 
   final AudioPlayer _bgmPlayer = AudioPlayer();
@@ -31,13 +37,15 @@ class ForestAudio {
 
   Future<void> startBgm({bool enabled = true}) async {
     _enabled = enabled;
-    if (!enabled || isMuted.value) {
+    if (!enabled || !AudioPolicy.instance.canMusic) {
       await stopBgm();
       return;
     }
     try {
       if (!_isInitialized) await init();
-      if (!_isInitialized || isMuted.value || !_enabled) return;
+      if (!_isInitialized || !AudioPolicy.instance.canMusic || !_enabled) {
+        return;
+      }
       if (!_isPlaying) {
         _isPlaying = true;
         unawaited(
@@ -83,6 +91,7 @@ class ForestAudio {
 
   void toggleMute() {
     isMuted.value = !isMuted.value;
+    AudioPolicy.instance.mute(isMuted.value);
     if (isMuted.value) {
       stopBgm();
     } else {

@@ -1,3 +1,6 @@
+import 'package:flame/game.dart';
+import 'package:momosup/widgets/journey_detective_scene.dart';
+import 'package:momosup/game/build_experiment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:momosup/data/catalog_repository.dart';
@@ -39,7 +42,10 @@ void main() {
     expect(games.length, 42);
     for (final a in games) {
       final state = await fixtures.prepare(a.minAge);
-      final profile = state.activeProfile!.copyWith(playStage: 2);
+      final profile = state.activeProfile!.copyWith(
+        playStage: 2,
+        effectsOn: false,
+      );
       final voices = <String>[];
       await tester.pumpWidget(
         MaterialApp(
@@ -59,18 +65,41 @@ void main() {
         switch (a.mechanic) {
           case 'reveal':
           case 'story':
-            await tap(tester, propLabel(a.choices[step].first));
+            if (find.byType(JourneyDetectiveScene).evaluate().isNotEmpty) {
+              if (a.id == 'age_84_05' && step > 0) {
+                await tap(tester, '다음 탐정에게 건네기');
+              }
+              final detective = tester.widget<JourneyDetectiveScene>(
+                find.byType(JourneyDetectiveScene),
+              );
+              await tap(tester, '${detective.target + 1}번째 단서 친구');
+            } else {
+              await tap(
+                tester,
+                a.id == 'age_24_04' && step < 2
+                    ? '모모 태우기'
+                    : propLabel(a.choices[step].first),
+              );
+            }
           case 'sort':
             for (var n = 0; n < 4; n++) {
               final scene = tester.widget<JourneySortScene>(
                 find.byType(JourneySortScene),
               );
               final label = scene.bySize
-                  ? (n.isEven ? '작은 도토리 바구니' : '큰 도토리 바구니')
-                  : (n.isEven ? '빨간 바구니' : '파란 바구니');
+                  ? (scene.sequence[n] == 0 ? '작은 도토리 바구니' : '큰 도토리 바구니')
+                  : (scene.sequence[n] == 0 ? '빨간 바구니' : '파란 바구니');
               await tap(tester, label);
             }
           case 'build':
+            await tester.runAsync(
+              () => tester
+                  .state<GameWidgetState>(
+                    find.byWidgetPredicate((w) => w is GameWidget),
+                  )
+                  .loaderFuture,
+            );
+            await tester.pumpAndSettle();
             final board = tester.widget<JourneyBuildBoard>(
               find.byType(JourneyBuildBoard),
             );
@@ -82,8 +111,24 @@ void main() {
               );
             }
             for (var i = 1; i <= board.count; i++) {
+              final value = a.id == 'age_60_02'
+                  ? (i - 1) % 3
+                  : a.id == 'age_60_06' && i == board.count
+                  ? 2
+                  : a.id == 'age_84_02' && i == board.count
+                  ? 1
+                  : a.id == 'age_72_05'
+                  ? 1
+                  : 0;
+              await tap(tester, buildPieceLabel(a.id, value));
               await tap(tester, '$i번째 빈 자리');
             }
+            expect(
+              find.byTooltip('다음 장면'),
+              findsNothing,
+              reason: '시험 전에는 다음으로 넘어가지 않음',
+            );
+            await tap(tester, '만든 길 시험하기');
           case 'rhythm':
             final scene = tester.widget<JourneyRhythmScene>(
               find.byType(JourneyRhythmScene),
@@ -105,6 +150,11 @@ void main() {
             await tester.pumpAndSettle();
         }
         expect(tester.takeException(), isNull, reason: '${a.id} 장면 $step');
+        expect(
+          find.byTooltip(step == 2 ? '놀이 마치기' : '다음 장면'),
+          findsOneWidget,
+          reason: '${a.id} step $step',
+        );
         await tap(tester, step == 2 ? '놀이 마치기' : '다음 장면');
       }
       expect(find.text('즐거웠어!'), findsOneWidget, reason: a.id);
@@ -221,19 +271,22 @@ void main() {
         ),
       ),
     );
-    await tap(tester, '파란 바구니');
-    expect(count, 0);
-    await tester.dragFrom(
-      tester.getCenter(find.byTooltip('분류할 물건')),
-      tester.getCenter(find.byTooltip('빨간 바구니')) -
-          tester.getCenter(find.byTooltip('분류할 물건')),
-    );
-    await tester.pumpAndSettle();
-    expect(count, 1);
-    await tap(tester, '빨간 바구니');
-    expect(count, 1);
-    await tap(tester, '파란 바구니');
-    expect(count, 2);
+    for (var n = 0; n < 4; n++) {
+      final scene = tester.widget<JourneySortScene>(
+        find.byType(JourneySortScene),
+      );
+      final correct = scene.sequence[n] == 0 ? '빨간 바구니' : '파란 바구니';
+      final wrong = scene.sequence[n] == 0 ? '파란 바구니' : '빨간 바구니';
+      await tap(tester, wrong);
+      expect(count, n);
+      await tester.dragFrom(
+        tester.getCenter(find.byTooltip('분류할 물건')),
+        tester.getCenter(find.byTooltip(correct)) -
+            tester.getCenter(find.byTooltip('분류할 물건')),
+      );
+      await tester.pumpAndSettle();
+      expect(count, n + 1);
+    }
     await tester.pumpWidget(const SizedBox.shrink());
   });
 

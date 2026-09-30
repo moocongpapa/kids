@@ -1,3 +1,5 @@
+import '../models/play_observation.dart';
+
 import 'dart:convert';
 import 'dart:io';
 import 'dart:math';
@@ -17,18 +19,24 @@ class PlayRecord {
     required this.activityId,
     required this.at,
     required this.seconds,
+    this.sessionId,
+    this.metrics = const {},
   });
 
   final String profileId;
   final String activityId;
   final DateTime at;
   final int seconds;
+  final String? sessionId;
+  final Map<String, int> metrics;
 
   Map<String, dynamic> toJson() => {
     'profileId': profileId,
     'activityId': activityId,
     'at': at.toIso8601String(),
     'seconds': seconds,
+    'sessionId': sessionId,
+    'metrics': metrics,
   };
 
   factory PlayRecord.fromJson(Map<String, dynamic> json) => PlayRecord(
@@ -36,6 +44,8 @@ class PlayRecord {
     activityId: json['activityId'] as String,
     at: DateTime.parse(json['at'] as String),
     seconds: json['seconds'] as int,
+    sessionId: json['sessionId'] as String?,
+    metrics: Map<String, int>.from(json['metrics'] as Map? ?? {}),
   );
 }
 
@@ -51,6 +61,79 @@ class AppState extends ChangeNotifier {
   final FlutterSecureStorage _storage;
   final List<ChildProfile> _profiles = [];
   final List<PlayRecord> _records = [];
+  final List<PlayObservation> _observations = [];
+  List<PlayObservation> get observations => List.unmodifiable(_observations);
+  Future<void> _storeObservations(List<PlayObservation> next) async {
+    await _storage.write(
+      key: 'observations_v1',
+      value: jsonEncode(next.map((o) => o.toJson()).toList()),
+    );
+    _observations
+      ..clear()
+      ..addAll(next);
+    notifyListeners();
+  }
+
+  Future<void> saveObservation(PlayObservation item) async {
+    if (!_profiles.any((p) => p.id == item.profileId)) {
+      throw StateError('프로필이 없습니다.');
+    }
+    await _storeObservations([
+      ..._observations.where((o) => o.id != item.id),
+      item,
+    ]);
+  }
+
+  Future<void> deleteObservation(String id) =>
+      _storeObservations(_observations.where((o) => o.id != id).toList());
+
+  final Map<String, Map<String, dynamic>> _works = {};
+  Future<void> _writeQueue = Future.value();
+  Map<String, dynamic>? workFor(String profileId, String activityId) =>
+      _works['$profileId:$activityId'];
+  List<Map<String, dynamic>> worksFor(String profileId) =>
+      _works.values.where((w) => w['profileId'] == profileId).toList();
+  Future<void> saveWork(
+    String profileId,
+    String activityId,
+    Map<String, dynamic> data,
+  ) {
+    if (!_profiles.any((p) => p.id == profileId)) return Future.value();
+    final snapshot = jsonDecode(jsonEncode(data)) as Map<String, dynamic>;
+    final task = _writeQueue.catchError((Object _) {}).then((_) async {
+      final updated = {
+        ..._works,
+        '$profileId:$activityId': {
+          ...snapshot,
+          'profileId': profileId,
+          'activityId': activityId,
+          'savedAt': DateTime.now().toIso8601String(),
+        },
+      };
+      await _storage.write(key: 'play_works_v1', value: jsonEncode(updated));
+      _works
+        ..clear()
+        ..addAll(updated);
+      notifyListeners();
+    });
+    _writeQueue = task;
+    return task;
+  }
+
+  int secondsRemaining(String id, int limitMinutes) {
+    final now = DateTime.now();
+    final used = _records
+        .where(
+          (r) =>
+              r.profileId == id &&
+              r.at.year == now.year &&
+              r.at.month == now.month &&
+              r.at.day == now.day,
+        )
+        .fold<int>(0, (sum, r) => sum + r.seconds);
+    return max(0, limitMinutes * 60 - used);
+  }
+
   String? _selectedId;
   bool _hasPin = false;
   bool _loaded = false;
@@ -103,6 +186,23 @@ class AppState extends ChangeNotifier {
 
   Future<void> load() async {
     try {
+      final observations = await _storage.read(key: 'observations_v1');
+      if (observations != null) {
+        _observations.addAll(
+          (jsonDecode(observations) as List).map(
+            (o) => PlayObservation.fromJson(Map<String, dynamic>.from(o)),
+          ),
+        );
+      }
+      final works = await _storage.read(key: 'play_works_v1');
+      if (works != null) {
+        final decoded = jsonDecode(works) as Map<String, dynamic>;
+        _works.addAll(
+          decoded.map(
+            (k, v) => MapEntry(k, Map<String, dynamic>.from(v as Map)),
+          ),
+        );
+      }
       final rawVisibility = await _storage.read(key: 'journey_visibility_v1');
       if (rawVisibility != null) {
         _journeyVisibility.addAll(
@@ -219,6 +319,19 @@ class AppState extends ChangeNotifier {
         }
       }
     }
+    await _writeQueue.catchError((Object _) {});
+    final remainingWorks = {..._works}
+      ..removeWhere((_, w) => w['profileId'] == id);
+    await _storage.write(
+      key: 'play_works_v1',
+      value: jsonEncode(remainingWorks),
+    );
+    _works
+      ..clear()
+      ..addAll(remainingWorks);
+    await _storeObservations(
+      _observations.where((o) => o.profileId != id).toList(),
+    );
     _profiles.removeWhere((profile) => profile.id == id);
     _records.removeWhere((record) => record.profileId == id);
     if (_selectedId == id) {
@@ -233,14 +346,23 @@ class AppState extends ChangeNotifier {
     required String profileId,
     required String activityId,
     required int seconds,
+    String? sessionId,
+    Map<String, int> metrics = const {},
   }) async {
     if (!_profiles.any((profile) => profile.id == profileId)) return;
+    if (sessionId != null) {
+      _records.removeWhere(
+        (r) => r.sessionId == sessionId && r.profileId == profileId,
+      );
+    }
     _records.add(
       PlayRecord(
         profileId: profileId,
         activityId: activityId,
         at: DateTime.now(),
         seconds: seconds.clamp(0, 7 * 60),
+        sessionId: sessionId,
+        metrics: Map.of(metrics),
       ),
     );
     await _saveRecords();

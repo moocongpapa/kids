@@ -1,3 +1,8 @@
+import '../utils/audio_cleanup.dart';
+import '../utils/play_session.dart';
+import '../utils/play_checkpoint.dart';
+import '../utils/audio_policy.dart';
+
 import 'dart:async';
 import 'dart:io';
 import 'dart:math' as math;
@@ -27,6 +32,7 @@ class PlayScreen extends StatefulWidget {
     required this.profile,
     required this.isParentPreview,
     this.playAsset,
+    this.restoreSaved = false,
     super.key,
   });
 
@@ -37,14 +43,17 @@ class PlayScreen extends StatefulWidget {
 
   /// Allows the full narrated flow to be verified without a device audio plugin.
   final Future<void> Function(String path)? playAsset;
+  final bool restoreSaved;
 
   @override
   State<PlayScreen> createState() => _PlayScreenState();
 }
 
 class _PlayScreenState extends State<PlayScreen> {
-  final Stopwatch clock = Stopwatch();
-  final AudioPlayer voice = AudioPlayer();
+  late final PlaySession session;
+  late final PlayCheckpoint checkpoint;
+  AudioPlayer? _voice;
+  AudioPlayer get voice => _voice ??= AudioPlayer();
   final GlobalKey drawingKey = GlobalKey();
   final sceneScroll = ScrollController();
   final List<ArtMark> strokes = [];
@@ -57,15 +66,71 @@ class _PlayScreenState extends State<PlayScreen> {
   bool saving = false;
   Completer<void>? saveCompletion;
   String? saveError;
-  bool recorded = false;
+  bool showHelp = false;
+  int get stage => widget.profile.stageFor(widget.activity.id);
   bool finishing = false;
   bool audioFailed = false;
   int audioRequest = 0;
-  Timer? endTimer;
 
   @override
   void initState() {
     super.initState();
+    AudioPolicy.instance.configure(widget.profile);
+    final savedWork = widget.isParentPreview && !widget.restoreSaved
+        ? null
+        : widget.appState.workFor(widget.profile.id, widget.activity.id);
+    if (savedWork != null) {
+      strokes.addAll(
+        (savedWork['marks'] as List? ?? []).map(
+          (m) => ArtMark.fromJson(Map<String, dynamic>.from(m)),
+        ),
+      );
+      if (savedWork['complete'] != true) {
+        step = (savedWork['step'] as int? ?? 0).clamp(
+          0,
+          math.max(0, widget.activity.verses.length - 1),
+        );
+        selectedChoice = savedWork['selected'] as int?;
+        visitedChoices.addAll(
+          List<int>.from(savedWork['visited'] as List? ?? []),
+        );
+      }
+    }
+    checkpoint = PlayCheckpoint(
+      widget.appState,
+      widget.profile.id,
+      widget.activity.id,
+      () => {
+        'marks': strokes.map((m) => m.toJson()).toList(),
+        'step': step,
+        'selected': selectedChoice,
+        'visited': visitedChoices.toList(),
+        'complete': phase == 2,
+      },
+      preview: widget.isParentPreview,
+      onError: () => session.reportSaveError(),
+    );
+    session = PlaySession(
+      limitSeconds: widget.isParentPreview
+          ? widget.activity.minutes * 60
+          : math.min(
+              widget.activity.minutes * 60,
+              widget.appState.secondsRemaining(
+                widget.profile.id,
+                widget.profile.dailyLimitMinutes,
+              ),
+            ),
+      onExpire: finish,
+      onCheckpoint: checkpoint.checkpoint,
+      onPause: () {
+        checkpoint.event('interruptions');
+        audioRequest++;
+        _voice?.stop();
+      },
+      onResume: () {
+        if (phase == 1) playAudio(['prompt']);
+      },
+    );
     if (!widget.isParentPreview &&
         (widget.profile.caregiverMode ||
             !widget.activity.supportsAge(widget.profile.ageMonths) ||
@@ -73,22 +138,13 @@ class _PlayScreenState extends State<PlayScreen> {
       phase = 2;
       return;
     }
-    clock.start();
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      if (!mounted) return;
+      session.start();
       await ForestAudio.instance.pauseBgm();
-      if (mounted) playAudio(['intro']);
+      if (mounted && phase != 2) playAudio(['intro']);
     });
-    if (!widget.isParentPreview) {
-      final remainingMinutes = math.max(
-        1,
-        widget.profile.dailyLimitMinutes -
-            widget.appState.minutesToday(widget.profile.id),
-      );
-      endTimer = Timer(
-        Duration(minutes: math.min(widget.activity.minutes, remainingMinutes)),
-        finish,
-      );
-    }
   }
 
   @override
@@ -98,15 +154,15 @@ class _PlayScreenState extends State<PlayScreen> {
         enabled: widget.profile.musicOn && !widget.profile.caregiverMode,
       );
     }
-    endTimer?.cancel();
-    clock.stop();
-    voice.dispose();
+    session.dispose();
+    checkpoint.dispose();
+    if (_voice != null) disposeAudioPlayer(_voice!);
     sceneScroll.dispose();
     super.dispose();
   }
 
   Future<void> playAudio(List<String> lineIds) async {
-    if (audioFailed) return;
+    if (audioFailed || !AudioPolicy.instance.canVoice) return;
     final request = ++audioRequest;
     try {
       if (widget.playAsset == null) await voice.stop();
@@ -130,32 +186,24 @@ class _PlayScreenState extends State<PlayScreen> {
       }());
       setState(() => audioFailed = true);
       if (widget.playAsset == null) await voice.stop();
-      if (!widget.isParentPreview) await finish();
     }
   }
 
   Future<void> finish() async {
     if (phase == 2 || finishing) return;
     finishing = true;
-    endTimer?.cancel();
+    session.finish();
     if (widget.activity.mode == PlayMode.color &&
         strokes.isNotEmpty &&
         !saved) {
       await saveDrawing();
     }
     if (!mounted) return;
-    clock.stop();
+
     if (sceneScroll.hasClients) sceneScroll.jumpTo(0);
     setState(() => phase = 2);
     if (!audioFailed) playAudio(['outro', 'offscreen']);
-    if (!widget.isParentPreview && !recorded) {
-      recorded = true;
-      await widget.appState.recordPlay(
-        profileId: widget.profile.id,
-        activityId: widget.activity.id,
-        seconds: clock.elapsed.inSeconds,
-      );
-    }
+    await session.checkpoint();
   }
 
   Future<void> saveDrawing() async {
@@ -214,58 +262,61 @@ class _PlayScreenState extends State<PlayScreen> {
   };
 
   @override
-  Widget build(BuildContext context) => PopScope(
-    canPop: phase == 2 || widget.isParentPreview,
-    onPopInvokedWithResult: (didPop, _) {
-      if (!didPop && phase != 2) finish();
-    },
-    child: Scaffold(
-      body: ForestBackground(
-        lowStimulation: quiet,
-        clearing: true,
-        child: SafeArea(
-          child: Column(
-            children: [
-              ForestHeader(
-                title: shortTitle,
-                preview: widget.isParentPreview,
-                onExit: phase == 2 ? () => Navigator.of(context).pop() : finish,
-                onReplay: audioFailed && !widget.isParentPreview
-                    ? null
-                    : () {
-                        if (audioFailed) setState(() => audioFailed = false);
-                        playAudio(
-                          phase == 0
-                              ? ['intro']
-                              : phase == 2
-                              ? ['outro', 'offscreen']
-                              : ['prompt'],
-                        );
-                      },
-              ),
-              Expanded(
-                child: Center(
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(maxWidth: 680),
-                    child: ListView(
-                      controller: sceneScroll,
-                      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-                      children: [
-                        if (audioFailed)
-                          _Banner(
-                            widget.isParentPreview
-                                ? '음성을 재생하지 못했어요. 위의 소리 버튼으로 다시 들어 주세요.'
-                                : '음성을 재생할 수 없어 놀이를 마쳤어요. 보호자에게 알려 주세요.',
-                          ),
-                        if (phase == 0) _intro(context),
-                        if (phase == 1) _interaction(context),
-                        if (phase == 2) _ending(context),
-                      ],
+  Widget build(BuildContext context) => PlaySessionView(
+    session: session,
+    child: PopScope(
+      canPop: phase == 2 || widget.isParentPreview,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop && phase != 2) finish();
+      },
+      child: Scaffold(
+        body: ForestBackground(
+          lowStimulation: quiet,
+          clearing: true,
+          child: SafeArea(
+            child: Column(
+              children: [
+                ForestHeader(
+                  title: shortTitle,
+                  preview: widget.isParentPreview,
+                  onExit: phase == 2
+                      ? () => Navigator.of(context).pop()
+                      : finish,
+                  onReplay: () {
+                    if (audioFailed) setState(() => audioFailed = false);
+                    playAudio(
+                      phase == 0
+                          ? ['intro']
+                          : phase == 2
+                          ? ['outro', 'offscreen']
+                          : ['prompt'],
+                    );
+                  },
+                ),
+                Expanded(
+                  child: Center(
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(maxWidth: 680),
+                      child: ListView(
+                        controller: sceneScroll,
+                        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+                        children: [
+                          if (audioFailed)
+                            _Banner(
+                              widget.isParentPreview
+                                  ? '음성을 재생하지 못했어요. 위의 소리 버튼으로 다시 들어 주세요.'
+                                  : '안내 소리를 다시 들어 주세요. 그림을 보며 계속 놀 수도 있어요.',
+                            ),
+                          if (phase == 0) _intro(context),
+                          if (phase == 1) _interaction(context),
+                          if (phase == 2) _ending(context),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -345,6 +396,7 @@ class _PlayScreenState extends State<PlayScreen> {
         onPressed: () {
           if (sceneScroll.hasClients) sceneScroll.jumpTo(0);
           setState(() => phase = 1);
+          session.start();
           playAudio(
             widget.activity.mode == PlayMode.move
                 ? ['prompt', 'song']
@@ -392,7 +444,7 @@ class _PlayScreenState extends State<PlayScreen> {
       ClassicForestScene(
         id: widget.activity.id,
         reaction: reaction,
-        choices: widget.activity.choices,
+        choices: widget.activity.choices.take(stage == 0 ? 2 : 3).toList(),
         selected: selectedChoice,
         visited: visitedChoices,
         quiet: quiet,
@@ -402,6 +454,8 @@ class _PlayScreenState extends State<PlayScreen> {
             selectedChoice = index;
             visitedChoices.add(index);
           });
+          checkpoint.event('actions');
+          checkpoint.changed();
           playAudio(['choice_$index', 'reaction_$index']);
         },
       ),
@@ -438,7 +492,10 @@ class _PlayScreenState extends State<PlayScreen> {
             ? Icons.front_hand_rounded
             : Icons.check_rounded,
         onPressed: step < widget.activity.verses.length - 1
-            ? () => setState(() => step++)
+            ? () {
+                setState(() => step++);
+                checkpoint.changed();
+              }
             : finish,
       ),
     ],
@@ -451,8 +508,16 @@ class _PlayScreenState extends State<PlayScreen> {
         marks: strokes,
         quiet: quiet,
         captureKey: drawingKey,
+        simple: stage == 0,
         locked: saving,
-        onChanged: () => setState(() => saved = false),
+        onChanged: () {
+          checkpoint.metrics.putIfAbsent(
+            'firstActionSeconds',
+            () => session.seconds,
+          );
+          setState(() => saved = false);
+          checkpoint.changed();
+        },
       ),
       const SizedBox(height: 14),
       ForestAction(

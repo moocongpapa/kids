@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../utils/sound_effects.dart';
@@ -12,10 +13,12 @@ import '../cute_game_effects.dart';
 class SilhouettePuzzleGame extends StatefulWidget {
   final VoidCallback? onComplete;
   final bool lowStimulation;
+  final int stage;
 
   const SilhouettePuzzleGame({
     this.onComplete,
     this.lowStimulation = false,
+    this.stage = 1,
     super.key,
   });
 
@@ -23,14 +26,14 @@ class SilhouettePuzzleGame extends StatefulWidget {
   State<SilhouettePuzzleGame> createState() => _SilhouettePuzzleGameState();
 }
 
-class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with TickerProviderStateMixin {
+class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
+    with TickerProviderStateMixin {
   int _currentRound = 1;
   late List<String> _currentTargets;
   late List<String> _shuffledTray;
   final Set<String> _matched = {};
   int _totalMatched = 0;
   String? _hoveredWrongTarget;
-  bool _showRoundTransition = false;
   String? _selected;
 
   final Map<String, GlobalKey<_PuzzleTargetState>> _targetKeys = {};
@@ -62,12 +65,18 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
 
   static String _getName(String id) {
     switch (id) {
-      case 'momo': return '모모';
-      case 'duri': return '두리';
-      case 'nuri': return '누리';
-      case 'berry': return '열매';
-      case 'acorn': return '도토리';
-      default: return id;
+      case 'momo':
+        return '모모';
+      case 'duri':
+        return '두리';
+      case 'nuri':
+        return '누리';
+      case 'berry':
+        return '열매';
+      case 'acorn':
+        return '도토리';
+      default:
+        return id;
     }
   }
 
@@ -91,16 +100,18 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
   }
 
   void _initRound() {
-    _currentTargets = _currentRound == 1 
-      ? ['momo', 'duri', 'nuri'] 
-      : ['momo', 'duri', 'nuri', 'berry', 'acorn'];
+    _currentTargets = widget.stage == 0
+        ? ['momo', 'duri']
+        : _currentRound == 1 && widget.stage == 1
+        ? ['momo', 'duri', 'nuri']
+        : ['momo', 'duri', 'nuri', 'berry', 'acorn'];
     _shuffledTray = widget.lowStimulation
-      ? List.from(_currentTargets)
-      : (List.from(_currentTargets)..shuffle(math.Random()));
+        ? List.from(_currentTargets)
+        : (List.from(_currentTargets)..shuffle(math.Random()));
     _matched.clear();
     _selected = null;
     _hoveredWrongTarget = null;
-    
+
     for (var id in _currentTargets) {
       _targetKeys[id] = GlobalKey<_PuzzleTargetState>();
       _pieceKeys[id] = GlobalKey();
@@ -108,21 +119,26 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
     _scheduleGuideUpdate();
   }
 
-  bool get _showGuide => _totalMatched == 0 && _shuffledTray.isNotEmpty && !widget.lowStimulation;
+  bool get _showGuide =>
+      _totalMatched == 0 && _shuffledTray.isNotEmpty && !widget.lowStimulation;
 
   void _scheduleGuideUpdate() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || !_showGuide) return;
-      
-      final targetId = _shuffledTray.firstWhere((id) => !_matched.contains(id), orElse: () => '');
+
+      final targetId = _shuffledTray.firstWhere(
+        (id) => !_matched.contains(id),
+        orElse: () => '',
+      );
       if (targetId.isEmpty) return;
-      
+
       final targetKey = _targetKeys[targetId];
       final pieceKey = _pieceKeys[targetId];
       if (targetKey != null && pieceKey != null) {
         final start = _getStackPos(pieceKey);
         final end = _getStackPos(targetKey);
-        if ((start - _guideStart).distance > 1 || (end - _guideEnd).distance > 1) {
+        if ((start - _guideStart).distance > 1 ||
+            (end - _guideEnd).distance > 1) {
           setState(() {
             _guideStart = start;
             _guideEnd = end;
@@ -138,7 +154,9 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
     if (ctx == null || stackCtx == null) return Offset.zero;
     final box = ctx.findRenderObject() as RenderBox;
     final stackBox = stackCtx.findRenderObject() as RenderBox;
-    return stackBox.globalToLocal(box.localToGlobal(box.size.center(Offset.zero)));
+    return stackBox.globalToLocal(
+      box.localToGlobal(box.size.center(Offset.zero)),
+    );
   }
 
   void _onMatch(String id) {
@@ -172,38 +190,32 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
   void _onRoundComplete() {
     _addTimer(const Duration(milliseconds: 600), () {
       SoundEffects.instance.tada();
-      
+
       if (!widget.lowStimulation) {
         final size = MediaQuery.of(context).size;
-        _particlesKey.currentState?.celebrate(Offset(size.width / 2, size.height / 3));
+        _particlesKey.currentState?.celebrate(
+          Offset(size.width / 2, size.height / 3),
+        );
       }
 
       int index = 0;
       for (var id in _currentTargets) {
-        _targetKeys[id]?.currentState?.celebrate(Duration(milliseconds: index * 150));
+        _targetKeys[id]?.currentState?.celebrate(
+          Duration(milliseconds: index * 150),
+        );
         index++;
       }
 
-      _addTimer(const Duration(seconds: 2), () {
-        if (_currentRound == 1) {
-          setState(() {
-            _showRoundTransition = true;
-          });
-          _addTimer(const Duration(seconds: 2), () {
-            setState(() {
-              _showRoundTransition = false;
-              _currentRound = 2;
-              _initRound();
-            });
-          });
-        } else {
-          widget.onComplete?.call();
-        }
-      });
+      widget.onComplete?.call();
     });
   }
 
-  Widget _buildItem(String id, {required double size, bool silhouette = false, FaceMood? faceMood}) {
+  Widget _buildItem(
+    String id, {
+    required double size,
+    bool silhouette = false,
+    FaceMood? faceMood,
+  }) {
     Widget item;
     if (['momo', 'duri', 'nuri'].contains(id)) {
       item = Stack(
@@ -215,18 +227,17 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
             interactive: false,
             lowStimulation: widget.lowStimulation,
           ),
-          if (!silhouette)
-            CharacterBlushOverlay(
-              size: size,
-              isBlushing: true,
-            ),
+          if (!silhouette) CharacterBlushOverlay(size: size, isBlushing: true),
         ],
       );
     } else {
       item = Stack(
         alignment: Alignment.center,
         children: [
-          ForestProp(id == 'berry' ? ForestObject.berry : ForestObject.acorn, size: size),
+          ForestProp(
+            id == 'berry' ? ForestObject.berry : ForestObject.acorn,
+            size: size,
+          ),
           if (!silhouette && !widget.lowStimulation)
             Positioned(
               top: size * (id == 'berry' ? 0.32 : 0.38),
@@ -257,11 +268,13 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
         color: Color(0xFF8B6B4A),
         shape: BoxShape.circle,
         boxShadow: [
-          BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 4))
-        ]
+          BoxShadow(color: Colors.black26, blurRadius: 4, offset: Offset(0, 4)),
+        ],
       ),
       alignment: Alignment.center,
-      child: isEmpty ? null : _buildItem(id, size: size * 0.8, faceMood: FaceMood.idle),
+      child: isEmpty
+          ? null
+          : _buildItem(id, size: size * 0.8, faceMood: FaceMood.idle),
     );
   }
 
@@ -283,42 +296,48 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
       child: Container(
         key: _pieceKeys[id],
         child: isMatched
-          ? Opacity(opacity: 0.3, child: _buildTrayBase(id, true, size: size))
-          : Semantics(
-              label: '$name 퍼즐 조각',
-              button: true,
-              selected: _selected == id,
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: isMatched
-                    ? null
-                    : () {
-                        setState(() => _selected = id);
+            ? Opacity(opacity: 0.3, child: _buildTrayBase(id, true, size: size))
+            : Semantics(
+                label: '$name 퍼즐 조각',
+                button: true,
+                selected: _selected == id,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: isMatched
+                      ? null
+                      : () {
+                          setState(() => _selected = id);
+                        },
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: _selected == id
+                          ? const Color(0xFFFBE5AE)
+                          : Colors.transparent,
+                      shape: BoxShape.circle,
+                    ),
+                    child: Draggable<String>(
+                      data: id,
+                      maxSimultaneousDrags: isMatched ? 0 : 1,
+                      feedback: _buildDraggableFeedback(id, size),
+                      childWhenDragging: Opacity(
+                        opacity: 0.3,
+                        child: _buildTrayBase(id, true, size: size),
+                      ),
+                      onDraggableCanceled: (velocity, offset) {
+                        SoundEffects.instance.boing();
+                        if (_hoveredWrongTarget != null) {
+                          _targetKeys[_hoveredWrongTarget]?.currentState
+                              ?.shake();
+                        }
                       },
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: _selected == id ? const Color(0xFFFBE5AE) : Colors.transparent,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Draggable<String>(
-                    data: id,
-                    maxSimultaneousDrags: isMatched ? 0 : 1,
-                    feedback: _buildDraggableFeedback(id, size),
-                    childWhenDragging: Opacity(opacity: 0.3, child: _buildTrayBase(id, true, size: size)),
-                    onDraggableCanceled: (velocity, offset) {
-                      SoundEffects.instance.boing();
-                      if (_hoveredWrongTarget != null) {
-                        _targetKeys[_hoveredWrongTarget]?.currentState?.shake();
-                      }
-                    },
-                    child: ForestFloat(
-                      still: widget.lowStimulation,
-                      child: _buildTrayBase(id, false, size: size),
+                      child: ForestFloat(
+                        still: widget.lowStimulation,
+                        child: _buildTrayBase(id, false, size: size),
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
       ),
     );
   }
@@ -329,7 +348,10 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
     final media = MediaQuery.sizeOf(context);
     final compact = media.height < 650;
     final targetWidth = compact
-        ? ((media.width - 48) / _currentTargets.length.clamp(3, 5)).clamp(64.0, 92.0)
+        ? ((media.width - 48) / _currentTargets.length.clamp(3, 5)).clamp(
+            64.0,
+            92.0,
+          )
         : 110.0;
     final targetHeight = compact ? targetWidth * 1.15 : 110.0;
     final targetIconSize = compact ? targetWidth * 0.72 : 80.0;
@@ -343,7 +365,10 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
         Column(
           children: [
             SizedBox(height: compact ? 6 : 16),
-            ForestProgress(count: _matched.length, total: _currentTargets.length),
+            ForestProgress(
+              count: _matched.length,
+              total: _currentTargets.length,
+            ),
             SizedBox(height: compact ? 8 : 24),
             Expanded(
               child: Center(
@@ -352,18 +377,23 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
                     alignment: WrapAlignment.center,
                     spacing: compact ? 8 : 16,
                     runSpacing: compact ? 8 : 16,
-                    children: _currentTargets.map((id) => _PuzzleTarget(
-                      key: _targetKeys[id],
-                      id: id,
-                      isMatched: _matched.contains(id),
-                      onMatch: () => _onMatch(id),
-                      onWrongHover: (targetId) => _hoveredWrongTarget = targetId,
-                      buildItem: _buildItem,
-                      onTap: () => _onTargetTapped(id),
-                      width: targetWidth,
-                      height: targetHeight,
-                      iconSize: targetIconSize,
-                    )).toList(),
+                    children: _currentTargets
+                        .map(
+                          (id) => _PuzzleTarget(
+                            key: _targetKeys[id],
+                            id: id,
+                            isMatched: _matched.contains(id),
+                            onMatch: () => _onMatch(id),
+                            onWrongHover: (targetId) =>
+                                _hoveredWrongTarget = targetId,
+                            buildItem: _buildItem,
+                            onTap: () => _onTargetTapped(id),
+                            width: targetWidth,
+                            height: targetHeight,
+                            iconSize: targetIconSize,
+                          ),
+                        )
+                        .toList(),
                   ),
                 ),
               ),
@@ -374,52 +404,30 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame> with Ticker
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: _shuffledTray.map((id) => _buildPiece(id, size: pieceSize)).toList(),
+                  children: _shuffledTray
+                      .map((id) => _buildPiece(id, size: pieceSize))
+                      .toList(),
                 ),
               ),
             ),
           ],
         ),
-        
-        if (_showGuide)
-          HandGuideHint(
-            start: _guideStart,
-            end: _guideEnd,
-          ),
 
-        Positioned.fill(
-          child: GameParticles(key: _particlesKey),
-        ),
+        if (_showGuide) HandGuideHint(start: _guideStart, end: _guideEnd),
 
-        if (_showRoundTransition)
+        Positioned.fill(child: GameParticles(key: _particlesKey)),
+
+        if (_matched.length == _currentTargets.length && _currentRound == 1)
           Center(
-            child: TweenAnimationBuilder<double>(
-              tween: Tween(begin: 0.0, end: 1.0),
-              duration: const Duration(milliseconds: 500),
-              curve: Curves.elasticOut,
-              builder: (context, val, child) {
-                return Transform.scale(
-                  scale: val,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(32),
-                      boxShadow: const [
-                        BoxShadow(color: Colors.black26, blurRadius: 12, offset: Offset(0, 6))
-                      ]
-                    ),
-                    child: const Text(
-                      '우와! 한 번 더!',
-                      style: TextStyle(
-                        fontSize: 36,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF66BB6A),
-                      ),
-                    ),
-                  ),
-                );
-              },
+            child: ForestAction(
+              label: '다른 그림자로 한 번 더',
+              icon: Icons.replay_rounded,
+              size: 90,
+              quiet: widget.lowStimulation,
+              onPressed: () => setState(() {
+                _currentRound = 2;
+                _initRound();
+              }),
             ),
           ),
       ],
@@ -432,7 +440,8 @@ class _PuzzleTarget extends StatefulWidget {
   final bool isMatched;
   final VoidCallback onMatch;
   final Function(String?) onWrongHover;
-  final Widget Function(String, {required double size, bool silhouette}) buildItem;
+  final Widget Function(String, {required double size, bool silhouette})
+  buildItem;
   final VoidCallback? onTap;
   final double width;
   final double height;
@@ -455,7 +464,8 @@ class _PuzzleTarget extends StatefulWidget {
   _PuzzleTargetState createState() => _PuzzleTargetState();
 }
 
-class _PuzzleTargetState extends State<_PuzzleTarget> with TickerProviderStateMixin {
+class _PuzzleTargetState extends State<_PuzzleTarget>
+    with TickerProviderStateMixin {
   bool _isHovered = false;
   late AnimationController _snapController;
   late AnimationController _wobbleController;
@@ -470,17 +480,44 @@ class _PuzzleTargetState extends State<_PuzzleTarget> with TickerProviderStateMi
   @override
   void initState() {
     super.initState();
-    _snapController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
-    _wobbleController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
-    _shakeController = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
-    _celebrateController = AnimationController(vsync: this, duration: const Duration(milliseconds: 600));
+    _snapController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    _wobbleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1000),
+    );
+    _shakeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _celebrateController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
 
     _scaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.15).chain(CurveTween(curve: Curves.easeOut)), weight: 40),
-      TweenSequenceItem(tween: Tween(begin: 1.15, end: 1.0).chain(CurveTween(curve: Curves.easeIn)), weight: 60),
+      TweenSequenceItem(
+        tween: Tween(
+          begin: 1.0,
+          end: 1.15,
+        ).chain(CurveTween(curve: Curves.easeOut)),
+        weight: 40,
+      ),
+      TweenSequenceItem(
+        tween: Tween(
+          begin: 1.15,
+          end: 1.0,
+        ).chain(CurveTween(curve: Curves.easeIn)),
+        weight: 60,
+      ),
     ]).animate(_snapController);
 
-    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(_snapController);
+    _opacityAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(_snapController);
   }
 
   @override
@@ -520,12 +557,17 @@ class _PuzzleTargetState extends State<_PuzzleTarget> with TickerProviderStateMi
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: Listenable.merge([_shakeController, _snapController, _wobbleController, _celebrateController]),
+      animation: Listenable.merge([
+        _shakeController,
+        _snapController,
+        _wobbleController,
+        _celebrateController,
+      ]),
       builder: (context, child) {
         final shakeVal = math.sin(_shakeController.value * math.pi * 4) * 3.0;
         final scaleVal = widget.isMatched ? _scaleAnimation.value : 1.0;
         final opacity = widget.isMatched ? _opacityAnimation.value : 0.0;
-        
+
         double rotation = 0.0;
         if (_celebrateController.isAnimating) {
           rotation = math.sin(_celebrateController.value * math.pi * 4) * 0.1;
@@ -561,15 +603,27 @@ class _PuzzleTargetState extends State<_PuzzleTarget> with TickerProviderStateMi
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: _isHovered ? Colors.orangeAccent : const Color(0xFF8B6B4A),
+                    color: _isHovered
+                        ? Colors.orangeAccent
+                        : const Color(0xFF8B6B4A),
                     width: _isHovered ? 4 : 2,
                   ),
-                  boxShadow: _isHovered ? [
-                    BoxShadow(color: Colors.orangeAccent.withAlpha(128), blurRadius: 12, spreadRadius: 2)
-                  ] : const [
-                    BoxShadow(color: Colors.black54),
-                    BoxShadow(color: Color(0xFFC4A47C), spreadRadius: -2.0, blurRadius: 4.0),
-                  ],
+                  boxShadow: _isHovered
+                      ? [
+                          BoxShadow(
+                            color: Colors.orangeAccent.withAlpha(128),
+                            blurRadius: 12,
+                            spreadRadius: 2,
+                          ),
+                        ]
+                      : const [
+                          BoxShadow(color: Colors.black54),
+                          BoxShadow(
+                            color: Color(0xFFC4A47C),
+                            spreadRadius: -2.0,
+                            blurRadius: 4.0,
+                          ),
+                        ],
                 ),
                 alignment: Alignment.center,
                 child: Transform.scale(
@@ -580,14 +634,22 @@ class _PuzzleTargetState extends State<_PuzzleTarget> with TickerProviderStateMi
                       if (!widget.isMatched || opacity < 1.0)
                         Opacity(
                           opacity: widget.isMatched ? (1.0 - opacity) : 1.0,
-                          child: widget.buildItem(widget.id, size: widget.iconSize, silhouette: true),
+                          child: widget.buildItem(
+                            widget.id,
+                            size: widget.iconSize,
+                            silhouette: true,
+                          ),
                         ),
                       if (widget.isMatched)
                         Opacity(
                           opacity: opacity,
                           child: Transform.rotate(
                             angle: rotation,
-                            child: widget.buildItem(widget.id, size: widget.iconSize, silhouette: false),
+                            child: widget.buildItem(
+                              widget.id,
+                              size: widget.iconSize,
+                              silhouette: false,
+                            ),
                           ),
                         ),
                     ],

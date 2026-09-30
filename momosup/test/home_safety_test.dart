@@ -1,3 +1,5 @@
+import 'package:momosup/models/activity.dart';
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -5,7 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:momosup/data/catalog_repository.dart';
-import 'package:momosup/models/activity.dart';
+import 'package:momosup/data/play_catalog.dart';
+import 'package:momosup/screens/play_library_screen.dart';
 import 'package:momosup/models/child_profile.dart';
 import 'package:momosup/screens/home_screen.dart';
 import 'package:momosup/state/app_state.dart';
@@ -46,7 +49,9 @@ void main() {
     );
     await tester.tap(find.byTooltip('이야기숲'));
     await tester.pumpAndSettle();
-    expect(find.text('곧 만나요'), findsOneWidget);
+    for (final draft in drafts) {
+      expect(find.byTooltip(draft.title), findsNothing);
+    }
     expect(find.byTooltip('보호자 영역'), findsOneWidget);
     expect(find.byType(Card), findsNothing);
     await tester.pumpWidget(const SizedBox.shrink());
@@ -59,22 +64,30 @@ void main() {
         home: HomeScreen(appState: state, catalog: catalog),
       ),
     );
-    for (final entry in [
-      ('이야기숲', PlayMode.touch),
-      ('그림숲', PlayMode.color),
-      ('노래숲', PlayMode.move),
-    ]) {
-      await tester.tap(find.byTooltip(entry.$1));
-      await tester.pumpAndSettle();
-      for (final activity in catalog.where((a) => a.mode == entry.$2)) {
-        expect(
-          find.byWidgetPredicate(
-            (w) => w is Semantics && w.properties.label == activity.title,
-          ),
-          findsOneWidget,
-        );
-      }
+    await tester.tap(
+      find.byWidgetPredicate(
+        (w) => w is Semantics && w.properties.label == '다른 숲 놀이',
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byType(PlayLibraryScreen), findsOneWidget);
+    final available = availablePlay(state, catalog, profile);
+    expect(available.where((e) => e.activity != null).length, catalog.length);
+    expect(available.where((e) => e.toy != null).length, 5);
+    // The scrollable library contains every entry, including those below the fold.
+    for (final entry in available) {
+      await tester.scrollUntilVisible(
+        find.byTooltip(entry.title),
+        150,
+        scrollable: find.descendant(
+          of: find.byType(GridView),
+          matching: find.byType(Scrollable),
+        ),
+      );
+      expect(find.byTooltip(entry.title), findsOneWidget);
     }
+    await tester.tap(find.byTooltip('놀이 마치기'));
+    await tester.pumpAndSettle();
     for (var i = 0; i < 4; i++) {
       await state.recordPlay(
         profileId: profile.id,

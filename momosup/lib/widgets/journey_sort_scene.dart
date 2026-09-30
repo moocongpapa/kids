@@ -1,3 +1,5 @@
+import '../game/sort_sequence.dart';
+
 import 'package:flutter/material.dart';
 
 import 'avatar_image.dart';
@@ -16,8 +18,14 @@ class JourneySortScene extends StatefulWidget {
     required this.goal,
     required this.quiet,
     required this.onMatch,
+    this.seed = 0,
+    this.guided = false,
     super.key,
   });
+  final int seed;
+  final bool guided;
+  List<int> get sequence =>
+      sortSequence(seed: seed, step: step, bins: bins, goal: goal);
   final String id;
   final int step, bins, progress, goal;
   final bool bySize, quiet;
@@ -28,7 +36,7 @@ class JourneySortScene extends StatefulWidget {
 
 class _JourneySortSceneState extends State<JourneySortScene> {
   bool hint = false, picked = false;
-  int get target => widget.progress % widget.bins;
+  int get target => widget.sequence[widget.progress.clamp(0, widget.goal - 1)];
   bool get done => widget.progress >= widget.goal;
   bool get post => widget.id == 'age_72_04';
   bool get shop => widget.id == 'age_48_03' || widget.id == 'age_60_01';
@@ -60,7 +68,9 @@ class _JourneySortSceneState extends State<JourneySortScene> {
               colorFilter: ColorFilter.mode(tint(i), BlendMode.modulate),
               child: ForestProp(
                 widget.id == 'age_24_02'
-                    ? (widget.step == 2 ? ForestObject.leaf : ForestObject.berry)
+                    ? (widget.step == 2
+                          ? ForestObject.leaf
+                          : ForestObject.berry)
                     : ForestObject.acorn,
                 size: size,
               ),
@@ -151,14 +161,15 @@ class _JourneySortSceneState extends State<JourneySortScene> {
                       if (d.data == target) deliver(i);
                     },
                     builder: (_, candidates, _) => TouchInvitation(
-                      visible: !done && hint && i == target,
+                      visible: !done && (hint || widget.guided) && i == target,
                       quiet: widget.quiet,
                       child: PlayPiece(
                         label: label(i),
                         size: 120,
                         quiet: widget.quiet,
                         selected:
-                            candidates.isNotEmpty || (hint && i == target),
+                            candidates.isNotEmpty ||
+                            ((hint || widget.guided) && i == target),
                         onTap: () => deliver(i),
                         child: Stack(
                           alignment: Alignment.center,
@@ -178,7 +189,10 @@ class _JourneySortSceneState extends State<JourneySortScene> {
                                 Positioned(
                                   top: 48,
                                   child: CuteFace(
-                                    mood: (candidates.isNotEmpty || (hint && i == target))
+                                    mood:
+                                        (candidates.isNotEmpty ||
+                                            ((hint || widget.guided) &&
+                                                i == target))
                                         ? FaceMood.happy
                                         : FaceMood.idle,
                                     size: 26,
@@ -202,7 +216,7 @@ class _JourneySortSceneState extends State<JourneySortScene> {
                               ),
                             ),
                             for (var n = 0; n < widget.progress; n++)
-                              if (n % widget.bins == i)
+                              if (widget.sequence[n] == i)
                                 Positioned(
                                   left: 12 + (n ~/ widget.bins) * 23.0,
                                   top: 0,

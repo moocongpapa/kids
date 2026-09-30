@@ -1,3 +1,4 @@
+import 'package:momosup/widgets/journey_sort_scene.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -38,6 +39,7 @@ void main() {
         MaterialApp(
           theme: ThemeData(fontFamily: 'NotoSansKR'),
           home: JourneyPlayScreen(
+            randomSeed: 42,
             journey: a,
             appState: state,
             profile: state.activeProfile!.copyWith(playStage: 2),
@@ -65,11 +67,15 @@ void main() {
       }
 
       if (name == 'reveal' || name == 'story_bus') {
-        await tap(propLabel(a.choices[0][0]));
+        await tap(name == 'story_bus' ? '모모 태우기' : propLabel(a.choices[0][0]));
       }
       if (name == 'sorting') {
-        await tap('빨간 바구니');
-        await tap('파란 바구니');
+        for (var i = 0; i < 2; i++) {
+          final scene = tester.widget<JourneySortScene>(
+            find.byType(JourneySortScene),
+          );
+          await tap(scene.sequence[i] == 0 ? '빨간 바구니' : '파란 바구니');
+        }
       }
       if (name == 'house' || name == 'bridge') {
         await tap('1번째 빈 자리');

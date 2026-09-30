@@ -20,8 +20,10 @@ class JourneyRevealScene extends StatefulWidget {
     required this.revealed,
     required this.quiet,
     required this.onChoose,
+    this.stage = 1,
     super.key,
   });
+  final int stage;
   final String id, avatar;
   final int step, selected;
   final List<ForestObject> options;
@@ -112,7 +114,11 @@ class _JourneyRevealSceneState extends State<JourneyRevealScene> {
                                 widget.onChoose(i);
                               },
                               child: TouchInvitation(
-                                visible: found.isEmpty && i == 0,
+                                visible:
+                                    found.isEmpty && i == 0 && widget.stage < 2,
+                                delay: widget.stage == 1
+                                    ? const Duration(seconds: 8)
+                                    : Duration.zero,
                                 quiet: widget.quiet,
                                 child: Stack(
                                   alignment: Alignment.bottomCenter,
@@ -174,7 +180,8 @@ class _JourneyRevealSceneState extends State<JourneyRevealScene> {
                                         alignment: Alignment.center,
                                         children: [
                                           ForestProp(
-                                            widget.options[i] == ForestObject.home
+                                            widget.options[i] ==
+                                                    ForestObject.home
                                                 ? ForestObject.home
                                                 : widget.options[i] ==
                                                       ForestObject.cloud
@@ -182,7 +189,8 @@ class _JourneyRevealSceneState extends State<JourneyRevealScene> {
                                                 : ForestObject.bush,
                                             size: extent,
                                           ),
-                                          if (!widget.quiet && !found.contains(i))
+                                          if (!widget.quiet &&
+                                              !found.contains(i))
                                             Positioned(
                                               top: extent * 0.35,
                                               child: CuteFace(

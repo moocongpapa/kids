@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import '../../utils/sound_effects.dart';
@@ -14,11 +15,13 @@ class FeedingGame extends StatefulWidget {
   const FeedingGame({
     this.onComplete,
     this.lowStimulation = false,
+    this.stage = 1,
     super.key,
   });
 
   final VoidCallback? onComplete;
   final bool lowStimulation;
+  final int stage;
 
   @override
   State<FeedingGame> createState() => _FeedingGameState();
@@ -31,7 +34,8 @@ class FlyingFruit {
   FlyingFruit({required this.fruit, required this.start, required this.end});
 }
 
-class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin {
+class _FeedingGameState extends State<FeedingGame>
+    with TickerProviderStateMixin {
   late final AnimationController _breatheController;
   late final AnimationController _chewController;
   late final AnimationController _blinkController;
@@ -46,11 +50,11 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
   int currentRound = 0;
   List<ForestObject> roundFruits = [];
   Set<int> eatenIndices = {};
-  
+
   bool hovering = false;
   bool _chewing = false;
   String currentText = '배고파~ 열매 줘!';
-  
+
   FlyingFruit? flyingFruit;
 
   @override
@@ -63,27 +67,28 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
     if (!widget.lowStimulation) {
       _breatheController.repeat(reverse: true);
     }
-    
+
     _chewController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
-    
+
     _blinkController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
-    
+
     _jumpController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    
+
     _scheduleBlink();
     initRound(0);
   }
-  
+
   void _scheduleBlink() {
+    if (widget.lowStimulation) return;
     final delay = 3000 + math.Random().nextInt(2000);
     _blinkTimer = Timer(Duration(milliseconds: delay), () {
       if (mounted) {
@@ -115,7 +120,7 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
       ForestObject.blueberry,
     ];
     if (round > 0) baseFruits.shuffle(math.Random());
-    roundFruits = baseFruits;
+    roundFruits = baseFruits.take(widget.stage == 0 ? 2 : 4).toList();
     currentText = '배고파~ 열매 줘!';
   }
 
@@ -133,22 +138,28 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
   void _onFruitDropped(DragTargetDetails<int> details) {
     final index = details.data;
     if (eatenIndices.contains(index)) return;
-    
+
     setState(() {
       hovering = false;
       eatenIndices.add(index);
     });
 
-    final RenderBox? stackBox = _stackKey.currentContext?.findRenderObject() as RenderBox?;
-    final RenderBox? momoBox = _momoKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? stackBox =
+        _stackKey.currentContext?.findRenderObject() as RenderBox?;
+    final RenderBox? momoBox =
+        _momoKey.currentContext?.findRenderObject() as RenderBox?;
     if (stackBox == null || momoBox == null) {
       _onFruitArrived(roundFruits[index]);
       return;
     }
-    
-    final dropCenter = stackBox.globalToLocal(details.offset + const Offset(38, 38));
-    final momoCenter = stackBox.globalToLocal(momoBox.localToGlobal(momoBox.size.center(Offset.zero)));
-    
+
+    final dropCenter = stackBox.globalToLocal(
+      details.offset + const Offset(38, 38),
+    );
+    final momoCenter = stackBox.globalToLocal(
+      momoBox.localToGlobal(momoBox.size.center(Offset.zero)),
+    );
+
     setState(() {
       flyingFruit = FlyingFruit(
         fruit: roundFruits[index],
@@ -177,14 +188,16 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
     SoundEffects.instance.chew();
     _chewController.forward(from: 0.0).then((_) {
       if (!mounted) return;
-      
+
       _jumpController.forward(from: 0.0);
-      
+
       if (!widget.lowStimulation) {
         final box = _momoKey.currentContext?.findRenderObject() as RenderBox?;
         if (box != null) {
           final center = box.localToGlobal(box.size.center(Offset.zero));
-          final local = (_stackKey.currentContext?.findRenderObject() as RenderBox?)?.globalToLocal(center);
+          final local =
+              (_stackKey.currentContext?.findRenderObject() as RenderBox?)
+                  ?.globalToLocal(center);
           if (local != null) {
             _particlesKey.currentState?.burst(
               origin: local,
@@ -195,16 +208,25 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
           }
         }
       }
-      
+
       setState(() {
         totalEaten++;
         _chewing = false;
         switch (fruitObj) {
-          case ForestObject.berry: currentText = '으~ 달콤해! 🍓'; break;
-          case ForestObject.raspberry: currentText = '새콤! 맛있다~ 😋'; break;
-          case ForestObject.acorn: currentText = '우와 고소해! 🌰'; break;
-          case ForestObject.blueberry: currentText = '냠냠 달아! 💜'; break;
-          default: currentText = '고마워!';
+          case ForestObject.berry:
+            currentText = '으~ 달콤해! 🍓';
+            break;
+          case ForestObject.raspberry:
+            currentText = '새콤! 맛있다~ 😋';
+            break;
+          case ForestObject.acorn:
+            currentText = '우와 고소해! 🌰';
+            break;
+          case ForestObject.blueberry:
+            currentText = '냠냠 달아! 💜';
+            break;
+          default:
+            currentText = '고마워!';
         }
       });
       _checkRoundCompletion();
@@ -212,41 +234,26 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
   }
 
   void _checkRoundCompletion() {
-    if (eatenIndices.length == 4) {
+    if (eatenIndices.length == roundFruits.length) {
       setState(() {
         currentText = '배부르다! 😊';
       });
       SoundEffects.instance.snap();
-      
+
       if (!widget.lowStimulation) {
         final box = _momoKey.currentContext?.findRenderObject() as RenderBox?;
         if (box != null) {
           final center = box.localToGlobal(box.size.center(Offset.zero));
-          final local = (_stackKey.currentContext?.findRenderObject() as RenderBox?)?.globalToLocal(center);
+          final local =
+              (_stackKey.currentContext?.findRenderObject() as RenderBox?)
+                  ?.globalToLocal(center);
           if (local != null) {
             _particlesKey.currentState?.celebrate(local);
           }
         }
       }
-      
-      if (currentRound == 2) {
-        Future.delayed(const Duration(seconds: 2), () {
-          if (mounted) widget.onComplete?.call();
-        });
-      } else {
-        Future.delayed(const Duration(seconds: 2), () {
-          if (mounted) {
-            setState(() {
-              currentText = '한 번 더!';
-            });
-            Future.delayed(const Duration(seconds: 1), () {
-              if (mounted) {
-                setState(() => initRound(currentRound + 1));
-              }
-            });
-          }
-        });
-      }
+
+      widget.onComplete?.call();
     }
   }
 
@@ -256,7 +263,7 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
         _breatheController,
         _chewController,
         _blinkController,
-        _jumpController
+        _jumpController,
       ]),
       builder: (context, child) {
         double scale = 1.0;
@@ -273,19 +280,33 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
         double chewSy = 1.0;
         double rotateZ = 0.0;
         if (t > 0) {
-          if (t < 0.2) { chewSx = lerpDouble(1.0, 1.15, t/0.2)!; chewSy = lerpDouble(1.0, 0.88, t/0.2)!; }
-          else if (t < 0.5) { chewSx = lerpDouble(1.15, 0.9, (t-0.2)/0.3)!; chewSy = lerpDouble(0.88, 1.1, (t-0.2)/0.3)!; }
-          else if (t < 0.8) { chewSx = lerpDouble(0.9, 1.1, (t-0.5)/0.3)!; chewSy = lerpDouble(1.1, 0.9, (t-0.5)/0.3)!; }
-          else { chewSx = lerpDouble(1.1, 1.0, (t-0.8)/0.2)!; chewSy = lerpDouble(0.9, 1.0, (t-0.8)/0.2)!; }
-          
+          if (t < 0.2) {
+            chewSx = lerpDouble(1.0, 1.15, t / 0.2)!;
+            chewSy = lerpDouble(1.0, 0.88, t / 0.2)!;
+          } else if (t < 0.5) {
+            chewSx = lerpDouble(1.15, 0.9, (t - 0.2) / 0.3)!;
+            chewSy = lerpDouble(0.88, 1.1, (t - 0.2) / 0.3)!;
+          } else if (t < 0.8) {
+            chewSx = lerpDouble(0.9, 1.1, (t - 0.5) / 0.3)!;
+            chewSy = lerpDouble(1.1, 0.9, (t - 0.5) / 0.3)!;
+          } else {
+            chewSx = lerpDouble(1.1, 1.0, (t - 0.8) / 0.2)!;
+            chewSy = lerpDouble(0.9, 1.0, (t - 0.8) / 0.2)!;
+          }
+
           rotateZ = math.sin(t * math.pi * 4) * 0.1;
         }
-        
+
         double blinkSy = 1.0 - (_blinkController.value * 0.15);
         double jumpY = math.sin(_jumpController.value * math.pi) * -40.0;
-        
+
         if (widget.lowStimulation) {
-          chewSx = 1.0; chewSy = 1.0; rotateZ = 0.0; jumpY = 0.0; blinkSy = 1.0; scale = 1.0;
+          chewSx = 1.0;
+          chewSy = 1.0;
+          rotateZ = 0.0;
+          jumpY = 0.0;
+          blinkSy = 1.0;
+          scale = 1.0;
         }
 
         return Transform.translate(
@@ -316,11 +337,16 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
             ),
           ),
         );
-      }
+      },
     );
   }
 
-  Widget fruitWidget(ForestObject fruit, {bool faded = false, double size = 76, FaceMood mood = FaceMood.idle}) => Opacity(
+  Widget fruitWidget(
+    ForestObject fruit, {
+    bool faded = false,
+    double size = 76,
+    FaceMood mood = FaceMood.idle,
+  }) => Opacity(
     opacity: faded ? 0.16 : 1.0,
     child: SizedBox.square(
       dimension: size,
@@ -331,10 +357,7 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
           if (!faded && !widget.lowStimulation)
             Positioned(
               top: size * 0.22,
-              child: CuteFace(
-                size: size * 0.58,
-                mood: mood,
-              ),
+              child: CuteFace(size: size * 0.58, mood: mood),
             ),
         ],
       ),
@@ -343,11 +366,16 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
 
   String _semanticLabelFor(ForestObject obj) {
     switch (obj) {
-      case ForestObject.berry: return '딸기 먹이기';
-      case ForestObject.raspberry: return '산딸기 먹이기';
-      case ForestObject.acorn: return '도토리 먹이기';
-      case ForestObject.blueberry: return '블루베리 먹이기';
-      default: return '열매 먹이기';
+      case ForestObject.berry:
+        return '딸기 먹이기';
+      case ForestObject.raspberry:
+        return '산딸기 먹이기';
+      case ForestObject.acorn:
+        return '도토리 먹이기';
+      case ForestObject.blueberry:
+        return '블루베리 먹이기';
+      default:
+        return '열매 먹이기';
     }
   }
 
@@ -358,7 +386,10 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
       children: [
         Column(
           children: [
-            ForestProgress(count: eatenIndices.length, total: 4),
+            ForestProgress(
+              count: eatenIndices.length,
+              total: roundFruits.length,
+            ),
             Expanded(
               child: Stack(
                 alignment: Alignment.center,
@@ -403,7 +434,9 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
                     },
                   ),
                   if (!widget.lowStimulation) GameParticles(key: _particlesKey),
-                  if (totalEaten == 0 && !widget.lowStimulation && flyingFruit == null)
+                  if (totalEaten == 0 &&
+                      !widget.lowStimulation &&
+                      flyingFruit == null)
                     const Positioned(
                       bottom: 0,
                       child: HandGuideHint(
@@ -416,7 +449,8 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
             ),
             AnimatedSwitcher(
               duration: const Duration(milliseconds: 300),
-              transitionBuilder: (child, animation) => ScaleTransition(scale: animation, child: child),
+              transitionBuilder: (child, animation) =>
+                  ScaleTransition(scale: animation, child: child),
               child: Text(
                 currentText,
                 key: ValueKey(currentText),
@@ -432,11 +466,11 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
               height: 98,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(4, (i) {
+                children: List.generate(roundFruits.length, (i) {
                   final fruitObj = roundFruits[i];
                   final isEaten = eatenIndices.contains(i);
                   final isDisabled = isEaten || _chewing || flyingFruit != null;
-                  
+
                   return Expanded(
                     child: Semantics(
                       button: true,
@@ -449,7 +483,11 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
                           maxSimultaneousDrags: isDisabled ? 0 : 1,
                           feedback: Material(
                             color: Colors.transparent,
-                            child: fruitWidget(fruitObj, size: 84, mood: FaceMood.surprised),
+                            child: fruitWidget(
+                              fruitObj,
+                              size: 84,
+                              mood: FaceMood.surprised,
+                            ),
                           ),
                           childWhenDragging: fruitWidget(fruitObj, faded: true),
                           child: GestureDetector(
@@ -469,11 +507,15 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
             ),
             SizedBox(
               height: 64,
-              child: eatenIndices.length == 4 && currentRound < 2
-                  ? const Icon(
-                      Icons.star_rounded,
-                      size: 32,
-                      color: Color(0xFF779363),
+              child:
+                  eatenIndices.length == roundFruits.length && currentRound < 2
+                  ? ForestAction(
+                      label: '한 번 더 먹이기',
+                      icon: Icons.replay_rounded,
+                      size: 60,
+                      quiet: widget.lowStimulation,
+                      onPressed: () =>
+                          setState(() => initRound(currentRound + 1)),
                     )
                   : const Icon(
                       Icons.touch_app_rounded,
@@ -499,13 +541,17 @@ class _FeedingGameState extends State<FeedingGame> with TickerProviderStateMixin
               double baseY = lerpDouble(start.dy, end.dy, val)!;
               double curveY = math.sin(val * math.pi) * -80.0;
               double scale = 1.0 - val;
-              
+
               return Positioned(
                 left: x - 38,
                 top: baseY + curveY - 38,
                 child: Transform.scale(
                   scale: scale,
-                  child: fruitWidget(flyingFruit!.fruit, size: 76, mood: FaceMood.happy),
+                  child: fruitWidget(
+                    flyingFruit!.fruit,
+                    size: 76,
+                    mood: FaceMood.happy,
+                  ),
                 ),
               );
             },

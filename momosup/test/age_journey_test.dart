@@ -1,3 +1,4 @@
+import 'package:flame/game.dart';
 import 'package:momosup/data/journey_recommendation.dart';
 
 import 'dart:convert';
@@ -366,7 +367,13 @@ void main() {
       await tester.pumpAndSettle();
       if (mechanic == 'reveal' || mechanic == 'story') {
         await tester.tap(
-          find.byTooltip(propLabel(item.choices.first.first)).first,
+          find
+              .byTooltip(
+                item.id == 'age_24_04'
+                    ? '모모 태우기'
+                    : propLabel(item.choices.first.first),
+              )
+              .first,
         );
       }
       if (mechanic == 'sort') {
@@ -374,9 +381,24 @@ void main() {
         await tester.tap(find.byTooltip('빨간 바구니'));
       }
       if (mechanic == 'build') {
+        await tester.runAsync(
+          () => tester
+              .state<GameWidgetState>(
+                find.byWidgetPredicate((w) => w is GameWidget),
+              )
+              .loaderFuture,
+        );
+        await tester.pumpAndSettle();
         for (var i = 1; i <= 2; i++) {
           await tester.tap(find.byTooltip('$i번째 빈 자리'));
         }
+      }
+      if (mechanic == 'build') {
+        await tester.pumpAndSettle();
+        await tester.scrollUntilVisible(find.byTooltip('만든 길 시험하기'), 100);
+        await tester.pumpAndSettle();
+        await tester.tap(find.byTooltip('만든 길 시험하기'));
+        await tester.pumpAndSettle();
       }
       if (mechanic == 'rhythm') {
         for (var i = 1; i <= 2; i++) {

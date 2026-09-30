@@ -12,6 +12,20 @@ class ArtMark {
   final List<Offset> points;
   final double width;
   final int stamp;
+  Map<String, dynamic> toJson() => {
+    'color': color.toARGB32(),
+    'width': width,
+    'stamp': stamp,
+    'points': points.map((p) => [p.dx, p.dy]).toList(),
+  };
+  factory ArtMark.fromJson(Map<String, dynamic> j) => ArtMark(
+    Color(j['color'] as int),
+    (j['points'] as List)
+        .map((p) => Offset((p[0] as num).toDouble(), (p[1] as num).toDouble()))
+        .toList(),
+    width: (j['width'] as num).toDouble(),
+    stamp: j['stamp'] as int,
+  );
 }
 
 /// Normalised strokes keep drawings intact when the device changes size.
@@ -52,8 +66,26 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
   int? drawingPointer;
   Offset point(Offset p, Size s) =>
       Offset((p.dx / s.width).clamp(0, 1), (p.dy / s.height).clamp(0, 1));
+  void compactMarks() {
+    if (widget.marks.fold<int>(0, (n, m) => n + m.points.length) < 12000) {
+      return;
+    }
+    for (final mark in widget.marks.where(
+      (m) => m.stamp == 0 && m.points.length > 8,
+    )) {
+      final reduced = [
+        for (var i = 0; i < mark.points.length; i += 2) mark.points[i],
+        mark.points.last,
+      ];
+      mark.points
+        ..clear()
+        ..addAll(reduced);
+    }
+  }
+
   void begin(Offset p, Size s) {
     if (widget.locked) return;
+    compactMarks();
     setState(() {
       current = ArtMark(
         colors[color],
@@ -119,6 +151,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
                             drawingPointer != d.pointer) {
                           return;
                         }
+                        compactMarks();
                         final p = point(d.localPosition, box.biggest);
                         if (stamp != 0 &&
                             (current!.points.last - p).distance < .12) {
@@ -159,7 +192,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
         children: [
           for (var i = 0; i < (widget.simple ? 3 : colors.length); i++)
             PlayPiece(
-              label: '${i + 1}번 그림 색',
+              label: '${['분홍', '노랑', '초록', '파랑', '보라', '짙은 초록'][i]} 크레용',
               size: 56,
               quiet: widget.quiet,
               selected: color == i,

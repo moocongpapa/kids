@@ -1,3 +1,9 @@
+import '../utils/audio_cleanup.dart';
+import '../widgets/journey_detective_scene.dart';
+import '../game/build_experiment.dart';
+import '../utils/play_session.dart';
+import '../utils/play_checkpoint.dart';
+import '../utils/audio_policy.dart';
 import '../data/journey_recommendation.dart';
 import '../widgets/journey_reveal_scene.dart';
 import '../widgets/journey_build_board.dart';
@@ -254,7 +260,7 @@ class _JourneyDetailScreenState extends State<JourneyDetailScreen>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    stage = widget.profile.effectivePlayStage;
+    stage = widget.profile.stageFor(widget.journey.id);
     ForestAudio.instance.pauseBgm();
   }
 
@@ -296,7 +302,7 @@ class _JourneyDetailScreenState extends State<JourneyDetailScreen>
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
-    player.dispose();
+    disposeAudioPlayer(player);
     super.dispose();
   }
 
@@ -478,7 +484,10 @@ class _JourneyDetailScreenState extends State<JourneyDetailScreen>
                         profile: widget.profile.copyWith(
                           ageMonths: a.minAge,
                           preschool: true,
-                          playStage: stage,
+                          activityStages: {
+                            ...widget.profile.activityStages,
+                            a.id: stage,
+                          },
                         ),
                         preview: true,
                       ),
@@ -610,6 +619,8 @@ class JourneyPlayScreen extends StatefulWidget {
     required this.profile,
     this.preview = false,
     this.playAsset,
+    this.restoreSaved = false,
+    this.randomSeed,
     super.key,
   });
   final AgeJourney journey;
@@ -617,16 +628,19 @@ class JourneyPlayScreen extends StatefulWidget {
   final ChildProfile profile;
   final bool preview;
   final Future<void> Function(String path)? playAsset;
+  final bool restoreSaved;
+  final int? randomSeed;
   @override
   State<JourneyPlayScreen> createState() => _JourneyPlayScreenState();
 }
 
-class _JourneyPlayScreenState extends State<JourneyPlayScreen>
-    with WidgetsBindingObserver {
-  final player = AudioPlayer();
-  final watch = Stopwatch();
+class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
+  AudioPlayer? _player;
+  AudioPlayer get player => _player ??= AudioPlayer();
+  late final PlaySession session;
+  late final PlayCheckpoint checkpoint;
   final sceneScroll = ScrollController();
-  Timer? timer;
+
   int step = 0,
       selected = 0,
       action = 0,
@@ -640,15 +654,19 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
       started = false,
       audioFailed = false,
       busy = false;
+  int sequenceSeed = DateTime.now().microsecondsSinceEpoch & 0x7fffffff;
+  bool helpRequested = false;
+  BuildTrial? trial;
+  BuildResult? trialResult;
+  final List<Map<String, dynamic>> trials = [];
   final List<String> results = [];
   final Map<int, int> slots = {};
   final List<ArtMark> strokes = [];
   AgeJourney get a => widget.journey;
-  int get stage => widget.profile.effectivePlayStage;
+  int get stage => widget.profile.stageFor(a.id);
   bool get quiet =>
       widget.profile.lowStimulation || MediaQuery.disableAnimationsOf(context);
-  bool get sound =>
-      widget.profile.musicOn && !ForestAudio.instance.isMuted.value;
+  bool get sound => AudioPolicy.instance.canEffects;
   bool get allowed =>
       !a.isCaregiver &&
       journeyEligible(a, widget.profile) &&
@@ -671,9 +689,102 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
+    AudioPolicy.instance.configure(widget.profile);
+    sequenceSeed = widget.randomSeed ?? sequenceSeed;
+    final saved = widget.preview && !widget.restoreSaved
+        ? null
+        : widget.appState.workFor(widget.profile.id, a.id);
+    if (saved != null && saved['review'] == a.reviewKey) {
+      sequenceSeed = saved['sequenceSeed'] as int? ?? sequenceSeed;
+      trials.addAll(
+        (saved['trials'] as List? ?? []).map(
+          (t) => Map<String, dynamic>.from(t),
+        ),
+      );
+      strokes.addAll(
+        (saved['marks'] as List? ?? []).map(
+          (m) => ArtMark.fromJson(Map<String, dynamic>.from(m)),
+        ),
+      );
+      slots.addAll(
+        (saved['slots'] as Map? ?? {}).map(
+          (k, v) => MapEntry(int.parse(k), v as int),
+        ),
+      );
+      if (saved['complete'] != true &&
+          (saved['stage'] == null || saved['stage'] == stage)) {
+        step = (saved['step'] as int? ?? 0).clamp(0, sceneCount - 1);
+        selected = saved['selected'] as int? ?? 0;
+        action = saved['action'] as int? ?? 0;
+        ready = saved['ready'] == true;
+        results.addAll(List<String>.from(saved['results'] as List? ?? []));
+      }
+    }
+    selected = selected.clamp(
+      0,
+      a.mechanic == 'build' ? a.symbols.length - 1 : options.length - 1,
+    );
+    slots.removeWhere(
+      (k, v) =>
+          k < 0 ||
+          k >= slotCount ||
+          v < 0 ||
+          v > (a.mechanic == 'rhythm' ? 3 : 2),
+    );
+    checkpoint = PlayCheckpoint(
+      widget.appState,
+      widget.profile.id,
+      a.id,
+      () => {
+        'sequenceSeed': sequenceSeed,
+        'stage': stage,
+        'trials': trials,
+        'review': a.reviewKey,
+        'step': step,
+        'selected': selected,
+        'action': action,
+        'ready': ready,
+        'results': results,
+        'complete': ended,
+        'slots': slots.map((k, v) => MapEntry('$k', v)),
+        'marks': strokes.map((m) => m.toJson()).toList(),
+      },
+      preview: widget.preview,
+      onError: () => session.reportSaveError(),
+    );
+    session = PlaySession(
+      limitSeconds: widget.preview
+          ? a.minutes * 60
+          : math.min(
+              a.minutes * 60,
+              widget.appState.secondsRemaining(
+                widget.profile.id,
+                widget.profile.dailyLimitMinutes,
+              ),
+            ),
+      onExpire: finish,
+      onCheckpoint: checkpoint.checkpoint,
+      onPause: () {
+        checkpoint.event('interruptions');
+        token++;
+        voiceRequest++;
+        _player?.stop();
+        if (mounted) {
+          setState(() {
+            if (a.mechanic != 'build') busy = false;
+            activeNote = -1;
+          });
+        }
+      },
+      onResume: () {
+        if (started && !ended) narrate();
+      },
+    );
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted && allowed) announceFirstScene();
+      if (mounted && allowed) {
+        session.start();
+        announceFirstScene();
+      }
     });
   }
 
@@ -684,17 +795,8 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
     narrate();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state != AppLifecycleState.resumed) {
-      token++;
-      voiceRequest++;
-      player.stop();
-      if (started && !ended) finish();
-    }
-  }
-
   Future<void> narrate() async {
+    if (!AudioPolicy.instance.canVoice) return;
     final path = a.audio['step_$step'];
     final mine = ++voiceRequest;
     if (path == null) {
@@ -724,23 +826,18 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
 
   void start() {
     if (!allowed) return;
-    final remaining =
-        widget.profile.dailyLimitMinutes -
-        widget.appState.minutesToday(widget.profile.id);
+    final remaining = widget.appState.secondsRemaining(
+      widget.profile.id,
+      widget.profile.dailyLimitMinutes,
+    );
     if (!widget.preview && remaining <= 0) {
       setState(() => ended = true);
       return;
     }
     if (sceneScroll.hasClients) sceneScroll.jumpTo(0);
     setState(() => started = true);
-    watch.start();
-    timer = Timer(
-      Duration(
-        minutes: widget.preview ? a.minutes : math.min(a.minutes, remaining),
-      ),
-      finish,
-    );
-    announceFirstScene();
+    session.start();
+    if (!firstNarrationRequested) narrate();
   }
 
   void finish() {
@@ -748,17 +845,9 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
     if (sceneScroll.hasClients) sceneScroll.jumpTo(0);
     token++;
     voiceRequest++;
-    timer?.cancel();
-    player.stop();
-    watch.stop();
+    _player?.stop();
     setState(() => ended = true);
-    if (!widget.preview && started) {
-      widget.appState.recordPlay(
-        profileId: widget.profile.id,
-        activityId: a.id,
-        seconds: watch.elapsed.inSeconds,
-      );
-    }
+    session.finish();
   }
 
   void next() {
@@ -770,9 +859,11 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
     }
     token++;
     voiceRequest++;
-    player.stop();
+    _player?.stop();
     setState(() {
       step++;
+      trialResult = null;
+      helpRequested = false;
       ready = false;
       selected = 0;
       action = 0;
@@ -780,6 +871,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
       if (a.mechanic != 'build' && a.mechanic != 'rhythm') slots.clear();
       activeNote = -1;
     });
+    checkpoint.changed();
     narrate();
   }
 
@@ -808,10 +900,9 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
   void dispose() {
     token++;
     voiceRequest++;
-    timer?.cancel();
-    watch.stop();
-    WidgetsBinding.instance.removeObserver(this);
-    player.dispose();
+    checkpoint.dispose();
+    session.dispose();
+    if (_player != null) disposeAudioPlayer(_player!);
     sceneScroll.dispose();
     if (!widget.preview) {
       ForestAudio.instance.startBgm(enabled: widget.profile.musicOn);
@@ -827,67 +918,70 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
         body: const Center(child: Text('보호자 공방에서 월령과 검수를 먼저 확인해 주세요.')),
       );
     }
-    return PopScope(
-      canPop: ended || !started,
-      onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) finish();
-      },
-      child: Scaffold(
-        body: ForestBackground(
-          lowStimulation: quiet,
-          child: SafeArea(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(12),
-                  child: Row(
-                    children: [
-                      ForestAction(
-                        label: '놀이 닫기',
-                        icon: Icons.close_rounded,
-                        onPressed: () {
-                          if (started && !ended) {
-                            finish();
-                          } else {
-                            Navigator.pop(context);
-                          }
-                        },
-                        size: 58,
-                        quiet: quiet,
-                      ),
-                      const Spacer(),
-                      if (widget.preview) const Text('보호자 미리보기'),
-                      const Spacer(),
-                      if (!ended)
+    return PlaySessionView(
+      session: session,
+      child: PopScope(
+        canPop: ended || !started,
+        onPopInvokedWithResult: (didPop, _) {
+          if (!didPop) finish();
+        },
+        child: Scaffold(
+          body: ForestBackground(
+            lowStimulation: quiet,
+            child: SafeArea(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      children: [
                         ForestAction(
-                          label: '안내 다시 듣기',
-                          icon: Icons.volume_up_rounded,
-                          onPressed: narrate,
+                          label: '놀이 닫기',
+                          icon: Icons.close_rounded,
+                          onPressed: () {
+                            if (started && !ended) {
+                              finish();
+                            } else {
+                              Navigator.pop(context);
+                            }
+                          },
                           size: 58,
                           quiet: quiet,
                         ),
-                    ],
+                        const Spacer(),
+                        if (widget.preview) const Text('보호자 미리보기'),
+                        const Spacer(),
+                        if (!ended)
+                          ForestAction(
+                            label: '안내 다시 듣기',
+                            icon: Icons.volume_up_rounded,
+                            onPressed: narrate,
+                            size: 58,
+                            quiet: quiet,
+                          ),
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: LayoutBuilder(
-                    builder: (context, box) => SingleChildScrollView(
-                      controller: sceneScroll,
-                      child: ConstrainedBox(
-                        constraints: BoxConstraints(minHeight: box.maxHeight),
-                        child: Padding(
-                          padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-                          child: ended
-                              ? _ending()
-                              : !started
-                              ? _intro()
-                              : _play(),
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder: (context, box) => SingleChildScrollView(
+                        controller: sceneScroll,
+                        child: ConstrainedBox(
+                          constraints: BoxConstraints(minHeight: box.maxHeight),
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
+                            child: ended
+                                ? _ending()
+                                : !started
+                                ? _intro()
+                                : _play(),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -976,7 +1070,12 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
   Widget _ending() => Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      AvatarImage(avatar: a.avatar, size: 140, lowStimulation: true, showBlush: true),
+      AvatarImage(
+        avatar: a.avatar,
+        size: 140,
+        lowStimulation: true,
+        showBlush: true,
+      ),
       if (results.isNotEmpty)
         Wrap(
           alignment: WrapAlignment.center,
@@ -1071,6 +1170,29 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
           _ => _story(),
         },
       const SizedBox(height: 22),
+      if (!ready && !busy)
+        ForestAction(
+          label: '도움 그림 보기',
+          icon: Icons.touch_app_rounded,
+          size: 64,
+          quiet: quiet,
+          onPressed: () => setState(() => helpRequested = !helpRequested),
+        ),
+      if (helpRequested && !ready)
+        Padding(
+          padding: const EdgeInsets.all(10),
+          child: Semantics(
+            label: '큰 그림을 고른 뒤 친구나 빈 자리를 눌러 보세요',
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.touch_app_rounded, size: 40, color: forestInk),
+                ForestProp(journeyProp(options.first), size: 64),
+                const Icon(Icons.pets_rounded, size: 40, color: forestInk),
+              ],
+            ),
+          ),
+        ),
       if (ready && (!audioFailed || widget.preview))
         ForestAction(
           label: step + 1 >= sceneCount ? '놀이 마치기' : '다음 장면',
@@ -1085,32 +1207,47 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
     ],
   );
   void choose(int i) {
+    checkpoint.event('actions');
+    checkpoint.metrics.putIfAbsent('firstActionSeconds', () => session.seconds);
     setState(() {
       reaction++;
       selected = i;
-      if (!ready) {
+      if (!ready || results.isEmpty) {
         results.add(options[i]);
       } else {
         results[results.length - 1] = options[i];
       }
       ready = true;
     });
+    checkpoint.changed();
     if (sound) SoundEffects.instance.pop();
   }
 
-  Widget _reveal() => JourneyRevealScene(
-    id: a.id,
-    step: step,
-    avatar: a.avatar,
-    options: options.map(journeyProp).toList(),
-    labels: options.map(propLabel).toList(),
-    selected: selected,
-    revealed: ready,
-    quiet: quiet,
-    onChoose: choose,
-  );
+  Widget _reveal() => ['age_30_03', 'age_48_02', 'age_84_05'].contains(a.id)
+      ? JourneyDetectiveScene(
+          key: ValueKey('${a.id}-$step'),
+          step: step,
+          count: options.length,
+          stage: helpRequested ? 0 : stage,
+          quiet: quiet,
+          cooperative: a.id == 'age_84_05',
+          onFound: choose,
+        )
+      : JourneyRevealScene(
+          stage: helpRequested ? 0 : stage,
+          id: a.id,
+          step: step,
+          avatar: a.avatar,
+          options: options.map(journeyProp).toList(),
+          labels: options.map(propLabel).toList(),
+          selected: selected,
+          revealed: ready,
+          quiet: quiet,
+          onChoose: choose,
+        );
 
   Widget _story() => JourneyStoryScene(
+    stage: helpRequested ? 0 : stage,
     reaction: reaction,
     id: a.id,
     step: step,
@@ -1126,6 +1263,8 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
 
   Widget _sort() => JourneySortScene(
     key: ValueKey('${a.id}-$step'),
+    seed: sequenceSeed,
+    guided: stage == 0 || helpRequested,
     id: a.id,
     step: step,
     bySize:
@@ -1151,6 +1290,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
                 : 4);
         if (ready) results.add('basket');
       });
+      checkpoint.changed();
       if (sound) SoundEffects.instance.snap();
     },
   );
@@ -1159,12 +1299,45 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
     if (busy) return;
     setState(() {
       slots[i] = value;
-      ready = slots.length == slotCount;
+      ready = false;
+      trialResult = null;
       results
         ..clear()
         ..addAll(slots.values.map((v) => a.symbols[v]));
     });
+    checkpoint.changed();
     if (sound) SoundEffects.instance.snap();
+  }
+
+  void runTrial() {
+    checkpoint.event('trials');
+    if (busy || slots.isEmpty) return;
+    setState(() {
+      busy = true;
+      ready = false;
+      trialResult = null;
+      trial = BuildTrial(
+        attempt: ++action,
+        id: a.id,
+        step: step,
+        stage: stage,
+        count: slotCount,
+        pieces: Map.of(slots),
+      );
+    });
+  }
+
+  void trialFinished() {
+    if (!mounted || ended || trial == null) return;
+    setState(() {
+      busy = false;
+      trialResult = trial!.evaluate();
+      ready = trialResult!.success;
+      trials.add(trial!.toJson());
+      if (trials.length > 30) trials.removeAt(0);
+    });
+    checkpoint.changed();
+    if (sound) SoundEffects.instance.pop();
   }
 
   Widget _build() => Column(
@@ -1173,22 +1346,30 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
         id: a.id,
         slots: slots,
         count: slotCount,
-        active: activeNote,
+        active: busy ? 0 : -1,
         quiet: quiet,
         onPlace: (i) => placePiece(i, selected),
         onDrop: placePiece,
+        trial: trial,
+        onTrialFinished: trialFinished,
       ),
-      const SizedBox(height: 25),
+      const SizedBox(height: 20),
       Wrap(
         alignment: WrapAlignment.center,
         spacing: 12,
         runSpacing: 10,
         children: [
-          for (var i = 0; i < (stage == 0 ? 1 : a.symbols.length); i++)
+          for (
+            var i = 0;
+            i < (stage == 0 && a.id != 'age_60_02' ? 1 : a.symbols.length);
+            i++
+          )
             PlayPiece(
-              label: propLabel(a.symbols[i]),
+              label: buildPieceLabel(a.id, i),
               dragValue: i,
-              onTap: () => setState(() => selected = i),
+              onTap: () {
+                if (!busy) setState(() => selected = i);
+              },
               selected: selected == i,
               quiet: quiet,
               size: 82,
@@ -1196,48 +1377,48 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
             ),
         ],
       ),
-      if (slots.length == slotCount) ...[
-        const SizedBox(height: 18),
-        ForestAction(
-          label: a.id == 'age_60_03' && step == 1 ? '바람 불러보기' : '친구가 길을 따라가 보기',
-          icon: Icons.pets_rounded,
-          size: 72,
-          quiet: quiet,
-          onPressed: busy
-              ? null
-              : () async {
-                  final mine = token;
-                  setState(() => busy = true);
-                  for (var i = 0; i < slotCount; i++) {
-                    if (!mounted || ended || token != mine) break;
-                    setState(() => activeNote = i);
-                    await Future<void>.delayed(
-                      Duration(milliseconds: quiet ? 120 : 400),
-                    );
-                  }
-                  if (mounted && token == mine) {
-                    setState(() {
-                      activeNote = -1;
-                      busy = false;
-                      ready = true;
-                      if (a.id == 'age_60_03' && step == 1 && action == 0) {
-                        slots.remove(0);
-                        ready = false;
-                        action++;
-                      }
-                      results
-                        ..clear()
-                        ..addAll(slots.values.map((v) => a.symbols[v]));
-                    });
-                  }
-                },
-        ),
-        if (activeNote >= 0)
-          Text(
-            '${activeNote + 1} / $slotCount',
-            style: const TextStyle(color: forestInk),
+      const SizedBox(height: 18),
+      ForestAction(
+        label: '만든 길 시험하기',
+        icon: a.id == 'age_60_03' ? Icons.air_rounded : Icons.pets_rounded,
+        size: 82,
+        quiet: quiet,
+        onPressed: busy || slots.isEmpty ? null : runTrial,
+      ),
+      if (trialResult != null)
+        Padding(
+          padding: const EdgeInsets.only(top: 12),
+          child: Semantics(
+            label: trialResult!.reason,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  trialResult!.success
+                      ? Icons.check_circle_outline_rounded
+                      : Icons.build_circle_outlined,
+                  color: forestInk,
+                  size: 42,
+                ),
+                if (!trialResult!.success &&
+                    trialResult!.repairValue != null) ...[
+                  const SizedBox(width: 12),
+                  SizedBox(
+                    width: 64,
+                    height: 64,
+                    child: JourneyBuildPiece(
+                      id: a.id,
+                      value: trialResult!.repairValue!,
+                      quiet: true,
+                    ),
+                  ),
+                ],
+              ],
+            ),
           ),
-      ],
+        ),
+      if (widget.preview && trialResult != null)
+        Text(trialResult!.reason, textAlign: TextAlign.center),
     ],
   );
   void placeNote(int slot, int note) {
@@ -1246,6 +1427,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
       slots[slot] = note;
       ready = slots.length == slotCount;
     });
+    checkpoint.changed();
     if (sound && note != 3) SoundEffects.instance.playNote(note * 2);
   }
 
@@ -1283,6 +1465,9 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
     quiet: quiet,
     simple: stage == 0,
     canvasKey: const ValueKey('journey_canvas'),
-    onChanged: () => setState(() => ready = strokes.isNotEmpty),
+    onChanged: () {
+      setState(() => ready = strokes.isNotEmpty);
+      checkpoint.changed();
+    },
   );
 }

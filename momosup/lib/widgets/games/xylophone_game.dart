@@ -13,7 +13,7 @@ class _FloatingNote {
   final int barIndex;
   final double startX;
   final double startY;
-  
+
   _FloatingNote(this.id, this.barIndex, this.startX, this.startY);
 }
 
@@ -21,21 +21,28 @@ class XylophoneGame extends StatefulWidget {
   const XylophoneGame({
     this.onComplete,
     this.lowStimulation = false,
+    this.stage = 1,
     super.key,
   });
   final VoidCallback? onComplete;
   final bool lowStimulation;
+  final int stage;
 
   @override
   State<XylophoneGame> createState() => _XylophoneGameState();
 }
 
-class _XylophoneGameState extends State<XylophoneGame> with TickerProviderStateMixin {
+class _XylophoneGameState extends State<XylophoneGame>
+    with TickerProviderStateMixin {
   final _playedNotes = <int>{};
   GameMode _currentMode = GameMode.freePlay;
   bool _unlockedFollowMode = false;
-  
-  final List<int> _melodySequence = [0, 1, 2, 0];
+
+  List<int> get _melodySequence => widget.stage == 0
+      ? [0, 1]
+      : widget.stage == 2
+      ? [0, 2, 4, 4, 2, 0]
+      : [0, 1, 2, 0];
   int _melodyProgress = 0;
 
   int? _activeBar;
@@ -65,45 +72,70 @@ class _XylophoneGameState extends State<XylophoneGame> with TickerProviderStateM
     Color(0xFF9B98BA),
     Color(0xFFC197AF),
   ];
-  static const _barHeights = [180.0, 168.0, 156.0, 144.0, 132.0, 120.0, 108.0, 96.0];
+  static const _barHeights = [
+    180.0,
+    168.0,
+    156.0,
+    144.0,
+    132.0,
+    120.0,
+    108.0,
+    96.0,
+  ];
 
   @override
   void initState() {
     super.initState();
     _dancerController = AnimationController(
-       vsync: this, duration: const Duration(milliseconds: 200));
-    _rippleControllers = List.generate(8, (_) => AnimationController(
-       vsync: this, duration: const Duration(milliseconds: 400)));
-    _squeezeControllers = List.generate(8, (_) => AnimationController(
-       vsync: this, duration: const Duration(milliseconds: 100)));
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
+    _rippleControllers = List.generate(
+      8,
+      (_) => AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 400),
+      ),
+    );
+    _squeezeControllers = List.generate(
+      8,
+      (_) => AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 100),
+      ),
+    );
   }
 
   @override
   void dispose() {
     _dancerController.dispose();
-    for (final c in _rippleControllers) { c.dispose(); }
-    for (final c in _squeezeControllers) { c.dispose(); }
+    for (final c in _rippleControllers) {
+      c.dispose();
+    }
+    for (final c in _squeezeControllers) {
+      c.dispose();
+    }
     super.dispose();
   }
 
   void _handlePointer(PointerEvent event) {
     final box = _barsAreaKey.currentContext?.findRenderObject() as RenderBox?;
     if (box == null) return;
-    
+
     final localPosition = box.globalToLocal(event.position);
     final width = box.size.width;
     final barWidth = width / 8;
-    
+
     int barIndex = (localPosition.dx / barWidth).floor();
     barIndex = barIndex.clamp(0, 7);
-    
+
     if (event is PointerDownEvent) {
       _lastTriggeredBar = barIndex;
       _playNote(barIndex);
     } else if (event is PointerMoveEvent) {
       if (barIndex != _lastTriggeredBar) {
-         _lastTriggeredBar = barIndex;
-         _playNote(barIndex);
+        _lastTriggeredBar = barIndex;
+        _playNote(barIndex);
       }
     } else if (event is PointerUpEvent || event is PointerCancelEvent) {
       setState(() => _activeBar = null);
@@ -117,21 +149,22 @@ class _XylophoneGameState extends State<XylophoneGame> with TickerProviderStateM
   }
 
   Offset _getBarTopPos(int index) {
-    final barsBox = _barsAreaKey.currentContext?.findRenderObject() as RenderBox?;
+    final barsBox =
+        _barsAreaKey.currentContext?.findRenderObject() as RenderBox?;
     final stackBox = _stackKey.currentContext?.findRenderObject() as RenderBox?;
     if (barsBox != null && stackBox != null) {
-        final barWidth = barsBox.size.width / 8;
-        final barX = (index + 0.5) * barWidth; 
-        final barY = barsBox.size.height - _barHeights[index];
-        final globalPos = barsBox.localToGlobal(Offset(barX, barY));
-        return stackBox.globalToLocal(globalPos);
+      final barWidth = barsBox.size.width / 8;
+      final barX = (index + 0.5) * barWidth;
+      final barY = barsBox.size.height - _barHeights[index];
+      final globalPos = barsBox.localToGlobal(Offset(barX, barY));
+      return stackBox.globalToLocal(globalPos);
     }
     return Offset.zero;
   }
 
   void _playNote(int index) {
     if (!mounted) return;
-    
+
     setState(() {
       _activeBar = index;
       _playedNotes.add(index);
@@ -141,37 +174,44 @@ class _XylophoneGameState extends State<XylophoneGame> with TickerProviderStateM
 
     if (!widget.lowStimulation) {
       _squeezeControllers[index].forward(from: 0).then((_) {
-         if (mounted) _squeezeControllers[index].reverse();
+        if (mounted) _squeezeControllers[index].reverse();
       });
       _rippleControllers[index].forward(from: 0);
       _dancerController.forward(from: 0).then((_) {
-         if (mounted) _dancerController.reverse();
+        if (mounted) _dancerController.reverse();
       });
-      
+
       final origin = _getBarTopPos(index);
       _spawnFloater(index, origin.dx - 16, origin.dy);
-      
+
       _particlesKey.currentState?.burst(
-         origin: origin,
-         count: 4,
-         style: ParticleStyle.drops,
-         spread: 60,
+        origin: origin,
+        count: 4,
+        style: ParticleStyle.drops,
+        spread: 60,
       );
     }
 
     if (_currentMode == GameMode.freePlay) {
-       if (_playedNotes.length == 8 && !_unlockedFollowMode) {
-          setState(() => _unlockedFollowMode = true);
-       }
+      if (_playedNotes.length >=
+              (widget.stage == 0
+                  ? 2
+                  : widget.stage == 1
+                  ? 4
+                  : 8) &&
+          !_unlockedFollowMode) {
+        setState(() => _unlockedFollowMode = true);
+      }
     } else if (_currentMode == GameMode.follow) {
-       if (index == _melodySequence[_melodyProgress]) {
-         setState(() {
-           _melodyProgress++;
-         });
-         if (_melodyProgress >= _melodySequence.length) {
-            _completeMelody();
-         }
-       }
+      if (_melodyProgress < _melodySequence.length &&
+          index == _melodySequence[_melodyProgress]) {
+        setState(() {
+          _melodyProgress++;
+        });
+        if (_melodyProgress >= _melodySequence.length) {
+          _completeMelody();
+        }
+      }
     }
   }
 
@@ -179,294 +219,355 @@ class _XylophoneGameState extends State<XylophoneGame> with TickerProviderStateM
     SoundEffects.instance.tada();
     widget.onComplete?.call();
     if (!widget.lowStimulation) {
-       final stackBox = _stackKey.currentContext?.findRenderObject() as RenderBox?;
-       if (stackBox != null) {
-          final center = Offset(stackBox.size.width / 2, stackBox.size.height / 2);
-          _particlesKey.currentState?.celebrate(center);
-       }
+      final stackBox =
+          _stackKey.currentContext?.findRenderObject() as RenderBox?;
+      if (stackBox != null) {
+        final center = Offset(
+          stackBox.size.width / 2,
+          stackBox.size.height / 2,
+        );
+        _particlesKey.currentState?.celebrate(center);
+      }
     }
   }
 
   void _spawnFloater(int index, double startX, double startY) {
-     final note = _FloatingNote(_floaterIdCounter++, index, startX, startY);
-     setState(() => _floaters.add(note));
-     Future.delayed(const Duration(milliseconds: 800), () {
-        if (mounted) {
-           setState(() => _floaters.remove(note));
-        }
-     });
+    final note = _FloatingNote(_floaterIdCounter++, index, startX, startY);
+    setState(() => _floaters.add(note));
+    Future.delayed(const Duration(milliseconds: 800), () {
+      if (mounted) {
+        setState(() => _floaters.remove(note));
+      }
+    });
   }
 
   Widget _buildBar(int index, {double? width, double? height}) {
-     final bool isFollowMode = _currentMode == GameMode.follow;
-     final bool isNextInMelody = isFollowMode && _melodyProgress < _melodySequence.length && _melodySequence[_melodyProgress] == index;
-     final bool isActive = _activeBar == index;
-     final barHeight = height ?? _barHeights[index];
+    final bool isFollowMode = _currentMode == GameMode.follow;
+    final bool isNextInMelody =
+        isFollowMode &&
+        _melodyProgress < _melodySequence.length &&
+        _melodySequence[_melodyProgress] == index;
+    final bool isActive = _activeBar == index;
+    final barHeight = height ?? _barHeights[index];
 
-     final bar = AnimatedBuilder(
-        animation: Listenable.merge([_squeezeControllers[index], _rippleControllers[index]]),
-        builder: (context, child) {
-           final squeeze = _squeezeControllers[index].value;
-           final ripple = _rippleControllers[index].value;
-           
-           Color baseColor = _colors[index];
-           if (isActive) baseColor = Color.lerp(baseColor, Colors.white, 0.2)!;
-           final barColor = Color.lerp(baseColor, Colors.white, squeeze * 0.4);
-           
-           return Transform.scale(
-              scaleY: 1.0 - (squeeze * 0.08),
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                 width: width,
-                 height: barHeight,
-                 margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 3),
-                 decoration: BoxDecoration(
-                    color: barColor,
-                    borderRadius: const BorderRadius.all(Radius.circular(16)),
-                    border: Border.all(
-                       color: isNextInMelody ? Colors.white : const Color(0xFFD09C72),
-                       width: isNextInMelody ? 3 : 2,
-                    ),
-                    boxShadow: isNextInMelody ? [
-                       BoxShadow(color: Colors.white.withAlpha(150), blurRadius: 8, spreadRadius: 2)
-                    ] : [
-                       const BoxShadow(color: Colors.black12, blurRadius: 2, offset: Offset(0, 2))
-                    ],
-                 ),
-                 child: Stack(
-                    clipBehavior: Clip.none,
-                    alignment: Alignment.center,
-                    children: [
-                       Positioned(
-                          top: 8,
-                          child: Text(
-                             _fairyIcons[index],
-                             style: TextStyle(fontSize: barHeight > 100 ? 16 : 13),
-                          ),
-                       ),
-                       if (barHeight > 100)
-                         Positioned(
-                            top: 30,
-                            child: CuteFace(
-                               mood: isActive ? FaceMood.singing : FaceMood.happy,
-                               size: 14,
-                               animateBlink: !widget.lowStimulation,
-                            ),
-                         ),
-                       Positioned(
-                          bottom: 12,
-                          child: Text(
-                             index == 7 ? '도' : _notes[index],
-                             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w800, color: Colors.white),
-                          ),
-                       ),
-                       if (ripple > 0 && ripple < 1)
-                          Positioned(
-                             top: barHeight / 2 - 30, 
-                             child: Opacity(
-                                opacity: 1.0 - ripple,
-                                child: Container(
-                                   width: ripple * 60,
-                                   height: ripple * 60,
-                                   decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      border: Border.all(color: Colors.white, width: 3),
-                                   ),
-                                ),
-                             ),
-                          ),
-                    ],
-                 ),
+    final bar = AnimatedBuilder(
+      animation: Listenable.merge([
+        _squeezeControllers[index],
+        _rippleControllers[index],
+      ]),
+      builder: (context, child) {
+        final squeeze = _squeezeControllers[index].value;
+        final ripple = _rippleControllers[index].value;
+
+        Color baseColor = _colors[index];
+        if (isActive) baseColor = Color.lerp(baseColor, Colors.white, 0.2)!;
+        final barColor = Color.lerp(baseColor, Colors.white, squeeze * 0.4);
+
+        return Transform.scale(
+          scaleY: 1.0 - (squeeze * 0.08),
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            width: width,
+            height: barHeight,
+            margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 3),
+            decoration: BoxDecoration(
+              color: barColor,
+              borderRadius: const BorderRadius.all(Radius.circular(16)),
+              border: Border.all(
+                color: isNextInMelody ? Colors.white : const Color(0xFFD09C72),
+                width: isNextInMelody ? 3 : 2,
               ),
-           );
-        },
-     );
+              boxShadow: isNextInMelody
+                  ? [
+                      BoxShadow(
+                        color: Colors.white.withAlpha(150),
+                        blurRadius: 8,
+                        spreadRadius: 2,
+                      ),
+                    ]
+                  : [
+                      const BoxShadow(
+                        color: Colors.black12,
+                        blurRadius: 2,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+            ),
+            child: Stack(
+              clipBehavior: Clip.none,
+              alignment: Alignment.center,
+              children: [
+                Positioned(
+                  top: 8,
+                  child: Text(
+                    _fairyIcons[index],
+                    style: TextStyle(fontSize: barHeight > 100 ? 16 : 13),
+                  ),
+                ),
+                if (barHeight > 100)
+                  Positioned(
+                    top: 30,
+                    child: CuteFace(
+                      mood: isActive ? FaceMood.singing : FaceMood.happy,
+                      size: 14,
+                      animateBlink: !widget.lowStimulation,
+                    ),
+                  ),
+                Positioned(
+                  bottom: 12,
+                  child: Text(
+                    index == 7 ? '도' : _notes[index],
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                if (ripple > 0 && ripple < 1)
+                  Positioned(
+                    top: barHeight / 2 - 30,
+                    child: Opacity(
+                      opacity: 1.0 - ripple,
+                      child: Container(
+                        width: ripple * 60,
+                        height: ripple * 60,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 3),
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
 
-     final interactiveBar = GestureDetector(
-       behavior: HitTestBehavior.opaque,
-       onTapDown: (_) => _playNote(index),
-       onTapUp: (_) => setState(() => _activeBar = null),
-       onTapCancel: () => setState(() => _activeBar = null),
-       child: bar,
-     );
+    final interactiveBar = GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTapDown: (_) => _playNote(index),
+      onTapUp: (_) => setState(() => _activeBar = null),
+      onTapCancel: () => setState(() => _activeBar = null),
+      child: bar,
+    );
 
-     final semanticBar = Semantics(
-       label: '${_noteLabels[index]} 음 연주',
-       button: true,
-       onTap: () => _playNote(index),
-       child: width != null ? SizedBox(width: width, height: barHeight, child: interactiveBar) : interactiveBar,
-     );
+    final semanticBar = Semantics(
+      label: '${_noteLabels[index]} 음 연주',
+      button: true,
+      onTap: () => _playNote(index),
+      child: width != null
+          ? SizedBox(width: width, height: barHeight, child: interactiveBar)
+          : interactiveBar,
+    );
 
-     return width != null ? semanticBar : Expanded(child: semanticBar);
+    return width != null ? semanticBar : Expanded(child: semanticBar);
   }
 
   @override
   Widget build(BuildContext context) {
-      return Stack(
-         key: _stackKey,
-         children: [
-            if (!widget.lowStimulation)
-              CuteBubblesLayer(
-                particlesKey: _particlesKey,
-              ),
-            Column(
-               children: [
-                  if (!widget.lowStimulation) ...[
-                     const SizedBox(height: 16),
-                     Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Row(
-                           children: [
-                              Flexible(
-                                 child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    child: _currentMode == GameMode.freePlay
-                                       ? ForestProgress(count: _playedNotes.length, total: 8)
-                                       : ForestProgress(count: _melodyProgress, total: _melodySequence.length),
-                                 ),
+    return Stack(
+      key: _stackKey,
+      children: [
+        if (!widget.lowStimulation)
+          CuteBubblesLayer(particlesKey: _particlesKey),
+        Column(
+          children: [
+            if (!widget.lowStimulation) ...[
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Flexible(
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: _currentMode == GameMode.freePlay
+                            ? ForestProgress(
+                                count: _playedNotes.length,
+                                total: 8,
+                              )
+                            : ForestProgress(
+                                count: _melodyProgress,
+                                total: _melodySequence.length,
                               ),
-                              const SizedBox(width: 8),
-                              AnimatedBuilder(
-                                 animation: _dancerController,
-                                 builder: (context, child) {
-                                    return Transform.rotate(
-                                       angle: _dancerController.value * 0.05,
-                                       child: Stack(
-                                          alignment: Alignment.center,
-                                          children: [
-                                             const AvatarImage(avatar: 'momo', size: 60, interactive: true),
-                                             CharacterBlushOverlay(
-                                                size: 60,
-                                                isBlushing: _activeBar != null,
-                                             ),
-                                          ],
-                                       ),
-                                    );
-                                 },
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    AnimatedBuilder(
+                      animation: _dancerController,
+                      builder: (context, child) {
+                        return Transform.rotate(
+                          angle: _dancerController.value * 0.05,
+                          child: Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              const AvatarImage(
+                                avatar: 'momo',
+                                size: 60,
+                                interactive: true,
                               ),
-                           ],
-                        ),
-                     ),
-                  ],
-                  const Spacer(),
-                  LayoutBuilder(
-                     builder: (context, constraints) {
-                        final isNarrow = constraints.maxWidth < 500;
-                        if (isNarrow) {
-                           final barW = ((constraints.maxWidth - 36) / 4).clamp(60.0, 84.0);
-                           return Center(
-                              child: Column(
-                                 mainAxisSize: MainAxisSize.min,
-                                 children: [
-                                    Row(
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                       children: List.generate(4, (i) => _buildBar(i, width: barW, height: 110.0)),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Row(
-                                       mainAxisAlignment: MainAxisAlignment.center,
-                                       children: List.generate(4, (i) => _buildBar(i + 4, width: barW, height: 110.0)),
-                                    ),
-                                 ],
+                              CharacterBlushOverlay(
+                                size: 60,
+                                isBlushing: _activeBar != null,
                               ),
-                           );
-                        }
-
-                        return SizedBox(
-                           height: 200,
-                           child: Stack(
-                              alignment: Alignment.bottomCenter,
-                              children: [
-                                 Positioned(
-                                    bottom: 10,
-                                    left: 16,
-                                    right: 16,
-                                    height: 12,
-                                    child: Container(
-                                       decoration: BoxDecoration(
-                                          color: const Color(0xFF8B5A2B),
-                                          borderRadius: BorderRadius.circular(6),
-                                       ),
-                                    ),
-                                 ),
-                                 Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                                    child: Listener(
-                                       onPointerDown: _handlePointer,
-                                       onPointerMove: _handlePointer,
-                                       onPointerUp: _handlePointerUp,
-                                       onPointerCancel: _handlePointerUp,
-                                       child: Container(
-                                          key: _barsAreaKey,
-                                          height: 180,
-                                          color: Colors.transparent,
-                                          child: Row(
-                                             crossAxisAlignment: CrossAxisAlignment.end,
-                                             children: List.generate(8, (i) => _buildBar(i)),
-                                          ),
-                                       ),
-                                    ),
-                                 ),
-                              ],
-                           ),
+                            ],
+                          ),
                         );
-                     },
-                  ),
-                  const SizedBox(height: 24),
-                  if (_unlockedFollowMode)
-                     Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                           _buildModeButton(GameMode.freePlay, '자유 연주', Icons.music_note_rounded),
-                           const SizedBox(width: 16),
-                           _buildModeButton(GameMode.follow, '따라하기', Icons.library_music_rounded),
-                        ],
-                     )
-                  else
-                     const SizedBox(height: 98),
-                  const SizedBox(height: 16),
-               ],
-            ),
-            
-            ..._floaters.map((f) => TweenAnimationBuilder<double>(
-               key: ValueKey(f.id),
-               duration: const Duration(milliseconds: 800),
-               tween: Tween(begin: 0.0, end: 1.0),
-               builder: (context, val, child) {
-                  return Positioned(
-                     left: f.startX,
-                     top: f.startY - (val * 80),
-                     child: Opacity(
-                        opacity: 1.0 - val,
-                        child: Text('♪', style: TextStyle(fontSize: 32, color: _colors[f.barIndex], fontWeight: FontWeight.bold)),
-                     ),
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+            const Spacer(),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final isNarrow = constraints.maxWidth < 500;
+                if (isNarrow) {
+                  final barW = ((constraints.maxWidth - 36) / 4).clamp(
+                    60.0,
+                    84.0,
                   );
-               },
-            )),
-            
-            if (!widget.lowStimulation)
-               GameParticles(key: _particlesKey),
-         ],
-      );
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                            4,
+                            (i) => _buildBar(i, width: barW, height: 110.0),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(
+                            4,
+                            (i) => _buildBar(i + 4, width: barW, height: 110.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                return SizedBox(
+                  height: 200,
+                  child: Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Positioned(
+                        bottom: 10,
+                        left: 16,
+                        right: 16,
+                        height: 12,
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF8B5A2B),
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Listener(
+                          onPointerDown: _handlePointer,
+                          onPointerMove: _handlePointer,
+                          onPointerUp: _handlePointerUp,
+                          onPointerCancel: _handlePointerUp,
+                          child: Container(
+                            key: _barsAreaKey,
+                            height: 180,
+                            color: Colors.transparent,
+                            child: IgnorePointer(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: List.generate(8, (i) => _buildBar(i)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 24),
+            if (_unlockedFollowMode)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _buildModeButton(
+                    GameMode.freePlay,
+                    '자유 연주',
+                    Icons.music_note_rounded,
+                  ),
+                  const SizedBox(width: 16),
+                  _buildModeButton(
+                    GameMode.follow,
+                    '따라하기',
+                    Icons.library_music_rounded,
+                  ),
+                ],
+              )
+            else
+              const SizedBox(height: 98),
+            const SizedBox(height: 16),
+          ],
+        ),
+
+        ..._floaters.map(
+          (f) => TweenAnimationBuilder<double>(
+            key: ValueKey(f.id),
+            duration: const Duration(milliseconds: 800),
+            tween: Tween(begin: 0.0, end: 1.0),
+            builder: (context, val, child) {
+              return Positioned(
+                left: f.startX,
+                top: f.startY - (val * 80),
+                child: Opacity(
+                  opacity: 1.0 - val,
+                  child: Text(
+                    '♪',
+                    style: TextStyle(
+                      fontSize: 32,
+                      color: _colors[f.barIndex],
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+
+        if (!widget.lowStimulation) GameParticles(key: _particlesKey),
+      ],
+    );
   }
 
   Widget _buildModeButton(GameMode mode, String text, IconData icon) {
-     final isSelected = _currentMode == mode;
-     return ForestAction(
-        label: text,
-        onPressed: () {
-           if (_currentMode != mode) {
-              setState(() {
-                 _currentMode = mode;
-                 _melodyProgress = 0;
-              });
-           }
-        },
-        leaf: true,
-        selected: isSelected,
-        size: 72,
-        caption: text,
-        child: Icon(icon, color: forestCream, size: 36),
-     );
+    final isSelected = _currentMode == mode;
+    return ForestAction(
+      label: text,
+      onPressed: () {
+        if (_currentMode != mode) {
+          setState(() {
+            _currentMode = mode;
+            _melodyProgress = 0;
+          });
+        }
+      },
+      leaf: true,
+      selected: isSelected,
+      size: 72,
+      caption: text,
+      child: Icon(icon, color: forestCream, size: 36),
+    );
   }
 }

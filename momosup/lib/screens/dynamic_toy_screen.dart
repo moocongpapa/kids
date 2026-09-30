@@ -1,4 +1,9 @@
-import 'dart:async';
+import '../data/play_catalog.dart';
+export '../data/play_catalog.dart' show DynamicToyType;
+import '../utils/play_session.dart';
+import '../utils/play_checkpoint.dart';
+import '../utils/audio_policy.dart';
+
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -15,15 +20,15 @@ import '../widgets/games/peekaboo_game.dart';
 import '../widgets/games/xylophone_game.dart';
 import '../widgets/games/silhouette_puzzle_game.dart';
 
-enum DynamicToyType { feeding, sorting, peekaboo, xylophone, puzzle }
-
 class DynamicToyScreen extends StatefulWidget {
   const DynamicToyScreen({
     required this.toyType,
     required this.appState,
     required this.profile,
+    this.preview = false,
     super.key,
   });
+  final bool preview;
   final DynamicToyType toyType;
   final AppState appState;
   final ChildProfile profile;
@@ -32,47 +37,63 @@ class DynamicToyScreen extends StatefulWidget {
 }
 
 class _DynamicToyScreenState extends State<DynamicToyScreen> {
-  final Stopwatch stopwatch = Stopwatch();
+  late final PlaySession session;
+  late final PlayCheckpoint checkpoint;
   bool ended = false;
   bool complete = false;
-  Timer? sessionTimer;
+
   @override
   void initState() {
     super.initState();
+    AudioPolicy.instance.configure(widget.profile);
+    checkpoint = PlayCheckpoint(
+      widget.appState,
+      widget.profile.id,
+      'toy_${widget.toyType.name}',
+      () => {'complete': ended},
+      preview: widget.preview,
+      onError: () => session.reportSaveError(),
+    );
+    session = PlaySession(
+      limitSeconds: widget.preview
+          ? 180
+          : math.min(
+              180,
+              widget.appState.secondsRemaining(
+                widget.profile.id,
+                widget.profile.dailyLimitMinutes,
+              ),
+            ),
+      onExpire: finish,
+      onPause: () => checkpoint.event('interruptions'),
+      onResume: () {},
+      onCheckpoint: checkpoint.checkpoint,
+    );
     if (widget.profile.ageMonths < 36 || widget.profile.ageMonths >= 72) {
       ended = true;
       return;
     }
     ForestAudio.instance.pauseBgm();
-    stopwatch.start();
-    final remaining =
-        widget.profile.dailyLimitMinutes -
-        widget.appState.minutesToday(widget.profile.id);
-    sessionTimer = Timer(
-      Duration(minutes: math.max(1, math.min(3, remaining))),
-      finish,
-    );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) session.start();
+    });
   }
 
   @override
   void dispose() {
-    ForestAudio.instance.startBgm(enabled: widget.profile.musicOn && !widget.profile.caregiverMode);
-    sessionTimer?.cancel();
-    stopwatch.stop();
+    ForestAudio.instance.startBgm(
+      enabled: widget.profile.musicOn && !widget.profile.caregiverMode,
+    );
+    session.dispose();
+    checkpoint.dispose();
     super.dispose();
   }
 
   void finish() {
     if (ended) return;
-    sessionTimer?.cancel();
-    stopwatch.stop();
     setState(() => ended = true);
+    session.finish();
     SoundEffects.instance.tada();
-    widget.appState.recordPlay(
-      profileId: widget.profile.id,
-      activityId: 'toy_${widget.toyType.name}',
-      seconds: math.max(1, stopwatch.elapsed.inSeconds),
-    );
   }
 
   void markComplete() {
@@ -109,109 +130,127 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
     final quiet =
         widget.profile.lowStimulation ||
         MediaQuery.disableAnimationsOf(context);
-    return PopScope(
-      canPop: ended,
-      onPopInvokedWithResult: (didPop, _) {
-        if (!didPop) finish();
-      },
-      child: Scaffold(
-        body: ForestBackground(
-          lowStimulation: quiet,
-          clearing: true,
-          child: SafeArea(
-            child: Column(
-              children: [
-                ForestHeader(
-                  title: title,
-                  onExit: ended ? () => Navigator.of(context).pop() : finish,
-                ),
-                Expanded(
-                  child: Center(
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 650),
-                      child: ended
-                          ? SingleChildScrollView(
-                              child: ForestCompletion(
-                                avatar: avatar,
-                                offscreen: offscreen,
-                                quiet: quiet,
-                                onHome: () => Navigator.of(context).pop(),
-                              ),
-                            )
-                          : LayoutBuilder(
-                              builder: (_, box) {
-                                final height = math.max(440.0, box.maxHeight);
-                                return SingleChildScrollView(
-                                  physics: box.maxHeight >= 440
-                                      ? const NeverScrollableScrollPhysics()
-                                      : null,
-                                  child: SizedBox(
-                                    height: height,
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 16,
-                                      ),
-                                      child: Column(
-                                        children: [
-                                          Expanded(
-                                            child: switch (widget.toyType) {
-                                              DynamicToyType.feeding =>
-                                                FeedingGame(
-                                                  lowStimulation: quiet,
-                                                  onComplete: markComplete,
-                                                ),
-                                              DynamicToyType.sorting =>
-                                                SortingGame(
-                                                  lowStimulation: quiet,
-                                                  onComplete: markComplete,
-                                                ),
-                                              DynamicToyType.peekaboo =>
-                                                PeekabooGame(
-                                                  lowStimulation: quiet,
-                                                  onComplete: markComplete,
-                                                ),
-                                              DynamicToyType.xylophone =>
-                                                XylophoneGame(
-                                                  lowStimulation: quiet,
-                                                  onComplete: markComplete,
-                                                ),
-                                              DynamicToyType.puzzle =>
-                                                SilhouettePuzzleGame(
-                                                  lowStimulation: quiet,
-                                                  onComplete: markComplete,
-                                                ),
-                                            },
-                                          ),
-                                          Padding(
-                                            padding: const EdgeInsets.only(
-                                              bottom: 12,
-                                              top: 4,
+    return PlaySessionView(
+      session: session,
+      child: PopScope(
+        canPop: ended,
+        onPopInvokedWithResult: (didPop, _) {
+          if (!didPop) finish();
+        },
+        child: Scaffold(
+          body: ForestBackground(
+            lowStimulation: quiet,
+            clearing: true,
+            child: SafeArea(
+              child: Column(
+                children: [
+                  ForestHeader(
+                    title: title,
+                    onExit: ended ? () => Navigator.of(context).pop() : finish,
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: ConstrainedBox(
+                        constraints: const BoxConstraints(maxWidth: 650),
+                        child: ended
+                            ? SingleChildScrollView(
+                                child: ForestCompletion(
+                                  avatar: avatar,
+                                  offscreen: offscreen,
+                                  quiet: quiet,
+                                  onHome: () => Navigator.of(context).pop(),
+                                ),
+                              )
+                            : LayoutBuilder(
+                                builder: (_, box) {
+                                  final height = math.max(440.0, box.maxHeight);
+                                  return SingleChildScrollView(
+                                    physics: box.maxHeight >= 440
+                                        ? const NeverScrollableScrollPhysics()
+                                        : null,
+                                    child: SizedBox(
+                                      height: height,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 16,
+                                        ),
+                                        child: Column(
+                                          children: [
+                                            Expanded(
+                                              child: switch (widget.toyType) {
+                                                DynamicToyType.feeding =>
+                                                  FeedingGame(
+                                                    lowStimulation: quiet,
+                                                    stage: widget.profile.stageFor(
+                                                      'toy_${widget.toyType.name}',
+                                                    ),
+                                                    onComplete: markComplete,
+                                                  ),
+                                                DynamicToyType.sorting =>
+                                                  SortingGame(
+                                                    lowStimulation: quiet,
+                                                    stage: widget.profile.stageFor(
+                                                      'toy_${widget.toyType.name}',
+                                                    ),
+                                                    onComplete: markComplete,
+                                                  ),
+                                                DynamicToyType.peekaboo =>
+                                                  PeekabooGame(
+                                                    lowStimulation: quiet,
+                                                    stage: widget.profile.stageFor(
+                                                      'toy_${widget.toyType.name}',
+                                                    ),
+                                                    onComplete: markComplete,
+                                                  ),
+                                                DynamicToyType.xylophone =>
+                                                  XylophoneGame(
+                                                    lowStimulation: quiet,
+                                                    stage: widget.profile.stageFor(
+                                                      'toy_${widget.toyType.name}',
+                                                    ),
+                                                    onComplete: markComplete,
+                                                  ),
+                                                DynamicToyType.puzzle =>
+                                                  SilhouettePuzzleGame(
+                                                    lowStimulation: quiet,
+                                                    stage: widget.profile.stageFor(
+                                                      'toy_${widget.toyType.name}',
+                                                    ),
+                                                    onComplete: markComplete,
+                                                  ),
+                                              },
                                             ),
-                                            child: ForestAction(
-                                              label: '놀이 마치기',
-                                              size: 70,
-                                              leaf: true,
-                                              quiet: quiet,
-                                              caption: complete
-                                                  ? '다 했어!'
-                                                  : '쉬어요',
-                                              onPressed: finish,
-                                              icon: complete
-                                                  ? Icons.check_rounded
-                                                  : Icons.spa_rounded,
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                bottom: 12,
+                                                top: 4,
+                                              ),
+                                              child: ForestAction(
+                                                label: '놀이 마치기',
+                                                size: 70,
+                                                leaf: true,
+                                                quiet: quiet,
+                                                caption: complete
+                                                    ? '다 했어!'
+                                                    : '쉬어요',
+                                                onPressed: finish,
+                                                icon: complete
+                                                    ? Icons.check_rounded
+                                                    : Icons.spa_rounded,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
-                            ),
+                                  );
+                                },
+                              ),
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -1,3 +1,6 @@
+import '../game/build_experiment.dart';
+import '../game/forest_experiment_scene.dart';
+
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -27,7 +30,7 @@ class JourneyBuildPiece extends StatelessWidget {
           showBlush: !quiet,
         )
       : id == 'age_60_06' || id == 'age_84_02'
-      ? value == 2
+      ? value == (id == 'age_84_02' ? 1 : 2)
             ? const ForestProp(ForestObject.home, size: 72)
             : GardenFlower(variant: value, open: true, size: 72, quiet: quiet)
       : CustomPaint(
@@ -46,8 +49,12 @@ class JourneyBuildBoard extends StatelessWidget {
     required this.quiet,
     required this.onPlace,
     this.onDrop,
+    this.trial,
+    this.onTrialFinished,
     super.key,
   });
+  final BuildTrial? trial;
+  final VoidCallback? onTrialFinished;
   final String id;
   final Map<int, int> slots;
   final int count, active;
@@ -159,7 +166,7 @@ class JourneyBuildBoard extends StatelessWidget {
                                       painter: _HousePart(i, slots[i] ?? 0),
                                     )
                                   : garden
-                                  ? (slots[i] == 2
+                                  ? (slots[i] == (id == 'age_84_02' ? 1 : 2)
                                         ? const ForestProp(
                                             ForestObject.home,
                                             size: 100,
@@ -181,30 +188,54 @@ class JourneyBuildBoard extends StatelessWidget {
                   ),
                 ),
               ),
-            AnimatedPositioned(
-              duration: quiet
-                  ? Duration.zero
-                  : const Duration(milliseconds: 370),
-              curve: Curves.easeInOut,
-              left: active < 0
-                  ? 4
-                  : positions[active.clamp(0, count - 1)].center.dx - 32,
-              top: active < 0
-                  ? (house || garden ? 228 : 97)
-                  : (positions[active.clamp(0, count - 1)].top - 58).clamp(
-                      0.0,
-                      240.0,
-                    ),
-              width: 70,
-              height: 70,
-              child: AvatarImage(
-                avatar: 'duri',
-                size: 70,
-                interactive: false,
-                lowStimulation: quiet,
+            if (trial == null)
+              AnimatedPositioned(
+                duration: quiet
+                    ? Duration.zero
+                    : const Duration(milliseconds: 370),
+                curve: Curves.easeInOut,
+                left: active < 0
+                    ? 4
+                    : positions[active.clamp(0, count - 1)].center.dx - 32,
+                top: active < 0
+                    ? (house || garden ? 228 : 97)
+                    : (positions[active.clamp(0, count - 1)].top - 58).clamp(
+                        0.0,
+                        240.0,
+                      ),
+                width: 70,
+                height: 70,
+                child: AvatarImage(
+                  avatar: 'duri',
+                  size: 70,
+                  interactive: false,
+                  lowStimulation: quiet,
+                ),
+              ),
+            Positioned.fill(
+              key: const ValueKey('build_simulation'),
+              child: ForestExperimentScene(
+                trial: trial,
+                quiet: quiet,
+                onFinished: onTrialFinished ?? () {},
               ),
             ),
-            if (slots.length == count)
+            if (trial != null && active < 0 && !trial!.evaluate().success)
+              Positioned.fromRect(
+                rect: positions[trial!.evaluate().problemSlot!],
+                child: IgnorePointer(
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: const Color(0xFFE5B55E),
+                        width: 5,
+                      ),
+                      borderRadius: BorderRadius.circular(18),
+                    ),
+                  ),
+                ),
+              ),
+            if (trial != null && active < 0 && trial!.evaluate().success)
               const Positioned(
                 right: 12,
                 bottom: 13,
@@ -381,14 +412,36 @@ class _BridgePlank extends CustomPainter {
   final int variant;
   @override
   void paint(Canvas c, Size s) {
+    if (variant == 2) {
+      final leaf = Path()
+        ..moveTo(5, s.height * .7)
+        ..quadraticBezierTo(s.width * .2, 0, s.width - 5, s.height * .2)
+        ..quadraticBezierTo(s.width * .9, s.height, s.width * .1, s.height * .9)
+        ..close();
+      c.drawShadow(leaf, const Color(0x66607142), 3, false);
+      c.drawPath(leaf, Paint()..color = const Color(0xFF91B875));
+      c.drawLine(
+        Offset(8, s.height * .8),
+        Offset(s.width - 14, s.height * .3),
+        Paint()
+          ..color = const Color(0xFFCCE2AA)
+          ..strokeWidth = 3,
+      );
+      return;
+    }
     final color = [
       const Color(0xFFD0A26A),
       const Color(0xFFB68C67),
       const Color(0xFFE0BA82),
     ][variant % 3];
-    final h = s.height * .23;
-    for (var i = 0; i < 3; i++) {
-      final r = Rect.fromLTWH(3, 5 + i * s.height * .29, s.width - 6, h);
+    final h = s.height * (variant == 1 ? .32 : .18);
+    for (var i = 0; i < (variant == 1 ? 2 : 3); i++) {
+      final r = Rect.fromLTWH(
+        3,
+        5 + i * s.height * (variant == 1 ? .42 : .29),
+        s.width - 6,
+        h,
+      );
       final plank = RRect.fromRectAndRadius(r, const Radius.circular(7));
       c.drawRRect(
         plank.shift(const Offset(0, 4)),

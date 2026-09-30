@@ -20,8 +20,10 @@ class JourneyStoryScene extends StatelessWidget {
     required this.ready,
     required this.quiet,
     required this.onChoose,
+    this.stage = 1,
     super.key,
   });
+  final int stage;
   final String id, avatar;
   final int step, selected;
   final int reaction;
@@ -115,11 +117,9 @@ class JourneyStoryScene extends StatelessWidget {
                                 quiet: quiet,
                                 passengers: [
                                   for (var i = 0; i < history.length; i++)
-                                    ['momo', 'duri', 'nuri'][(i +
-                                            (history[i] == ForestObject.paw
-                                                ? 1
-                                                : 0)) %
-                                        3],
+                                    history[i] == ForestObject.paw
+                                        ? 'duri'
+                                        : 'momo',
                                 ],
                               ),
                             ),
@@ -249,6 +249,20 @@ class JourneyStoryScene extends StatelessWidget {
                               ),
                             ),
                           ),
+                        if (weather &&
+                            step > 0 &&
+                            history.firstOrNull == ForestObject.cloud &&
+                            gift != ForestObject.leaf &&
+                            gift != ForestObject.home)
+                          const Positioned(
+                            top: 100,
+                            right: 10,
+                            child: Icon(
+                              Icons.water_drop_rounded,
+                              size: 52,
+                              color: Color(0xFF72A4BB),
+                            ),
+                          ),
                         if (weather && ready && gift == ForestObject.leaf)
                           Positioned(
                             left: box.maxWidth * .22,
@@ -317,17 +331,29 @@ class JourneyStoryScene extends StatelessWidget {
         children: [
           for (var i = 0; i < options.length; i++)
             TouchInvitation(
-              visible: !ready && i == 0,
+              visible: !ready && i == 0 && stage < 2,
+              delay: stage == 1 ? const Duration(seconds: 8) : Duration.zero,
               quiet: quiet,
               key: ValueKey('story-cue-$step-$i'),
               child: PlayPiece(
-                label: labels[i],
+                label: bus && step < 2
+                    ? (options[i] == ForestObject.paw ? '두리 태우기' : '모모 태우기')
+                    : labels[i],
                 dragValue: i,
                 selected: ready && selected == i,
                 quiet: quiet,
                 size: 88,
                 onTap: () => onChoose(i),
-                child: ForestProp(options[i], size: 74),
+                child: bus && step < 2
+                    ? AvatarImage(
+                        avatar: options[i] == ForestObject.paw
+                            ? 'duri'
+                            : 'momo',
+                        size: 74,
+                        interactive: false,
+                        lowStimulation: quiet,
+                      )
+                    : ForestProp(options[i], size: 74),
               ),
             ),
         ],

@@ -13,6 +13,7 @@ dependencies:
   path_provider: ^2.1.6
   crypto: ^3.0.7
   just_audio: ^0.10.6
+  flame: 1.38.2
 
 dev_dependencies:
   flutter_test:

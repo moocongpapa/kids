@@ -54,6 +54,7 @@ void main() {
               parent: true,
             ),
             _ => JourneyPlayScreen(
+              randomSeed: 42,
               journey: a,
               appState: state,
               profile: p.copyWith(ageMonths: a.minAge, playStage: 2),

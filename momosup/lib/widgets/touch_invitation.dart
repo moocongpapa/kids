@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 /// Two gentle demonstrations, then silence. Never intercepts a child's touch.
@@ -7,8 +9,10 @@ class TouchInvitation extends StatefulWidget {
     required this.visible,
     required this.quiet,
     this.drag = false,
+    this.delay = Duration.zero,
     super.key,
   });
+  final Duration delay;
   final Widget child;
   final bool visible, quiet, drag;
   @override
@@ -17,6 +21,8 @@ class TouchInvitation extends StatefulWidget {
 
 class _TouchInvitationState extends State<TouchInvitation>
     with SingleTickerProviderStateMixin {
+  Timer? wait;
+  bool allowed = false;
   late final AnimationController controller = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 3600),
@@ -35,6 +41,20 @@ class _TouchInvitationState extends State<TouchInvitation>
   }
 
   void _sync() {
+    if (!widget.visible) {
+      wait?.cancel();
+      wait = null;
+      allowed = false;
+    }
+    if (widget.delay == Duration.zero) allowed = true;
+    if (widget.visible && !allowed) {
+      wait ??= Timer(widget.delay, () {
+        if (!mounted) return;
+        setState(() => allowed = true);
+        _sync();
+      });
+      return;
+    }
     if (widget.quiet ||
         MediaQuery.disableAnimationsOf(context) ||
         !widget.visible) {
@@ -46,6 +66,7 @@ class _TouchInvitationState extends State<TouchInvitation>
 
   @override
   void dispose() {
+    wait?.cancel();
     controller.dispose();
     super.dispose();
   }
@@ -57,7 +78,7 @@ class _TouchInvitationState extends State<TouchInvitation>
       alignment: Alignment.center,
       children: [
         widget.child,
-        if (widget.visible)
+        if (widget.visible && allowed)
           Positioned.fill(
             child: IgnorePointer(
               child: ExcludeSemantics(

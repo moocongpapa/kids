@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../utils/sound_effects.dart';
@@ -9,9 +10,15 @@ import '../game_particles.dart';
 import '../cute_game_effects.dart';
 
 class PeekabooGame extends StatefulWidget {
-  const PeekabooGame({this.onComplete, this.lowStimulation = false, super.key});
+  const PeekabooGame({
+    this.onComplete,
+    this.lowStimulation = false,
+    this.stage = 1,
+    super.key,
+  });
   final VoidCallback? onComplete;
   final bool lowStimulation;
+  final int stage;
   @override
   State<PeekabooGame> createState() => _PeekabooGameState();
 }
@@ -54,12 +61,14 @@ class _PeekabooGameState extends State<PeekabooGame> {
         : (['momo', 'duri', 'nuri']..shuffle(_rng));
     final bushes = widget.lowStimulation
         ? [ForestObject.bush, ForestObject.leaf, ForestObject.flower]
-        : ([ForestObject.bush, ForestObject.leaf, ForestObject.flower]..shuffle(_rng));
+        : ([ForestObject.bush, ForestObject.leaf, ForestObject.flower]
+            ..shuffle(_rng));
     activeSpots = widget.lowStimulation
         ? [0, 1, 2]
         : (([0, 1, 2, 3, 4]..shuffle(_rng)).sublist(0, 3)..sort());
 
-    for (int i = 0; i < 3; i++) {
+    activeSpots = activeSpots.take(widget.stage == 0 ? 1 : 3).toList();
+    for (int i = 0; i < activeSpots.length; i++) {
       final spot = activeSpots[i];
       spotCharacter[spot] = chars[i];
       spotBush[spot] = bushes[i];
@@ -103,7 +112,7 @@ class _PeekabooGameState extends State<PeekabooGame> {
   void _handleTap(int i) {
     if (spotRevealState[i] == 2) return;
 
-    if (widget.lowStimulation) {
+    if (widget.stage < 2) {
       setState(() {
         spotRevealState[i] = 2;
         totalFound++;
@@ -137,7 +146,8 @@ class _PeekabooGameState extends State<PeekabooGame> {
   }
 
   void _checkRoundComplete() {
-    if (spotRevealState.values.where((v) => v == 2).length == 3) {
+    if (spotRevealState.values.where((v) => v == 2).length ==
+        activeSpots.length) {
       widget.onComplete?.call();
       if (widget.lowStimulation) return;
       Future.delayed(const Duration(milliseconds: 500), () {
@@ -149,16 +159,6 @@ class _PeekabooGameState extends State<PeekabooGame> {
           style: ParticleStyle.confetti,
           spread: 200,
         );
-
-        if (round < 5) {
-          Future.delayed(const Duration(milliseconds: 2500), () {
-            if (!mounted) return;
-            setState(() {
-              round++;
-              _setupRound();
-            });
-          });
-        }
       });
     }
   }
@@ -277,7 +277,8 @@ class _PeekabooSpot extends StatefulWidget {
   State<_PeekabooSpot> createState() => _PeekabooSpotState();
 }
 
-class _PeekabooSpotState extends State<_PeekabooSpot> with TickerProviderStateMixin {
+class _PeekabooSpotState extends State<_PeekabooSpot>
+    with TickerProviderStateMixin {
   late final AnimationController _teaseController;
   late final AnimationController _peekController;
   late final AnimationController _springController;
@@ -287,10 +288,22 @@ class _PeekabooSpotState extends State<_PeekabooSpot> with TickerProviderStateMi
   @override
   void initState() {
     super.initState();
-    _teaseController = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
-    _peekController = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
-    _springController = AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
-    _waveController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
+    _teaseController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    _peekController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _springController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _waveController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1500),
+    );
   }
 
   @override
@@ -328,12 +341,15 @@ class _PeekabooSpotState extends State<_PeekabooSpot> with TickerProviderStateMi
   void _scheduleIdle() {
     _idleTimer?.cancel();
     if (widget.revealState != 2) return;
-    _idleTimer = Timer(Duration(milliseconds: 4000 + math.Random().nextInt(2000)), () {
-      if (mounted && widget.revealState == 2) {
-        _waveController.forward(from: 0);
-        _scheduleIdle();
-      }
-    });
+    _idleTimer = Timer(
+      Duration(milliseconds: 4000 + math.Random().nextInt(2000)),
+      () {
+        if (mounted && widget.revealState == 2) {
+          _waveController.forward(from: 0);
+          _scheduleIdle();
+        }
+      },
+    );
   }
 
   String get _semanticsLabel {
@@ -352,15 +368,32 @@ class _PeekabooSpotState extends State<_PeekabooSpot> with TickerProviderStateMi
         top: 0,
         child: FadeTransition(
           opacity: _peekController,
-          child: const Text('어...?', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: forestInk)),
+          child: const Text(
+            '어...?',
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: forestInk,
+            ),
+          ),
         ),
       );
     } else if (widget.revealState == 2) {
       return Positioned(
         top: 0,
         child: ScaleTransition(
-          scale: CurvedAnimation(parent: _springController, curve: Curves.elasticOut),
-          child: const Text('까꿍!', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900, color: forestInk)),
+          scale: CurvedAnimation(
+            parent: _springController,
+            curve: Curves.elasticOut,
+          ),
+          child: const Text(
+            '까꿍!',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w900,
+              color: forestInk,
+            ),
+          ),
         ),
       );
     }
@@ -380,16 +413,27 @@ class _PeekabooSpotState extends State<_PeekabooSpot> with TickerProviderStateMi
           width: 150,
           height: 170,
           child: AnimatedBuilder(
-            animation: Listenable.merge([_teaseController, _peekController, _springController, _waveController]),
+            animation: Listenable.merge([
+              _teaseController,
+              _peekController,
+              _springController,
+              _waveController,
+            ]),
             builder: (context, child) {
-              double baseBottom = widget.lowStimulation ? 0 : (_peekController.value * 45);
+              double baseBottom = widget.lowStimulation
+                  ? 0
+                  : (_peekController.value * 45);
               double springDist = 80 - (widget.lowStimulation ? 0 : 45);
-              double bottom = math.sin(_teaseController.value * math.pi) * 15 +
-                              baseBottom +
-                              Curves.elasticOut.transform(_springController.value) * springDist;
+              double bottom =
+                  math.sin(_teaseController.value * math.pi) * 15 +
+                  baseBottom +
+                  Curves.elasticOut.transform(_springController.value) *
+                      springDist;
 
-              double teaseAngle = math.sin(_teaseController.value * math.pi * 3) * 0.087;
-              double waveAngle = math.sin(_waveController.value * math.pi * 6) * 0.08;
+              double teaseAngle =
+                  math.sin(_teaseController.value * math.pi * 3) * 0.087;
+              double waveAngle =
+                  math.sin(_waveController.value * math.pi * 6) * 0.08;
 
               return Stack(
                 alignment: Alignment.bottomCenter,
@@ -416,12 +460,18 @@ class _PeekabooSpotState extends State<_PeekabooSpot> with TickerProviderStateMi
                       ),
                     ),
                   ),
-                  if (widget.revealState == 0 && !widget.lowStimulation && widget.teaseCount > 0)
+                  if (widget.revealState == 0 &&
+                      !widget.lowStimulation &&
+                      widget.teaseCount > 0)
                     Positioned(
-                      bottom: 58 + math.sin(_teaseController.value * math.pi) * 16,
+                      bottom:
+                          58 + math.sin(_teaseController.value * math.pi) * 16,
                       child: Opacity(
                         opacity: (_teaseController.value * 2).clamp(0.0, 1.0),
-                        child: const CuteFace(size: 36, mood: FaceMood.surprised),
+                        child: const CuteFace(
+                          size: 36,
+                          mood: FaceMood.surprised,
+                        ),
                       ),
                     ),
                   Transform.rotate(
@@ -429,10 +479,7 @@ class _PeekabooSpotState extends State<_PeekabooSpot> with TickerProviderStateMi
                     child: ForestFloat(
                       still: widget.lowStimulation || widget.revealState == 2,
                       offset: 0,
-                      child: ForestProp(
-                        widget.bush,
-                        size: 143,
-                      ),
+                      child: ForestProp(widget.bush, size: 143),
                     ),
                   ),
                   _buildText(),
