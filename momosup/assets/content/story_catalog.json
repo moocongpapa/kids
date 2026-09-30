@@ -1,0 +1,82 @@
+{
+  "version": "story-pilot-2026-09-30",
+  "productionStatus": "AWAITING_GEMINI_PROJECT_SPEND_CAP",
+  "episodes": [],
+  "previews": [
+    {
+      "id": "story_cloud",
+      "title": "구름아, 내 마음을 들어줘",
+      "series": "마음 날씨 숲",
+      "minAgeMonths": 24,
+      "maxAgeMonths": 35,
+      "theme": "내 마음을 말로 표현하기",
+      "parentPrompt": "아이의 표정을 따라 해 보고, 지금 마음을 한 단어로 이야기해 보세요. 대답을 재촉하지 않아도 괜찮아요.",
+      "durationSeconds": 47,
+      "videoAsset": "assets/stories/story_cloud_preview.mp4",
+      "titleAudioAsset": "assets/stories/story_cloud_preview_intro.m4a",
+      "posterAsset": "assets/stories/story_cloud.jpg",
+      "musicAsset": "",
+      "status": "PRODUCTION_PREVIEW",
+      "automatedReviewPassed": true,
+      "humanReviewedAt": null,
+      "note": "Opening three scenes only. The complete film and new score are pending the Google project monthly spend cap. Available only in the parent preview.",
+      "videoModel": "gemini-omni-1.1-flash",
+      "voiceModel": "gemini-3.8-flash-tts",
+      "assetHashes": {
+        "assets/stories/story_cloud_preview.mp4": "a4cd783b78608f1fea97958d0225566eb488552e5f00224e43dd6f07d555fca3",
+        "assets/stories/story_cloud.jpg": "b38dc811ab2b95ce745abf58fdd3aa95e1135e37b6134f4b1af801c715cdb130",
+        "assets/stories/story_cloud_preview_intro.m4a": "532379241f2585c6dab8ba645ffa4bb0d07728c879a8c304749c32ccabcd0a1e"
+      }
+    },
+    {
+      "id": "story_swing",
+      "title": "그네 하나, 친구 셋",
+      "series": "우당탕 친구들",
+      "minAgeMonths": 36,
+      "maxAgeMonths": 71,
+      "theme": "차례를 정하고 기다리기",
+      "parentPrompt": "집에 있는 장난감 하나로 차례를 바꿔 보세요. 기다리는 동안 무엇을 하고 싶은지도 함께 정해 보세요.",
+      "durationSeconds": 47,
+      "videoAsset": "assets/stories/story_swing_preview.mp4",
+      "titleAudioAsset": "assets/stories/story_swing_preview_intro.m4a",
+      "posterAsset": "assets/stories/story_swing.jpg",
+      "musicAsset": "",
+      "status": "PRODUCTION_PREVIEW",
+      "automatedReviewPassed": true,
+      "humanReviewedAt": null,
+      "note": "Opening three scenes only. The complete film and new score are pending the Google project monthly spend cap. Available only in the parent preview.",
+      "videoModel": "gemini-omni-1.1-flash",
+      "voiceModel": "gemini-3.8-flash-tts",
+      "assetHashes": {
+        "assets/stories/story_swing_preview.mp4": "21164f046b7259382ea1563c7f4d704b76331898f1b7dd2ec969567ab36f8010",
+        "assets/stories/story_swing.jpg": "4cf26e1f5c3d17dc3a7e9fdbed93e223b230d72c16ddd78239dcb7a15f935cce",
+        "assets/stories/story_swing_preview_intro.m4a": "8a56352f61598cf6212df0289da1b05643c3759af3c6274d9fb709e931642a5c"
+      }
+    },
+    {
+      "id": "story_moon",
+      "title": "사라진 달빛을 찾아서",
+      "series": "꼬마 숲 탐정",
+      "minAgeMonths": 72,
+      "maxAgeMonths": 95,
+      "theme": "생각한 것을 관찰로 확인하기",
+      "parentPrompt": "밝은 곳에서 물그릇에 비친 물체를 함께 관찰해 보세요. 물이 움직일 때와 멈출 때 무엇이 달라지는지 이야기해 보세요.",
+      "durationSeconds": 47,
+      "videoAsset": "assets/stories/story_moon_preview.mp4",
+      "titleAudioAsset": "assets/stories/story_moon_preview_intro.m4a",
+      "posterAsset": "assets/stories/story_moon.jpg",
+      "musicAsset": "",
+      "status": "PRODUCTION_PREVIEW",
+      "automatedReviewPassed": true,
+      "humanReviewedAt": null,
+      "note": "Opening three scenes only. The complete film and new score are pending the Google project monthly spend cap. Available only in the parent preview.",
+      "videoModel": "gemini-omni-1.1-flash",
+      "voiceModel": "gemini-3.8-flash-tts",
+      "assetHashes": {
+        "assets/stories/story_moon_preview.mp4": "d916299723585e6d229137099b89ad3857bf0b31b46c5fb3310cf20b234fc432",
+        "assets/stories/story_moon.jpg": "27f05db52b6eeba57a122d29a32cd2cac93216076253c5442e2bff16aed0b74b",
+        "assets/stories/story_moon_preview_intro.m4a": "a3a1d46cbdada1c9fb055233f03c23e89dd1e16560f0ab6d91e6412c041de37c"
+      }
+    }
+  ]
+}

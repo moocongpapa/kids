@@ -44,6 +44,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/.kotlin/
 
 # Widget Preview related
 .widget_preview/
@@ -53,5 +54,6 @@ backend/node_modules/
 !.env.example
 production/audio_wav/
 production/audio_pending/
+production/story_work/
 
 production/age_audio_generation.lock

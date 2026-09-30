@@ -1,0 +1,113 @@
+{
+  "id": "story_swing",
+  "title": "그네 하나, 친구 셋",
+  "series": "우당탕 친구들",
+  "minAgeMonths": 36,
+  "maxAgeMonths": 71,
+  "theme": "차례를 정하고 기다리기",
+  "parentPrompt": "집에 있는 장난감 하나로 차례를 바꿔 보세요. 기다리는 동안 무엇을 하고 싶은지도 함께 정해 보세요.",
+  "palette": "warm honey sunlight, moss green, coral flowers",
+  "scenes": [
+    {
+      "id": "story_swing_00",
+      "text": "숲에 새 그네가 생겼어요. 튼튼한 나무 아래, 낮고 작은 그네예요. 모모와 두리, 누리가 눈을 반짝였어요.",
+      "visual": "Establishing shot of one low sturdy wooden swing in the same forest clearing. Momo, Duri and Nuri approach from a path, curious and delighted. Swing is stationary.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 13.04,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "98d0a2f00c4125c5b9e98e24e160a01554563539a01a8515e7c156ab244f2f39",
+      "sourceVideoSha256": "2a3a552b19fe1ced8f10f787f5506a2e1aae0206c630aecd85dc211c81e520ff",
+      "sourceSpeechSha256": "9351551dfcf784b7a81d65682ea2ce077f625f4972ae1516303d1c2cb451d27a",
+      "sha256": "b89bdb52db5ea0b508ce6882911f4f5a7df6a7178933b361220218584cc1d078",
+      "review": {
+        "transcript": {
+          "transcript": "숲에 새 그네가 생겼어요. 튼튼한 나무 아래 낮고 작은 그네예요. 모모와 두리, 누리가 눈을 반짝였어요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The characters approach along the path towards the stationary wooden swing in the clearing, showing curious and happy expressions."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:53:22.642Z"
+      }
+    },
+    {
+      "id": "story_swing_01",
+      "text": "내가 먼저! 나도 타고 싶어! 세 친구가 동시에 말했어요. 그네는 하나인데, 타고 싶은 친구는 셋이에요.",
+      "visual": "The three friends each raise a wing or paw eagerly near the single empty swing, stopping at a safe distance. Friendly overlapping gestures, no pushing or crowding onto seat.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 11.12,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "cc9107f7f0ee1432a41b72a4d52a016abae77f3e35b92aae76a7782e6bad4464",
+      "sourceVideoSha256": "20cf72878815dd11e1477afbd175c1f56047431f5624c7700f0cf7975ccb588d",
+      "sourceSpeechSha256": "fbdb78d20ac33f93015b65ddae70d086abef6c9df7b57c063c7e1c4e71f5d23d",
+      "sha256": "26c4fbc2300ddc4012571cba5a925b090829c6215a6fb8ef77690213898f77a9",
+      "review": {
+        "transcript": {
+          "transcript": "내가 먼저! 나도 타고 싶어! 세 친구가 동시에 말했어요. 그네는 하나인데 타고 싶은 친구는 셋이에요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The characters animate smoothly, eagerly gesturing near the swing while maintaining safe spacing in a friendly manner."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:54:36.242Z"
+      }
+    },
+    {
+      "id": "story_swing_02",
+      "text": "두리가 그네를 바라봐요. 셋이 모두 앉을 수 있을까? 작은 자리에 엉덩이를 대어 보려다, 멈췄어요. 너무 좁네.",
+      "visual": "Duri measures the small empty swing seat with its paws and looks at the three friends. They remain on ground. Clearly one rider only; nobody climbs or jumps.",
+      "targetSeconds": 15,
+      "seconds": 17,
+      "voiceSeconds": 14.36,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "5f5180a1037c3b0127bf0a70c69fd8377eb0089f91ebc584ce3abaa0f3d527df",
+      "sourceVideoSha256": "e7cdff795636055a5e3abff74c694b11c1bd6b77515baf93027988492d498752",
+      "sourceSpeechSha256": "aa1b541647993f1d0cc655446f958808deda1220fa94119005362539373a035e",
+      "sha256": "778377ed5b9cd32880b96f476377a76ac284c030d9809a30fee66094b4a693b4",
+      "review": {
+        "transcript": {
+          "transcript": "두리가 그네를 바라봐요. 셋이 모두 앉을 수 있을까? 작은 자리에 엉덩이를 대어 보려다 멈췄어요. 너무 좁네.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "Duri checks the swing seat with his paws, and all characters remain safely on the ground without climbing."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:55:52.791Z"
+      }
+    }
+  ],
+  "durationSeconds": 47,
+  "videoAsset": "assets/stories/story_swing_preview.mp4",
+  "titleAudioAsset": "assets/stories/story_swing_preview_intro.m4a",
+  "posterAsset": "assets/stories/story_swing.jpg",
+  "musicAsset": "",
+  "status": "PRODUCTION_PREVIEW",
+  "automatedReviewPassed": true,
+  "humanReviewedAt": null,
+  "note": "Opening three scenes only. The complete film and new score are pending the Google project monthly spend cap. Available only in the parent preview.",
+  "videoModel": "gemini-omni-1.1-flash",
+  "voiceModel": "gemini-3.8-flash-tts"
+}

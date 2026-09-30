@@ -83,6 +83,7 @@ class AppState extends ChangeNotifier {
     await _storage.delete(key: _parentAccountKey);
     notifyListeners();
   }
+
   List<PlayObservation> get observations => List.unmodifiable(_observations);
   Future<void> _storeObservations(List<PlayObservation> next) async {
     await _storage.write(
@@ -109,6 +110,40 @@ class AppState extends ChangeNotifier {
       _storeObservations(_observations.where((o) => o.id != id).toList());
 
   final Map<String, Map<String, dynamic>> _works = {};
+  final Map<String, Map<String, dynamic>> _storyProgress = {};
+  Future<void> _storyWrites = Future.value();
+  Map<String, dynamic> storyProgress(String profileId, String storyId) =>
+      Map.unmodifiable(_storyProgress['$profileId:$storyId'] ?? {});
+  Future<void> saveStoryProgress(
+    String profileId,
+    String storyId, {
+    int? positionMs,
+    bool? complete,
+    bool? favorite,
+  }) {
+    final task = _storyWrites.catchError((Object _) {}).then((_) async {
+      if (!_profiles.any((p) => p.id == profileId)) return;
+      final key = '$profileId:$storyId';
+      final next = {
+        ..._storyProgress,
+        key: {
+          ...?_storyProgress[key],
+          'profileId': profileId,
+          if (positionMs != null) 'positionMs': positionMs.clamp(0, 420000),
+          'complete': ?complete,
+          'favorite': ?favorite,
+        },
+      };
+      await _storage.write(key: 'story_progress_v1', value: jsonEncode(next));
+      _storyProgress
+        ..clear()
+        ..addAll(next);
+      notifyListeners();
+    });
+    _storyWrites = task;
+    return task;
+  }
+
   Future<void> _writeQueue = Future.value();
   Map<String, dynamic>? workFor(String profileId, String activityId) =>
       _works['$profileId:$activityId'];
@@ -216,6 +251,16 @@ class AppState extends ChangeNotifier {
         );
       }
       final works = await _storage.read(key: 'play_works_v1');
+      final stories = await _storage.read(key: 'story_progress_v1');
+      if (stories != null) {
+        final decoded = jsonDecode(stories) as Map<String, dynamic>;
+        _storyProgress.addAll(
+          decoded.map(
+            (key, value) =>
+                MapEntry(key, Map<String, dynamic>.from(value as Map)),
+          ),
+        );
+      }
       if (works != null) {
         final decoded = jsonDecode(works) as Map<String, dynamic>;
         _works.addAll(
@@ -360,6 +405,16 @@ class AppState extends ChangeNotifier {
       _observations.where((o) => o.profileId != id).toList(),
     );
     _profiles.removeWhere((profile) => profile.id == id);
+    await _storyWrites.catchError((Object _) {});
+    final remainingStories = {..._storyProgress}
+      ..removeWhere((_, value) => value['profileId'] == id);
+    await _storage.write(
+      key: 'story_progress_v1',
+      value: jsonEncode(remainingStories),
+    );
+    _storyProgress
+      ..clear()
+      ..addAll(remainingStories);
     _records.removeWhere((record) => record.profileId == id);
     if (_selectedId == id) {
       _selectedId = _profiles.isEmpty ? null : _profiles.first.id;
@@ -374,8 +429,8 @@ class AppState extends ChangeNotifier {
     required String inviterRole,
   }) async {
     final familyId = profile.familyId ?? 'fam_${profile.id}';
-    final code = profile.inviteCode ??
-        'MOMO-${(Random().nextInt(8999) + 1000)}-KIDS';
+    final code =
+        profile.inviteCode ?? 'MOMO-${(Random().nextInt(8999) + 1000)}-KIDS';
     final inviter = _parentAccount?.nickname ?? '모모보호자';
 
     final payload = FamilyInvitePayload(
@@ -435,7 +490,8 @@ class AppState extends ChangeNotifier {
       if (!members.any((m) => m.name == myName && m.role == myRole)) {
         members.add(
           FamilyMember(
-            id: _parentAccount?.id ??
+            id:
+                _parentAccount?.id ??
                 'member_${DateTime.now().millisecondsSinceEpoch}',
             name: myName,
             role: myRole,
@@ -444,10 +500,7 @@ class AppState extends ChangeNotifier {
           ),
         );
       }
-      final updated = existing.copyWith(
-        isShared: true,
-        sharedMembers: members,
-      );
+      final updated = existing.copyWith(isShared: true, sharedMembers: members);
       await updateProfile(updated);
       await selectProfile(updated.id);
       return updated;
@@ -462,7 +515,8 @@ class AppState extends ChangeNotifier {
         joinedAt: payload.createdAt,
       ),
       FamilyMember(
-        id: _parentAccount?.id ??
+        id:
+            _parentAccount?.id ??
             'member_${DateTime.now().millisecondsSinceEpoch}',
         name: myName,
         role: myRole,

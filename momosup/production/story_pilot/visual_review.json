@@ -1,0 +1,11 @@
+{
+  "reviewer": "assistant contact-sheet inspection; not a human or family observation",
+  "reviewedAt": "2026-09-30",
+  "publishBlocked": true,
+  "requiredCorrections": [
+    {"id":"story_cloud_01","reason":"Other characters and the reference clearing appear while the script is about Momo's leaf house falling. Keep Momo alone and the same leaf house/stone."},
+    {"id":"story_moon_00","reason":"Nuri appears before the later scripted entrance. Keep only Momo and Duri in this opening."},
+    {"id":"story_moon_02","reason":"The pond close-up becomes daylight. Keep the established indigo dusk, visible moon reflection, and matched lighting."}
+  ],
+  "nextReview": "After regeneration, inspect all full-length episodes for scene-to-scene continuity, accurate actions, voice timing and gentle sound. Do not publish merely because single-clip automated checks pass."
+}

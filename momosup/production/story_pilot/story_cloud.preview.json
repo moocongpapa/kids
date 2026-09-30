@@ -1,0 +1,113 @@
+{
+  "id": "story_cloud",
+  "title": "구름아, 내 마음을 들어줘",
+  "series": "마음 날씨 숲",
+  "minAgeMonths": 24,
+  "maxAgeMonths": 35,
+  "theme": "내 마음을 말로 표현하기",
+  "parentPrompt": "아이의 표정을 따라 해 보고, 지금 마음을 한 단어로 이야기해 보세요. 대답을 재촉하지 않아도 괜찮아요.",
+  "palette": "warm sage green, butter yellow, soft cream, daylight",
+  "scenes": [
+    {
+      "id": "story_cloud_00",
+      "text": "모모가 나뭇잎을 쌓아요. 하나 올리고, 또 올리고. 작은 잎사귀 집이에요. 모모가 방긋 웃어요. 기분이 좋아요.",
+      "visual": "Momo the green bird stacks a little leaf house on a flat mossy stone. Close view of the delicate leaves and proud smile. Duri and Nuri are not present.",
+      "targetSeconds": 15,
+      "seconds": 16,
+      "voiceSeconds": 13.36,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "c1d190c1769abae36d96088a6e0a8a9193e35326c234709465b41680bf1671f7",
+      "sourceVideoSha256": "f2b40a745ae7b782062add940ed16452e9714b908de0f539bde3eff6ad0be05b",
+      "sourceSpeechSha256": "ac3308f3b7d1f4e52b400f42ccefe33746de5c3732bb82d684c49e8b56f5c0c4",
+      "sha256": "9a3c5c53e42d77e89c4ee8a4b106f44eea99cd8180fe62f8168cd6bb9510b376",
+      "review": {
+        "transcript": {
+          "transcript": "모모가 나뭇잎을 쌓아요. 하나 올리고 또 올리고. 작은 잎사귀 집이에요. 모모가 방긋 웃어요. 기분이 좋아요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "Momo stacks leaves into a small structure on a mossy stone and displays a proud smile as expected."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:52:02.927Z"
+      }
+    },
+    {
+      "id": "story_cloud_01",
+      "text": "살랑! 바람이 불었어요. 잎사귀 집이 팔랑팔랑. 앗, 납작해졌네! 모모의 웃음도 쏙 들어갔어요.",
+      "visual": "A soft breeze scatters the tiny leaf house. Leaves flutter down safely. Momo opens its eyes in surprise and its smile fades. No storm.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 12.08,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "6abb7514f16dca0e6a66aa8b78d0dc27e521a8bf7ee26006c650468300a54594",
+      "sourceVideoSha256": "08c5069b489702bf52519b807b3a868562800c9ee7119f7edd9a60d52a1dfd6f",
+      "sourceSpeechSha256": "56a8150edc978d4a05bfa2ca73eeb7468ee4dce1206f8fb62e75f1956da626b0",
+      "sha256": "8c182da4f961cd011971ac984aac86b43d6b5f2c2f13b1ffa0ccef555c0ea3fb",
+      "review": {
+        "transcript": {
+          "transcript": "살랑 바람이 불었어요. 잎사귀 집이 팔랑팔랑. 앗! 납작해졌네. 모모의 웃음도 쏙 들어갔어요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "A gentle breeze blows apart the tiny leaf house, scattering leaves softly while Momo watches in mild surprise."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:53:10.235Z"
+      }
+    },
+    {
+      "id": "story_cloud_02",
+      "text": "모모가 고개를 푹 숙여요. 날개도 축 처졌어요. 마음이 어떤 걸까요? 잠깐, 모모의 얼굴을 볼까요?",
+      "visual": "Quiet close shot of Momo with drooping wings beside the fallen leaves. Subtle blinking and breathing. Gentle sad expression, not crying intensely. Leave time to observe the face.",
+      "targetSeconds": 15,
+      "seconds": 16,
+      "voiceSeconds": 13.24,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "7cb249355c0482c3628dcb9545d7bfba81562508cb9ab8f2da6e89e2f0098002",
+      "sourceVideoSha256": "0837aeb16c0cafa3b4dc7ca627459d69da4e872dbef7908715dec001aa482410",
+      "sourceSpeechSha256": "03f7223652a2ed522a57e522b06d35052ace6ca66dab0ef5661cc9deb4bf06e6",
+      "sha256": "d52c899a74102bcb07e6b5a436337aafd4d0a8139002b1a45533bca3eaf81134",
+      "review": {
+        "transcript": {
+          "transcript": "모모가 고개를 푹 숙여요. 날개도 축 처졌어요. 마음이 어떤 걸까요? 잠깐! 모모의 얼굴을 볼까요?",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The video transitions to a close shot of Momo with drooping wings beside leaves, showing gentle expressions and subtle breathing."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:56:30.818Z"
+      }
+    }
+  ],
+  "durationSeconds": 47,
+  "videoAsset": "assets/stories/story_cloud_preview.mp4",
+  "titleAudioAsset": "assets/stories/story_cloud_preview_intro.m4a",
+  "posterAsset": "assets/stories/story_cloud.jpg",
+  "musicAsset": "",
+  "status": "PRODUCTION_PREVIEW",
+  "automatedReviewPassed": true,
+  "humanReviewedAt": null,
+  "note": "Opening three scenes only. The complete film and new score are pending the Google project monthly spend cap. Available only in the parent preview.",
+  "videoModel": "gemini-omni-1.1-flash",
+  "voiceModel": "gemini-3.8-flash-tts"
+}

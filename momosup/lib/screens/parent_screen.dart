@@ -1,4 +1,5 @@
 import 'observation_screen.dart';
+import 'story_forest_screen.dart';
 import 'play_library_screen.dart';
 import '../widgets/parent_today_play.dart';
 import '../models/age_journey.dart';
@@ -323,7 +324,10 @@ class ParentHubScreen extends StatelessWidget {
                 children: [
                   Container(
                     margin: const EdgeInsets.only(bottom: 12),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: appState.hasParentAccount
                           ? const Color(0xFFFFFBE6)
@@ -366,9 +370,8 @@ class ParentHubScreen extends StatelessWidget {
                           TextButton(
                             onPressed: () => Navigator.of(context).push(
                               MaterialPageRoute<void>(
-                                builder: (_) => ParentOnboardingScreen(
-                                  appState: appState,
-                                ),
+                                builder: (_) =>
+                                    ParentOnboardingScreen(appState: appState),
                               ),
                             ),
                             child: const Text('연동하기'),
@@ -482,6 +485,26 @@ class ParentHubScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 18),
                   if (profile != null) ...[
+                    ListTile(
+                      leading: const Icon(Icons.movie_creation_outlined),
+                      title: const Text('이야기숲 영상'),
+                      subtitle: const Text('연령·핵심 주제 확인과 보호자 미리보기'),
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => Scaffold(
+                            appBar: AppBar(title: const Text('이야기 영상 미리보기')),
+                            body: SafeArea(
+                              child: StoryForestScreen(
+                                appState: appState,
+                                profile: profile,
+                                preview: true,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Text(
                       '오늘 ${appState.minutesToday(profile.id)}분 / '
                       '${profile.dailyLimitMinutes}분 이용',

@@ -20,6 +20,7 @@ import '../widgets/forest_game_ui.dart';
 import 'parent_screen.dart';
 import 'parent_onboarding_screen.dart';
 import 'family_invite_screen.dart';
+import 'story_forest_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({required this.appState, required this.catalog, super.key});
@@ -187,9 +188,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 ),
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(
-                    builder: (_) => ParentOnboardingScreen(
-                      appState: widget.appState,
-                    ),
+                    builder: (_) =>
+                        ParentOnboardingScreen(appState: widget.appState),
                   ),
                 ),
                 icon: const Icon(Icons.chat_bubble, size: 22),
@@ -211,9 +211,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                 ),
                 onPressed: () => Navigator.of(context).push(
                   MaterialPageRoute<void>(
-                    builder: (_) => FamilyInviteAcceptScreen(
-                      appState: widget.appState,
-                    ),
+                    builder: (_) =>
+                        FamilyInviteAcceptScreen(appState: widget.appState),
                   ),
                 ),
                 icon: const Icon(Icons.link_rounded, size: 18),
@@ -336,6 +335,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
             ],
           ),
         ),
+      );
+    }
+    if (area == 1) {
+      return StoryForestScreen(
+        key: ValueKey('stories-${profile.id}'),
+        appState: widget.appState,
+        profile: profile,
       );
     }
     final available = availablePlay(widget.appState, widget.catalog, profile);
@@ -530,7 +536,17 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                     size: 39,
                   ),
                   onPressed: () {
-                    if (area != i) setState(() => area = i);
+                    if (area != i) {
+                      setState(() => area = i);
+                      if (i == 1) {
+                        ForestAudio.instance.pauseBgm();
+                      } else {
+                        ForestAudio.instance.startBgm(
+                          enabled:
+                              widget.appState.activeProfile?.musicOn ?? false,
+                        );
+                      }
+                    }
                   },
                 ),
             ],

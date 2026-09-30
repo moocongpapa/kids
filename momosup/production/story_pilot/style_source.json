@@ -1,0 +1,7 @@
+{
+  "file": "production/story_pilot/forest_reference.png",
+  "generator": "built-in imagegen tool",
+  "createdAt": "2026-09-30",
+  "referenceAssets": ["assets/images/momo.png", "assets/images/duri.png", "assets/images/nuri.png"],
+  "prompt": "Use case: illustration-story. Create a beautiful wide 16:9 master reference illustration for three gentle Korean preschool animated films set in Momosup forest. Preserve these exact original character designs: Momo is the round olive-green leaf-feathered baby bird with cream face and belly; Duri is the small warm brown bear with cream muzzle and belly; Nuri is the tiny soft white cloud creature with curly top and little arms and feet. They are friends standing together in a sunlit mossy forest clearing, a single sturdy low wooden swing hangs from a spreading tree on the left, a little still pond on the right, layered watercolor woodland in the distance. Hand-painted gouache and watercolor storybook animation art, exquisite soft paper texture, appealing expressions, warm dappled light, sage green and honey colors. Clear full character silhouettes, all three characters equally visible in middle foreground, large readable shapes, grounded staging, cinematic depth. No text, labels, logos or UI. Not photorealistic. This image is a style and character reference to keep the films consistent."
+}

@@ -1,0 +1,113 @@
+{
+  "id": "story_moon",
+  "title": "사라진 달빛을 찾아서",
+  "series": "꼬마 숲 탐정",
+  "minAgeMonths": 72,
+  "maxAgeMonths": 95,
+  "theme": "생각한 것을 관찰로 확인하기",
+  "parentPrompt": "밝은 곳에서 물그릇에 비친 물체를 함께 관찰해 보세요. 물이 움직일 때와 멈출 때 무엇이 달라지는지 이야기해 보세요.",
+  "palette": "gentle indigo twilight, teal foliage, silver moonlight, warm firefly accents, no scary darkness",
+  "scenes": [
+    {
+      "id": "story_moon_00",
+      "text": "해가 지고, 달이 떠올랐어요. 모모와 두리는 넓고 마른 길에서 연못을 바라봐요. 물 위에도 동그란 달이 보였어요.",
+      "visual": "Peaceful dusk, a full moon in sky and its clear reflection on still small pond. Momo and Duri stand well back on a broad dry path. Soft bright twilight, no scary darkness.",
+      "targetSeconds": 15,
+      "seconds": 16,
+      "voiceSeconds": 13.6,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "09090b3fe8d772b6af1b67169a364cc38fd2174bf8cfabf09e22fd63628bdce9",
+      "sourceVideoSha256": "ecebb7a3aea0d22d7b218bfc1292662f70590bc2e1ec838e055b4d788e0d78cc",
+      "sourceSpeechSha256": "6573708c83e120a9d0ddf8a06066d168018737b14c91f4b475bc81af4d559231",
+      "sha256": "afa8fc81075178386d7792c6802a652a5154ce41022494199e2c4646d5b1cee5",
+      "review": {
+        "transcript": {
+          "transcript": "해가 지고 달이 떠올랐어요. 모모와 두리는 넓고 마른 길에서 연못을 바라봐요. 물 위에도 동그란 달이 보였어요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The animation shows a peaceful dusk scene with characters by a pond under a full moon, maintaining consistent character models and gentle, child-friendly motion."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:51:50.285Z"
+      }
+    },
+    {
+      "id": "story_moon_01",
+      "text": "두리가 속삭여요. 하늘에 하나, 연못에 하나. 달이 둘일까? 모모가 고개를 갸웃해요. 가까이 살펴보자. 길 위에서!",
+      "visual": "Two friends look up at full moon then toward its reflection from safe dry path. Duri points up then down, puzzled. Momo tilts its head, keeping a clear distance from bank.",
+      "targetSeconds": 15,
+      "seconds": 16,
+      "voiceSeconds": 13.44,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "aeeb4c36f1a65da8683c283820857929b454adb315875f384ab53783dc39668e",
+      "sourceVideoSha256": "1d6370472789f50b237444c9cf0d59bde481e51a6c3700bffacd7c2e33af7bcb",
+      "sourceSpeechSha256": "7de3fe96ca005193f1cf85861b6dada03f26369798a185298b2bffb1de6727d7",
+      "sha256": "7ea50d6780c807ae15085dd34b758a74d7229ca8800fadecdb9fac715a5ec6cb",
+      "review": {
+        "transcript": {
+          "transcript": "두리가 속삭여요. 하늘에 하나, 연못에 하나. 달이 둘일까? 모모가 고개를 갸웃해요. 가까이 살펴보자. 길 위에서",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The characters stand safely on the path, with the bear pointing up at the moon and down toward the water while the bird reacts curiously."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:52:55.494Z"
+      }
+    },
+    {
+      "id": "story_moon_02",
+      "text": "그때, 바람이 살랑 불었어요. 물결이 찰랑찰랑. 동그란 달이 길게 늘어나더니, 반짝이는 조각처럼 흩어졌어요.",
+      "visual": "Close view of pond surface as a mild breeze creates ripples. Round full moon reflection stretches into shimmering broken highlights. Moon itself remains round in sky, no literal fragments.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 12.84,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "a43b93142e7f1b31ca7392e4af4179c2dcc97922ce212424d7f39d182a021ae2",
+      "sourceVideoSha256": "aab8e160f4c24dd36099009894bae500b1adc79817cdff072b3461dd70dcded8",
+      "sourceSpeechSha256": "c0875cbefbef776870439d18b9d7fa141eb4890d3dc7111220629eae58cde67c",
+      "sha256": "a42de63c742cc0a5f2a6bbfd511f63c785ef6fbd6737da8745c0bb627eb3baff",
+      "review": {
+        "transcript": {
+          "transcript": "그때, 바람이 살랑 불었어요. 물결이 찰랑찰랑. 동그란 달이 길게 늘어나더니 반짝이는 조각처럼 흩어졌어요.",
+          "abruptNoise": false,
+          "music": false
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The video displays the pond surface with rippling water and shimmering moonlight reflections, featuring the characters interacting gently at the water's edge."
+        },
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-09-30T05:56:18.865Z"
+      }
+    }
+  ],
+  "durationSeconds": 47,
+  "videoAsset": "assets/stories/story_moon_preview.mp4",
+  "titleAudioAsset": "assets/stories/story_moon_preview_intro.m4a",
+  "posterAsset": "assets/stories/story_moon.jpg",
+  "musicAsset": "",
+  "status": "PRODUCTION_PREVIEW",
+  "automatedReviewPassed": true,
+  "humanReviewedAt": null,
+  "note": "Opening three scenes only. The complete film and new score are pending the Google project monthly spend cap. Available only in the parent preview.",
+  "videoModel": "gemini-omni-1.1-flash",
+  "voiceModel": "gemini-3.8-flash-tts"
+}
