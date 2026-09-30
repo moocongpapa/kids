@@ -37,20 +37,23 @@ class PlayObservation {
     'sessionId': sessionId,
   };
   factory PlayObservation.fromJson(Map<String, dynamic> j) => PlayObservation(
-    id: j['id'],
-    profileId: j['profileId'],
-    activityId: j['activityId'],
-    at: DateTime.parse(j['at']),
-    ageMonths: j['ageMonths'],
-    stage: j['stage'],
-    start: j['start'],
-    help: j['help'],
-    enjoyment: j['enjoyment'],
-    ending: j['ending'],
-    offscreen: j['offscreen'],
-    device: j['device'],
-    issues: List<String>.from(j['issues']),
-    sessionId: j['sessionId'],
+    id: j['id'] as String? ?? '',
+    profileId: j['profileId'] as String? ?? '',
+    activityId: j['activityId'] as String? ?? '',
+    at: j['at'] != null ? DateTime.parse(j['at'] as String) : DateTime.now(),
+    ageMonths: (j['ageMonths'] as num?)?.toInt() ?? 0,
+    stage: (j['stage'] as num?)?.toInt() ?? 1,
+    start: (j['start'] as num?)?.toInt() ?? 0,
+    help: (j['help'] as num?)?.toInt() ?? 0,
+    enjoyment: (j['enjoyment'] as num?)?.toInt() ?? 0,
+    ending: (j['ending'] as num?)?.toInt() ?? 0,
+    offscreen: (j['offscreen'] as num?)?.toInt() ?? 0,
+    device: j['device'] as String? ?? '',
+    issues: (j['issues'] as List<dynamic>?)
+            ?.map((e) => e.toString())
+            .toList() ??
+        const [],
+    sessionId: j['sessionId'] as String? ?? '',
   );
   String get ageBand => ageMonths < 24
       ? '${(ageMonths ~/ 6) * 6}~${(ageMonths ~/ 6) * 6 + 5}개월'

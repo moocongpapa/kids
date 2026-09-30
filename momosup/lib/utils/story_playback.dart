@@ -201,9 +201,7 @@ class StoryPlayback extends ChangeNotifier with WidgetsBindingObserver {
       }
     }
     if (activelyPlaying && AudioPolicy.instance.canVoice) {
-      if (!AudioPolicy.instance.speaking) {
-        AudioPolicy.instance.beginSpeech(_speechToken);
-      }
+      AudioPolicy.instance.beginSpeech(_speechToken);
     } else {
       AudioPolicy.instance.endSpeech(_speechToken);
     }

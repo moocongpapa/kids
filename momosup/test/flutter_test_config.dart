@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:momosup/utils/audio_policy.dart';
 
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   final binding = TestWidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +18,9 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
         throw PlatformException(code: 'audio_unavailable_in_widget_test');
       },
     );
+  });
+  tearDown(() {
+    AudioPolicy.instance.resetForTesting();
   });
   await testMain();
 }

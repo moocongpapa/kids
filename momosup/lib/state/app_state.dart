@@ -58,10 +58,13 @@ class AppState extends ChangeNotifier {
   static const _profilesKey = 'prototype_profiles_v1';
   static const _selectedKey = 'prototype_selected_v1';
   static const _pinKey = 'prototype_parent_pin_v1';
+  static const _pinFailCountKey = 'prototype_pin_fail_count_v1';
+  static const _pinLockedUntilKey = 'prototype_pin_locked_until_v1';
   static const _recordsKey = 'prototype_records_v1';
   static const _parentAccountKey = 'parent_account_v1';
 
   final FlutterSecureStorage _storage;
+  Future<void> _profileWrites = Future.value();
   final List<ChildProfile> _profiles = [];
   final List<PlayRecord> _records = [];
   final List<PlayObservation> _observations = [];
@@ -291,6 +294,19 @@ class AppState extends ChangeNotifier {
       final rawRecords = await _storage.read(key: _recordsKey);
       _selectedId = await _storage.read(key: _selectedKey);
       _hasPin = (await _storage.read(key: _pinKey)) != null;
+      final rawFailCount = await _storage.read(key: _pinFailCountKey);
+      if (rawFailCount != null) {
+        _failedPinAttempts = int.tryParse(rawFailCount) ?? 0;
+      }
+      final rawLockedUntil = await _storage.read(key: _pinLockedUntilKey);
+      if (rawLockedUntil != null) {
+        final parsed = DateTime.tryParse(rawLockedUntil);
+        if (parsed != null && parsed.isAfter(DateTime.now())) {
+          _pinLockedUntil = parsed;
+        } else {
+          await _storage.delete(key: _pinLockedUntilKey);
+        }
+      }
       if (rawProfiles != null) {
         _profiles.addAll(
           (jsonDecode(rawProfiles) as List<dynamic>).map(
@@ -343,11 +359,23 @@ class AppState extends ChangeNotifier {
     if (ok) {
       _failedPinAttempts = 0;
       _pinLockedUntil = null;
+      await _storage.delete(key: _pinFailCountKey);
+      await _storage.delete(key: _pinLockedUntilKey);
     } else {
       _failedPinAttempts++;
       if (_failedPinAttempts >= 5) {
         _pinLockedUntil = DateTime.now().add(const Duration(minutes: 5));
         _failedPinAttempts = 0;
+        await _storage.write(
+          key: _pinLockedUntilKey,
+          value: _pinLockedUntil!.toIso8601String(),
+        );
+        await _storage.delete(key: _pinFailCountKey);
+      } else {
+        await _storage.write(
+          key: _pinFailCountKey,
+          value: '$_failedPinAttempts',
+        );
       }
     }
     return ok;
@@ -593,16 +621,20 @@ class AppState extends ChangeNotifier {
     return (seconds / 60).ceil();
   }
 
-  Future<void> _saveProfiles() async {
-    await _storage.write(
-      key: _profilesKey,
-      value: jsonEncode(_profiles.map((profile) => profile.toJson()).toList()),
-    );
-    if (_selectedId == null) {
-      await _storage.delete(key: _selectedKey);
-    } else {
-      await _storage.write(key: _selectedKey, value: _selectedId);
-    }
+  Future<void> _saveProfiles() {
+    final next = _profileWrites.catchError((Object _) {}).then((_) async {
+      await _storage.write(
+        key: _profilesKey,
+        value: jsonEncode(_profiles.map((profile) => profile.toJson()).toList()),
+      );
+      if (_selectedId == null) {
+        await _storage.delete(key: _selectedKey);
+      } else {
+        await _storage.write(key: _selectedKey, value: _selectedId);
+      }
+    });
+    _profileWrites = next;
+    return next;
   }
 
   Future<void> _saveRecords() async {

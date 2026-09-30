@@ -101,8 +101,11 @@ class NarrationPlayer with WidgetsBindingObserver {
     } catch (_) {
       if (current()) rethrow;
     } finally {
-      if (identical(_cancel, cancel)) _cancelCurrent();
-      AudioPolicy.instance.endSpeech(speech);
+      if (identical(_cancel, cancel)) {
+        _cancelCurrent();
+      } else {
+        AudioPolicy.instance.endSpeech(speech);
+      }
     }
   }
 

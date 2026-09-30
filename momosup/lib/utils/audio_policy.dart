@@ -57,4 +57,16 @@ class AudioPolicy extends ChangeNotifier {
     suspended = value;
     notifyListeners();
   }
+
+  @visibleForTesting
+  void resetForTesting() {
+    music = true;
+    voice = true;
+    effects = true;
+    muted = false;
+    suspended = false;
+    lowStimulation = false;
+    _speeches.clear();
+    notifyListeners();
+  }
 }

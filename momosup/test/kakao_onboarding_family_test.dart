@@ -1,6 +1,7 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:momosup/models/child_profile.dart';
+import 'package:momosup/models/family_share.dart';
 import 'package:momosup/models/parent_account.dart';
 import 'package:momosup/services/kakao_auth_service.dart';
 import 'package:momosup/state/app_state.dart';
@@ -218,6 +219,54 @@ void main() {
         ),
         throwsA(isA<FormatException>()),
       );
+    });
+
+    test('위조되거나 변조된 서명의 초대 토큰은 거부된다', () async {
+      final state = AppState();
+      await state.load();
+
+      final payload = FamilyInvitePayload(
+        code: 'MOMO-7777-KIDS',
+        familyId: 'fam_tamper',
+        childId: 'child_tamper',
+        childName: '변조아이',
+        birthDate: '2023-01-01',
+        gender: '남아',
+        avatar: 'momo',
+        inviterName: '해커',
+        inviterRole: '가족',
+        ageMonths: 36,
+        createdAt: DateTime.now(),
+      );
+
+      final validToken = payload.toToken();
+      final parts = validToken.split('.');
+      expect(parts.length, 2);
+
+      // 서명 변조: 서명의 마지막 글자를 변경
+      final tamperedSig = parts[1].replaceRange(
+        parts[1].length - 1,
+        parts[1].length,
+        parts[1].endsWith('a') ? 'b' : 'a',
+      );
+      final tamperedToken = '${parts[0]}.$tamperedSig';
+
+      // 변조된 토큰 파싱 시 null 반환 검증
+      expect(FamilyInvitePayload.fromRaw(tamperedToken), isNull);
+
+      // acceptFamilyInvite 시 FormatException 발생 검증
+      expect(
+        () => state.acceptFamilyInvite(
+          tamperedToken,
+          myName: '삼촌',
+          myRole: '삼촌',
+        ),
+        throwsA(isA<FormatException>()),
+      );
+
+      // 다른 시크릿으로 서명된 토큰도 거부되는지 검증
+      final wrongSecretToken = payload.toToken(secret: 'wrong_secret_key');
+      expect(FamilyInvitePayload.fromRaw(wrongSecretToken), isNull);
     });
   });
 }

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'audio_cleanup.dart';
 import 'audio_policy.dart';
 
 import 'package:flutter/foundation.dart';
@@ -108,7 +109,7 @@ class ForestAudio {
   }
 
   void dispose() {
-    _bgmPlayer.dispose();
+    unawaited(disposeAudioPlayer(_bgmPlayer));
     isMuted.dispose();
   }
 }

@@ -1,4 +1,7 @@
 import 'dart:convert';
+import 'dart:math';
+
+import 'package:crypto/crypto.dart';
 
 class FamilyMember {
   const FamilyMember({
@@ -90,11 +93,23 @@ class FamilyInvitePayload {
         ),
       );
 
-  String toToken() => base64UrlEncode(utf8.encode(jsonEncode(toJson())));
+  static const defaultSecret = 'momosup_family_share_secret_v1';
 
-  String toShareUrl() => 'https://momosup.app/share?invite=${toToken()}';
+  String toToken({String secret = defaultSecret}) {
+    final payloadB64 = base64UrlEncode(utf8.encode(jsonEncode(toJson())));
+    final sig = Hmac(sha256, utf8.encode(secret))
+        .convert(utf8.encode(payloadB64))
+        .toString();
+    return '$payloadB64.$sig';
+  }
 
-  static FamilyInvitePayload? fromRaw(String raw) {
+  String toShareUrl({String secret = defaultSecret}) =>
+      'https://momosup.app/share?invite=${toToken(secret: secret)}';
+
+  static FamilyInvitePayload? fromRaw(
+    String raw, {
+    String secret = defaultSecret,
+  }) {
     var trimmed = raw.trim();
     if (trimmed.isEmpty) return null;
 
@@ -106,7 +121,28 @@ class FamilyInvitePayload {
     }
 
     try {
-      final decodedJson = utf8.decode(base64Url.decode(base64Url.normalize(trimmed)));
+      String payloadB64;
+      if (trimmed.contains('.')) {
+        final parts = trimmed.split('.');
+        if (parts.length != 2) return null;
+        payloadB64 = parts[0];
+        final sig = parts[1];
+        final expectedSig = Hmac(sha256, utf8.encode(secret))
+            .convert(utf8.encode(payloadB64))
+            .toString();
+        var diff = sig.length ^ expectedSig.length;
+        for (var i = 0; i < min(sig.length, expectedSig.length); i++) {
+          diff |= sig.codeUnitAt(i) ^ expectedSig.codeUnitAt(i);
+        }
+        if (diff != 0) return null; // Signature mismatch / tampered token
+      } else {
+        // Legacy unsigned base64 token compatibility
+        payloadB64 = trimmed;
+      }
+
+      final decodedJson = utf8.decode(
+        base64Url.decode(base64Url.normalize(payloadB64)),
+      );
       final map = jsonDecode(decodedJson) as Map<String, dynamic>;
       return FamilyInvitePayload.fromJson(map);
     } catch (_) {
