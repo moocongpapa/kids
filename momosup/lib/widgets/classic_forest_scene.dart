@@ -59,6 +59,7 @@ class ClassicForestScene extends StatelessWidget {
         onAcceptWithDetails: (d) => onChoose(d.data),
         builder: (_, candidates, _) => ForestPlayStage(
           height: 350,
+          quiet: quiet,
           child: LayoutBuilder(
             builder: (_, box) => Stack(
               alignment: Alignment.center,
@@ -125,6 +126,7 @@ class ClassicForestScene extends StatelessWidget {
                                   size: box.maxWidth * .3,
                                   interactive: false,
                                   lowStimulation: quiet,
+                                  showBlush: true,
                                 )
                               : const ForestProp(ForestObject.bush, size: 98),
                         ),
@@ -141,6 +143,7 @@ class ClassicForestScene extends StatelessWidget {
                         size: 119,
                         interactive: false,
                         lowStimulation: quiet,
+                        showBlush: selected != null,
                       ),
                     ),
                   ),
@@ -194,6 +197,7 @@ class ClassicForestScene extends StatelessWidget {
                         size: 205,
                         interactive: false,
                         lowStimulation: quiet,
+                        showBlush: selected == 0,
                       ),
                     ),
                   ),

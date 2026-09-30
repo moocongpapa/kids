@@ -12,10 +12,11 @@ class ForestPlayStage extends StatelessWidget {
     this.river = false,
     this.night = false,
     this.height = 330,
+    this.quiet = false,
     super.key,
   });
   final Widget child;
-  final bool river, night;
+  final bool river, night, quiet;
   final double height;
   @override
   Widget build(BuildContext context) => SizedBox(
@@ -181,19 +182,33 @@ class PlayPiece extends StatelessWidget {
               ),
             ),
           ),
-          AnimatedContainer(
-            duration: quiet ? Duration.zero : const Duration(milliseconds: 180),
-            width: size,
-            height: size,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: selected ? const Color(0x99FFF3B9) : Colors.transparent,
-              border: selected
-                  ? Border.all(color: const Color(0xFFD8AF56), width: 3)
-                  : null,
+          AnimatedScale(
+            scale: selected && !quiet ? 1.08 : 1.0,
+            duration: quiet ? Duration.zero : const Duration(milliseconds: 200),
+            curve: Curves.easeOutBack,
+            child: AnimatedContainer(
+              duration: quiet ? Duration.zero : const Duration(milliseconds: 180),
+              width: size,
+              height: size,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: selected ? const Color(0x99FFF3B9) : Colors.transparent,
+                border: selected
+                    ? Border.all(color: const Color(0xFFD8AF56), width: 3)
+                    : null,
+                boxShadow: selected && !quiet
+                    ? [
+                        BoxShadow(
+                          color: const Color(0xFFD8AF56).withAlpha(120),
+                          blurRadius: 10,
+                          spreadRadius: 2,
+                        ),
+                      ]
+                    : null,
+              ),
+              padding: const EdgeInsets.all(6),
+              child: child,
             ),
-            padding: const EdgeInsets.all(6),
-            child: child,
           ),
         ],
       ),
@@ -215,7 +230,10 @@ class PlayPiece extends StatelessWidget {
                   maxSimultaneousDrags: 1,
                   feedback: Material(
                     color: Colors.transparent,
-                    child: SizedBox(width: size, height: size, child: child),
+                    child: Transform.scale(
+                      scale: 1.15,
+                      child: SizedBox(width: size, height: size, child: child),
+                    ),
                   ),
                   childWhenDragging: Opacity(opacity: .25, child: picture),
                   child: picture,
@@ -282,6 +300,7 @@ class WoodlandBus extends StatelessWidget {
                 size: width * .19,
                 interactive: false,
                 lowStimulation: quiet,
+                showBlush: !quiet,
               ),
             ),
           ),

@@ -24,6 +24,7 @@ class JourneyBuildPiece extends StatelessWidget {
           size: 74,
           interactive: false,
           lowStimulation: quiet,
+          showBlush: !quiet,
         )
       : id == 'age_60_06' || id == 'age_84_02'
       ? value == 2
@@ -60,6 +61,7 @@ class JourneyBuildBoard extends StatelessWidget {
   Widget build(BuildContext context) => ForestPlayStage(
     height: 325,
     river: !house && !garden && !bus,
+    quiet: quiet,
     child: LayoutBuilder(
       builder: (_, box) {
         final w = box.maxWidth;
@@ -150,6 +152,7 @@ class JourneyBuildBoard extends StatelessWidget {
                                       size: 85,
                                       interactive: false,
                                       lowStimulation: quiet,
+                                      showBlush: slots.containsKey(i),
                                     )
                                   : house
                                   ? CustomPaint(

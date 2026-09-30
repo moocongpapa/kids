@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'avatar_image.dart';
 import 'forest_game_ui.dart';
 import 'forest_play_stage.dart';
+import 'cute_game_effects.dart';
 import 'journey_garden_scene.dart';
 import 'touch_invitation.dart';
 
@@ -144,6 +145,7 @@ class _JourneyRevealSceneState extends State<JourneyRevealScene> {
                                                 size: extent * .86,
                                                 interactive: false,
                                                 lowStimulation: widget.quiet,
+                                                showBlush: found.contains(i),
                                               ),
                                               if (hat)
                                                 Transform.translate(
@@ -168,14 +170,28 @@ class _JourneyRevealSceneState extends State<JourneyRevealScene> {
                                       duration: widget.quiet
                                           ? Duration.zero
                                           : const Duration(milliseconds: 450),
-                                      child: ForestProp(
-                                        widget.options[i] == ForestObject.home
-                                            ? ForestObject.home
-                                            : widget.options[i] ==
-                                                  ForestObject.cloud
-                                            ? ForestObject.cloud
-                                            : ForestObject.bush,
-                                        size: extent,
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          ForestProp(
+                                            widget.options[i] == ForestObject.home
+                                                ? ForestObject.home
+                                                : widget.options[i] ==
+                                                      ForestObject.cloud
+                                                ? ForestObject.cloud
+                                                : ForestObject.bush,
+                                            size: extent,
+                                          ),
+                                          if (!widget.quiet && !found.contains(i))
+                                            Positioned(
+                                              top: extent * 0.35,
+                                              child: CuteFace(
+                                                mood: FaceMood.idle,
+                                                size: extent * 0.28,
+                                                animateBlink: true,
+                                              ),
+                                            ),
+                                        ],
                                       ),
                                     ),
                                     if (found.contains(i))

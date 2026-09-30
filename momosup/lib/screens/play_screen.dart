@@ -277,6 +277,7 @@ class _PlayScreenState extends State<PlayScreen> {
       const SizedBox(height: 24),
       ForestPlayStage(
         height: 250,
+        quiet: quiet,
         child: Stack(
           alignment: Alignment.center,
           children: [
@@ -286,6 +287,7 @@ class _PlayScreenState extends State<PlayScreen> {
                 avatar: widget.activity.avatar,
                 size: 185,
                 lowStimulation: quiet,
+                showBlush: !quiet,
               ),
             ),
             Positioned(

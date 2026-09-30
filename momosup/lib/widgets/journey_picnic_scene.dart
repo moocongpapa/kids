@@ -117,6 +117,7 @@ class JourneyPicnicScene extends StatelessWidget {
                       size: resting ? 130 : 145,
                       interactive: false,
                       lowStimulation: quiet,
+                      showBlush: gift != null,
                     ),
                   ),
                 ),

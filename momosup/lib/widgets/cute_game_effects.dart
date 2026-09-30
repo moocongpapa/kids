@@ -39,8 +39,15 @@ class _CuteFaceState extends State<CuteFace> {
   @override
   void initState() {
     super.initState();
-    if (widget.animateBlink) {
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.animateBlink && !MediaQuery.disableAnimationsOf(context)) {
       _scheduleNextBlink();
+    } else {
+      _blinkTimer?.cancel();
     }
   }
 
@@ -251,19 +258,28 @@ class _CuteBubblesLayerState extends State<CuteBubblesLayer>
     super.initState();
     _ticker = AnimationController(vsync: this, duration: const Duration(seconds: 10))
       ..addListener(_tick);
-    if (widget.enabled) {
-      _ticker.repeat();
-    }
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _syncMotion();
   }
 
   @override
   void didUpdateWidget(CuteBubblesLayer oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.enabled && !_ticker.isAnimating) {
+    _syncMotion();
+  }
+
+  void _syncMotion() {
+    if (!widget.enabled || MediaQuery.disableAnimationsOf(context)) {
+      if (_ticker.isAnimating) {
+        _ticker.stop();
+        _bubbles.clear();
+      }
+    } else if (!_ticker.isAnimating) {
       _ticker.repeat();
-    } else if (!widget.enabled && _ticker.isAnimating) {
-      _ticker.stop();
-      _bubbles.clear();
     }
   }
 

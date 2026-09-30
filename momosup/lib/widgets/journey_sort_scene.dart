@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'avatar_image.dart';
 import 'forest_game_ui.dart';
 import 'forest_play_stage.dart';
+import 'cute_game_effects.dart';
 import 'touch_invitation.dart';
 
 class JourneySortScene extends StatefulWidget {
@@ -52,19 +53,34 @@ class _JourneySortSceneState extends State<JourneySortScene> {
 
   Widget object(int i, double size) => post
       ? CustomPaint(size: Size.square(size), painter: _Letter(tint(i)))
-      : ColorFiltered(
-          colorFilter: ColorFilter.mode(tint(i), BlendMode.modulate),
-          child: ForestProp(
-            widget.id == 'age_24_02'
-                ? (widget.step == 2 ? ForestObject.leaf : ForestObject.berry)
-                : ForestObject.acorn,
-            size: size,
-          ),
+      : Stack(
+          alignment: Alignment.center,
+          children: [
+            ColorFiltered(
+              colorFilter: ColorFilter.mode(tint(i), BlendMode.modulate),
+              child: ForestProp(
+                widget.id == 'age_24_02'
+                    ? (widget.step == 2 ? ForestObject.leaf : ForestObject.berry)
+                    : ForestObject.acorn,
+                size: size,
+              ),
+            ),
+            if (!widget.quiet)
+              Positioned(
+                top: size * 0.35,
+                child: CuteFace(
+                  mood: picked ? FaceMood.surprised : FaceMood.happy,
+                  size: size * 0.35,
+                  animateBlink: !widget.quiet,
+                ),
+              ),
+          ],
         );
 
   @override
   Widget build(BuildContext context) => ForestPlayStage(
     height: 355,
+    quiet: widget.quiet,
     child: LayoutBuilder(
       builder: (_, box) => Stack(
         alignment: Alignment.center,
@@ -80,6 +96,7 @@ class _JourneySortSceneState extends State<JourneySortScene> {
                 size: 87,
                 interactive: false,
                 lowStimulation: widget.quiet,
+                showBlush: done || widget.progress > 0,
               ),
             ),
           ),
@@ -155,8 +172,20 @@ class _JourneySortSceneState extends State<JourneySortScene> {
                                   color: tint(i),
                                 ),
                               )
-                            else
+                            else ...[
                               const ForestProp(ForestObject.basket, size: 108),
+                              if (!widget.quiet)
+                                Positioned(
+                                  top: 48,
+                                  child: CuteFace(
+                                    mood: (candidates.isNotEmpty || (hint && i == target))
+                                        ? FaceMood.happy
+                                        : FaceMood.idle,
+                                    size: 26,
+                                    animateBlink: !widget.quiet,
+                                  ),
+                                ),
+                            ],
                             Positioned(
                               bottom: 21,
                               child: Container(

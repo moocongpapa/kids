@@ -914,6 +914,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
         ForestPlayStage(
           height: 235,
           river: a.mechanic == 'build',
+          quiet: quiet,
           child: Stack(
             alignment: Alignment.center,
             children: [
@@ -923,6 +924,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
                   avatar: a.avatar,
                   size: 136,
                   lowStimulation: quiet,
+                  showBlush: !quiet,
                 ),
               ),
               Positioned(
@@ -974,7 +976,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen>
   Widget _ending() => Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      AvatarImage(avatar: a.avatar, size: 140, lowStimulation: true),
+      AvatarImage(avatar: a.avatar, size: 140, lowStimulation: true, showBlush: true),
       if (results.isNotEmpty)
         Wrap(
           alignment: WrapAlignment.center,

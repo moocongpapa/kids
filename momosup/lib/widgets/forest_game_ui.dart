@@ -354,6 +354,7 @@ class ForestCompletion extends StatelessWidget {
                   size: compact ? 140 : 180,
                   interactive: false,
                   lowStimulation: quiet,
+                  showBlush: !quiet,
                 ),
               ],
             ),

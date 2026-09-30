@@ -58,6 +58,7 @@ class JourneyStoryScene extends StatelessWidget {
               : ForestPlayStage(
                   height: 320,
                   night: comfort,
+                  quiet: quiet,
                   child: LayoutBuilder(
                     builder: (_, box) => Stack(
                       alignment: Alignment.center,
@@ -212,6 +213,7 @@ class JourneyStoryScene extends StatelessWidget {
                                 size: 132,
                                 interactive: false,
                                 lowStimulation: quiet,
+                                showBlush: ready,
                               ),
                             ),
                           ),
@@ -227,6 +229,7 @@ class JourneyStoryScene extends StatelessWidget {
                               size: 92,
                               interactive: false,
                               lowStimulation: quiet,
+                              showBlush: ready,
                             ),
                           ),
                         if (gift != null && !bus && !travelling)

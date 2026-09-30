@@ -34,6 +34,7 @@ class JourneyRhythmScene extends StatelessWidget {
       ForestPlayStage(
         height: 274,
         river: id == 'age_48_06',
+        quiet: quiet,
         child: LayoutBuilder(
           builder: (_, box) => Stack(
             alignment: Alignment.center,
@@ -48,6 +49,7 @@ class JourneyRhythmScene extends StatelessWidget {
                     size: 115,
                     interactive: false,
                     lowStimulation: quiet,
+                    showBlush: active >= 0,
                   ),
                 ),
               ),

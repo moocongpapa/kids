@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'cute_game_effects.dart';
+
 class AvatarImage extends StatefulWidget {
   const AvatarImage({
     required this.avatar,
@@ -7,6 +9,7 @@ class AvatarImage extends StatefulWidget {
     this.semanticLabel,
     this.interactive = true,
     this.lowStimulation = false,
+    this.showBlush = false,
     super.key,
   });
 
@@ -15,6 +18,7 @@ class AvatarImage extends StatefulWidget {
   final String? semanticLabel;
   final bool interactive;
   final bool lowStimulation;
+  final bool showBlush;
 
   @override
   State<AvatarImage> createState() => _AvatarImageState();
@@ -80,14 +84,28 @@ class _AvatarImageState extends State<AvatarImage>
 
   @override
   Widget build(BuildContext context) {
+    final shouldBlush = !widget.lowStimulation &&
+        !widget.avatar.contains('upset') &&
+        (widget.showBlush || (widget.interactive && _controller.isAnimating));
+
     final imageWidget = Semantics(
       label: widget.semanticLabel ?? '${widget.avatar} 캐릭터',
-      child: Image.asset(
-        'assets/images/${widget.avatar}.png',
-        width: widget.size,
-        height: widget.size,
-        fit: BoxFit.contain,
-        filterQuality: FilterQuality.medium,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Image.asset(
+            'assets/images/${widget.avatar}.png',
+            width: widget.size,
+            height: widget.size,
+            fit: BoxFit.contain,
+            filterQuality: FilterQuality.medium,
+          ),
+          if (shouldBlush)
+            CharacterBlushOverlay(
+              size: widget.size,
+              isBlushing: true,
+            ),
+        ],
       ),
     );
 
