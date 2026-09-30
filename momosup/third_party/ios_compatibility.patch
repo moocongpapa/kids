@@ -1,0 +1,103 @@
+--- a/audio_session/ios/audio_session/Sources/audio_session/DarwinAudioSession.m
++++ b/audio_session/ios/audio_session/Sources/audio_session/DarwinAudioSession.m
+@@ -685,8 +685,24 @@
+     NSNumber *interruptionType = (NSNumber*)[notification.userInfo valueForKey:AVAudioSessionInterruptionTypeKey];
+ 
+     NSNumber *wasSuspended = nil;
+-    if (@available(iOS 10.3, *)) {
++    if (@available(iOS 16.0, *)) {
++        // Apple no longer sends the app-was-suspended reason on iOS 16+.
++        // Preserve the channel's nullable third argument for current systems.
++    } else if (@available(iOS 14.5, *)) {
++        // Only iOS 14.5-15 can report this legacy interruption reason.
++#pragma clang diagnostic push
++#pragma clang diagnostic ignored "-Wdeprecated-declarations"
++        NSNumber *reason = notification.userInfo[AVAudioSessionInterruptionReasonKey];
++        if (reason != nil) {
++            wasSuspended = @([reason integerValue] == AVAudioSessionInterruptionReasonAppWasSuspended);
++        }
++#pragma clang diagnostic pop
++    } else if (@available(iOS 10.3, *)) {
++        // Compatibility for older hosts of this upstream package only.
++#pragma clang diagnostic push
++#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+         wasSuspended = [notification.userInfo valueForKey:AVAudioSessionInterruptionWasSuspendedKey];
++#pragma clang diagnostic pop
+     }
+     if (wasSuspended == nil) {
+         wasSuspended = (id)[NSNull null];
+--- a/kakao_flutter_sdk_auth/pubspec.yaml
++++ b/kakao_flutter_sdk_auth/pubspec.yaml
+@@ -5,7 +5,6 @@
+ repository: https://github.com/kakao/kakao_flutter_sdk
+ issue_tracker: https://github.com/kakao/kakao_flutter_sdk/issues
+ 
+-resolution: workspace
+ 
+ environment:
+   sdk: ^3.9.0
+--- a/kakao_flutter_sdk_auth/ios/kakao_flutter_sdk_auth/Sources/kakao_flutter_sdk_auth/KakaoFlutterSdkAuthPlugin.swift
++++ b/kakao_flutter_sdk_auth/ios/kakao_flutter_sdk_auth/Sources/kakao_flutter_sdk_auth/KakaoFlutterSdkAuthPlugin.swift
+@@ -53,7 +53,15 @@
+     
+     
+     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+-        return UIApplication.shared.windows.filter { $0.isKeyWindow }.first ?? ASPresentationAnchor()
++        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
++        let activeScenes = scenes.filter { $0.activationState == .foregroundActive }
++        let inactiveScenes = scenes.filter { $0.activationState == .foregroundInactive }
++        for scene in activeScenes + inactiveScenes {
++            if let window = scene.windows.first(where: { $0.isKeyWindow }) {
++                return window
++            }
++        }
++        return ASPresentationAnchor()
+     }
+     
+     
+--- a/kakao_flutter_sdk_common/pubspec.yaml
++++ b/kakao_flutter_sdk_common/pubspec.yaml
+@@ -5,7 +5,6 @@
+ repository: https://github.com/kakao/kakao_flutter_sdk
+ issue_tracker: https://github.com/kakao/kakao_flutter_sdk/issues
+ 
+-resolution: workspace
+ 
+ environment:
+   sdk: ^3.9.0
+--- a/kakao_flutter_sdk_common/ios/kakao_flutter_sdk_common/Sources/kakao_flutter_sdk_common/KakaoFlutterSdkCommonPlugin.swift
++++ b/kakao_flutter_sdk_common/ios/kakao_flutter_sdk_common/Sources/kakao_flutter_sdk_common/KakaoFlutterSdkCommonPlugin.swift
+@@ -24,7 +24,15 @@
+     
+     
+     public func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+-        return UIApplication.shared.windows.filter { $0.isKeyWindow }.first ?? ASPresentationAnchor()
++        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
++        let activeScenes = scenes.filter { $0.activationState == .foregroundActive }
++        let inactiveScenes = scenes.filter { $0.activationState == .foregroundInactive }
++        for scene in activeScenes + inactiveScenes {
++            if let window = scene.windows.first(where: { $0.isKeyWindow }) {
++                return window
++            }
++        }
++        return ASPresentationAnchor()
+     }
+     
+     
+--- a/video_player_avfoundation/darwin/video_player_avfoundation/Sources/video_player_avfoundation_objc/include/video_player_avfoundation_objc/FVPAVFactory.h
++++ b/video_player_avfoundation/darwin/video_player_avfoundation/Sources/video_player_avfoundation_objc/include/video_player_avfoundation_objc/FVPAVFactory.h
+@@ -35,8 +35,14 @@
+ @property(nonatomic, readonly) CMTime duration;
+ 
+ /// Wraps the underlying asset's statusOfValueForKey:error: method.
++// This Objective-C bridge still implements AVAsynchronousKeyValueLoading;
++// AVAsyncProperty.Status is a Swift API and is not a drop-in ObjC replacement.
++// Limit the compatibility diagnostic to this declaration, including Swift imports.
++#pragma clang diagnostic push
++#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+ - (AVKeyValueStatus)statusOfValueForKey:(NSString *)key
+                                   error:(NSError *_Nullable *_Nullable)outError;
++#pragma clang diagnostic pop
+ 
+ /// Wraps the underlying asset's loadValuesAsynchronouslyForKeys:completionHandler: method.
+ - (void)loadValuesAsynchronouslyForKeys:(NSArray<NSString *> *)keys

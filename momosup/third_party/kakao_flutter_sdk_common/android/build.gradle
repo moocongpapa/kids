@@ -1,0 +1,84 @@
+group = "com.kakao.sdk.flutter.common"
+version = "1.0-SNAPSHOT"
+
+buildscript {
+    ext.kotlin_version = "2.2.20"
+    repositories {
+        google()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath("com.android.tools.build:gradle:8.11.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version")
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: "com.android.library"
+
+def agpMajorVersion = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize(".")[0] as int
+
+// AGP 9 enables built-in Kotlin support by default, but it can be turned off via
+// android.builtInKotlin=false, in which case KGP is still required. KGP is applied
+// programmatically instead of through a declarative `apply plugin:` statement so that
+// the Flutter tool does not report this plugin as an unmigrated KGP user.
+def builtInKotlinProperty = project.findProperty("android.builtInKotlin")
+def builtInKotlin =
+    builtInKotlinProperty == null
+        ? agpMajorVersion >= 9
+        : Boolean.parseBoolean(builtInKotlinProperty.toString())
+if (!builtInKotlin && project.extensions.findByName("kotlin") == null) {
+    project.pluginManager.apply("org.jetbrains.kotlin.android")
+}
+
+android {
+    namespace = "com.kakao.sdk.flutter.common"
+
+    compileSdk = 36
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    sourceSets {
+        main.java.srcDirs += "src/main/kotlin"
+        test.java.srcDirs += "src/test/kotlin"
+    }
+
+    defaultConfig {
+        minSdk = 24
+    }
+
+    dependencies {
+        implementation("androidx.browser:browser:1.9.0")
+
+        testImplementation("org.jetbrains.kotlin:kotlin-test")
+        testImplementation("org.mockito:mockito-core:5.0.0")
+    }
+
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+
+            testLogging {
+                events "passed", "skipped", "failed", "standardOut", "standardError"
+                outputs.upToDateWhen { false }
+                showStandardStreams = true
+            }
+        }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget = org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17
+    }
+}

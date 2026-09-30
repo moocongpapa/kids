@@ -26,12 +26,11 @@ packages:
     source: hosted
     version: "2.13.1"
   audio_session:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: audio_session
-      sha256: f9e7711a0e24ca8b40f5d7ac374c3c6e55016f3157912badd18199cdbbca5c4d
-      url: "https://pub.dev"
-    source: hosted
+      path: "third_party/audio_session"
+      relative: true
+    source: path
     version: "0.2.4"
   boolean_selector:
     dependency: transitive
@@ -360,20 +359,18 @@ packages:
     source: hosted
     version: "0.4.16"
   kakao_flutter_sdk_auth:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: kakao_flutter_sdk_auth
-      sha256: b9d982569462f6d31f97460f1d6f51acdc290f318967ee14009d20edc3006a12
-      url: "https://pub.dev"
-    source: hosted
+      path: "third_party/kakao_flutter_sdk_auth"
+      relative: true
+    source: path
     version: "2.0.1"
   kakao_flutter_sdk_common:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: kakao_flutter_sdk_common
-      sha256: "6a89e80ef6c080f434b05df87d9dd83323ff6d10ea34d9e0a6cd90d2015f7e48"
-      url: "https://pub.dev"
-    source: hosted
+      path: "third_party/kakao_flutter_sdk_common"
+      relative: true
+    source: path
     version: "2.0.1"
   kakao_flutter_sdk_share:
     dependency: "direct main"
@@ -813,12 +810,11 @@ packages:
     source: hosted
     version: "2.12.2"
   video_player_avfoundation:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
-      name: video_player_avfoundation
-      sha256: "2fc56e537324a19eb649fca991aa308ac961b5406292876fa657b062de461fd8"
-      url: "https://pub.dev"
-    source: hosted
+      path: "third_party/video_player_avfoundation"
+      relative: true
+    source: path
     version: "2.12.0"
   video_player_platform_interface:
     dependency: transitive

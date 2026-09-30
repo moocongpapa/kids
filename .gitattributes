@@ -1,0 +1,2 @@
+# Preserve published third-party source formatting; check our own files normally.
+momosup/third_party/** -whitespace

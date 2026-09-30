@@ -95,7 +95,9 @@ flutter pub get
 flutter build ios --simulator --debug --config-only -t lib/main.dart
 ```
 
-그다음 Xcode에서 `ios/Runner.xcworkspace`를 열고 Runner 스킴과 아이폰 시뮬레이터를 선택해 실행한다. 플러그인의 deprecated API 메시지는 경고이며, SDK 경로 누락과 구분해 확인한다. SDK 설치는 [Flutter 공식 설치 안내](https://docs.flutter.dev/install/manual)를 따른다.
+그다음 Xcode에서 `ios/Runner.xcworkspace`를 열고 Runner 스킴과 아이폰 시뮬레이터를 선택해 실행한다. SDK 설치는 [Flutter 공식 설치 안내](https://docs.flutter.dev/install/manual)를 따른다.
+
+같은 날 남아 있던 iOS 플러그인 경고도 [프로젝트에 보관한 수정본](third_party/README.md)으로 처리했다. 카카오 인증 창은 전경 `UIWindowScene`에서 선택하고, 오디오의 지원 종료된 suspended 알림 처리를 OS 버전별로 구분했다. 영상 Objective-C 선언과 이전 OS 오디오 분기에만 호환성 진단 예외를 적용했다. Xcode 권장 설정을 검토하되 iOS 15 지원을 유지하며, Flutter SDK 헤더와 충돌하는 quoted-include 검사만 비활성화한다. 의존성 원본과 변경 차이·업데이트 방법을 같은 문서에 기록했다.
 
 복구 검증: 영구 SDK로 일반 앱의 iOS 시뮬레이터 디버그 빌드가 41초 만에 성공했다. `integration_test` 패키지 연결이 영구 경로를 가리키고 생성 설정에 이전 임시 SDK 참조가 없는 것을 확인했다. `Info.plist` 검사와 통합 테스트 코드 정적 분석도 통과했다. 네이티브 통합 테스트 전체 실행은 아직 완료하지 않았다.
 

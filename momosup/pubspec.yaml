@@ -25,6 +25,18 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^6.0.0
 
+# Published versions still contain the iOS compatibility issues described in
+# third_party/README.md. Keep the fixes reproducible without modifying pub-cache.
+dependency_overrides:
+  audio_session:
+    path: third_party/audio_session
+  kakao_flutter_sdk_auth:
+    path: third_party/kakao_flutter_sdk_auth
+  kakao_flutter_sdk_common:
+    path: third_party/kakao_flutter_sdk_common
+  video_player_avfoundation:
+    path: third_party/video_player_avfoundation
+
 flutter:
   uses-material-design: true
   fonts:
