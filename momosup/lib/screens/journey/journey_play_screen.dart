@@ -299,7 +299,11 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     final mine = token;
     setState(() => busy = true);
     await narration.stop();
-    for (var i = 0; i < slotCount; i++) {
+    final maxFilled = slots.isEmpty
+        ? 0
+        : slots.keys.reduce(math.max) + 1;
+    final playCount = slots.length == slotCount ? slotCount : maxFilled;
+    for (var i = 0; i < playCount; i++) {
       if (!mounted || ended || token != mine) break;
       setState(() => activeNote = i);
       final note = slots[i];
@@ -791,7 +795,16 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
       ready = true;
     });
     checkpoint.changed();
-    if (sound) SoundEffects.instance.pop();
+    if (sound) {
+      final chosen = options.length > i ? journeyProp(options[i]) : null;
+      if (chosen == ForestObject.berry ||
+          chosen == ForestObject.raspberry ||
+          chosen == ForestObject.blueberry) {
+        SoundEffects.instance.chew();
+      } else {
+        SoundEffects.instance.pop();
+      }
+    }
   }
 
   Widget _reveal() => ['age_30_03', 'age_48_02', 'age_84_05'].contains(a.id)

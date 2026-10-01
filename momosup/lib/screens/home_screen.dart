@@ -22,6 +22,7 @@ import 'parent_screen.dart';
 import 'parent_onboarding_screen.dart';
 import 'family_invite_screen.dart';
 import 'story_forest_screen.dart';
+import '../widgets/touch_invitation.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({required this.appState, required this.catalog, super.key});
@@ -485,10 +486,16 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                       Positioned(
                         left: positions[i].dx,
                         top: positions[i].dy,
-                        child: _ForestPortal(
-                          entry: entries[i],
+                        child: TouchInvitation(
+                          visible:
+                              i == 0 && area == 0 && !profile.lowStimulation,
+                          delay: const Duration(seconds: 4),
                           quiet: profile.lowStimulation,
-                          phase: i.toDouble(),
+                          child: _ForestPortal(
+                            entry: entries[i],
+                            quiet: profile.lowStimulation,
+                            phase: i.toDouble(),
+                          ),
                         ),
                       ),
                   ],

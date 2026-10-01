@@ -10,6 +10,7 @@ import '../avatar_image.dart';
 import '../forest_game_ui.dart';
 import '../game_particles.dart';
 import '../cute_game_effects.dart';
+import '../hand_guide_hint.dart';
 
 class PeekabooGame extends StatefulWidget {
   const PeekabooGame({
@@ -233,6 +234,24 @@ class _PeekabooGameState extends State<PeekabooGame> {
                               child: GameParticles(key: _particlesKey),
                             ),
                           ),
+                          if (totalFound == 0 &&
+                              !widget.lowStimulation &&
+                              activeSpots.isNotEmpty &&
+                              !spotRevealState.values.any((s) => s > 0))
+                            Positioned.fill(
+                              child: IgnorePointer(
+                                child: HandGuideHint(
+                                  start: Offset(
+                                    spotPositions[activeSpots.first].dx + 75,
+                                    spotPositions[activeSpots.first].dy + 120,
+                                  ),
+                                  end: Offset(
+                                    spotPositions[activeSpots.first].dx + 75,
+                                    spotPositions[activeSpots.first].dy + 65,
+                                  ),
+                                ),
+                              ),
+                            ),
                         ],
                       ),
                     ),

@@ -224,7 +224,11 @@ class _XylophoneGameState extends State<XylophoneGame>
     }
   }
 
+  bool _melodyCompleted = false;
+
   void _completeMelody() {
+    if (_melodyCompleted) return;
+    _melodyCompleted = true;
     GameFeedback.celebration(lowStimulation: widget.lowStimulation);
     SoundEffects.instance.tada();
     widget.onComplete?.call();

@@ -227,7 +227,7 @@ class JourneyStoryScene extends StatelessWidget {
                             left: 8,
                             bottom: 52,
                             child: AvatarImage(
-                              avatar: 'momo',
+                              avatar: avatar == 'momo' ? 'duri' : 'momo',
                               size: 92,
                               interactive: false,
                               lowStimulation: quiet,
