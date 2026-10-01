@@ -212,6 +212,89 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
                                   ),
                                 ),
                               ),
+                              if (!widget.preview) ...[
+                                Builder(
+                                  builder: (_) {
+                                    final progress = widget.appState
+                                        .storyProgress(
+                                          widget.profile.id,
+                                          items[i].id,
+                                        );
+                                    if (progress['complete'] == true) {
+                                      return Positioned(
+                                        top: 18,
+                                        right: 20,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 4,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF5A7942),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: const Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                Icons.star_rounded,
+                                                size: 14,
+                                                color: Colors.amber,
+                                              ),
+                                              SizedBox(width: 4),
+                                              Text(
+                                                '다 봤어요',
+                                                style: TextStyle(
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    } else if (_canResume(items[i])) {
+                                      return Positioned(
+                                        top: 18,
+                                        right: 20,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                            horizontal: 10,
+                                            vertical: 4,
+                                          ),
+                                          decoration: BoxDecoration(
+                                            color: const Color(0xFF6B8A52),
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          child: const Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                Icons.eco_rounded,
+                                                size: 13,
+                                                color: Colors.white,
+                                              ),
+                                              SizedBox(width: 4),
+                                              Text(
+                                                '이어 보기',
+                                                style: TextStyle(
+                                                  fontSize: 11,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.white,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                    return const SizedBox.shrink();
+                                  },
+                                ),
+                              ],
                             ],
                           ),
                         ),

@@ -209,6 +209,17 @@ class _XylophoneGameState extends State<XylophoneGame>
                   : 8) &&
           !_unlockedFollowMode) {
         setState(() => _unlockedFollowMode = true);
+        GameFeedback.celebration(lowStimulation: widget.lowStimulation);
+        SoundEffects.instance.tada();
+        if (!widget.lowStimulation) {
+          final stackBox =
+              _stackKey.currentContext?.findRenderObject() as RenderBox?;
+          if (stackBox != null) {
+            final center =
+                Offset(stackBox.size.width / 2, stackBox.size.height / 2);
+            _particlesKey.currentState?.celebrate(center);
+          }
+        }
       }
     } else if (_currentMode == GameMode.follow) {
       if (_melodyProgress < _melodySequence.length &&
@@ -585,22 +596,29 @@ class _XylophoneGameState extends State<XylophoneGame>
 
   Widget _buildModeButton(GameMode mode, String text, IconData icon) {
     final isSelected = _currentMode == mode;
-    return ForestAction(
-      label: text,
-      onPressed: () {
-        if (_currentMode != mode) {
-          setState(() {
-            _currentMode = mode;
-            _melodyProgress = 0;
-          });
-          widget.onModeChanged?.call(mode == GameMode.follow);
-        }
-      },
-      leaf: true,
-      selected: isSelected,
-      size: 72,
-      caption: text,
-      child: Icon(icon, color: forestCream, size: 36),
+    final shouldNudge = mode == GameMode.follow &&
+        _unlockedFollowMode &&
+        _currentMode == GameMode.freePlay &&
+        !widget.lowStimulation;
+    return IdleNudge(
+      active: shouldNudge,
+      child: ForestAction(
+        label: text,
+        onPressed: () {
+          if (_currentMode != mode) {
+            setState(() {
+              _currentMode = mode;
+              _melodyProgress = 0;
+            });
+            widget.onModeChanged?.call(mode == GameMode.follow);
+          }
+        },
+        leaf: true,
+        selected: isSelected,
+        size: 72,
+        caption: text,
+        child: Icon(icon, color: forestCream, size: 36),
+      ),
     );
   }
 }

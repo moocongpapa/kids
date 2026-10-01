@@ -9,6 +9,7 @@ import 'forest_game_ui.dart';
 import 'forest_play_stage.dart';
 import 'journey_garden_scene.dart';
 import 'touch_invitation.dart';
+import '../utils/sound_effects.dart';
 
 class ClassicForestScene extends StatelessWidget {
   const ClassicForestScene({
@@ -323,25 +324,32 @@ class _ForestMovementSceneState extends State<ForestMovementScene> {
     height: 350,
     child: GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () => setState(() => replay++),
+      onTap: () {
+        SoundEffects.instance.pop();
+        setState(() => replay++);
+      },
       child: Tooltip(
         message: '동작 다시 보기',
         child: Semantics(
           button: true,
           label: '동작 다시 보기',
-          child: TweenAnimationBuilder<double>(
-            key: ValueKey('${widget.step}-$replay'),
-            tween: Tween(begin: 0, end: 1),
-            duration: widget.quiet
-                ? Duration.zero
-                : const Duration(milliseconds: 2400),
-            builder: (_, t, _) => CustomPaint(
-              painter: _MovementBuddy(
-                widget.id,
-                widget.step,
-                widget.quiet ? 0 : math.sin(t * math.pi * 4),
+          child: SceneReaction(
+            event: 'buddy-$replay',
+            quiet: widget.quiet,
+            child: TweenAnimationBuilder<double>(
+              key: ValueKey('${widget.step}-$replay'),
+              tween: Tween(begin: 0, end: 1),
+              duration: widget.quiet
+                  ? Duration.zero
+                  : const Duration(milliseconds: 2400),
+              builder: (_, t, _) => CustomPaint(
+                painter: _MovementBuddy(
+                  widget.id,
+                  widget.step,
+                  widget.quiet ? 0 : math.sin(t * math.pi * 4),
+                ),
+                child: const SizedBox.expand(),
               ),
-              child: const SizedBox.expand(),
             ),
           ),
         ),

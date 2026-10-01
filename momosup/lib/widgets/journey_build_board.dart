@@ -188,14 +188,17 @@ class JourneyBuildBoard extends StatelessWidget {
                   ),
                 ),
               ),
-            if (trial == null)
+            if (trial == null ||
+                (trial != null && active < 0 && trial!.evaluate().success))
               AnimatedPositioned(
                 duration: quiet
                     ? Duration.zero
                     : const Duration(milliseconds: 370),
                 curve: Curves.easeInOut,
                 left: active < 0
-                    ? 4
+                    ? ((trial != null && trial!.evaluate().success)
+                        ? (w - 76)
+                        : 4)
                     : positions[active.clamp(0, count - 1)].center.dx - 32,
                 top: active < 0
                     ? (house || garden ? 228 : 97)
