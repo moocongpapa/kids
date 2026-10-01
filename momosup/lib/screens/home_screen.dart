@@ -22,6 +22,7 @@ import 'parent_screen.dart';
 import 'parent_onboarding_screen.dart';
 import 'family_invite_screen.dart';
 import 'story_forest_screen.dart';
+import 'coloring_screen.dart';
 import '../widgets/touch_invitation.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -360,6 +361,21 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               .take(3)
               .toList();
     final entries = <_WorldEntry>[
+      if (area == 2)
+        _WorldEntry(
+          ForestObject.flower,
+          '색칠하기',
+          '톡톡 색칠하기',
+          () => Navigator.push(
+            context,
+            MaterialPageRoute<void>(
+              builder: (_) => ColoringScreen(
+                profile: profile,
+                appState: widget.appState,
+              ),
+            ),
+          ),
+        ),
       for (final e in section)
         _WorldEntry(
           journeyProp(e.symbol),
