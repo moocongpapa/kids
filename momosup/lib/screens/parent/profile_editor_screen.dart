@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/age_journey.dart';
 import '../../models/child_profile.dart';
 import '../../state/app_state.dart';
+import '../../utils/child_birth_date_picker.dart';
 import '../../widgets/avatar_image.dart';
 import 'parent_common_widgets.dart';
 
@@ -73,20 +74,9 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
       initialDate = DateTime.now().subtract(Duration(days: ageMonths * 30));
     }
 
-    final today = DateUtils.dateOnly(DateTime.now());
-    final firstDate = DateTime(today.year - 10, today.month, today.day);
-    initialDate = initialDate.isBefore(firstDate)
-        ? firstDate
-        : initialDate.isAfter(today)
-        ? today
-        : initialDate;
-    final picked = await showDatePicker(
+    final picked = await showChildBirthDatePicker(
       context: context,
       initialDate: initialDate,
-      firstDate: firstDate,
-      lastDate: today,
-      locale: const Locale('ko', 'KR'),
-      helpText: '아이 생년월일 선택',
     );
     if (picked != null && mounted) {
       final y = picked.year;

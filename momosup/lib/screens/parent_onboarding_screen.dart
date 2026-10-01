@@ -6,6 +6,7 @@ import '../models/parent_account.dart';
 import '../services/kakao_auth_service.dart';
 import '../state/app_state.dart';
 import '../utils/development_access.dart';
+import '../utils/child_birth_date_picker.dart';
 import '../widgets/avatar_image.dart';
 import '../widgets/forest_background.dart';
 import '../widgets/kakao_share_modal.dart';
@@ -155,15 +156,9 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
   }
 
   Future<void> _selectBirthDate() async {
-    final picked = await showDatePicker(
+    final picked = await showChildBirthDatePicker(
       context: context,
       initialDate: birthDate,
-      firstDate: DateTime.now().subtract(const Duration(days: 365 * 10)),
-      lastDate: DateTime.now(),
-      locale: const Locale('ko', 'KR'),
-      helpText: '아이 생년월일 선택',
-      cancelText: '취소',
-      confirmText: '확인',
     );
     if (picked != null && mounted) {
       setState(() => birthDate = picked);

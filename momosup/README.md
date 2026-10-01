@@ -8,9 +8,10 @@
 
 - 첫 화면과 카카오 시작 화면에 **로그인 없이 시작하기**를 추가했다. 아이 정보·생년월일·보호자 PIN을 등록하면 카카오 SDK 로그인 호출 없이 놀이를 이용한다. 접속 정보는 `local_dev`로 구분해 기기에 저장하며 재실행해도 유지한다. 기존 프로필·계정은 삭제하지 않는다.
 - Debug/Profile 빌드에서는 기본으로 켜지고 Release에서는 기본으로 꺼진다. `--dart-define=MOMOSUP_DEV_ACCESS=false`로 끌 수 있다. 개발용 Release 배포에서 필요하면 `--dart-define=MOMOSUP_DEV_ACCESS=true`를 명시한다.
-- [Flutter 공식 지역화 설정](https://docs.flutter.dev/ui/internationalization)을 적용해 한국어 생년월일 달력의 Material 지역화 누락을 수정했다. 프로필 수정에서 저장된 생일이 달력 범위 밖이면 초기 선택을 범위 안으로 조정한다. 날짜 선택 취소는 기존 값을 유지한다.
+- [Flutter 공식 지역화 설정](https://docs.flutter.dev/ui/internationalization)을 앱과 공통 생년월일 달력에 적용했다. 달력은 자체적으로 한국어 Material·Widgets·Cupertino 리소스를 제공하므로 한국어 설정이 없는 기존 앱 화면에서도 열린다. 생일이 달력 범위 밖이면 초기 선택을 범위 안으로 조정하고, 날짜 선택 취소는 기존 값을 유지한다.
 - [카카오 로그인 취소 처리](https://developers.kakao.com/docs/ko/kakaologin/flutter)에 따라 취소 시 계정 로그인으로 다시 보내지 않는다. SDK 실패를 가짜 카카오 계정으로 바꾸던 동작과 토큰 일부를 출력하던 로그를 제거했다. 화면을 닫은 뒤 늦게 응답해도 화면 상태를 갱신하지 않는다.
 - 390×844 크기에서 한국어 달력·로그인 취소 → 로그인 없는 등록 → 날짜 확인/취소 → PIN → 저장·복원, 홈에서 바로 등록, 범위 밖 날짜와 SDK 실패를 자동 검증한다. 작은 화면의 캐릭터 선택도 줄바꿈해 잘림을 수정했다. Xcode에서는 앱을 정지한 뒤 다시 Run해야 패키지·접속 설정 변경이 적용된다.
+- `test/child_birth_date_picker_test.dart`에서는 한국어 설정이 없는 기본 `MaterialApp`에서 등록·프로필 수정 달력을 연다. 이전 코드에서 첨부된 `No MaterialLocalizations found` 오류를 두 화면 모두 재현했고, 공통 달력 수정 후 취소까지 통과했다. 관련 온보딩 검사 총 15개와 정적 분석, `lib/main.dart`를 대상으로 한 iOS 시뮬레이터 Debug 빌드도 통과했다. 이번 달력 수정의 네이티브 화면 조작은 아직 수행하지 않았다.
 
 ### 아이 놀이의 가로 화면 · 2026-10-01
 
