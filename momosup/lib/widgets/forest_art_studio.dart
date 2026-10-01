@@ -1,3 +1,4 @@
+import 'forest_landscape.dart';
 import '../utils/sound_effects.dart';
 
 import 'dart:math' as math;
@@ -101,7 +102,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
   }
 
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context) => ForestSceneComposition(
     children: [
       SceneReaction(
         event: wiggle,
@@ -125,7 +126,10 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
             child: RepaintBoundary(
               key: widget.captureKey,
               child: AspectRatio(
-                aspectRatio: 1.08,
+                aspectRatio: ForestSceneViewport.of(context) == null
+                    ? 1.08
+                    : ForestSceneViewport.of(context)!.width /
+                          ForestSceneViewport.of(context)!.height,
                 child: LayoutBuilder(
                   builder: (_, box) => RawGestureDetector(
                     key: widget.canvasKey,
@@ -196,7 +200,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
           for (var i = 0; i < (widget.simple ? 3 : colors.length); i++)
             PlayPiece(
               label: '${['분홍', '노랑', '초록', '파랑', '보라', '짙은 초록'][i]} 크레용',
-              size: 56,
+              size: forestIsWide(context) ? 64 : 56,
               quiet: widget.quiet,
               selected: color == i,
               enabled: !widget.locked,
@@ -217,7 +221,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
           for (var i = 0; i < 4; i++)
             PlayPiece(
               label: ['붓으로 그리기', '꽃 도장', '나뭇잎 도장', '반짝 도장'][i],
-              size: 61,
+              size: forestIsWide(context) ? 64 : 61,
               selected: stamp == i,
               quiet: widget.quiet,
               enabled: !widget.locked,
@@ -231,7 +235,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
             ),
           PlayPiece(
             label: '마지막 선 지우기',
-            size: 61,
+            size: forestIsWide(context) ? 64 : 61,
             quiet: widget.quiet,
             enabled: widget.marks.isNotEmpty && !widget.locked,
             onTap: () {
@@ -248,7 +252,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
         children: [
           PlayPiece(
             label: broad ? '가는 붓으로 바꾸기' : '굵은 붓으로 바꾸기',
-            size: 62,
+            size: forestIsWide(context) ? 64 : 62,
             quiet: widget.quiet,
             onTap: () => setState(() => broad = !broad),
             child: Center(
@@ -264,7 +268,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
           ),
           PlayPiece(
             label: '그림 흔들어 보기',
-            size: 62,
+            size: forestIsWide(context) ? 64 : 62,
             quiet: widget.quiet,
             enabled: widget.marks.isNotEmpty,
             onTap: () => setState(() => wiggle++),

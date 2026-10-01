@@ -1,3 +1,5 @@
+import '../forest_landscape.dart';
+
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -391,7 +393,7 @@ class _SortingGameState extends State<SortingGame>
     return Stack(
       key: _stackKey,
       children: [
-        Column(
+        ForestToyComposition(
           children: [
             ForestProgress(count: sorted.length, total: acorns.length),
             Expanded(
@@ -448,10 +450,10 @@ class _SortingGameState extends State<SortingGame>
                 ),
               ),
             ),
-            SingleChildScrollView(
+            ForestTrayScroll(
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Row(
+              child: ForestChoiceTray(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: acorns.map((a) {
                   final isSorted = sorted.contains(a.id);

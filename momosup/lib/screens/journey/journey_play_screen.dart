@@ -1,4 +1,6 @@
 import '../../utils/narration_player.dart';
+import '../../utils/forest_orientation.dart';
+import '../../widgets/forest_landscape.dart';
 import '../../widgets/journey_detective_scene.dart';
 import '../../game/build_experiment.dart';
 import '../../utils/play_session.dart';
@@ -337,78 +339,151 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
         body: const Center(child: Text('보호자 공방에서 월령과 검수를 먼저 확인해 주세요.')),
       );
     }
-    return PlaySessionView(
-      session: session,
-      child: PopScope(
-        canPop: ended || !started,
-        onPopInvokedWithResult: (didPop, _) {
-          if (!didPop) finish();
-        },
-        child: Scaffold(
-          body: ForestBackground(
-            lowStimulation: quiet,
-            child: SafeArea(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      children: [
-                        ForestAction(
-                          label: '놀이 닫기',
-                          icon: Icons.close_rounded,
-                          onPressed: () {
-                            if (started && !ended) {
-                              finish();
-                            } else {
-                              Navigator.pop(context);
-                            }
-                          },
-                          size: 58,
-                          quiet: quiet,
-                        ),
-                        const Spacer(),
-                        if (widget.preview) const Text('보호자 미리보기'),
-                        const Spacer(),
-                        if (!ended)
-                          ForestAction(
-                            label: '안내 다시 듣기',
-                            icon: Icons.volume_up_rounded,
-                            onPressed: narrate,
-                            size: 58,
-                            quiet: quiet,
+    return ForestOrientationScope(
+      child: PlaySessionView(
+        session: session,
+        child: PopScope(
+          canPop: ended || !started,
+          onPopInvokedWithResult: (didPop, _) {
+            if (!didPop) finish();
+          },
+          child: forestIsWide(context)
+              ? _landscape()
+              : Scaffold(
+                  body: ForestBackground(
+                    lowStimulation: quiet,
+                    child: SafeArea(
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(12),
+                            child: Row(
+                              children: [
+                                ForestAction(
+                                  label: '놀이 닫기',
+                                  icon: Icons.close_rounded,
+                                  onPressed: () {
+                                    if (started && !ended) {
+                                      finish();
+                                    } else {
+                                      Navigator.pop(context);
+                                    }
+                                  },
+                                  size: 58,
+                                  quiet: quiet,
+                                ),
+                                const Spacer(),
+                                if (widget.preview) const Text('보호자 미리보기'),
+                                const Spacer(),
+                                if (!ended)
+                                  ForestAction(
+                                    label: '안내 다시 듣기',
+                                    icon: Icons.volume_up_rounded,
+                                    onPressed: narrate,
+                                    size: 58,
+                                    quiet: quiet,
+                                  ),
+                              ],
+                            ),
                           ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: LayoutBuilder(
-                      builder: (context, box) => SingleChildScrollView(
-                        controller: sceneScroll,
-                        child: ConstrainedBox(
-                          constraints: BoxConstraints(minHeight: box.maxHeight),
-                          child: Padding(
-                            padding: const EdgeInsets.fromLTRB(16, 8, 16, 24),
-                            child: ended
-                                ? _ending()
-                                : !started
-                                ? _intro()
-                                : _play(),
+                          Expanded(
+                            child: LayoutBuilder(
+                              builder: (context, box) => SingleChildScrollView(
+                                controller: sceneScroll,
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    minHeight: box.maxHeight,
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.fromLTRB(
+                                      16,
+                                      8,
+                                      16,
+                                      24,
+                                    ),
+                                    child: ended
+                                        ? _ending()
+                                        : !started
+                                        ? _intro()
+                                        : _play(),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
+                ),
         ),
       ),
     );
   }
 
-  Widget _intro() => Column(
+  Widget _landscape() => ForestLandscapeFrame(
+    quiet: quiet,
+    preview: widget.preview,
+    onExit: () {
+      if (started && !ended) {
+        finish();
+      } else {
+        Navigator.pop(context);
+      }
+    },
+    onReplay: narrate,
+    child: ended
+        ? _ending()
+        : !started
+        ? _intro()
+        : _playLandscape(),
+  );
+  Widget _playLandscape() => ForestSceneComposition(
+    controlsWidth: 100,
+    children: [
+      if (audioFailed && !widget.preview)
+        Center(
+          child: ForestAction(
+            label: '소리 재시도',
+            icon: Icons.refresh_rounded,
+            onPressed: narrate,
+            size: 90,
+          ),
+        )
+      else
+        switch (a.mechanic) {
+          'reveal' => _reveal(),
+          'sort' => _sort(),
+          'build' => _build(),
+          'rhythm' => _rhythm(),
+          'draw' => _draw(),
+          _ => _story(),
+        },
+      ForestProgress(count: step + 1, total: sceneCount),
+      if (widget.preview) Text(a.steps[step], textAlign: TextAlign.center),
+      if (!ready && !busy)
+        ForestAction(
+          label: '도움 그림 보기',
+          icon: Icons.touch_app_rounded,
+          size: 72,
+          quiet: quiet,
+          onPressed: () => setState(() => helpRequested = !helpRequested),
+        ),
+      if (ready && (!audioFailed || widget.preview))
+        ForestAction(
+          label: step + 1 >= sceneCount ? '놀이 마치기' : '다음 장면',
+          icon: step + 1 >= sceneCount
+              ? Icons.check_rounded
+              : Icons.spa_rounded,
+          onPressed: next,
+          size: 86,
+          leaf: true,
+          quiet: quiet,
+        ),
+    ],
+  );
+
+  Widget _intro() => ForestSceneComposition(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       if (a.id == 'age_48_01')
@@ -486,7 +561,84 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
       ),
     ],
   );
-  Widget _ending() => Column(
+  Widget _ending() {
+    final viewport = ForestSceneViewport.of(context);
+    if (forestIsWide(context)) {
+      return Row(
+        children: [
+          Expanded(
+            child: Column(
+              children: [
+                Expanded(
+                  child: Center(
+                    child: AvatarImage(
+                      avatar: a.avatar,
+                      size: 140,
+                      lowStimulation: true,
+                      showBlush: true,
+                    ),
+                  ),
+                ),
+                if (results.isNotEmpty)
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: results
+                        .take(6)
+                        .map((s) => ForestProp(journeyProp(s), size: 64))
+                        .toList(),
+                  ),
+                if (strokes.isNotEmpty)
+                  SizedBox(
+                    height: math.min(140, (viewport?.height ?? 280) / 2),
+                    width: double.infinity,
+                    child: CustomPaint(
+                      painter: ForestArtPainter(a.id, strokes),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          SizedBox(
+            width: 220,
+            child: Column(
+              children: [
+                const ForestSign('즐거웠어!'),
+                const SizedBox(height: 12),
+                ForestAction(
+                  label: '숲으로 돌아가기',
+                  onPressed: () => Navigator.pop(context),
+                  size: 96,
+                  leaf: true,
+                  quiet: true,
+                  child: const ForestProp(ForestObject.home, size: 65),
+                ),
+                const SizedBox(height: 12),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Text(
+                      a.offscreen,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: forestInk,
+                        fontSize: 15,
+                        height: 1.5,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
+    return _endingPortrait();
+  }
+
+  Widget _endingPortrait() => ForestSceneComposition(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       AvatarImage(
@@ -765,7 +917,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     }
   }
 
-  Widget _build() => Column(
+  Widget _build() => ForestSceneComposition(
     children: [
       JourneyBuildBoard(
         id: a.id,

@@ -16,7 +16,17 @@ void main() {
     fixtures.approvedPack = await AgeJourneyRepository().load();
   });
 
+  void portraitFallback(WidgetTester tester) {
+    tester.view.physicalSize = const Size(390, 844);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+  }
+
   testWidgets('새 월령 놀이의 첫 안내는 입장 즉시 들리고 시작 후 중복되지 않는다', (tester) async {
+    portraitFallback(tester);
     final a = fixtures.approvedPack.firstWhere((a) => a.id == 'age_48_01');
     final state = await fixtures.prepare(48);
     final played = <String>[];
@@ -76,6 +86,7 @@ void main() {
   });
 
   Future<void> openPlay(WidgetTester tester, String id, {int stage = 1}) async {
+    portraitFallback(tester);
     final a = fixtures.fixture.firstWhere((a) => a.id == id);
     final state = await fixtures.prepare(a.minAge);
     await tester.pumpWidget(

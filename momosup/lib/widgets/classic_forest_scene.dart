@@ -1,3 +1,5 @@
+import 'forest_landscape.dart';
+
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -52,7 +54,7 @@ class ClassicForestScene extends StatelessWidget {
           lowStimulation: quiet,
         );
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context) => ForestSceneComposition(
     children: [
       DragTarget<int>(
         onWillAcceptWithDetails: (d) => d.data >= 0 && d.data < choices.length,
@@ -233,7 +235,7 @@ class ClassicForestScene extends StatelessWidget {
       ),
       const SizedBox(height: 10),
       LayoutBuilder(
-        builder: (_, box) => Row(
+        builder: (_, box) => ForestChoiceTray(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             for (var i = 0; i < choices.length; i++)
@@ -356,7 +358,8 @@ class _MovementBuddy extends CustomPainter {
   @override
   void paint(Canvas c, Size s) {
     c.save();
-    c.translate(s.width / 2, 183);
+    c.translate(s.width / 2, s.height * 183 / 350);
+    c.scale(math.min(1.0, s.height / 350));
     final rest = step == 2;
     c.rotate(rest ? 0 : wave * .05);
     final fur = Paint()..color = const Color(0xFFC99562);

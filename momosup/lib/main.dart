@@ -5,6 +5,7 @@ import 'data/catalog_repository.dart';
 import 'models/activity.dart';
 import 'screens/home_screen.dart';
 import 'state/app_state.dart';
+import 'utils/forest_orientation.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -44,6 +45,7 @@ class _MomosupAppState extends State<MomosupApp> {
   Widget build(BuildContext context) => MaterialApp(
     title: '모모숲',
     debugShowCheckedModeBanner: false,
+    navigatorObservers: [forestOrientationObserver],
     theme: ThemeData(
       useMaterial3: true,
       fontFamily: 'NotoSansKR',

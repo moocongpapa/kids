@@ -1,3 +1,5 @@
+import '../forest_landscape.dart';
+
 import 'package:flutter/material.dart';
 
 import '../../utils/sound_effects.dart';
@@ -307,10 +309,24 @@ class _XylophoneGameState extends State<XylophoneGame>
               children: [
                 Positioned(
                   top: 8,
-                  child: Text(
-                    _fairyIcons[index],
-                    style: TextStyle(fontSize: barHeight > 100 ? 16 : 13),
-                  ),
+                  child: forestIsWide(context)
+                      ? ForestProp(
+                          const [
+                            ForestObject.berry,
+                            ForestObject.sun,
+                            ForestObject.flower,
+                            ForestObject.leaf,
+                            ForestObject.cloud,
+                            ForestObject.paw,
+                            ForestObject.acorn,
+                            ForestObject.heart,
+                          ][index],
+                          size: barHeight > 100 ? 22 : 18,
+                        )
+                      : Text(
+                          _fairyIcons[index],
+                          style: TextStyle(fontSize: barHeight > 100 ? 16 : 13),
+                        ),
                 ),
                 if (barHeight > 100)
                   Positioned(
@@ -385,7 +401,7 @@ class _XylophoneGameState extends State<XylophoneGame>
       children: [
         if (!widget.lowStimulation)
           CuteBubblesLayer(particlesKey: _particlesKey),
-        Column(
+        ForestToyComposition(
           children: [
             if (!widget.lowStimulation) ...[
               const SizedBox(height: 16),
@@ -440,7 +456,7 @@ class _XylophoneGameState extends State<XylophoneGame>
                 final isNarrow = constraints.maxWidth < 500;
                 if (isNarrow) {
                   final barW = ((constraints.maxWidth - 36) / 4).clamp(
-                    60.0,
+                    forestIsWide(context) ? 64.0 : 60.0,
                     84.0,
                   );
                   return Center(

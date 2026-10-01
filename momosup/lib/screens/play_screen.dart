@@ -1,4 +1,6 @@
 import '../utils/sound_effects.dart';
+import '../utils/forest_orientation.dart';
+import '../widgets/forest_landscape.dart';
 import '../utils/narration_player.dart';
 import '../utils/play_session.dart';
 import '../utils/play_checkpoint.dart';
@@ -257,68 +259,107 @@ class _PlayScreenState extends State<PlayScreen> {
   };
 
   @override
-  Widget build(BuildContext context) => PlaySessionView(
-    session: session,
-    child: PopScope(
-      canPop: phase == 2 || widget.isParentPreview,
-      onPopInvokedWithResult: (didPop, _) {
-        if (!didPop && phase != 2) finish();
-      },
-      child: Scaffold(
-        body: ForestBackground(
-          lowStimulation: quiet,
-          clearing: true,
-          child: SafeArea(
-            child: Column(
-              children: [
-                ForestHeader(
-                  title: shortTitle,
-                  preview: widget.isParentPreview,
-                  onExit: phase == 2
-                      ? () => Navigator.of(context).pop()
-                      : finish,
-                  onReplay: () {
-                    if (audioFailed) setState(() => audioFailed = false);
-                    playAudio(
-                      phase == 0
-                          ? ['intro']
-                          : phase == 2
-                          ? ['outro', 'offscreen']
-                          : ['prompt'],
-                    );
-                  },
-                ),
-                Expanded(
-                  child: Center(
-                    child: ConstrainedBox(
-                      constraints: const BoxConstraints(maxWidth: 680),
-                      child: ListView(
-                        controller: sceneScroll,
-                        padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-                        children: [
-                          if (audioFailed)
-                            _Banner(
-                              widget.isParentPreview
-                                  ? '음성을 재생하지 못했어요. 위의 소리 버튼으로 다시 들어 주세요.'
-                                  : '안내 소리를 다시 들어 주세요. 그림을 보며 계속 놀 수도 있어요.',
+  Widget build(BuildContext context) => ForestOrientationScope(
+    child: PlaySessionView(
+      session: session,
+      child: PopScope(
+        canPop: phase == 2 || widget.isParentPreview,
+        onPopInvokedWithResult: (didPop, _) {
+          if (!didPop && phase != 2) finish();
+        },
+        child: forestIsWide(context)
+            ? _landscape(context)
+            : Scaffold(
+                body: ForestBackground(
+                  lowStimulation: quiet,
+                  clearing: true,
+                  child: SafeArea(
+                    child: Column(
+                      children: [
+                        ForestHeader(
+                          title: shortTitle,
+                          preview: widget.isParentPreview,
+                          onExit: phase == 2
+                              ? () => Navigator.of(context).pop()
+                              : finish,
+                          onReplay: () {
+                            if (audioFailed) {
+                              setState(() => audioFailed = false);
+                            }
+                            playAudio(
+                              phase == 0
+                                  ? ['intro']
+                                  : phase == 2
+                                  ? ['outro', 'offscreen']
+                                  : ['prompt'],
+                            );
+                          },
+                        ),
+                        Expanded(
+                          child: Center(
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxWidth: 680),
+                              child: ListView(
+                                controller: sceneScroll,
+                                padding: const EdgeInsets.fromLTRB(
+                                  16,
+                                  12,
+                                  16,
+                                  24,
+                                ),
+                                children: [
+                                  if (audioFailed)
+                                    _Banner(
+                                      widget.isParentPreview
+                                          ? '음성을 재생하지 못했어요. 위의 소리 버튼으로 다시 들어 주세요.'
+                                          : '안내 소리를 다시 들어 주세요. 그림을 보며 계속 놀 수도 있어요.',
+                                    ),
+                                  if (phase == 0) _intro(context),
+                                  if (phase == 1) _interaction(context),
+                                  if (phase == 2) _ending(context),
+                                ],
+                              ),
                             ),
-                          if (phase == 0) _intro(context),
-                          if (phase == 1) _interaction(context),
-                          if (phase == 2) _ending(context),
-                        ],
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-        ),
+              ),
       ),
     ),
   );
 
-  Widget _intro(BuildContext context) => Column(
+  Widget _landscape(BuildContext context) => ForestLandscapeFrame(
+    quiet: quiet,
+    preview: widget.isParentPreview,
+    onExit: phase == 2 ? () => Navigator.pop(context) : finish,
+    onFinish: phase == 1 ? finish : null,
+    onReplay: () {
+      if (audioFailed) {
+        setState(() => audioFailed = false);
+      }
+      playAudio(
+        phase == 0
+            ? ['intro']
+            : phase == 2
+            ? ['outro', 'offscreen']
+            : ['prompt'],
+      );
+    },
+    child: phase == 0
+        ? _intro(context)
+        : phase == 2
+        ? _ending(context)
+        : switch (widget.activity.mode) {
+            PlayMode.touch => _touch(context),
+            PlayMode.move => _move(context),
+            PlayMode.color => _color(context),
+          },
+  );
+
+  Widget _intro(BuildContext context) => ForestSceneComposition(
     children: [
       const SizedBox(height: 24),
       ForestPlayStage(
@@ -434,7 +475,7 @@ class _PlayScreenState extends State<PlayScreen> {
     ],
   );
 
-  Widget _touch(BuildContext context) => Column(
+  Widget _touch(BuildContext context) => ForestSceneComposition(
     children: [
       ClassicForestScene(
         id: widget.activity.id,
@@ -466,7 +507,7 @@ class _PlayScreenState extends State<PlayScreen> {
     ],
   );
 
-  Widget _move(BuildContext context) => Column(
+  Widget _move(BuildContext context) => ForestSceneComposition(
     children: [
       ForestMovementScene(id: widget.activity.id, step: step, quiet: quiet),
       if (widget.isParentPreview)
@@ -497,7 +538,7 @@ class _PlayScreenState extends State<PlayScreen> {
     ],
   );
 
-  Widget _color(BuildContext context) => Column(
+  Widget _color(BuildContext context) => ForestSceneComposition(
     children: [
       ForestArtStudio(
         theme: widget.activity.id,
@@ -534,7 +575,7 @@ class _PlayScreenState extends State<PlayScreen> {
     ],
   );
 
-  Widget _ending(BuildContext context) => Column(
+  Widget _ending(BuildContext context) => ForestSceneComposition(
     children: [
       ForestCompletion(
         avatar: widget.activity.avatar,

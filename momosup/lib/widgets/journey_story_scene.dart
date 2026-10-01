@@ -1,3 +1,5 @@
+import 'forest_landscape.dart';
+
 import 'package:flutter/material.dart';
 
 import 'avatar_image.dart';
@@ -47,7 +49,7 @@ class JourneyStoryScene extends StatelessWidget {
   ForestObject? get gift => ready ? options[selected] : null;
 
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context) => ForestSceneComposition(
     children: [
       DragTarget<int>(
         onWillAcceptWithDetails: (d) => d.data >= 0 && d.data < options.length,

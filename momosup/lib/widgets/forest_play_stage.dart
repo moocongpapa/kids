@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'avatar_image.dart';
 import 'forest_game_ui.dart';
+import 'forest_landscape.dart';
 
 /// A little clearing shared by the games; controls live in the landscape.
 class ForestPlayStage extends StatelessWidget {
@@ -20,7 +21,7 @@ class ForestPlayStage extends StatelessWidget {
   final double height;
   @override
   Widget build(BuildContext context) => SizedBox(
-    height: height,
+    height: ForestSceneViewport.heightOf(context, height),
     width: double.infinity,
     child: RepaintBoundary(
       child: CustomPaint(painter: _Clearing(river, night), child: child),

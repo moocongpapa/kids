@@ -1,3 +1,5 @@
+import '../forest_landscape.dart';
+
 import 'dart:math' as math;
 import 'dart:async';
 
@@ -177,7 +179,7 @@ class _PeekabooGameState extends State<PeekabooGame> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Column(
+        ForestToyComposition(
           children: [
             FittedBox(
               fit: BoxFit.scaleDown,

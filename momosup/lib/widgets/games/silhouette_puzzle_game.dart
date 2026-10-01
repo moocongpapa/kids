@@ -1,3 +1,5 @@
+import '../forest_landscape.dart';
+
 import 'dart:async';
 import 'dart:math' as math;
 
@@ -375,7 +377,7 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
       children: [
         if (!widget.lowStimulation)
           CuteBubblesLayer(particlesKey: _particlesKey),
-        Column(
+        ForestToyComposition(
           children: [
             SizedBox(height: compact ? 6 : 16),
             ForestProgress(
@@ -413,9 +415,10 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
             ),
             Padding(
               padding: EdgeInsets.only(bottom: compact ? 12.0 : 32.0),
-              child: SingleChildScrollView(
+              child: ForestTrayScroll(
                 scrollDirection: Axis.horizontal,
-                child: Row(
+                child: ForestChoiceTray(
+                  extent: 72,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: _shuffledTray
                       .map((id) => _buildPiece(id, size: pieceSize))

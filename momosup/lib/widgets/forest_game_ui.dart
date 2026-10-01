@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'avatar_image.dart';
 import 'cute_game_effects.dart';
+import 'forest_landscape.dart';
 
 const forestInk = Color(0xFF284E3D);
 const forestCream = Color(0xFFFFF4D6);
@@ -290,18 +291,22 @@ class ForestProgress extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     label: '전체 $total개 중 $count개',
     child: ExcludeSemantics(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(
-          total,
-          (i) => Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
-            child: AnimatedScale(
-              scale: i < count ? 1.12 : .86,
-              duration: const Duration(milliseconds: 240),
-              child: Opacity(
-                opacity: i < count ? 1 : .25,
-                child: const ForestProp(ForestObject.acorn, size: 28),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(
+            total,
+            (i) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: AnimatedScale(
+                scale: i < count ? 1.12 : .86,
+                duration: const Duration(milliseconds: 240),
+                child: Opacity(
+                  opacity: i < count ? 1 : .25,
+                  child: const ForestProp(ForestObject.acorn, size: 28),
+                ),
               ),
             ),
           ),
@@ -330,6 +335,112 @@ class ForestCompletion extends StatelessWidget {
   Widget build(BuildContext context) {
     final compact = MediaQuery.sizeOf(context).height < 700;
     final wreathSize = compact ? const Size(220, 174) : const Size(260, 240);
+    if (forestIsWide(context) && ForestSceneViewport.of(context) != null) {
+      return Row(
+        children: [
+          Expanded(
+            child: Center(
+              child: ForestFloat(
+                still: quiet,
+                child: SizedBox(
+                  width: 220,
+                  height: 200,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      CustomPaint(
+                        size: const Size(220, 174),
+                        painter: _WreathPainter(),
+                      ),
+                      AvatarImage(
+                        avatar: avatar,
+                        size: 150,
+                        interactive: false,
+                        lowStimulation: quiet,
+                        showBlush: !quiet,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: 220,
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text(
+                          '즐거웠어!',
+                          style: TextStyle(
+                            fontSize: 26,
+                            fontWeight: FontWeight.w900,
+                            color: forestInk,
+                          ),
+                        ),
+                        const SizedBox(height: 12),
+                        if (sticker != null)
+                          ForestStickerBadge(
+                            sticker: sticker!,
+                            size: 64,
+                            animate: !quiet,
+                          ),
+                        Semantics(
+                          label: offscreen,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.waving_hand_rounded,
+                                color: forestInk,
+                                size: 30,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                '이제 쉬어요',
+                                style: TextStyle(
+                                  color: forestInk,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        if (preview)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              offscreen,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                color: forestInk,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ForestAction(
+                  label: '숲으로 돌아가기',
+                  icon: Icons.home_rounded,
+                  size: 96,
+                  leaf: true,
+                  quiet: quiet,
+                  onPressed: onHome,
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    }
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

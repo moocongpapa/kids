@@ -1,3 +1,5 @@
+import 'forest_landscape.dart';
+
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -40,7 +42,7 @@ class JourneyGardenScene extends StatelessWidget {
       ),
     );
     return SizedBox(
-      height: 300,
+      height: ForestSceneViewport.heightOf(context, 300),
       width: double.infinity,
       child: FittedBox(
         fit: BoxFit.contain,

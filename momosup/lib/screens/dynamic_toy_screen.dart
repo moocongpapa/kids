@@ -1,3 +1,6 @@
+import '../utils/forest_orientation.dart';
+import '../widgets/forest_landscape.dart';
+
 import 'dart:async';
 
 import '../data/toy_audio_repository.dart';
@@ -229,161 +232,192 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
     final quiet =
         widget.profile.lowStimulation ||
         MediaQuery.disableAnimationsOf(context);
-    return PlaySessionView(
-      session: session,
-      child: PopScope(
-        canPop: ended,
-        onPopInvokedWithResult: (didPop, _) {
-          if (!didPop) finish();
-        },
-        child: Scaffold(
-          body: ForestBackground(
-            lowStimulation: quiet,
-            clearing: true,
-            child: SafeArea(
-              child: Column(
-                children: [
-                  ForestHeader(
-                    title: title,
-                    preview: widget.preview,
-                    onReplay: () {
-                      if (audio == null || audioFailed) {
-                        loadAudio();
-                      } else {
-                        speak(
-                          ended
-                              ? 'outro'
-                              : complete
-                              ? 'complete'
-                              : instruction,
-                        );
-                      }
-                    },
-                    onExit: ended ? () => Navigator.of(context).pop() : finish,
-                  ),
-                  if (audioFailed)
-                    TextButton.icon(
-                      onPressed: loadAudio,
-                      icon: const Icon(Icons.volume_up_rounded),
-                      label: const Text('소리 다시 듣기'),
-                    ),
-                  Expanded(
-                    child: Center(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 650),
-                        child: ended
-                            ? SingleChildScrollView(
-                                child: ForestCompletion(
-                                  avatar: avatar,
-                                  offscreen: offscreen,
-                                  quiet: quiet,
-                                  sticker: complete
-                                      ? ForestSticker.forToy(
-                                          widget.toyType.name,
-                                        )
-                                      : null,
-                                  onHome: () => Navigator.of(context).pop(),
+    return ForestOrientationScope(
+      child: PlaySessionView(
+        session: session,
+        child: PopScope(
+          canPop: ended,
+          onPopInvokedWithResult: (didPop, _) {
+            if (!didPop) finish();
+          },
+          child: forestIsWide(context)
+              ? ForestLandscapeFrame(
+                  quiet: quiet,
+                  preview: widget.preview,
+                  onExit: ended ? () => Navigator.pop(context) : finish,
+                  onFinish: ended ? null : finish,
+                  onReplay: () {
+                    if (audio == null || audioFailed) {
+                      loadAudio();
+                    } else {
+                      speak(
+                        ended
+                            ? 'outro'
+                            : complete
+                            ? 'complete'
+                            : instruction,
+                      );
+                    }
+                  },
+                  child: ended
+                      ? ForestCompletion(
+                          avatar: avatar,
+                          offscreen: offscreen,
+                          quiet: quiet,
+                          preview: widget.preview,
+                          sticker: complete
+                              ? ForestSticker.forToy(widget.toyType.name)
+                              : null,
+                          onHome: () => Navigator.pop(context),
+                        )
+                      : _toy(quiet),
+                )
+              : Scaffold(
+                  body: ForestBackground(
+                    lowStimulation: quiet,
+                    clearing: true,
+                    child: SafeArea(
+                      child: Column(
+                        children: [
+                          ForestHeader(
+                            title: title,
+                            preview: widget.preview,
+                            onReplay: () {
+                              if (audio == null || audioFailed) {
+                                loadAudio();
+                              } else {
+                                speak(
+                                  ended
+                                      ? 'outro'
+                                      : complete
+                                      ? 'complete'
+                                      : instruction,
+                                );
+                              }
+                            },
+                            onExit: ended
+                                ? () => Navigator.of(context).pop()
+                                : finish,
+                          ),
+                          if (audioFailed)
+                            TextButton.icon(
+                              onPressed: loadAudio,
+                              icon: const Icon(Icons.volume_up_rounded),
+                              label: const Text('소리 다시 듣기'),
+                            ),
+                          Expanded(
+                            child: Center(
+                              child: ConstrainedBox(
+                                constraints: const BoxConstraints(
+                                  maxWidth: 650,
                                 ),
-                              )
-                            : LayoutBuilder(
-                                builder: (_, box) {
-                                  final height = math.max(440.0, box.maxHeight);
-                                  return SingleChildScrollView(
-                                    physics: box.maxHeight >= 440
-                                        ? const NeverScrollableScrollPhysics()
-                                        : null,
-                                    child: SizedBox(
-                                      height: height,
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 16,
+                                child: ended
+                                    ? SingleChildScrollView(
+                                        child: ForestCompletion(
+                                          avatar: avatar,
+                                          offscreen: offscreen,
+                                          quiet: quiet,
+                                          sticker: complete
+                                              ? ForestSticker.forToy(
+                                                  widget.toyType.name,
+                                                )
+                                              : null,
+                                          onHome: () =>
+                                              Navigator.of(context).pop(),
                                         ),
-                                        child: Column(
-                                          children: [
-                                            Expanded(
-                                              child: switch (widget.toyType) {
-                                                DynamicToyType.feeding =>
-                                                  FeedingGame(
-                                                    lowStimulation: quiet,
-                                                    stage: widget.profile.stageFor(
-                                                      'toy_${widget.toyType.name}',
+                                      )
+                                    : LayoutBuilder(
+                                        builder: (_, box) {
+                                          final height = math.max(
+                                            440.0,
+                                            box.maxHeight,
+                                          );
+                                          return SingleChildScrollView(
+                                            physics: box.maxHeight >= 440
+                                                ? const NeverScrollableScrollPhysics()
+                                                : null,
+                                            child: SizedBox(
+                                              height: height,
+                                              child: Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                      horizontal: 16,
                                                     ),
-                                                    onComplete: markComplete,
-                                                  ),
-                                                DynamicToyType.sorting =>
-                                                  SortingGame(
-                                                    lowStimulation: quiet,
-                                                    stage: widget.profile.stageFor(
-                                                      'toy_${widget.toyType.name}',
+                                                child: Column(
+                                                  children: [
+                                                    Expanded(
+                                                      child: _toy(quiet),
                                                     ),
-                                                    onComplete: markComplete,
-                                                  ),
-                                                DynamicToyType.peekaboo =>
-                                                  PeekabooGame(
-                                                    lowStimulation: quiet,
-                                                    stage: widget.profile.stageFor(
-                                                      'toy_${widget.toyType.name}',
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                            bottom: 12,
+                                                            top: 4,
+                                                          ),
+                                                      child: ForestAction(
+                                                        label: '놀이 마치기',
+                                                        size: 70,
+                                                        leaf: true,
+                                                        quiet: quiet,
+                                                        caption: complete
+                                                            ? '다 했어!'
+                                                            : '쉬어요',
+                                                        onPressed: finish,
+                                                        icon: complete
+                                                            ? Icons
+                                                                  .check_rounded
+                                                            : Icons.spa_rounded,
+                                                      ),
                                                     ),
-                                                    onComplete: markComplete,
-                                                  ),
-                                                DynamicToyType.xylophone =>
-                                                  XylophoneGame(
-                                                    onModeChanged:
-                                                        changeMusicMode,
-                                                    onNote: () {
-                                                      narration.stop();
-                                                    },
-                                                    lowStimulation: quiet,
-                                                    stage: widget.profile.stageFor(
-                                                      'toy_${widget.toyType.name}',
-                                                    ),
-                                                    onComplete: markComplete,
-                                                  ),
-                                                DynamicToyType.puzzle =>
-                                                  SilhouettePuzzleGame(
-                                                    lowStimulation: quiet,
-                                                    stage: widget.profile.stageFor(
-                                                      'toy_${widget.toyType.name}',
-                                                    ),
-                                                    onComplete: markComplete,
-                                                  ),
-                                              },
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.only(
-                                                bottom: 12,
-                                                top: 4,
-                                              ),
-                                              child: ForestAction(
-                                                label: '놀이 마치기',
-                                                size: 70,
-                                                leaf: true,
-                                                quiet: quiet,
-                                                caption: complete
-                                                    ? '다 했어!'
-                                                    : '쉬어요',
-                                                onPressed: finish,
-                                                icon: complete
-                                                    ? Icons.check_rounded
-                                                    : Icons.spa_rounded,
+                                                  ],
+                                                ),
                                               ),
                                             ),
-                                          ],
-                                        ),
+                                          );
+                                        },
                                       ),
-                                    ),
-                                  );
-                                },
                               ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
+                ),
         ),
       ),
     );
   }
+
+  Widget _toy(bool quiet) => switch (widget.toyType) {
+    DynamicToyType.feeding => FeedingGame(
+      lowStimulation: quiet,
+      stage: widget.profile.stageFor('toy_${widget.toyType.name}'),
+      onComplete: markComplete,
+    ),
+    DynamicToyType.sorting => SortingGame(
+      lowStimulation: quiet,
+      stage: widget.profile.stageFor('toy_${widget.toyType.name}'),
+      onComplete: markComplete,
+    ),
+    DynamicToyType.peekaboo => PeekabooGame(
+      lowStimulation: quiet,
+      stage: widget.profile.stageFor('toy_${widget.toyType.name}'),
+      onComplete: markComplete,
+    ),
+    DynamicToyType.xylophone => XylophoneGame(
+      onModeChanged: changeMusicMode,
+      onNote: () {
+        narration.stop();
+      },
+      lowStimulation: quiet,
+      stage: widget.profile.stageFor('toy_${widget.toyType.name}'),
+      onComplete: markComplete,
+    ),
+    DynamicToyType.puzzle => SilhouettePuzzleGame(
+      lowStimulation: quiet,
+      stage: widget.profile.stageFor('toy_${widget.toyType.name}'),
+      onComplete: markComplete,
+    ),
+  };
 }

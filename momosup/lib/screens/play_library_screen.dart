@@ -1,3 +1,5 @@
+import '../utils/forest_orientation.dart';
+
 import 'package:flutter/material.dart';
 
 import '../data/play_catalog.dart';
@@ -74,232 +76,244 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
   int collection = 0;
   bool allAges = false;
   @override
-  Widget build(BuildContext context) => AnimatedBuilder(
-    animation: widget.appState,
-    builder: (context, _) {
-      final state = widget.appState;
-      final p =
-          state.profiles.where((p) => p.id == widget.profile.id).firstOrNull ??
-          widget.profile;
-      final recent = state.records
-          .where((r) => r.profileId == p.id)
-          .map((r) => r.activityId)
-          .toSet();
-      final all = widget.parent && allAges
-          ? playCatalog(state, widget.catalog)
-          : availablePlay(state, widget.catalog, p);
-      final entries = all
-          .where(
-            (e) =>
-                (area == null || area == e.area) &&
-                (collection == 0 ||
-                    (collection == 1
-                        ? p.favoriteJourneys.contains(e.id)
-                        : collection == 2
-                        ? recent.contains(e.id)
-                        : state.workFor(p.id, e.id) != null)),
-          )
-          .toList();
-      return Scaffold(
-        appBar: widget.parent ? AppBar(title: const Text('전체 놀이·이어하기')) : null,
-        body: ForestBackground(
-          lowStimulation: p.lowStimulation,
-          child: SafeArea(
-            child: Column(
-              children: [
-                if (!widget.parent)
-                  ForestHeader(
-                    title: '놀이숲',
-                    onExit: () => Navigator.pop(context),
-                  ),
-                if (widget.parent)
-                  SwitchListTile(
-                    title: Text(
-                      '모든 월령의 디지털 놀이 ${playCatalog(state, widget.catalog).length}개',
+  Widget build(BuildContext context) => ForestOrientationScope(
+    mode: widget.parent
+        ? ForestOrientation.portrait
+        : ForestOrientation.landscape,
+    child: AnimatedBuilder(
+      animation: widget.appState,
+      builder: (context, _) {
+        final state = widget.appState;
+        final p =
+            state.profiles
+                .where((p) => p.id == widget.profile.id)
+                .firstOrNull ??
+            widget.profile;
+        final recent = state.records
+            .where((r) => r.profileId == p.id)
+            .map((r) => r.activityId)
+            .toSet();
+        final all = widget.parent && allAges
+            ? playCatalog(state, widget.catalog)
+            : availablePlay(state, widget.catalog, p);
+        final entries = all
+            .where(
+              (e) =>
+                  (area == null || area == e.area) &&
+                  (collection == 0 ||
+                      (collection == 1
+                          ? p.favoriteJourneys.contains(e.id)
+                          : collection == 2
+                          ? recent.contains(e.id)
+                          : state.workFor(p.id, e.id) != null)),
+            )
+            .toList();
+        return Scaffold(
+          appBar: widget.parent
+              ? AppBar(title: const Text('전체 놀이·이어하기'))
+              : null,
+          body: ForestBackground(
+            lowStimulation: p.lowStimulation,
+            child: SafeArea(
+              child: Column(
+                children: [
+                  if (!widget.parent)
+                    ForestHeader(
+                      title: '놀이숲',
+                      onExit: () => Navigator.pop(context),
                     ),
-                    subtitle: const Text('미리보기는 이용시간·작품·관찰 기록에 포함되지 않아요.'),
-                    value: allAges,
-                    onChanged: (v) => setState(() => allAges = v),
-                  ),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 10,
-                  children: [
-                    for (var i = 0; i < 4; i++)
-                      _filter(
-                        ['모두', '탐색', '만들기', '소리'][i],
-                        [
-                          Icons.forest_rounded,
-                          Icons.pets_rounded,
-                          Icons.palette_rounded,
-                          Icons.music_note_rounded,
-                        ][i],
-                        i == 0 ? area == null : area == PlayArea.values[i - 1],
-                        () => setState(
-                          () => area = i == 0 ? null : PlayArea.values[i - 1],
-                        ),
+                  if (widget.parent)
+                    SwitchListTile(
+                      title: Text(
+                        '모든 월령의 디지털 놀이 ${playCatalog(state, widget.catalog).length}개',
                       ),
-                  ],
-                ),
-                Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 10,
-                  children: [
-                    for (var i = 0; i < 4; i++)
-                      _filter(
-                        ['모든 놀이', '좋아하는 놀이', '최근 놀이', '저장된 놀이'][i],
-                        [
-                          Icons.apps_rounded,
-                          Icons.favorite_rounded,
-                          Icons.history_rounded,
-                          Icons.collections_rounded,
-                        ][i],
-                        collection == i,
-                        () => setState(() => collection = i),
-                      ),
-                  ],
-                ),
-                Expanded(
-                  child: entries.isEmpty
-                      ? const Center(
-                          child: Icon(
-                            Icons.spa_rounded,
-                            size: 80,
-                            color: forestInk,
+                      subtitle: const Text('미리보기는 이용시간·작품·관찰 기록에 포함되지 않아요.'),
+                      value: allAges,
+                      onChanged: (v) => setState(() => allAges = v),
+                    ),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 10,
+                    children: [
+                      for (var i = 0; i < 4; i++)
+                        _filter(
+                          ['모두', '탐색', '만들기', '소리'][i],
+                          [
+                            Icons.forest_rounded,
+                            Icons.pets_rounded,
+                            Icons.palette_rounded,
+                            Icons.music_note_rounded,
+                          ][i],
+                          i == 0
+                              ? area == null
+                              : area == PlayArea.values[i - 1],
+                          () => setState(
+                            () => area = i == 0 ? null : PlayArea.values[i - 1],
                           ),
-                        )
-                      : widget.parent
-                      ? ListView(
-                          children: [
-                            for (final e in entries)
-                              ListTile(
-                                minVerticalPadding: 12,
-                                leading: ForestProp(
-                                  journeyProp(e.symbol),
-                                  size: 52,
-                                ),
-                                title: Text(e.title),
-                                subtitle: Text(
-                                  '${e.minAge}~${e.maxAge}개월 · ${e.approved(state) ? '승인' : '검수 대기'} · 도움 ${p.stageFor(e.id) + 1}${state.workFor(p.id, e.id) != null ? ' · 저장 있음' : ''}',
-                                ),
-                                onTap: () => openPlay(
-                                  context,
-                                  e,
-                                  state,
-                                  p,
-                                  preview: true,
-                                  restoreSaved: collection == 3,
-                                ),
-                                trailing: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    PopupMenuButton<int>(
-                                      tooltip: '이 놀이의 도움 단계',
-                                      icon: const Icon(Icons.tune_rounded),
-                                      initialValue:
-                                          p.activityStages[e.id] ?? -1,
-                                      itemBuilder: (_) => [
-                                        for (var i = -1; i < 3; i++)
-                                          PopupMenuItem(
-                                            value: i,
-                                            child: Text(
-                                              [
-                                                '월령·프로필 설정 따르기',
-                                                '함께 시작 · 그림 도움',
-                                                '혼자 탐색 · 도움 선택',
-                                                '비교·규칙 바꾸기',
-                                              ][i + 1],
+                        ),
+                    ],
+                  ),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 10,
+                    children: [
+                      for (var i = 0; i < 4; i++)
+                        _filter(
+                          ['모든 놀이', '좋아하는 놀이', '최근 놀이', '저장된 놀이'][i],
+                          [
+                            Icons.apps_rounded,
+                            Icons.favorite_rounded,
+                            Icons.history_rounded,
+                            Icons.collections_rounded,
+                          ][i],
+                          collection == i,
+                          () => setState(() => collection = i),
+                        ),
+                    ],
+                  ),
+                  Expanded(
+                    child: entries.isEmpty
+                        ? const Center(
+                            child: Icon(
+                              Icons.spa_rounded,
+                              size: 80,
+                              color: forestInk,
+                            ),
+                          )
+                        : widget.parent
+                        ? ListView(
+                            children: [
+                              for (final e in entries)
+                                ListTile(
+                                  minVerticalPadding: 12,
+                                  leading: ForestProp(
+                                    journeyProp(e.symbol),
+                                    size: 52,
+                                  ),
+                                  title: Text(e.title),
+                                  subtitle: Text(
+                                    '${e.minAge}~${e.maxAge}개월 · ${e.approved(state) ? '승인' : '검수 대기'} · 도움 ${p.stageFor(e.id) + 1}${state.workFor(p.id, e.id) != null ? ' · 저장 있음' : ''}',
+                                  ),
+                                  onTap: () => openPlay(
+                                    context,
+                                    e,
+                                    state,
+                                    p,
+                                    preview: true,
+                                    restoreSaved: collection == 3,
+                                  ),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      PopupMenuButton<int>(
+                                        tooltip: '이 놀이의 도움 단계',
+                                        icon: const Icon(Icons.tune_rounded),
+                                        initialValue:
+                                            p.activityStages[e.id] ?? -1,
+                                        itemBuilder: (_) => [
+                                          for (var i = -1; i < 3; i++)
+                                            PopupMenuItem(
+                                              value: i,
+                                              child: Text(
+                                                [
+                                                  '월령·프로필 설정 따르기',
+                                                  '함께 시작 · 그림 도움',
+                                                  '혼자 탐색 · 도움 선택',
+                                                  '비교·규칙 바꾸기',
+                                                ][i + 1],
+                                              ),
                                             ),
-                                          ),
-                                      ],
-                                      onSelected: (stage) async {
-                                        final stages = {...p.activityStages};
-                                        if (stage < 0) {
-                                          stages.remove(e.id);
-                                        } else {
-                                          stages[e.id] = stage;
-                                        }
-                                        try {
-                                          await state.updateProfile(
-                                            p.copyWith(activityStages: stages),
-                                          );
-                                        } catch (_) {
-                                          if (context.mounted) {
-                                            ScaffoldMessenger.of(
-                                              context,
-                                            ).showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                  '단계를 저장하지 못했어요. 다시 시도해 주세요.',
-                                                ),
+                                        ],
+                                        onSelected: (stage) async {
+                                          final stages = {...p.activityStages};
+                                          if (stage < 0) {
+                                            stages.remove(e.id);
+                                          } else {
+                                            stages[e.id] = stage;
+                                          }
+                                          try {
+                                            await state.updateProfile(
+                                              p.copyWith(
+                                                activityStages: stages,
                                               ),
                                             );
+                                          } catch (_) {
+                                            if (context.mounted) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                    const SnackBar(
+                                                      content: Text(
+                                                        '단계를 저장하지 못했어요. 다시 시도해 주세요.',
+                                                      ),
+                                                    ),
+                                                  );
+                                            }
                                           }
-                                        }
-                                      },
-                                    ),
-                                    IconButton(
-                                      tooltip: '좋아하는 놀이',
-                                      icon: Icon(
-                                        p.favoriteJourneys.contains(e.id)
-                                            ? Icons.favorite
-                                            : Icons.favorite_border,
+                                        },
                                       ),
-                                      onPressed: () => _favorite(p, e),
-                                    ),
-                                  ],
+                                      IconButton(
+                                        tooltip: '좋아하는 놀이',
+                                        icon: Icon(
+                                          p.favoriteJourneys.contains(e.id)
+                                              ? Icons.favorite
+                                              : Icons.favorite_border,
+                                        ),
+                                        onPressed: () => _favorite(p, e),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                          ],
-                        )
-                      : GridView.extent(
-                          maxCrossAxisExtent: 190,
-                          mainAxisExtent: 174,
-                          padding: const EdgeInsets.all(18),
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 12,
-                          children: [
-                            for (final e in entries)
-                              Center(
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    ForestAction(
-                                      label: e.title,
-                                      size: 128,
-                                      leaf: true,
-                                      quiet: p.lowStimulation,
-                                      onPressed: () =>
-                                          openPlay(context, e, state, p),
-                                      child: ForestProp(
-                                        journeyProp(e.symbol),
-                                        size: 86,
-                                      ),
-                                    ),
-                                    if (state.workFor(p.id, e.id) != null)
-                                      const Positioned(
-                                        right: 0,
-                                        bottom: 0,
-                                        child: IgnorePointer(
-                                          child: Icon(
-                                            Icons.collections_rounded,
-                                            color: forestInk,
-                                            size: 25,
-                                          ),
+                            ],
+                          )
+                        : GridView.extent(
+                            maxCrossAxisExtent: 190,
+                            mainAxisExtent: 174,
+                            padding: const EdgeInsets.all(18),
+                            mainAxisSpacing: 12,
+                            crossAxisSpacing: 12,
+                            children: [
+                              for (final e in entries)
+                                Center(
+                                  child: Stack(
+                                    alignment: Alignment.center,
+                                    children: [
+                                      ForestAction(
+                                        label: e.title,
+                                        size: 128,
+                                        leaf: true,
+                                        quiet: p.lowStimulation,
+                                        onPressed: () =>
+                                            openPlay(context, e, state, p),
+                                        child: ForestProp(
+                                          journeyProp(e.symbol),
+                                          size: 86,
                                         ),
                                       ),
-                                  ],
+                                      if (state.workFor(p.id, e.id) != null)
+                                        const Positioned(
+                                          right: 0,
+                                          bottom: 0,
+                                          child: IgnorePointer(
+                                            child: Icon(
+                                              Icons.collections_rounded,
+                                              color: forestInk,
+                                              size: 25,
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                          ],
-                        ),
-                ),
-              ],
+                            ],
+                          ),
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-      );
-    },
+        );
+      },
+    ),
   );
   Widget _filter(
     String label,

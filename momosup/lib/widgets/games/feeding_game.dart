@@ -1,3 +1,5 @@
+import '../forest_landscape.dart';
+
 import 'dart:async';
 import 'dart:math' as math;
 import 'dart:ui';
@@ -387,7 +389,7 @@ class _FeedingGameState extends State<FeedingGame>
     return Stack(
       key: _stackKey,
       children: [
-        Column(
+        ForestToyComposition(
           children: [
             ForestProgress(
               count: eatenIndices.length,
@@ -467,7 +469,7 @@ class _FeedingGameState extends State<FeedingGame>
             const SizedBox(height: 16),
             SizedBox(
               height: 98,
-              child: Row(
+              child: ForestChoiceTray(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: List.generate(roundFruits.length, (i) {
                   final fruitObj = roundFruits[i];

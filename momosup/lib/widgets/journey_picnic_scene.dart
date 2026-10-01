@@ -1,3 +1,5 @@
+import 'forest_landscape.dart';
+
 import 'package:flutter/material.dart';
 
 import 'avatar_image.dart';
@@ -36,7 +38,7 @@ class JourneyPicnicScene extends StatelessWidget {
       excludeSemantics: true,
       liveRegion: true,
       child: SizedBox(
-        height: 300,
+        height: ForestSceneViewport.heightOf(context, 300),
         width: double.infinity,
         child: FittedBox(
           fit: BoxFit.contain,

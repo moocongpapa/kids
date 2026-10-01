@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'avatar_image.dart';
 import 'forest_game_ui.dart';
+import 'forest_landscape.dart';
 import 'forest_play_stage.dart';
 
 class JourneyRhythmScene extends StatelessWidget {
@@ -29,7 +30,7 @@ class JourneyRhythmScene extends StatelessWidget {
   final void Function(int slot, int note) onPlace;
   final VoidCallback onListen;
   @override
-  Widget build(BuildContext context) => Column(
+  Widget build(BuildContext context) => ForestSceneComposition(
     children: [
       ForestPlayStage(
         height: 274,
@@ -68,7 +69,8 @@ class JourneyRhythmScene extends StatelessWidget {
                 left: 0,
                 right: 0,
                 bottom: 25,
-                child: Row(
+                child: ForestChoiceTray(
+                  extent: 64,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     for (var i = 0; i < count; i++)
@@ -76,18 +78,39 @@ class JourneyRhythmScene extends StatelessWidget {
                         onWillAcceptWithDetails: (d) =>
                             !busy && d.data >= 0 && d.data < 4,
                         onAcceptWithDetails: (d) => onPlace(i, d.data),
-                        builder: (_, candidates, _) => PlayPiece(
-                          label: '${i + 1}번째 소리 자리',
-                          size: ((box.maxWidth - 8) / count).clamp(64.0, 94.0),
-                          enabled: !busy,
-                          selected: active == i || candidates.isNotEmpty,
-                          quiet: quiet,
-                          onTap: () => onPlace(i, selected),
-                          child: Opacity(
-                            opacity: slots.containsKey(i) ? 1 : .3,
-                            child: InstrumentPicture(
-                              note: slots[i] ?? i % 3,
-                              hand: id == 'age_24_05' || id == 'age_84_04',
+                        builder: (_, candidates, _) => DecoratedBox(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: forestIsWide(context)
+                                ? const Color(0xE6FFF5D8)
+                                : Colors.transparent,
+                            border: forestIsWide(context)
+                                ? Border.all(
+                                    color: const Color(0xFF73936A),
+                                    width: 2,
+                                  )
+                                : null,
+                          ),
+                          child: PlayPiece(
+                            label: '${i + 1}번째 소리 자리',
+                            size: ((box.maxWidth - 8) / count).clamp(
+                              64.0,
+                              94.0,
+                            ),
+                            enabled: !busy,
+                            selected: active == i || candidates.isNotEmpty,
+                            quiet: quiet,
+                            onTap: () => onPlace(i, selected),
+                            child: Opacity(
+                              opacity: slots.containsKey(i)
+                                  ? 1
+                                  : forestIsWide(context)
+                                  ? .55
+                                  : .3,
+                              child: InstrumentPicture(
+                                note: slots[i] ?? i % 3,
+                                hand: id == 'age_24_05' || id == 'age_84_04',
+                              ),
                             ),
                           ),
                         ),

@@ -1,3 +1,4 @@
+import '../utils/forest_orientation.dart';
 import '../data/play_catalog.dart';
 import 'play_library_screen.dart';
 import '../utils/audio_policy.dart';
@@ -93,54 +94,60 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       final quiet =
           (profile?.caregiverMode ?? false) ||
           (profile?.lowStimulation ?? false);
-      return Scaffold(
-        body: ForestBackground(
-          lowStimulation: quiet,
-          child: SafeArea(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(12, 8, 12, 6),
-                  child: Row(
-                    children: [
-                      ValueListenableBuilder<bool>(
-                        valueListenable: ForestAudio.instance.isMuted,
-                        builder: (_, muted, _) => ForestAction(
-                          label: muted ? '숲속 소리 켜기' : '숲속 소리 끄기',
-                          icon: muted
-                              ? Icons.music_off_rounded
-                              : Icons.music_note_rounded,
+      return ForestOrientationScope(
+        mode:
+            profile != null && widget.appState.hasPin && !profile.caregiverMode
+            ? ForestOrientation.landscape
+            : ForestOrientation.portrait,
+        child: Scaffold(
+          body: ForestBackground(
+            lowStimulation: quiet,
+            child: SafeArea(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 8, 12, 6),
+                    child: Row(
+                      children: [
+                        ValueListenableBuilder<bool>(
+                          valueListenable: ForestAudio.instance.isMuted,
+                          builder: (_, muted, _) => ForestAction(
+                            label: muted ? '숲속 소리 켜기' : '숲속 소리 끄기',
+                            icon: muted
+                                ? Icons.music_off_rounded
+                                : Icons.music_note_rounded,
+                            size: 58,
+                            quiet: quiet,
+                            onPressed: profile?.caregiverMode == true
+                                ? null
+                                : ForestAudio.instance.toggleMute,
+                          ),
+                        ),
+                        const Spacer(),
+                        const ForestSign('모모숲', large: true),
+                        const Spacer(),
+                        ForestAction(
+                          label: '보호자 영역',
+                          icon: Icons.lock_rounded,
                           size: 58,
                           quiet: quiet,
-                          onPressed: profile?.caregiverMode == true
-                              ? null
-                              : ForestAudio.instance.toggleMute,
+                          onPressed: openParent,
                         ),
-                      ),
-                      const Spacer(),
-                      const ForestSign('모모숲', large: true),
-                      const Spacer(),
-                      ForestAction(
-                        label: '보호자 영역',
-                        icon: Icons.lock_rounded,
-                        size: 58,
-                        quiet: quiet,
-                        onPressed: openParent,
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: !widget.appState.hasPin || profile == null
-                      ? _welcome()
-                      : _world(profile),
-                ),
-                if (widget.appState.hasPin &&
-                    profile != null &&
-                    !profile.caregiverMode &&
-                    (profile.ageMonths < 84 || profile.preschool))
-                  _dock(quiet),
-              ],
+                  Expanded(
+                    child: !widget.appState.hasPin || profile == null
+                        ? _welcome()
+                        : _world(profile),
+                  ),
+                  if (widget.appState.hasPin &&
+                      profile != null &&
+                      !profile.caregiverMode &&
+                      (profile.ageMonths < 84 || profile.preschool))
+                    _dock(quiet),
+                ],
+              ),
             ),
           ),
         ),
