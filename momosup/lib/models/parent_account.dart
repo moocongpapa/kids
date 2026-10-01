@@ -15,6 +15,8 @@ class ParentAccount {
   final String provider;
   final DateTime connectedAt;
 
+  bool get isDevelopment => provider == 'local_dev';
+
   Map<String, dynamic> toJson() => {
     'id': id,
     'nickname': nickname,

@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import '../models/child_profile.dart';
 import '../models/parent_account.dart';
 import '../services/kakao_auth_service.dart';
 import '../state/app_state.dart';
+import '../utils/development_access.dart';
 import '../widgets/avatar_image.dart';
 import '../widgets/forest_background.dart';
 import '../widgets/kakao_share_modal.dart';
 import 'family_invite_screen.dart';
 
 class ParentOnboardingScreen extends StatefulWidget {
-  const ParentOnboardingScreen({required this.appState, super.key});
+  const ParentOnboardingScreen({
+    required this.appState,
+    this.startWithoutLogin = false,
+    this.authService,
+    super.key,
+  });
 
   final AppState appState;
+  final bool startWithoutLogin;
+  final KakaoAuthService? authService;
 
   @override
   State<ParentOnboardingScreen> createState() => _ParentOnboardingScreenState();
@@ -51,6 +61,9 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
       connectedAccount = widget.appState.parentAccount;
       step = 1;
     }
+    if (widget.startWithoutLogin && developmentAccessEnabled) {
+      _handleDevelopmentStart();
+    }
   }
 
   @override
@@ -70,6 +83,40 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
   bool get canProceedKakao =>
       agreeAge && agreeTerms && agreePrivacy && agreeParentalConsent;
 
+  Future<void> _handleDevelopmentStart() async {
+    if (!developmentAccessEnabled || kakaoBusy) return;
+    setState(() {
+      kakaoBusy = true;
+      error = null;
+    });
+    try {
+      final account =
+          widget.appState.parentAccount ??
+          ParentAccount(
+            id: 'local_dev_${DateTime.now().microsecondsSinceEpoch}',
+            nickname: parentNicknameController.text.trim().isEmpty
+                ? '모모보호자'
+                : parentNicknameController.text.trim(),
+            provider: 'local_dev',
+            connectedAt: DateTime.now(),
+          );
+      if (!widget.appState.hasParentAccount) {
+        await widget.appState.setParentAccount(account);
+      }
+      if (!mounted) return;
+      setState(() {
+        connectedAccount = account;
+        step = 1;
+      });
+    } catch (_) {
+      if (mounted) {
+        setState(() => error = '이 기기에 접속 정보를 저장하지 못했어요. 다시 시도해 주세요.');
+      }
+    } finally {
+      if (mounted) setState(() => kakaoBusy = false);
+    }
+  }
+
   Future<void> _handleKakaoLogin() async {
     if (!canProceedKakao) {
       setState(() => error = '모든 필수 약관에 동의해 주세요.');
@@ -84,16 +131,24 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
       final name = parentNicknameController.text.trim().isEmpty
           ? '모모보호자'
           : parentNicknameController.text.trim();
-      final account = await KakaoAuthService.instance.loginWithKakao(
-        nickname: name,
-      );
+      final account = await (widget.authService ?? KakaoAuthService.instance)
+          .loginWithKakao(nickname: name);
+      if (!mounted) return;
       await widget.appState.setParentAccount(account);
+      if (!mounted) return;
       setState(() {
         connectedAccount = account;
         step = 1;
       });
     } catch (e) {
-      setState(() => error = '카카오 로그인에 실패했습니다. 다시 시도해 주세요.');
+      if (!mounted) return;
+      setState(
+        () => error = KakaoAuthService.isLoginCancelled(e)
+            ? developmentAccessEnabled
+                  ? '카카오 로그인을 취소했어요. 로그인 없이 시작하거나 다시 시도해 주세요.'
+                  : '카카오 로그인을 취소했어요. 다시 시도해 주세요.'
+            : '카카오 로그인에 실패했어요. 다시 시도해 주세요.',
+      );
     } finally {
       if (mounted) setState(() => kakaoBusy = false);
     }
@@ -110,7 +165,7 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
       cancelText: '취소',
       confirmText: '확인',
     );
-    if (picked != null) {
+    if (picked != null && mounted) {
       setState(() => birthDate = picked);
     }
   }
@@ -130,7 +185,7 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
   Future<void> _saveAndFinish() async {
     final pin = pinController.text.trim();
     final confirm = confirmPinController.text.trim();
-    if (pin.length < 4 || pin != confirm) {
+    if (!RegExp(r'^\d{4}$').hasMatch(pin) || pin != confirm) {
       setState(() => error = '4자리 숫자로 된 보호자 PIN을 똑같이 입력해 주세요.');
       return;
     }
@@ -163,12 +218,13 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
       await widget.appState.addProfile(profile);
       await widget.appState.selectProfile(profile.id);
 
+      if (!mounted) return;
       setState(() {
         createdProfile = profile;
         step = 3;
       });
     } catch (e) {
-      setState(() => error = '프로필 저장 중 오류가 발생했습니다: $e');
+      if (mounted) setState(() => error = '프로필을 저장하지 못했어요. 다시 시도해 주세요.');
     } finally {
       if (mounted) setState(() => saving = false);
     }
@@ -260,9 +316,7 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Center(
-          child: AvatarImage(avatar: 'momo', size: 120),
-        ),
+        const Center(child: AvatarImage(avatar: 'momo', size: 120)),
         const SizedBox(height: 16),
         const Text(
           '모모숲에 오신 것을 환영해요!',
@@ -279,6 +333,21 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 14, color: Colors.black87, height: 1.4),
         ),
+        if (developmentAccessEnabled) ...[
+          const SizedBox(height: 16),
+          FilledButton.icon(
+            onPressed: kakaoBusy ? null : _handleDevelopmentStart,
+            icon: const Icon(Icons.forest_rounded),
+            label: const Text('로그인 없이 시작하기'),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            '개발 중에는 이 기기에서 바로 사용할 수 있어요.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 13, color: Colors.black54),
+          ),
+          const SizedBox(height: 16),
+        ],
         Material(
           color: Colors.white,
           shape: RoundedRectangleBorder(
@@ -290,74 +359,74 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-              TextField(
-                controller: parentNicknameController,
-                decoration: const InputDecoration(
-                  labelText: '보호자 닉네임 (카카오 이름)',
-                  hintText: '예: 민준아빠, 은서엄마',
+                TextField(
+                  controller: parentNicknameController,
+                  decoration: const InputDecoration(
+                    labelText: '보호자 닉네임 (카카오 이름)',
+                    hintText: '예: 민준아빠, 은서엄마',
+                  ),
                 ),
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                '서비스 이용 동의',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF284E3D),
+                const SizedBox(height: 16),
+                const Text(
+                  '서비스 이용 동의',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF284E3D),
+                  ),
                 ),
-              ),
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                dense: true,
-                value: canProceedKakao,
-                title: const Text(
-                  '전체 동의하기',
-                  style: TextStyle(fontWeight: FontWeight.bold),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  dense: true,
+                  value: canProceedKakao,
+                  title: const Text(
+                    '전체 동의하기',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onChanged: (v) {
+                    final val = v ?? false;
+                    setState(() {
+                      agreeAge = val;
+                      agreeTerms = val;
+                      agreePrivacy = val;
+                      agreeParentalConsent = val;
+                    });
+                  },
                 ),
-                onChanged: (v) {
-                  final val = v ?? false;
-                  setState(() {
-                    agreeAge = val;
-                    agreeTerms = val;
-                    agreePrivacy = val;
-                    agreeParentalConsent = val;
-                  });
-                },
-              ),
-              const Divider(height: 12),
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                dense: true,
-                value: agreeAge,
-                title: const Text('[필수] 만 14세 이상 보호자 본인 확인'),
-                onChanged: (v) => setState(() => agreeAge = v ?? false),
-              ),
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                dense: true,
-                value: agreeTerms,
-                title: const Text('[필수] 모모숲 서비스 이용약관 동의'),
-                onChanged: (v) => setState(() => agreeTerms = v ?? false),
-              ),
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                dense: true,
-                value: agreePrivacy,
-                title: const Text('[필수] 개인정보 수집 및 이용 동의'),
-                onChanged: (v) => setState(() => agreePrivacy = v ?? false),
-              ),
-              CheckboxListTile(
-                contentPadding: EdgeInsets.zero,
-                dense: true,
-                value: agreeParentalConsent,
-                title: const Text('[필수] 아동 개인정보 처리에 관한 법정대리인 동의'),
-                onChanged: (v) =>
-                    setState(() => agreeParentalConsent = v ?? false),
-              ),
-            ],
+                const Divider(height: 12),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  dense: true,
+                  value: agreeAge,
+                  title: const Text('[필수] 만 14세 이상 보호자 본인 확인'),
+                  onChanged: (v) => setState(() => agreeAge = v ?? false),
+                ),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  dense: true,
+                  value: agreeTerms,
+                  title: const Text('[필수] 모모숲 서비스 이용약관 동의'),
+                  onChanged: (v) => setState(() => agreeTerms = v ?? false),
+                ),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  dense: true,
+                  value: agreePrivacy,
+                  title: const Text('[필수] 개인정보 수집 및 이용 동의'),
+                  onChanged: (v) => setState(() => agreePrivacy = v ?? false),
+                ),
+                CheckboxListTile(
+                  contentPadding: EdgeInsets.zero,
+                  dense: true,
+                  value: agreeParentalConsent,
+                  title: const Text('[필수] 아동 개인정보 처리에 관한 법정대리인 동의'),
+                  onChanged: (v) =>
+                      setState(() => agreeParentalConsent = v ?? false),
+                ),
+              ],
+            ),
           ),
         ),
-      ),
         if (error != null) ...[
           const SizedBox(height: 10),
           Text(error!, style: const TextStyle(color: Colors.red)),
@@ -397,9 +466,8 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
             onPressed: () {
               Navigator.of(context).push(
                 MaterialPageRoute<void>(
-                  builder: (_) => FamilyInviteAcceptScreen(
-                    appState: widget.appState,
-                  ),
+                  builder: (_) =>
+                      FamilyInviteAcceptScreen(appState: widget.appState),
                 ),
               );
             },
@@ -458,8 +526,9 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
                     backgroundColor: isSelected
                         ? const Color(0xFF477A53)
                         : Colors.white,
-                    foregroundColor:
-                        isSelected ? Colors.white : const Color(0xFF284E3D),
+                    foregroundColor: isSelected
+                        ? Colors.white
+                        : const Color(0xFF284E3D),
                     side: BorderSide(
                       color: isSelected
                           ? const Color(0xFF477A53)
@@ -473,8 +542,9 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
                   child: Text(
                     item,
                     style: TextStyle(
-                      fontWeight:
-                          isSelected ? FontWeight.bold : FontWeight.normal,
+                      fontWeight: isSelected
+                          ? FontWeight.bold
+                          : FontWeight.normal,
                     ),
                   ),
                 ),
@@ -563,8 +633,10 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
           ),
         ),
         const SizedBox(height: 8),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 8,
+          runSpacing: 8,
           children: [
             _avatarOption('momo', '모모 (아기새)'),
             _avatarOption('duri', '두리 (아기곰)'),
@@ -621,9 +693,7 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        const Center(
-          child: AvatarImage(avatar: 'duri', size: 100),
-        ),
+        const Center(child: AvatarImage(avatar: 'duri', size: 100)),
         const SizedBox(height: 16),
         const Text(
           '보호자 안전 PIN 만들기',
@@ -645,7 +715,8 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
           controller: pinController,
           obscureText: true,
           keyboardType: TextInputType.number,
-          maxLength: 8,
+          maxLength: 4,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: const InputDecoration(
             labelText: '보호자 PIN 숫자 (4~8자리)',
             hintText: '숫자 4자리 권장',
@@ -656,10 +727,9 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
           controller: confirmPinController,
           obscureText: true,
           keyboardType: TextInputType.number,
-          maxLength: 8,
-          decoration: const InputDecoration(
-            labelText: 'PIN 확인 (한 번 더 입력)',
-          ),
+          maxLength: 4,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          decoration: const InputDecoration(labelText: 'PIN 확인 (한 번 더 입력)'),
         ),
         if (error != null) ...[
           const SizedBox(height: 10),
@@ -682,9 +752,7 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Center(
-          child: AvatarImage(avatar: avatar, size: 140),
-        ),
+        Center(child: AvatarImage(avatar: avatar, size: 140)),
         const SizedBox(height: 16),
         Text(
           '환영해요! $childName의\n모모숲이 완성되었어요 🎉',
@@ -698,7 +766,9 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
         ),
         const SizedBox(height: 8),
         Text(
-          '카카오 계정(${connectedAccount?.nickname ?? '보호자'})으로 안전하게 연결되었습니다.',
+          connectedAccount?.isDevelopment == true
+              ? '로그인 없이 등록했어요. 이 기기에서 바로 놀이를 시작할 수 있어요.'
+              : '카카오 계정(${connectedAccount?.nickname ?? '보호자'})으로 연결되었습니다.',
           textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 14, color: Colors.black54),
         ),

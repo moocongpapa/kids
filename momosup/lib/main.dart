@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 import 'data/catalog_repository.dart';
@@ -46,6 +47,9 @@ class _MomosupAppState extends State<MomosupApp> {
     title: '모모숲',
     debugShowCheckedModeBanner: false,
     navigatorObservers: [forestOrientationObserver],
+    locale: const Locale('ko', 'KR'),
+    supportedLocales: const [Locale('ko', 'KR'), Locale('en')],
+    localizationsDelegates: GlobalMaterialLocalizations.delegates,
     theme: ThemeData(
       useMaterial3: true,
       fontFamily: 'NotoSansKR',

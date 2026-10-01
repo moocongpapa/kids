@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:momosup/models/child_profile.dart';
 import 'package:momosup/models/parent_account.dart';
 import 'package:momosup/screens/family_invite_screen.dart';
 import 'package:momosup/screens/family_management_screen.dart';
 import 'package:momosup/screens/parent_onboarding_screen.dart';
 import 'package:momosup/state/app_state.dart';
+import 'package:momosup/services/kakao_auth_service.dart';
 import 'package:momosup/widgets/kakao_share_modal.dart';
 
 void main() {
@@ -29,7 +31,14 @@ void main() {
 
     await tester.pumpWidget(
       MaterialApp(
-        home: ParentOnboardingScreen(appState: state),
+        home: ParentOnboardingScreen(
+          appState: state,
+          authService: KakaoAuthService(
+            talkAvailable: () async => false,
+            loginAccount: () async {},
+            readUser: () async => User.fromJson({'id': 123456789}),
+          ),
+        ),
       ),
     );
     await tester.pump();
@@ -78,9 +87,7 @@ void main() {
     expect(state.profiles.first.gender, '여아');
   });
 
-  testWidgets('가족 초대 링크 등록 화면: 코드 입력 시 아이 정보 표시 및 가족 등록', (
-    tester,
-  ) async {
+  testWidgets('가족 초대 링크 등록 화면: 코드 입력 시 아이 정보 표시 및 가족 등록', (tester) async {
     tester.view.physicalSize = const Size(800, 1200);
     tester.view.devicePixelRatio = 1.0;
     addTearDown(() {

@@ -83,7 +83,9 @@ class ParentHubScreen extends StatelessWidget {
                         Expanded(
                           child: Text(
                             appState.hasParentAccount
-                                ? '카카오 연동 계정: ${appState.parentAccount!.nickname}'
+                                ? appState.parentAccount!.isDevelopment
+                                      ? '로그인 없이 사용 중: ${appState.parentAccount!.nickname}'
+                                      : '카카오 연동 계정: ${appState.parentAccount!.nickname}'
                                 : '카카오 계정 미연동 상태',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
@@ -105,8 +107,10 @@ class ParentHubScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const ParentNoticeCard(
-                    text: '비공개 시제품 · 카카오 계정으로 아이 프로필을 가족과 안전하게 공유할 수 있습니다.',
+                  ParentNoticeCard(
+                    text: appState.parentAccount?.isDevelopment == true
+                        ? '개발용 접속 · 카카오 로그인 없이 이 기기에서 놀이를 사용할 수 있습니다.'
+                        : '비공개 시제품 · 카카오 계정으로 아이 프로필을 가족과 안전하게 공유할 수 있습니다.',
                   ),
                   const SizedBox(height: 16),
                   if (profile != null)

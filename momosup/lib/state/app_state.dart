@@ -73,17 +73,17 @@ class AppState extends ChangeNotifier {
   bool get hasParentAccount => _parentAccount != null;
 
   Future<void> setParentAccount(ParentAccount account) async {
-    _parentAccount = account;
     await _storage.write(
       key: _parentAccountKey,
       value: jsonEncode(account.toJson()),
     );
+    _parentAccount = account;
     notifyListeners();
   }
 
   Future<void> logoutParentAccount() async {
-    _parentAccount = null;
     await _storage.delete(key: _parentAccountKey);
+    _parentAccount = null;
     notifyListeners();
   }
 
@@ -625,7 +625,9 @@ class AppState extends ChangeNotifier {
     final next = _profileWrites.catchError((Object _) {}).then((_) async {
       await _storage.write(
         key: _profilesKey,
-        value: jsonEncode(_profiles.map((profile) => profile.toJson()).toList()),
+        value: jsonEncode(
+          _profiles.map((profile) => profile.toJson()).toList(),
+        ),
       );
       if (_selectedId == null) {
         await _storage.delete(key: _selectedKey);

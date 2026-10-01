@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk_share/kakao_flutter_sdk_share.dart';
@@ -9,78 +9,74 @@ import '../models/child_profile.dart';
 import '../models/parent_account.dart';
 
 class KakaoAuthService {
-  KakaoAuthService._();
-  static final KakaoAuthService instance = KakaoAuthService._();
+  KakaoAuthService({
+    Future<bool> Function()? talkAvailable,
+    Future<void> Function()? loginTalk,
+    Future<void> Function()? loginAccount,
+    Future<User> Function()? readUser,
+  }) : _talkAvailable = talkAvailable ?? isKakaoTalkInstalled,
+       _loginTalk =
+           loginTalk ??
+           (() async {
+             await UserApi.instance.loginWithKakaoTalk();
+           }),
+       _loginAccount =
+           loginAccount ??
+           (() async {
+             await UserApi.instance.loginWithKakaoAccount();
+           }),
+       _readUser = readUser ?? (() => UserApi.instance.me());
+
+  static final KakaoAuthService instance = KakaoAuthService();
+  final Future<bool> Function() _talkAvailable;
+  final Future<void> Function() _loginTalk, _loginAccount;
+  final Future<User> Function() _readUser;
+
+  static bool isLoginCancelled(Object error) =>
+      (error is PlatformException &&
+          const {
+            'CANCELED',
+            'user_cancel',
+            'cancelled',
+          }.contains(error.code)) ||
+      (error is KakaoClientException &&
+          error.reason == ClientErrorCause.cancelled);
 
   /// Performs Kakao login using KakaoTalk app or Kakao Account in browser.
-  /// Falls back gracefully to simulated dev account in test or offline environments.
+  /// Failed or cancelled SDK login never creates an authenticated account.
   Future<ParentAccount> loginWithKakao({
     String? nickname,
     String? email,
   }) async {
-    // In widget/unit test environments, return mock account immediately to preserve test harness timing
-    if (Platform.environment.containsKey('FLUTTER_TEST')) {
-      final randomId = Random().nextInt(899999) + 100000;
-      final parentName = nickname ?? '모모보호자';
-      return ParentAccount(
-        id: 'kakao_$randomId',
-        nickname: parentName,
-        email: email ?? 'kakao_$randomId@kakao.com',
-        provider: 'kakao',
-        connectedAt: DateTime.now(),
-      );
+    if (await _talkAvailable()) {
+      try {
+        await _loginTalk();
+      } catch (error) {
+        if (isLoginCancelled(error)) rethrow;
+        await _loginAccount();
+      }
+    } else {
+      await _loginAccount();
     }
-    try {
-      OAuthToken token;
-      final isInstalled = await isKakaoTalkInstalled();
-      if (isInstalled) {
-        try {
-          token = await UserApi.instance.loginWithKakaoTalk();
-        } catch (e) {
-          if (kDebugMode) {
-            debugPrint('KakaoTalk app login failed or cancelled ($e), falling back to Kakao Account login.');
-          }
-          token = await UserApi.instance.loginWithKakaoAccount();
-        }
-      } else {
-        token = await UserApi.instance.loginWithKakaoAccount();
-      }
 
-      if (kDebugMode) {
-        debugPrint('Kakao login success: token received (${token.accessToken.substring(0, min(8, token.accessToken.length))}...)');
-      }
+    final user = await _readUser();
+    final id = user.id.toString();
+    final profileNickname = user.kakaoAccount?.profile?.nickname?.trim();
+    final finalNickname =
+        (profileNickname != null && profileNickname.isNotEmpty)
+        ? profileNickname
+        : (nickname ?? '카카오보호자');
+    final finalEmail = user.kakaoAccount?.email ?? email;
+    final profileImg = user.kakaoAccount?.profile?.profileImageUrl;
 
-      final user = await UserApi.instance.me();
-      final id = user.id.toString();
-      final profileNickname = user.kakaoAccount?.profile?.nickname?.trim();
-      final finalNickname = (profileNickname != null && profileNickname.isNotEmpty)
-          ? profileNickname
-          : (nickname ?? '카카오보호자');
-      final finalEmail = user.kakaoAccount?.email ?? email ?? 'kakao_$id@kakao.com';
-      final profileImg = user.kakaoAccount?.profile?.profileImageUrl;
-
-      return ParentAccount(
-        id: 'kakao_$id',
-        nickname: finalNickname,
-        email: finalEmail,
-        profileImageUrl: profileImg,
-        provider: 'kakao',
-        connectedAt: DateTime.now(),
-      );
-    } catch (e) {
-      if (kDebugMode) {
-        debugPrint('Kakao SDK login not available in current environment ($e). Using mock dev account.');
-      }
-      final randomId = Random().nextInt(899999) + 100000;
-      final parentName = nickname ?? '모모보호자';
-      return ParentAccount(
-        id: 'kakao_$randomId',
-        nickname: parentName,
-        email: email ?? 'kakao_$randomId@kakao.com',
-        provider: 'kakao',
-        connectedAt: DateTime.now(),
-      );
-    }
+    return ParentAccount(
+      id: 'kakao_$id',
+      nickname: finalNickname,
+      email: finalEmail,
+      profileImageUrl: profileImg,
+      provider: 'kakao',
+      connectedAt: DateTime.now(),
+    );
   }
 
   /// Sends a KakaoTalk sharing message using default Feed template.
@@ -106,17 +102,22 @@ class KakaoAuthService {
     }
 
     try {
-      final isAvailable = await ShareClient.instance.isKakaoTalkSharingAvailable();
+      final isAvailable = await ShareClient.instance
+          .isKakaoTalkSharingAvailable();
       if (isAvailable) {
-        final ageText = profile.birthDate != null && profile.birthDate!.isNotEmpty
+        final ageText =
+            profile.birthDate != null && profile.birthDate!.isNotEmpty
             ? '${profile.birthDateLabel} (${profile.ageLabel})'
             : profile.ageLabel;
 
         final template = FeedTemplate(
           content: Content(
             title: "[모모숲] $inviterName님이 '${profile.nickname}'의 놀이에 초대했어요!",
-            description: "아이: ${profile.nickname} ($ageText)\n초대 코드: $inviteCode\n함께 모모숲에서 우리 아이의 성장과 놀이를 지켜봐요!",
-            imageUrl: Uri.parse('https://raw.githubusercontent.com/flutter/assets/master/momosup/app_banner.png'),
+            description:
+                "아이: ${profile.nickname} ($ageText)\n초대 코드: $inviteCode\n함께 모모숲에서 우리 아이의 성장과 놀이를 지켜봐요!",
+            imageUrl: Uri.parse(
+              'https://raw.githubusercontent.com/flutter/assets/master/momosup/app_banner.png',
+            ),
             link: Link(
               webUrl: Uri.parse(shareUrl),
               mobileWebUrl: Uri.parse(shareUrl),
@@ -142,7 +143,9 @@ class KakaoAuthService {
       }
     } catch (e) {
       if (kDebugMode) {
-        debugPrint('KakaoTalk sharing invocation failed ($e). Falling back to clipboard.');
+        debugPrint(
+          'KakaoTalk sharing invocation failed ($e). Falling back to clipboard.',
+        );
       }
     }
 
@@ -183,4 +186,3 @@ $inviteCode''';
     await Clipboard.setData(ClipboardData(text: text));
   }
 }
-

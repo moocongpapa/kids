@@ -1,4 +1,5 @@
 import '../utils/forest_orientation.dart';
+import '../utils/development_access.dart';
 import '../data/play_catalog.dart';
 import 'play_library_screen.dart';
 import '../utils/audio_policy.dart';
@@ -177,12 +178,32 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
               ),
             ),
             const SizedBox(height: 10),
-            const Text(
-              '보호자(부모님)의 카카오 계정으로 안전하게 등록하고\n아이의 맞춤 숲속 놀이를 시작해 보세요.',
+            Text(
+              developmentAccessEnabled
+                  ? '로그인 없이 아이 정보를 등록하고\n맞춤 숲속 놀이를 시작해 보세요.'
+                  : '보호자(부모님)의 카카오 계정으로 등록하고\n아이의 맞춤 숲속 놀이를 시작해 보세요.',
               textAlign: TextAlign.center,
               style: TextStyle(color: forestInk, fontSize: 13, height: 1.4),
             ),
             const SizedBox(height: 22),
+            if (developmentAccessEnabled) ...[
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (_) => ParentOnboardingScreen(
+                        appState: widget.appState,
+                        startWithoutLogin: true,
+                      ),
+                    ),
+                  ),
+                  icon: const Icon(Icons.forest_rounded),
+                  label: const Text('로그인 없이 시작하기'),
+                ),
+              ),
+              const SizedBox(height: 10),
+            ],
             SizedBox(
               width: double.infinity,
               height: 56,
@@ -369,10 +390,8 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
           () => Navigator.push(
             context,
             MaterialPageRoute<void>(
-              builder: (_) => ColoringScreen(
-                profile: profile,
-                appState: widget.appState,
-              ),
+              builder: (_) =>
+                  ColoringScreen(profile: profile, appState: widget.appState),
             ),
           ),
         ),

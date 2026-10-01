@@ -73,15 +73,22 @@ class _ProfileEditorScreenState extends State<ProfileEditorScreen> {
       initialDate = DateTime.now().subtract(Duration(days: ageMonths * 30));
     }
 
+    final today = DateUtils.dateOnly(DateTime.now());
+    final firstDate = DateTime(today.year - 10, today.month, today.day);
+    initialDate = initialDate.isBefore(firstDate)
+        ? firstDate
+        : initialDate.isAfter(today)
+        ? today
+        : initialDate;
     final picked = await showDatePicker(
       context: context,
       initialDate: initialDate,
-      firstDate: DateTime.now().subtract(const Duration(days: 365 * 10)),
-      lastDate: DateTime.now(),
+      firstDate: firstDate,
+      lastDate: today,
       locale: const Locale('ko', 'KR'),
       helpText: '아이 생년월일 선택',
     );
-    if (picked != null) {
+    if (picked != null && mounted) {
       final y = picked.year;
       final m = picked.month.toString().padLeft(2, '0');
       final d = picked.day.toString().padLeft(2, '0');

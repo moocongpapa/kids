@@ -1,5 +1,6 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 import 'package:momosup/models/child_profile.dart';
 import 'package:momosup/models/family_share.dart';
 import 'package:momosup/models/parent_account.dart';
@@ -19,7 +20,18 @@ void main() {
       await state.load();
       expect(state.hasParentAccount, isFalse);
 
-      final account = await KakaoAuthService.instance.loginWithKakao(
+      final auth = KakaoAuthService(
+        talkAvailable: () async => false,
+        loginAccount: () async {},
+        readUser: () async => User.fromJson({
+          'id': 123456789,
+          'kakao_account': {
+            'profile': {'nickname': '민준아빠'},
+            'email': 'minjun_dad@kakao.com',
+          },
+        }),
+      );
+      final account = await auth.loginWithKakao(
         nickname: '민준아빠',
         email: 'minjun_dad@kakao.com',
       );
@@ -131,7 +143,10 @@ void main() {
       expect(payload.inviterName, '민준아빠');
       expect(payload.inviterRole, '아빠');
       expect(payload.code, startsWith('MOMO-'));
-      expect(payload.toShareUrl(), contains('https://momosup.app/share?invite='));
+      expect(
+        payload.toShareUrl(),
+        contains('https://momosup.app/share?invite='),
+      );
 
       // 카카오톡 공유 텍스트 메시지 검증
       final shareText = KakaoAuthService.instance.buildKakaoShareText(
@@ -256,11 +271,8 @@ void main() {
 
       // acceptFamilyInvite 시 FormatException 발생 검증
       expect(
-        () => state.acceptFamilyInvite(
-          tamperedToken,
-          myName: '삼촌',
-          myRole: '삼촌',
-        ),
+        () =>
+            state.acceptFamilyInvite(tamperedToken, myName: '삼촌', myRole: '삼촌'),
         throwsA(isA<FormatException>()),
       );
 
