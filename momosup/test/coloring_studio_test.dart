@@ -9,15 +9,17 @@ import 'age_journey_test.dart' as fixtures;
 
 void main() {
   group('ColoringCatalog', () {
-    test('30종 이상의 다양한 동물·사물 도안이 등록되어 있고 최소 5개 이상의 영역을 갖는다', () {
+    test('64종의 다양한 동물(30)·탈것(14)·사물(20) 도안이 등록되어 있고 최소 5개 이상의 영역을 갖는다', () {
       final catalog = ColoringCatalog.all;
-      expect(catalog.length, greaterThanOrEqualTo(30));
-      expect(catalog.length, 34);
+      expect(catalog.length, 64);
+      expect(ColoringCatalog.animals.length, 30);
+      expect(ColoringCatalog.vehicles.length, 14);
+      expect(ColoringCatalog.objects.length, 20);
 
       final ids = catalog.map((t) => t.id).toSet();
       expect(ids.length, catalog.length, reason: '모든 도안 ID는 고유해야 함');
 
-      // Specifically check requested animals
+      // 1. 동물 도안 확인
       expect(ids.contains('butterfly'), isTrue, reason: '나비 도안 필수');
       expect(ids.contains('dinosaur'), isTrue, reason: '공룡 도안 필수');
       expect(ids.contains('pig'), isTrue, reason: '돼지 도안 필수');
@@ -28,6 +30,18 @@ void main() {
       expect(ids.contains('puppy'), isTrue);
       expect(ids.contains('lion'), isTrue);
       expect(ids.contains('elephant'), isTrue);
+
+      // 2. 탈것 도안 확인 (14종)
+      final vehicleIds = ['bus', 'police_car', 'fire_truck', 'ambulance', 'train', 'airplane', 'helicopter', 'rocket', 'sailboat', 'submarine', 'tractor', 'bicycle', 'hot_air_balloon', 'ufo'];
+      for (final vid in vehicleIds) {
+        expect(ids.contains(vid), isTrue, reason: '탈것 도안 $vid 필수');
+      }
+
+      // 3. 사물·음식·자연·장난감 도안 확인 (20종)
+      final objectIds = ['flower', 'fruit', 'cake', 'ice_cream', 'pizza', 'burger', 'donut', 'lollipop', 'gift', 'crown', 'guitar', 'soccer', 'teddy_toy', 'castle', 'rainbow', 'sun', 'moon', 'tree', 'mushroom', 'juice'];
+      for (final oid in objectIds) {
+        expect(ids.contains(oid), isTrue, reason: '사물 도안 $oid 필수');
+      }
 
       for (final template in catalog) {
         expect(template.title.isNotEmpty, isTrue);
@@ -111,6 +125,54 @@ void main() {
       await tester.pump();
 
       expect(find.text('숲속 야옹이 색칠하기'), findsOneWidget);
+    });
+
+    testWidgets('카테고리 탭(탈것, 사물, 동물, 전체) 선택 시 해당 도안들만 필터링되어 나타난다', (tester) async {
+      await tester.pumpWidget(
+        const MaterialApp(
+          home: Scaffold(
+            body: SingleChildScrollView(
+              child: ForestColoringStudio(quiet: true),
+            ),
+          ),
+        ),
+      );
+
+      // Verify category filter chips exist
+      expect(find.text('전체'), findsOneWidget);
+      expect(find.text('동물'), findsOneWidget);
+      expect(find.text('탈것'), findsOneWidget);
+      expect(find.text('사물'), findsOneWidget);
+
+      // Tap on 탈것 category
+      await tester.ensureVisible(find.text('탈것'));
+      await tester.tap(find.text('탈것'));
+      await tester.pump();
+
+      // Vehicle templates should be present
+      expect(find.text('붕붕 버스'), findsOneWidget);
+      expect(find.text('삐뽀 경찰차'), findsOneWidget);
+      expect(find.text('포근 토끼'), findsNothing);
+
+      // Tap on 사물 category
+      await tester.ensureVisible(find.text('사물'));
+      await tester.tap(find.text('사물'));
+      await tester.pump();
+
+      // Object templates should be present
+      expect(find.text('무지개 꽃'), findsOneWidget);
+      await tester.ensureVisible(find.text('생일 케이크'));
+      expect(find.text('생일 케이크'), findsOneWidget);
+      expect(find.text('붕붕 버스'), findsNothing);
+
+      // Tap on 전체
+      await tester.ensureVisible(find.text('전체'));
+      await tester.tap(find.text('전체'));
+      await tester.pump();
+
+      expect(find.text('포근 토끼'), findsOneWidget);
+      expect(find.text('붕붕 버스'), findsOneWidget);
+      expect(find.text('무지개 꽃'), findsOneWidget);
     });
 
     testWidgets('물감을 선택하고 캔버스를 터치하면 해당 영역이 색칠된다', (tester) async {

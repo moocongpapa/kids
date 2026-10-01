@@ -59,6 +59,7 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
   ];
 
   late int selectedTemplateIndex;
+  ColoringCategory _selectedCategory = ColoringCategory.all;
   int selectedColorIndex = 0;
   late List<ColoringSegment> currentSegments;
   final List<List<Color?>> _history = [];
@@ -155,20 +156,81 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
     final template = ColoringCatalog.all[selectedTemplateIndex];
     final isWide = forestIsWide(context);
 
-    // 1. Template Selector Chips
+    // 1. Category Filter Chips
+    final categorySelector = SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          for (final cat in ColoringCategory.values)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2.5),
+              child: GestureDetector(
+                onTap: () {
+                  if (_selectedCategory != cat) {
+                    SoundEffects.instance.pop();
+                    setState(() => _selectedCategory = cat);
+                  }
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
+                  decoration: BoxDecoration(
+                    color: _selectedCategory == cat
+                        ? const Color(0xFF5A7942)
+                        : const Color(0xFFF1DFC1),
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: _selectedCategory == cat
+                          ? const Color(0xFFF9E8BD)
+                          : const Color(0xFFD4B57D),
+                      width: 1.5,
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(cat.emoji, style: const TextStyle(fontSize: 13)),
+                      const SizedBox(width: 3),
+                      Text(
+                        cat.label,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: _selectedCategory == cat
+                              ? Colors.white
+                              : forestInk,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+
+    // 2. Template Selector Chips
+    final visibleTemplates = ColoringCatalog.byCategory(_selectedCategory);
+    final currentTemplate = ColoringCatalog.all[selectedTemplateIndex];
     final templateSelector = SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Row(
         children: [
-          for (var i = 0; i < ColoringCatalog.all.length; i++)
+          for (final t in visibleTemplates)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 4),
               child: GestureDetector(
                 onTap: () {
-                  if (selectedTemplateIndex != i) {
+                  final globalIdx = ColoringCatalog.all.indexOf(t);
+                  if (selectedTemplateIndex != globalIdx) {
                     SoundEffects.instance.pop();
-                    setState(() => _loadTemplate(i));
+                    setState(() => _loadTemplate(globalIdx));
                   }
                 },
                 child: Container(
@@ -177,12 +239,12 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: selectedTemplateIndex == i
+                    color: currentTemplate.id == t.id
                         ? const Color(0xFF5A7942)
                         : const Color(0xFFEAD2A0),
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: selectedTemplateIndex == i
+                      color: currentTemplate.id == t.id
                           ? const Color(0xFFF9E8BD)
                           : const Color(0xFFD4B57D),
                       width: 2,
@@ -199,16 +261,16 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        ColoringCatalog.all[i].emoji,
+                        t.emoji,
                         style: const TextStyle(fontSize: 18),
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        ColoringCatalog.all[i].title,
+                        t.title,
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
-                          color: selectedTemplateIndex == i
+                          color: currentTemplate.id == t.id
                               ? Colors.white
                               : forestInk,
                         ),
@@ -389,10 +451,12 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
           ),
           const SizedBox(width: 8),
           SizedBox(
-            width: 250,
+            width: 260,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                categorySelector,
+                const SizedBox(height: 4),
                 templateSelector,
                 const SizedBox(height: 8),
                 paletteWidget,
@@ -408,6 +472,8 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        categorySelector,
+        const SizedBox(height: 4),
         templateSelector,
         titleRow,
         canvasWidget,
