@@ -152,7 +152,8 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
                 current = items[index];
             return LayoutBuilder(
               builder: (context, box) {
-                final short = box.maxHeight < 370;
+                final short =
+                    box.maxWidth > box.maxHeight || box.maxHeight < 370;
                 final gallery = PageView.builder(
                   controller: pages,
                   itemCount: items.length,

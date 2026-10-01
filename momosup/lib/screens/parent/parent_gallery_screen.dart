@@ -30,32 +30,39 @@ class PreviewCatalogScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('콘텐츠 검토·미리보기')),
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.all(18),
-          children: [
-            const ParentNoticeCard(text: '검수와 사용권 확인이 기록된 놀이만 아이 화면에 나타납니다.'),
-            const SizedBox(height: 12),
-            for (final activity in items)
-              ParentRow(
-                child: ListTile(
-                  leading: AvatarImage(avatar: activity.avatar, size: 54),
-                  title: Text(activity.title),
-                  subtitle: Text(
-                    '${activity.theme} · ${activity.modeLabel} · '
-                    '${activity.isFullyApproved ? '검수 완료' : '검수 대기'}',
-                  ),
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (_) => ContentDetailScreen(
-                        appState: appState,
-                        profile: profile,
-                        activity: activity,
+        child: Center(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 680),
+            child: ListView(
+              padding: const EdgeInsets.all(18),
+              children: [
+                const ParentNoticeCard(
+                  text: '검수와 사용권 확인이 기록된 놀이만 아이 화면에 나타납니다.',
+                ),
+                const SizedBox(height: 12),
+                for (final activity in items)
+                  ParentRow(
+                    child: ListTile(
+                      leading: AvatarImage(avatar: activity.avatar, size: 54),
+                      title: Text(activity.title),
+                      subtitle: Text(
+                        '${activity.theme} · ${activity.modeLabel} · '
+                        '${activity.isFullyApproved ? '검수 완료' : '검수 대기'}',
+                      ),
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => ContentDetailScreen(
+                            appState: appState,
+                            profile: profile,
+                            activity: activity,
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -78,49 +85,54 @@ class ContentDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: Text(activity.title)),
     body: SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(22),
-        children: [
-          AvatarImage(avatar: activity.avatar, size: 148),
-          const SizedBox(height: 8),
-          Text(
-            '${activity.theme} · ${activity.modeLabel} · 약 ${activity.minutes}분',
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 24),
-          Text('시작 대본', style: Theme.of(context).textTheme.titleMedium),
-          Text(activity.intro),
-          const SizedBox(height: 12),
-          Text('아이 행동', style: Theme.of(context).textTheme.titleMedium),
-          Text(activity.prompt),
-          if (activity.choices.isNotEmpty) Text(activity.choices.join(' / ')),
-          if (activity.verses.isNotEmpty) Text(activity.verses.join('\n')),
-          const SizedBox(height: 12),
-          Text('마무리', style: Theme.of(context).textTheme.titleMedium),
-          Text('${activity.outro}\n화면 밖: ${activity.offscreen}'),
-          const SizedBox(height: 12),
-          Text('안전 점검', style: Theme.of(context).textTheme.titleMedium),
-          ...activity.safety.map((note) => Text('• $note')),
-          const SizedBox(height: 16),
-          const ParentNoticeCard(
-            text: '조작 미리보기에서 안내 음성과 반응 소리를 함께 확인할 수 있어요. 아이 이용시간에는 기록되지 않습니다.',
-          ),
-          const SizedBox(height: 18),
-          FilledButton.icon(
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute<void>(
-                builder: (_) => PlayScreen(
-                  activity: activity,
-                  appState: appState,
-                  profile: profile,
-                  isParentPreview: true,
-                ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 680),
+          child: ListView(
+            padding: const EdgeInsets.all(22),
+            children: [
+              AvatarImage(avatar: activity.avatar, size: 148),
+              const SizedBox(height: 8),
+              Text(
+                '${activity.theme} · ${activity.modeLabel} · 약 ${activity.minutes}분',
+                textAlign: TextAlign.center,
               ),
-            ),
-            icon: const Icon(Icons.play_arrow_rounded),
-            label: const Text('보호자 조작 미리보기'),
+              const SizedBox(height: 24),
+              Text('시작 대본', style: Theme.of(context).textTheme.titleMedium),
+              Text(activity.intro),
+              const SizedBox(height: 12),
+              Text('아이 행동', style: Theme.of(context).textTheme.titleMedium),
+              Text(activity.prompt),
+              if (activity.choices.isNotEmpty) Text(activity.choices.join(' / ')),
+              if (activity.verses.isNotEmpty) Text(activity.verses.join('\n')),
+              const SizedBox(height: 12),
+              Text('마무리', style: Theme.of(context).textTheme.titleMedium),
+              Text('${activity.outro}\n화면 밖: ${activity.offscreen}'),
+              const SizedBox(height: 12),
+              Text('안전 점검', style: Theme.of(context).textTheme.titleMedium),
+              ...activity.safety.map((note) => Text('• $note')),
+              const SizedBox(height: 16),
+              const ParentNoticeCard(
+                text: '조작 미리보기에서 안내 음성과 반응 소리를 함께 확인할 수 있어요. 아이 이용시간에는 기록되지 않습니다.',
+              ),
+              const SizedBox(height: 18),
+              FilledButton.icon(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => PlayScreen(
+                      activity: activity,
+                      appState: appState,
+                      profile: profile,
+                      isParentPreview: true,
+                    ),
+                  ),
+                ),
+                icon: const Icon(Icons.play_arrow_rounded),
+                label: const Text('보호자 조작 미리보기'),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     ),
   );

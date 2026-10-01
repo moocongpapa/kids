@@ -40,8 +40,11 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(title: Text('${widget.profile.nickname} 설정')),
     body: SafeArea(
-      child: ListView(
-        padding: const EdgeInsets.all(24),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 680),
+          child: ListView(
+            padding: const EdgeInsets.all(24),
         children: [
           Text(
             '하루 놀이 최대 $limit분',
@@ -86,7 +89,9 @@ class _ParentSettingsScreenState extends State<ParentSettingsScreen> {
         ],
       ),
     ),
-  );
+  ),
+),
+);
 }
 
 class TrustScreen extends StatelessWidget {

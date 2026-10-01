@@ -8,6 +8,7 @@ import '../models/child_profile.dart';
 import '../state/app_state.dart';
 import '../widgets/forest_background.dart';
 import '../widgets/forest_game_ui.dart';
+import '../widgets/forest_landscape.dart';
 import 'dynamic_toy_screen.dart';
 import 'journey_screen.dart';
 import 'play_screen.dart';
@@ -131,46 +132,104 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
                       value: allAges,
                       onChanged: (v) => setState(() => allAges = v),
                     ),
-                  Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 10,
-                    children: [
-                      for (var i = 0; i < 4; i++)
-                        _filter(
-                          ['모두', '탐색', '만들기', '소리'][i],
-                          [
-                            Icons.forest_rounded,
-                            Icons.pets_rounded,
-                            Icons.palette_rounded,
-                            Icons.music_note_rounded,
-                          ][i],
-                          i == 0
-                              ? area == null
-                              : area == PlayArea.values[i - 1],
-                          () => setState(
-                            () => area = i == 0 ? null : PlayArea.values[i - 1],
+                  if (forestIsWide(context) && !widget.parent)
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 4,
+                      ),
+                      child: Row(
+                        children: [
+                          for (var i = 0; i < 4; i++) ...[
+                            _filter(
+                              ['모두', '탐색', '만들기', '소리'][i],
+                              [
+                                Icons.forest_rounded,
+                                Icons.pets_rounded,
+                                Icons.palette_rounded,
+                                Icons.music_note_rounded,
+                              ][i],
+                              i == 0
+                                  ? area == null
+                                  : area == PlayArea.values[i - 1],
+                              () => setState(
+                                () =>
+                                    area = i == 0
+                                        ? null
+                                        : PlayArea.values[i - 1],
+                              ),
+                            ),
+                            const SizedBox(width: 8),
+                          ],
+                          Container(
+                            height: 24,
+                            width: 1.5,
+                            margin: const EdgeInsets.symmetric(horizontal: 6),
+                            color: forestInk.withValues(alpha: 0.2),
                           ),
-                        ),
-                    ],
-                  ),
-                  Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: 10,
-                    children: [
-                      for (var i = 0; i < 4; i++)
-                        _filter(
-                          ['모든 놀이', '좋아하는 놀이', '최근 놀이', '저장된 놀이'][i],
-                          [
-                            Icons.apps_rounded,
-                            Icons.favorite_rounded,
-                            Icons.history_rounded,
-                            Icons.collections_rounded,
-                          ][i],
-                          collection == i,
-                          () => setState(() => collection = i),
-                        ),
-                    ],
-                  ),
+                          for (var i = 0; i < 4; i++) ...[
+                            _filter(
+                              ['모든 놀이', '좋아하는 놀이', '최근 놀이', '저장된 놀이'][i],
+                              [
+                                Icons.apps_rounded,
+                                Icons.favorite_rounded,
+                                Icons.history_rounded,
+                                Icons.collections_rounded,
+                              ][i],
+                              collection == i,
+                              () => setState(() => collection = i),
+                            ),
+                            if (i < 3) const SizedBox(width: 8),
+                          ],
+                        ],
+                      ),
+                    )
+                  else ...[
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 10,
+                      children: [
+                        for (var i = 0; i < 4; i++)
+                          _filter(
+                            ['모두', '탐색', '만들기', '소리'][i],
+                            [
+                              Icons.forest_rounded,
+                              Icons.pets_rounded,
+                              Icons.palette_rounded,
+                              Icons.music_note_rounded,
+                            ][i],
+                            i == 0
+                                ? area == null
+                                : area == PlayArea.values[i - 1],
+                            () => setState(
+                              () =>
+                                  area = i == 0
+                                      ? null
+                                      : PlayArea.values[i - 1],
+                            ),
+                          ),
+                      ],
+                    ),
+                    Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 10,
+                      children: [
+                        for (var i = 0; i < 4; i++)
+                          _filter(
+                            ['모든 놀이', '좋아하는 놀이', '최근 놀이', '저장된 놀이'][i],
+                            [
+                              Icons.apps_rounded,
+                              Icons.favorite_rounded,
+                              Icons.history_rounded,
+                              Icons.collections_rounded,
+                            ][i],
+                            collection == i,
+                            () => setState(() => collection = i),
+                          ),
+                      ],
+                    ),
+                  ],
                   Expanded(
                     child: entries.isEmpty
                         ? const Center(
