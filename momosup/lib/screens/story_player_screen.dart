@@ -281,9 +281,9 @@ class _StoryPlayerScreenState extends State<StoryPlayerScreen> {
           Text(
             player.expired
                 ? '숲도 쉬는 시간'
-                : widget.episode.productionPreview
-                ? '미리보기 끝'
-                : '이야기 끝, 우리 차례!',
+                : widget.episode.openingAudioPreview
+                ? '첫 장면 미리보기 끝'
+                : '이야기 끝, 함께 놀아요!',
             textAlign: TextAlign.center,
             style: const TextStyle(
               fontSize: 26,
@@ -292,7 +292,7 @@ class _StoryPlayerScreenState extends State<StoryPlayerScreen> {
             ),
           ),
           const SizedBox(height: 20),
-          if (widget.preview)
+          if (widget.preview && widget.episode.togetherActivity == null)
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
               child: Text(
@@ -305,6 +305,35 @@ class _StoryPlayerScreenState extends State<StoryPlayerScreen> {
                 ),
               ),
             ),
+          if (!player.expired &&
+              !widget.episode.openingAudioPreview &&
+              widget.episode.togetherActivity != null) ...[
+            Icon(
+              _activityIcon(widget.episode.togetherActivity!),
+              color: const Color(0xFFF0D293),
+              size: 64,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              widget.episode.togetherActivity!.title,
+              style: const TextStyle(
+                color: forestCream,
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            ForestAction(
+              label: '함께 놀이 안내',
+              icon: Icons.waving_hand_rounded,
+              size: 88,
+              quiet: true,
+              leaf: true,
+              onPressed: _showTogether,
+            ),
+            const SizedBox(height: 24),
+          ],
           ForestAction(
             label: '이야기숲으로 돌아가기',
             icon: Icons.forest_rounded,
@@ -317,4 +346,65 @@ class _StoryPlayerScreenState extends State<StoryPlayerScreen> {
       ),
     ),
   );
+  IconData _activityIcon(StoryTogetherActivity a) => switch (a.kind) {
+    'feelings' => Icons.sentiment_satisfied_alt_rounded,
+    'turns' => Icons.toys_rounded,
+    _ => Icons.water_drop_rounded,
+  };
+  void _showTogether() {
+    final activity = widget.episode.togetherActivity!;
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: forestCream,
+      builder: (context) => SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(28),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(_activityIcon(activity), size: 58, color: forestInk),
+              const SizedBox(height: 12),
+              Text(
+                activity.title,
+                textAlign: TextAlign.center,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.w800,
+                  color: forestInk,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                activity.materials,
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: forestInk, fontSize: 15),
+              ),
+              const SizedBox(height: 20),
+              for (final step in activity.steps)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 16),
+                  child: Text(
+                    step,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: 17,
+                      height: 1.5,
+                      color: forestInk,
+                    ),
+                  ),
+                ),
+              ForestAction(
+                label: '놀이 안내 닫기',
+                icon: Icons.close_rounded,
+                size: 72,
+                quiet: true,
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

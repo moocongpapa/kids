@@ -784,5 +784,30 @@
       "story_cloud"
     ],
     "cloudTitleVoiceAndMusicConnected": true
+  },
+  "offlinePreparation": {
+    "checkedAt": "2026-10-01T02:50:41.891Z",
+    "apiRequests": 0,
+    "simulatorRuns": 0,
+    "reusableScenes": 21,
+    "missingVideos": 30,
+    "repairSceneIds": [
+      "story_moon_02"
+    ],
+    "preparedNarrations": 52,
+    "preflight": "production/story_pilot/preflight.json",
+    "localSoundEdit": "production/story_pilot/story_cloud.editing.json",
+    "perRunVideoRequestsSuggested": 5,
+    "requestLedger": "gitignored production/story_work/requests.jsonl",
+    "validation": {
+      "offlineTests": 15,
+      "flutterTests": 153,
+      "staticAnalysisIssues": 0,
+      "parentPortraitAndLandscapeInspected": true,
+      "smallPlayerLayoutVerified": true,
+      "catalogMediaAuditPassed": true,
+      "nativePlaybackVerified": false,
+      "familyObservationPerformed": false
+    }
   }
 }

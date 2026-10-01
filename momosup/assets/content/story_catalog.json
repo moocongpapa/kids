@@ -30,7 +30,7 @@
       "videoAsset": "assets/stories/story_cloud.mp4",
       "posterAsset": "assets/stories/story_cloud.jpg",
       "titleAudioAsset": "assets/stories/story_cloud_title.m4a",
-      "musicAsset": "assets/stories/story_cloud_music.m4a",
+      "musicAsset": "assets/stories/story_cloud_loop.m4a",
       "bytes": 12831777,
       "sha256": "f31ac9e3f7a4319080bbd5dfc1721782f3bbdc763df193a80aaa7d8a63ae65d3",
       "videoModel": "gemini-omni-1.1-flash",
@@ -41,12 +41,27 @@
       "humanReviewedAt": null,
       "applicationAuthorization": "Owner explicitly requested production and app integration of three age-targeted story films on 2026-09-30.",
       "status": "PRODUCTION_PREVIEW",
+      "posterSha256": "b38dc811ab2b95ce745abf58fdd3aa95e1135e37b6134f4b1af801c715cdb130",
       "automatedReviewPassed": true,
+      "localAudioEdit": {
+        "sourceMusicAsset": "assets/stories/story_cloud_music.m4a",
+        "sourceMusicSha256": "2e90c155884eec914382aea4bc07ee624ceca6281829c2156b3d7d1309df29c2",
+        "kind": "loop-crossfade-v1"
+      },
+      "togetherActivity": {
+        "kind": "feelings",
+        "title": "지금 마음은?",
+        "materials": "준비물 없이 함께해요",
+        "steps": [
+          "아이와 서로의 표정을 따라 해 보세요.",
+          "지금 마음을 한 단어로 이야기해 보세요. 대답을 재촉하지 않아도 괜찮아요."
+        ]
+      },
       "assetHashes": {
         "assets/stories/story_cloud.mp4": "f31ac9e3f7a4319080bbd5dfc1721782f3bbdc763df193a80aaa7d8a63ae65d3",
         "assets/stories/story_cloud.jpg": "b38dc811ab2b95ce745abf58fdd3aa95e1135e37b6134f4b1af801c715cdb130",
         "assets/stories/story_cloud_title.m4a": "6cdbdc763a485c99ea1abac17a2bb1e9070044dcc93440089f3e98855bec4f99",
-        "assets/stories/story_cloud_music.m4a": "2e90c155884eec914382aea4bc07ee624ceca6281829c2156b3d7d1309df29c2"
+        "assets/stories/story_cloud_loop.m4a": "b7f30592223e581908a04abde4197b0c100898fe989b3a1beb330b1c32053959"
       },
       "fullFilmPreview": true,
       "note": "Complete film, title voice and music reviewed; available in the parent preview while the three-film child release remains in production. Native playback and family observation are pending."

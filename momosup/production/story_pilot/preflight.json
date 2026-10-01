@@ -1,0 +1,315 @@
+{
+  "checkedAt": "2026-10-01T02:49:51.285Z",
+  "apiRequests": 0,
+  "scenes": [
+    {
+      "id": "story_cloud_00",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_cloud_01",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_cloud_02",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_cloud_03",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_cloud_04",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_cloud_05",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_cloud_06",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_cloud_07",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_cloud_08",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_cloud_09",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_cloud_10",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_cloud_11",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_00",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_01",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_02",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_03",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_04",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_05",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_06",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_07",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_08",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_09",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_10",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_11",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_12",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_13",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_14",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_15",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_16",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_17",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_18",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_swing_19",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_00",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_01",
+      "state": "REUSE",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_02",
+      "state": "REPAIR_REQUIRED",
+      "narrationReady": true,
+      "reason": "The current night pond shot includes Momo and Duri, whereas the revised scene is a character-free insert showing only the rippling moon reflection. Regenerate with no character references and retain indigo night."
+    },
+    {
+      "id": "story_moon_03",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_04",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_05",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_06",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_07",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_08",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_09",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_10",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_11",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_12",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_13",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_14",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_15",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_16",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_17",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_18",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    },
+    {
+      "id": "story_moon_19",
+      "state": "MISSING_VIDEO",
+      "narrationReady": true
+    }
+  ],
+  "films": [
+    {
+      "id": "story_cloud",
+      "expectedScenes": 12,
+      "reusableScenes": 12,
+      "preparedNarration": 12,
+      "audioReady": true,
+      "fullFilmReady": true
+    },
+    {
+      "id": "story_swing",
+      "expectedScenes": 20,
+      "reusableScenes": 7,
+      "preparedNarration": 20,
+      "audioReady": true,
+      "fullFilmReady": false
+    },
+    {
+      "id": "story_moon",
+      "expectedScenes": 20,
+      "reusableScenes": 2,
+      "preparedNarration": 20,
+      "audioReady": true,
+      "fullFilmReady": false
+    }
+  ],
+  "errors": [],
+  "requests": {
+    "started": 0,
+    "succeeded": 0,
+    "failed": 0,
+    "unknown": 0,
+    "byModel": {}
+  },
+  "nextCommands": [
+    "node tool/generate_story_pilot.mjs --generate --episode=story_swing --max-video-requests=5",
+    "node tool/generate_story_pilot.mjs --generate --episode=story_moon --max-video-requests=5 --repair-scenes=story_moon_02"
+  ],
+  "summary": {
+    "totalScenes": 52,
+    "reusableScenes": 21,
+    "missingVideos": 30,
+    "repairs": 1,
+    "preparedNarration": 52,
+    "completeFilms": 1
+  },
+  "readyToResume": true,
+  "requestLedgerNote": "Records start with this tool update. Historical provider requests and account-wide daily usage cannot be reconstructed from this local ledger."
+}

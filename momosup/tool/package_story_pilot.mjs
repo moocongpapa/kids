@@ -4,6 +4,8 @@ import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {episodes} from './story_pilot_scripts.mjs';
+import {loadReviewedFilm,validateCatalog} from './story_release_checks.mjs';
+import {writeJson} from './story_production_shared.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const ffmpeg=process.env.STORY_FFMPEG ?? 'ffmpeg';
 const hash=b=>createHash('sha256').update(b).digest('hex');
@@ -40,18 +42,10 @@ for(const e of episodes.filter(e=>!parentId||e.id===parentId)){
    videoModel:'gemini-omni-1.1-flash',voiceModel:'gemini-3.8-flash-tts'};
   await fs.writeFile(path.join(root,'production/story_pilot',e.id+'.preview.json'),JSON.stringify(item,null,2)+'\n');
  }else{
-  item=JSON.parse(await fs.readFile(path.join(root,'production/story_pilot',e.id+'.json')));
-  if(item.scenes.length!==e.scenes.length||item.scenes.some(s=>!s.review?.passed)||!item.finalAudioReview?.passed)
-   throw new Error('Incomplete production/review '+e.id);
-  const bytes=await fs.readFile(path.join(root,item.videoAsset));
-  if(hash(bytes)!==item.sha256)throw new Error('Changed video '+e.id);
-  const fullReview=JSON.parse(await fs.readFile(path.join(root,'production/story_pilot',e.id+'.film_review.json')));
-  if(!fullReview.passed||fullReview.sha256!==item.sha256)throw new Error('Full-film review required '+e.id);
-  if(!visualReview.reviewedFilms?.some(f=>f.id===e.id&&f.sha256===item.sha256))throw new Error('Final contact-sheet inspection required '+e.id);
-  if(visualReview.requiredCorrections?.some(c=>c.id.startsWith(e.id+'_')))throw new Error('Outstanding scene correction '+e.id);
-  item.automatedReviewPassed=true;
+  item=await loadReviewedFilm(root,e,visualReview);
  }
  const {scenes,palette,musicPrompt,...metadata}=item;
+ metadata.togetherActivity=e.togetherActivity;
  metadata.assetHashes={};
  for(const field of ['videoAsset','posterAsset','titleAudioAsset','musicAsset']){
   if(metadata[field])metadata.assetHashes[metadata[field]]=hash(await fs.readFile(path.join(root,metadata[field])));
@@ -75,4 +69,5 @@ if(parentId){
 }else{
  catalog={version:'story-pilot-2026-09-30'+(publish?'-full':''),productionStatus:preview?'PRODUCTION_IN_PROGRESS':'COMPLETE',episodes:preview?[]:packed,previews:preview?packed:[]};
 }
-await fs.writeFile(path.join(root,'assets/content/story_catalog.json'),JSON.stringify(catalog,null,2)+'\n');
+validateCatalog(catalog,episodes);
+await writeJson(path.join(root,'assets/content/story_catalog.json'),catalog);

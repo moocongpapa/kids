@@ -3,8 +3,16 @@ import path from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
+import {episodes} from './story_pilot_scripts.mjs';
+import {validateCatalog,loadReviewedFilm} from './story_release_checks.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const catalog=JSON.parse(await fs.readFile(path.join(root,'assets/content/story_catalog.json')));
+validateCatalog(catalog,episodes);
+const visualReview=JSON.parse(await fs.readFile(path.join(root,'production/story_pilot/visual_review.json')));
+for(const item of [...catalog.episodes,...catalog.previews.filter(p=>p.fullFilmPreview)]){
+ const reviewed=await loadReviewedFilm(root,episodes.find(e=>e.id===item.id),visualReview);
+ for(const field of ['videoAsset','posterAsset','titleAudioAsset','musicAsset'])if(reviewed[field]!==item[field])throw new Error('Catalog differs from reviewed film');
+}
 const ffmpeg=process.env.STORY_FFMPEG ?? 'ffmpeg';
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const report={productionStatus:catalog.productionStatus,published:catalog.episodes.length,previews:(catalog.previews??[]).length,assets:[],errors:[]};

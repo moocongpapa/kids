@@ -204,6 +204,49 @@ void main() {
       expect(draft.availableFor(testProfile.copyWith(ageMonths: 84)), isFalse);
     }
   });
+  test('전체 부모 미리보기도 아이 재생 경로에서는 차단한다', () async {
+    final parent = await const StoryRepository().load(includePreviews: true);
+    final full = parent.firstWhere((e) => e.fullFilmPreview);
+    expect(full.productionPreview, isTrue);
+    expect(full.togetherActivity, isNotNull);
+    final state = await setup(), video = FakeVideo();
+    final controller = playback(state, video, Clock(), story: full);
+    await controller.initialize();
+    expect(video.starts, 0);
+    expect(video.ready, isFalse);
+    controller.dispose();
+    await audio.flush();
+  });
+  test('이야기 음악은 시작과 마지막에서 낮아지고 음성은 유지된다', () async {
+    final state = await setup(),
+        video = FakeVideo(),
+        output = audio.FakeOutput();
+    final controller = StoryPlayback(
+      episode: allStories[1],
+      profile: testProfile,
+      appState: state,
+      video: video,
+      watch: Clock(),
+      music: ToyMusicPlayer(output: output, speechGain: .22),
+    );
+    await controller.initialize();
+    await audio.flush();
+    video.update(at: const Duration(seconds: 2));
+    await audio.flush();
+    expect(output.volumes.last, closeTo(.22, .001));
+    video.update(at: const Duration(milliseconds: 298500));
+    await audio.flush();
+    expect(output.volumes.last, closeTo(.11, .001));
+    expect(video.gain, 1);
+    await controller.pause();
+    await audio.flush();
+    final starts = output.played.length;
+    controller.didChangeAppLifecycleState(AppLifecycleState.resumed);
+    await audio.flush();
+    expect(output.played.length, starts);
+    controller.dispose();
+    await audio.flush();
+  });
   test('완성 카탈로그에는 연령별 영상 3편과 음성·음악이 들어 있다', () async {
     final films = await const StoryRepository().load();
     final catalog = jsonDecode(
@@ -460,5 +503,137 @@ void main() {
     await tester.pumpWidget(const SizedBox());
     await tester.pump();
     expect(video.disposed, isTrue);
+  });
+  testWidgets('이야기 목록 재시도는 실패한 Future를 다시 읽는다', (tester) async {
+    final state = await setup();
+    var loads = 0;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: StoryForestScreen(
+            appState: state,
+            profile: testProfile,
+            playAsset: (_) async {},
+            loadStories: () async {
+              loads++;
+              if (loads == 1) throw StateError('temporary read error');
+              return allStories;
+            },
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('이야기를 준비하지 못했어요'));
+    await tester.pumpAndSettle();
+    expect(loads, 2);
+    expect(find.text('그네 하나, 친구 셋'), findsOneWidget);
+    await tester.pumpWidget(const SizedBox());
+  });
+  testWidgets('작은 휴대폰에서 완성본 재생과 함께 놀이 안내가 넘치지 않는다', (tester) async {
+    tester.view.physicalSize = const Size(320, 568);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(() {
+      tester.view.resetPhysicalSize();
+      tester.view.resetDevicePixelRatio();
+    });
+    final state = await setup();
+    final parents = (await tester.runAsync(
+      () => const StoryRepository().load(includePreviews: true),
+    ))!;
+    final story = parents.firstWhere((e) => e.fullFilmPreview);
+    final p = playback(
+      state,
+      FakeVideo(),
+      Clock(),
+      preview: true,
+      story: story,
+    );
+    await tester.pumpWidget(
+      MaterialApp(
+        home: StoryPlayerScreen(
+          episode: story,
+          profile: testProfile,
+          appState: state,
+          preview: true,
+          playback: p,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+    p.finish();
+    await tester.pumpAndSettle();
+    await tester.ensureVisible(find.byTooltip('함께 놀이 안내'));
+    await tester.tap(find.byTooltip('함께 놀이 안내'));
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+    await tester.ensureVisible(find.byTooltip('놀이 안내 닫기'));
+    await tester.tap(find.byTooltip('놀이 안내 닫기'));
+    await tester.pumpAndSettle();
+    await tester.pumpWidget(const SizedBox());
+    await tester.pumpAndSettle();
+  });
+  testWidgets('부모 목록은 완성 여부와 음성 설정을 보여 주고 즐겨찾기를 쓰지 않는다', (tester) async {
+    final state = await setup(),
+        parents = (await tester.runAsync(
+          () => const StoryRepository().load(includePreviews: true),
+        ))!;
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: StoryForestScreen(
+            appState: state,
+            profile: testProfile,
+            preview: true,
+            episodes: parents,
+            playAsset: (_) async {},
+          ),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(find.text('완성본 · 보호자 미리보기'), findsOneWidget);
+    expect(find.byTooltip('좋아하는 이야기 저장'), findsNothing);
+    AudioPolicy.instance.mute(true);
+    await tester.pump();
+    expect(find.text('음성 꺼짐'), findsOneWidget);
+    expect(state.storyProgress(testProfile.id, 'story_cloud'), isEmpty);
+    await tester.pumpWidget(const SizedBox());
+    AudioPolicy.instance.mute(false);
+  });
+  testWidgets('완성 이야기의 화면 밖 놀이 안내는 추가 재생과 아이 기록을 만들지 않는다', (tester) async {
+    final state = await setup(),
+        parents = (await tester.runAsync(
+          () => const StoryRepository().load(includePreviews: true),
+        ))!;
+    final story = parents.firstWhere((e) => e.fullFilmPreview),
+        video = FakeVideo(),
+        p = playback(state, video, Clock(), preview: true, story: story);
+    await tester.pumpWidget(
+      MaterialApp(
+        home: StoryPlayerScreen(
+          episode: story,
+          profile: testProfile,
+          appState: state,
+          preview: true,
+          playback: p,
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+    p.finish();
+    await tester.pumpAndSettle();
+    final starts = video.starts;
+    await tester.tap(find.byTooltip('함께 놀이 안내'));
+    await tester.pumpAndSettle();
+    expect(find.text(story.togetherActivity!.steps.first), findsOneWidget);
+    await tester.tap(find.byTooltip('놀이 안내 닫기'));
+    await tester.pumpAndSettle();
+    expect(video.starts, starts);
+    expect(state.records, isEmpty);
+    expect(state.storyProgress(testProfile.id, story.id), isEmpty);
+    await tester.pumpWidget(const SizedBox());
+    await tester.pumpAndSettle();
   });
 }

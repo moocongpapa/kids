@@ -188,6 +188,19 @@ class StoryPlayback extends ChangeNotifier with WidgetsBindingObserver {
     } else {
       watch.stop();
     }
+    if (activelyPlaying && AudioPolicy.instance.canVoice) {
+      AudioPolicy.instance.beginSpeech(_speechToken);
+    } else {
+      AudioPolicy.instance.endSpeech(_speechToken);
+    }
+    final position = video.position.inMilliseconds;
+    final remaining = video.duration.inMilliseconds - position;
+    music.setGainScale(
+      math.min(
+        (position / 1500).clamp(0.0, 1.0),
+        (remaining / 3000).clamp(0.0, 1.0),
+      ),
+    );
     final wanted =
         activelyPlaying &&
         episode.musicAsset.isNotEmpty &&
@@ -199,11 +212,6 @@ class StoryPlayback extends ChangeNotifier with WidgetsBindingObserver {
       } else {
         music.stop();
       }
-    }
-    if (activelyPlaying && AudioPolicy.instance.canVoice) {
-      AudioPolicy.instance.beginSpeech(_speechToken);
-    } else {
-      AudioPolicy.instance.endSpeech(_speechToken);
     }
   }
 

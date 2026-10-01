@@ -1,0 +1,99 @@
+{
+  "episode": "story_cloud",
+  "checkedAt": "2026-10-01T02:27:00.477Z",
+  "sourceVideoSha256": "f31ac9e3f7a4319080bbd5dfc1721782f3bbdc763df193a80aaa7d8a63ae65d3",
+  "sourceMusicSha256": "2e90c155884eec914382aea4bc07ee624ceca6281829c2156b3d7d1309df29c2",
+  "loopAsset": "assets/stories/story_cloud_loop.m4a",
+  "loopSha256": "b7f30592223e581908a04abde4197b0c100898fe989b3a1beb330b1c32053959",
+  "transform": {
+    "kind": "loop-crossfade-v1",
+    "trimHeadSeconds": 1.1,
+    "trimTailSeconds": 2.2,
+    "crossfadeSeconds": 1.2,
+    "curve": "linear",
+    "note": "Existing instrumental source only; no new notes, voices or generated imagery."
+  },
+  "technicalReview": {
+    "passed": true,
+    "loopDecoded": true,
+    "loopSeconds": 24.37,
+    "loopPeakDb": -13,
+    "mixDecoded": true,
+    "mixSeconds": 183.04,
+    "mixPeakDb": -2.4,
+    "mixMeanDb": -21.5,
+    "musicGain": 0.22,
+    "fadeInSeconds": 1.5,
+    "fadeOutSeconds": 3,
+    "endingVoiceGapSeconds": 2.94,
+    "videoFramesUnchanged": true
+  },
+  "sceneTimeline": [
+    {
+      "id": "story_cloud_00",
+      "startSeconds": 0,
+      "endSeconds": 16
+    },
+    {
+      "id": "story_cloud_01",
+      "startSeconds": 16,
+      "endSeconds": 31
+    },
+    {
+      "id": "story_cloud_02",
+      "startSeconds": 31,
+      "endSeconds": 47
+    },
+    {
+      "id": "story_cloud_03",
+      "startSeconds": 47,
+      "endSeconds": 62
+    },
+    {
+      "id": "story_cloud_04",
+      "startSeconds": 62,
+      "endSeconds": 78
+    },
+    {
+      "id": "story_cloud_05",
+      "startSeconds": 78,
+      "endSeconds": 93
+    },
+    {
+      "id": "story_cloud_06",
+      "startSeconds": 93,
+      "endSeconds": 108
+    },
+    {
+      "id": "story_cloud_07",
+      "startSeconds": 108,
+      "endSeconds": 123
+    },
+    {
+      "id": "story_cloud_08",
+      "startSeconds": 123,
+      "endSeconds": 138
+    },
+    {
+      "id": "story_cloud_09",
+      "startSeconds": 138,
+      "endSeconds": 153
+    },
+    {
+      "id": "story_cloud_10",
+      "startSeconds": 153,
+      "endSeconds": 168
+    },
+    {
+      "id": "story_cloud_11",
+      "startSeconds": 168,
+      "endSeconds": 183
+    }
+  ],
+  "localPreview": {
+    "file": "production/story_work/story_cloud/story_cloud_review_mix.mp4",
+    "sha256": "59a6d5f2fb4309ae29a2a5481b38a8e88b38e617a00301f3640f78d99f593669"
+  },
+  "humanReviewedAt": null,
+  "nativePlaybackVerified": false
+}

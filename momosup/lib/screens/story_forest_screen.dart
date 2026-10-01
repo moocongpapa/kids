@@ -7,6 +7,7 @@ import '../models/child_profile.dart';
 import '../models/story_episode.dart';
 import '../state/app_state.dart';
 import '../utils/forest_audio.dart';
+import '../utils/audio_policy.dart';
 import '../utils/narration_player.dart';
 import '../widgets/forest_game_ui.dart';
 import 'story_player_screen.dart';
@@ -19,6 +20,7 @@ class StoryForestScreen extends StatefulWidget {
     this.preview = false,
     this.episodes,
     this.playAsset,
+    this.loadStories,
     super.key,
   });
   final AppState appState;
@@ -26,12 +28,13 @@ class StoryForestScreen extends StatefulWidget {
   final bool preview;
   final List<StoryEpisode>? episodes;
   final Future<void> Function(String)? playAsset;
+  final Future<List<StoryEpisode>> Function()? loadStories;
   @override
   State<StoryForestScreen> createState() => _StoryForestScreenState();
 }
 
 class _StoryForestScreenState extends State<StoryForestScreen> {
-  late final Future<List<StoryEpisode>> stories;
+  late Future<List<StoryEpisode>> stories;
   late final NarrationPlayer voice;
   final pages = PageController();
   int selected = 0;
@@ -39,12 +42,16 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
   @override
   void initState() {
     super.initState();
-    stories = widget.episodes != null
-        ? Future.value(widget.episodes)
-        : const StoryRepository().load(includePreviews: widget.preview);
+    stories = _loadStories();
     voice = NarrationPlayer(playAsset: widget.playAsset);
     unawaited(ForestAudio.instance.pauseBgm());
   }
+
+  Future<List<StoryEpisode>> _loadStories() =>
+      widget.loadStories?.call() ??
+      (widget.episodes != null
+          ? Future.value(widget.episodes)
+          : const StoryRepository().load(includePreviews: widget.preview));
 
   @override
   void dispose() {
@@ -81,7 +88,12 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
       if (snapshot.hasError) {
         return Center(
           child: TextButton(
-            onPressed: () => setState(() {}),
+            onPressed: () {
+              final retry = _loadStories();
+              setState(() {
+                stories = retry;
+              });
+            },
             child: const Text('이야기를 준비하지 못했어요'),
           ),
         );
@@ -179,7 +191,9 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
                               right: 0,
                               child: Center(
                                 child: ForestAction(
-                                  label: '${items[i].title} 재생',
+                                  label: _canResume(items[i])
+                                      ? '${items[i].title} 이어 보기'
+                                      : '${items[i].title} 재생',
                                   icon: Icons.play_arrow_rounded,
                                   size: short ? 66 : 82,
                                   leaf: true,
@@ -210,9 +224,36 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
                     ),
                   ),
                   const SizedBox(height: 6),
+                  if (widget.preview && current.productionPreview)
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 6),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            current.fullFilmPreview
+                                ? Icons.check_circle_rounded
+                                : Icons.hourglass_bottom_rounded,
+                            color: current.fullFilmPreview
+                                ? const Color(0xFF447352)
+                                : const Color(0xFF9A6C2D),
+                            size: 18,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            current.previewLabel,
+                            style: const TextStyle(
+                              color: forestInk,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   Text(
                     widget.preview
-                        ? '${current.productionPreview ? '보호자 미리보기\n' : ''}${current.ageLabel} · ${current.durationLabel} · ${current.theme}'
+                        ? '${current.ageLabel} · ${current.durationLabel} · ${current.theme}'
                         : current.durationLabel,
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: forestInk, fontSize: 13),
@@ -226,13 +267,14 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
                         style: const TextStyle(fontSize: 13),
                       ),
                     ),
+                  if (widget.preview) _audioStatus(current),
                   const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ForestAction(
-                        label: current.productionPreview
-                            ? '미리보기 음성 듣기'
+                        label: current.openingAudioPreview
+                            ? '첫 장면 음성 듣기'
                             : '이야기 제목 듣기',
                         icon: Icons.volume_up_rounded,
                         size: 60,
@@ -251,42 +293,43 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
                                 : const Color(0xFFA7B98B),
                           ),
                         ),
-                      const SizedBox(width: 20),
-                      ForestAction(
-                        label: '좋아하는 이야기 저장',
-                        icon:
-                            widget.appState.storyProgress(
-                                  widget.profile.id,
-                                  current.id,
-                                )['favorite'] ==
-                                true
-                            ? Icons.favorite_rounded
-                            : Icons.favorite_border_rounded,
-                        size: 60,
-                        quiet: true,
-                        onPressed: () async {
-                          try {
-                            await widget.appState.saveStoryProgress(
-                              widget.profile.id,
-                              current.id,
-                              favorite:
-                                  widget.appState.storyProgress(
+                      if (!widget.preview) const SizedBox(width: 20),
+                      if (!widget.preview)
+                        ForestAction(
+                          label: '좋아하는 이야기 저장',
+                          icon:
+                              widget.appState.storyProgress(
                                     widget.profile.id,
                                     current.id,
-                                  )['favorite'] !=
-                                  true,
-                            );
-                          } catch (_) {
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('저장하지 못했어요. 다시 눌러 주세요.'),
-                                ),
+                                  )['favorite'] ==
+                                  true
+                              ? Icons.favorite_rounded
+                              : Icons.favorite_border_rounded,
+                          size: 60,
+                          quiet: true,
+                          onPressed: () async {
+                            try {
+                              await widget.appState.saveStoryProgress(
+                                widget.profile.id,
+                                current.id,
+                                favorite:
+                                    widget.appState.storyProgress(
+                                      widget.profile.id,
+                                      current.id,
+                                    )['favorite'] !=
+                                    true,
                               );
+                            } catch (_) {
+                              if (context.mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('저장하지 못했어요. 다시 눌러 주세요.'),
+                                  ),
+                                );
+                              }
                             }
-                          }
-                        },
-                      ),
+                          },
+                        ),
                     ],
                   ),
                 ],
@@ -351,7 +394,20 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
                         : Column(
                             children: [
                               Expanded(child: gallery),
-                              details,
+                              if (widget.preview)
+                                ConstrainedBox(
+                                  constraints: BoxConstraints(
+                                    maxHeight: box.maxHeight * .48,
+                                  ),
+                                  child: SingleChildScrollView(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 12,
+                                    ),
+                                    child: details,
+                                  ),
+                                )
+                              else
+                                details,
                               const SizedBox(height: 12),
                             ],
                           ),
@@ -363,6 +419,31 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
         },
       );
     },
+  );
+  bool _canResume(StoryEpisode e) {
+    if (widget.preview) return false;
+    final saved = widget.appState.storyProgress(widget.profile.id, e.id);
+    return saved['complete'] != true && (saved['positionMs'] as int? ?? 0) > 0;
+  }
+
+  Widget _audioStatus(StoryEpisode e) => ListenableBuilder(
+    listenable: AudioPolicy.instance,
+    builder: (_, _) => Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 12,
+      children: [
+        Text(
+          '음성 ${AudioPolicy.instance.canVoice ? '켜짐' : '꺼짐'}',
+          style: const TextStyle(color: forestInk, fontSize: 12),
+        ),
+        Text(
+          e.musicAsset.isEmpty
+              ? '음악 없는 첫 장면'
+              : '음악 ${AudioPolicy.instance.canMusic ? '켜짐' : '꺼짐'}',
+          style: const TextStyle(color: forestInk, fontSize: 12),
+        ),
+      ],
+    ),
   );
 }
 

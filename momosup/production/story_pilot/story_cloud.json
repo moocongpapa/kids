@@ -417,5 +417,6 @@
   "createdAt": "2026-10-01T00:04:35.351Z",
   "humanReviewedAt": null,
   "applicationAuthorization": "Owner explicitly requested production and app integration of three age-targeted story films on 2026-09-30.",
-  "status": "APPLIED_ON_OWNER_REQUEST"
+  "status": "APPLIED_ON_OWNER_REQUEST",
+  "posterSha256": "b38dc811ab2b95ce745abf58fdd3aa95e1135e37b6134f4b1af801c715cdb130"
 }

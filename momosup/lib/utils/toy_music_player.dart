@@ -15,9 +15,18 @@ class ToyMusicPlayer with WidgetsBindingObserver {
   }
   final AudioOutput output;
   final double speechGain;
+  double _gainScale = 1;
   double get _gain => AudioPolicy.instance.speaking
-      ? speechGain.clamp(0.0, 1.0)
-      : AudioPolicy.instance.musicGain;
+      ? speechGain.clamp(0.0, 1.0) * _gainScale
+      : AudioPolicy.instance.musicGain * _gainScale;
+  void setGainScale(double value) {
+    if (!value.isFinite) return;
+    final next = value.clamp(0.0, 1.0);
+    if ((next - _gainScale).abs() < .001) return;
+    _gainScale = next;
+    _sync();
+  }
+
   String? _path;
   bool _wanted = false, _away = false, _disposed = false, _running = false;
   int _request = 0;
