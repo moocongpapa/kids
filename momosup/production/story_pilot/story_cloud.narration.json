@@ -1,0 +1,164 @@
+{
+  "episode": "story_cloud",
+  "title": "구름아, 내 마음을 들어줘",
+  "voiceModel": "gemini-3.8-flash-tts",
+  "reviewModel": "gemini-3.8-flash",
+  "createdAt": "2026-10-01T00:23:40.480Z",
+  "status": "AUTOMATED_NARRATION_REVIEW_PASSED",
+  "storage": "Raw WAV files remain in gitignored production/story_work; the app uses them only after video assembly and film review.",
+  "scenes": [
+    {
+      "id": "story_cloud_00",
+      "text": "모모가 나뭇잎을 쌓아요. 하나 올리고, 또 올리고. 작은 잎사귀 집이에요. 모모가 방긋 웃어요. 기분이 좋아요.",
+      "sourceSpeechSha256": "ac3308f3b7d1f4e52b400f42ccefe33746de5c3732bb82d684c49e8b56f5c0c4",
+      "voiceSeconds": 13.36,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 나뭇잎을 쌓아요. 하나 올리고 또 올리고. 작은 잎사귀 집이에요. 모모가 방긋 웃어요. 기분이 좋아요.",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_cloud_01",
+      "text": "살랑! 바람이 불었어요. 잎사귀 집이 팔랑팔랑. 앗, 납작해졌네! 모모의 웃음도 쏙 들어갔어요.",
+      "sourceSpeechSha256": "c09347a778f6bce4f55c07e0db7e55836d7116c48bfd79193fcce35f58c8e66f",
+      "voiceSeconds": 12.12,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "살랑 바람이 불었어요. 잎사귀 집이 팔랑팔랑. 앗 납작해졌네. 모모의 웃음도 쏙 들어갔어요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_cloud_02",
+      "text": "모모가 고개를 푹 숙여요. 날개도 축 처졌어요. 마음이 어떤 걸까요? 잠깐, 모모의 얼굴을 볼까요?",
+      "sourceSpeechSha256": "03f7223652a2ed522a57e522b06d35052ace6ca66dab0ef5661cc9deb4bf06e6",
+      "voiceSeconds": 13.24,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 고개를 푹 숙여요. 날개도 축 처졌어요. 마음이 어떤 걸까요? 잠깐! 모모의 얼굴을 볼까요?",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_cloud_03",
+      "text": "구름 친구 누리가 왔어요. 모모야, 무슨 일이야? 모모는 대답 대신, 흩어진 잎사귀를 가리켰어요.",
+      "sourceSpeechSha256": "3e8f4aa20012cd6d0ba0c7fc55365ad48c9db4a3a561c48b7316acd30b0426ec",
+      "voiceSeconds": 9.92,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "구름 친구 누리가 왔어요. 모모야, 무슨 일이야? 모모는 대답 대신 흩어진 잎사귀를 가리켰어요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_cloud_04",
+      "text": "누리가 가만히 기다려요. 모모가 작은 목소리로 말했어요. 내 집이 무너져서, 속상해. 누리가 고개를 끄덕여요.",
+      "sourceSpeechSha256": "5a6889bb5f8eb800bab2bb490fc05848695daac3147c3f82952ce9d2eb8b1d1f",
+      "voiceSeconds": 13.4,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "누리가 가만히 기다려요. 모모가 작은 목소리로 말했어요. 내 집이 무너져서 속상해. 누리가 고개를 끄덕여요.",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_cloud_05",
+      "text": "속상했구나. 열심히 만들었는데. 누리는 모모 옆에 앉았어요. 모모는 아직 속상해요. 그래도 혼자는 아니에요.",
+      "sourceSpeechSha256": "5f6b0fe5338fde8b27f75f3cc453e2aff9c36fcc6a9a7df205de1e7b28050dbd",
+      "voiceSeconds": 12.24,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "속상했구나. 열심히 만들었는데. 누리는 모모 옆에 앉았어요. 모모는 아직 속상해요. 그래도 혼자는 아니에요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_cloud_06",
+      "text": "그때, 잎사귀 하나가 누리 머리에 착! 누리가 눈을 위로 굴려요. 어라? 내 머리에 누가 앉았지?",
+      "sourceSpeechSha256": "015ed6a6eb6ac074f44e50cca7e671815ba9a5f942b8e1a6b8bc4129c86cbcec",
+      "voiceSeconds": 11.24,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "그때, 잎사귀 하나가 누리 머리에 착! 누리가 눈을 위로 굴려요. 어라? 내 머리에 누가 앉았지?",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": "A woman narrates expressively without any background music or abrupt noise."
+      }
+    },
+    {
+      "id": "story_cloud_07",
+      "text": "모모가 피식 웃어요. 잎사귀 모자야! 누리가 살짝 인사해요. 안녕하세요, 모자 구름입니다. 모모가 또 웃어요.",
+      "sourceSpeechSha256": "c07d856ae31ba634a1c3864786173cdd8f4bd7c1c81c3882c63e70f150063de1",
+      "voiceSeconds": 12.4,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 피식 웃어요. 잎사귀 모자야. 누리가 살짝 인사해요. 안녕하세요, 모자 구름입니다. 모모가 또 웃어요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_cloud_08",
+      "text": "모모가 말했어요. 누리야, 나랑 다시 만들래? 이번에는 작은 집으로. 누리가 대답해요. 응, 같이 해 보자.",
+      "sourceSpeechSha256": "f5ebdc3eb9532b2cd132d10e7d5285fb343faefb2ec3bfc3dbe4dd987ee5eb4e",
+      "voiceSeconds": 10.56,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 말했어요. 누리야, 나랑 다시 만들래? 이번에는 작은 집으로. 누리가 대답해요. 응, 같이 해 보자.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_cloud_09",
+      "text": "작은 잎 하나, 큰 잎 하나. 모모가 올리고, 누리가 잡아요. 삐뚤빼뚤해도 괜찮아요. 둘이 만든 집이에요.",
+      "sourceSpeechSha256": "2b5a86dc94f166f877430b06def2c5f870ebc4da022a2ff413df741e2ae7c0ea",
+      "voiceSeconds": 12.16,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "작은 잎 하나, 큰 잎 하나. 모모가 올리고 누리가 잡아요. 삐뚤빼뚤해도 괜찮아요. 둘이 만든 집이에요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_cloud_10",
+      "text": "모모가 가슴에 날개를 얹어요. 아까는 속상했어. 지금은 조금 좋아. 누리가 웃어요. 말해 줘서 고마워.",
+      "sourceSpeechSha256": "3f9a060d8483e0bfb3673710379e168c00c8db7fb64bfa3ead736f28bed6e770",
+      "voiceSeconds": 12.84,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 가슴에 날개를 얹어요. 아까는 속상했어. 지금은 조금 좋아. 누리가 웃어요. 말해 줘서 고마워.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_cloud_11",
+      "text": "우리 친구 마음은 지금 어떨까요? 좋아요? 속상해요? 곁에 있는 어른에게 말해 봐도 좋아요. 모모와 누리도, 안녕!",
+      "sourceSpeechSha256": "735e24b4ac2861777fd055cd36bbc8bd65965de1b9b9e1ffbd558bfc4464cd6e",
+      "voiceSeconds": 12.08,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "우리 친구 마음은 지금 어떨까요? 좋아요? 속상해요? 곁에 있는 어른에게 말해봐도 좋아요. 모모와 누리도 안녕!",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    }
+  ]
+}

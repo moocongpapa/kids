@@ -1,0 +1,268 @@
+{
+  "episode": "story_moon",
+  "title": "사라진 달빛을 찾아서",
+  "voiceModel": "gemini-3.8-flash-tts",
+  "reviewModel": "gemini-3.8-flash",
+  "createdAt": "2026-10-01T00:24:24.384Z",
+  "status": "AUTOMATED_NARRATION_REVIEW_PASSED",
+  "storage": "Raw WAV files remain in gitignored production/story_work; the app uses them only after video assembly and film review.",
+  "scenes": [
+    {
+      "id": "story_moon_00",
+      "text": "해가 지고, 달이 떠올랐어요. 모모와 두리는 넓고 마른 길에서 연못을 바라봐요. 물 위에도 동그란 달이 보였어요.",
+      "sourceSpeechSha256": "6573708c83e120a9d0ddf8a06066d168018737b14c91f4b475bc81af4d559231",
+      "voiceSeconds": 13.6,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "해가 지고 달이 떠올랐어요. 모모와 두리는 넓고 마른 길에서 연못을 바라봐요. 물 위에도 동그란 달이 보였어요.",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_moon_01",
+      "text": "두리가 속삭여요. 하늘에 하나, 연못에 하나. 달이 둘일까? 모모가 고개를 갸웃해요. 가까이 살펴보자. 길 위에서!",
+      "sourceSpeechSha256": "7de3fe96ca005193f1cf85861b6dada03f26369798a185298b2bffb1de6727d7",
+      "voiceSeconds": 13.44,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "두리가 속삭여요. 하늘에 하나, 연못에 하나. 달이 둘일까? 모모가 고개를 갸웃해요. 가까이 살펴보자. 길 위에서",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_moon_02",
+      "text": "그때, 바람이 살랑 불었어요. 물결이 찰랑찰랑. 동그란 달이 길게 늘어나더니, 반짝이는 조각처럼 흩어졌어요.",
+      "sourceSpeechSha256": "02fffc818ac64e15866538b53f3b624a657f78a80ce5b086b56919270f56ff83",
+      "voiceSeconds": 14.24,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "그때, 바람이 살랑 불었어요. 물결이 찰랑찰랑. 동그란 달이 길게 늘어나더니 반짝이는 조각처럼 흩어졌어요.",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_moon_03",
+      "text": "두리가 눈을 동그랗게 떠요. 어? 연못의 달이 없어졌어! 모모가 말해요. 정말 없어진 걸까? 무엇이 달라졌지?",
+      "sourceSpeechSha256": "8692e93a63696de06ea38cbe405dd7574fffb4c4b38a08b34f442c86edec65bb",
+      "voiceSeconds": 14.96,
+      "narrationMatch": "allowedSpokenVariant",
+      "review": {
+        "transcript": "두리가 눈을 동그랗게 떠요. 어? 연못에 달이 없어졌어. 모모가 말해요. 정말 없어진 걸까? 무엇이 달라졌지?",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": "A Korean female narrator tells a story, changing vocal tones expressively to depict different characters."
+      }
+    },
+    {
+      "id": "story_moon_04",
+      "text": "두리는 큰 잎사귀를 발견했어요. 저 잎이 달을 덮었나 봐! 모모는 바로 고개를 끄덕이지 않았어요. 한번 확인해 보자.",
+      "sourceSpeechSha256": "44b5e57661cdda699b93cb463875f2a5936a0cb5b74567634786a4b78d6810b7",
+      "voiceSeconds": 12.68,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "두리는 큰 잎사귀를 발견했어요. 저 잎이 달을 덮었나 봐. 모모는 바로 고개를 끄덕이지 않았어요. 한번 확인해 보자.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_05",
+      "text": "바람이 잎사귀를 옆으로 밀었어요. 그런데 달은 아직 조각조각 반짝여요. 두리가 말해요. 잎 때문만은 아니었네.",
+      "sourceSpeechSha256": "93a79ea0c7fe651bedf32a84e7cd94ebb1886590db0a69a79bf1339cd93aa5eb",
+      "voiceSeconds": 13.56,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "바람이 잎사귀를 옆으로 밀었어요. 그런데 달은 아직 조각조각 반짝여요. 두리가 말해요. 잎 때문만은 아니었네.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_06",
+      "text": "모모가 하늘을 올려다봤어요. 하늘의 달은 여전히 동그래요. 두리도 봤어요. 하늘의 달은 사라지지 않았구나.",
+      "sourceSpeechSha256": "36a9e13c9a79dc93af64284e375040c4d5ae7d897775504499e7e9463e3e8afe",
+      "voiceSeconds": 11.72,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 하늘을 올려다봤어요. 하늘의 달은 여전히 동그래요. 두리도 봤어요. 하늘의 달은 사라지지 않았구나.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_07",
+      "text": "모모가 작은 갈대를 가리켜요. 갈대도 흔들리고, 물도 흔들려. 두리가 생각해요. 혹시, 물이 움직여서 그런 걸까?",
+      "sourceSpeechSha256": "b4193edf9b9e2a4bfd0293b6e1590ccf59816c2b763acd05ffdaadb84ad22aa0",
+      "voiceSeconds": 13.36,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 작은 갈대를 가리켜요. 갈대도 흔들리고 물도 흔들려. 두리가 생각해요. 혹시 물이 움직여서 그런 걸까?",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_08",
+      "text": "둘은 서두르지 않고 기다렸어요. 바람이 약해지자, 갈대가 멈췄어요. 물결도 조금씩, 조금씩 잦아들어요.",
+      "sourceSpeechSha256": "cffccbf3b23536cb3caa7ba2f4eb264f8441e91ca7b5c75acb383d27902b7f93",
+      "voiceSeconds": 13.08,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "둘은 서두르지 않고 기다렸어요. 바람이 약해지자 갈대가 멈췄어요. 물결도 조금씩 조금씩 잦아들어요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_09",
+      "text": "어라! 물 위의 달이 다시 동그래졌어요. 두리가 손뼉을 작게 쳐요. 돌아왔네! 물이 잔잔해지니까 잘 보여.",
+      "sourceSpeechSha256": "0af729ebaf2e53c58daa569a002c212ce36f3d40a8f45ace301cc21e6c16e016",
+      "voiceSeconds": 12.56,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "어라? 물 위의 달이 다시 동그래졌어요. 두리가 손뼉을 작게 쳐요. 돌아왔네! 물이 잔잔해지니까 잘 보여.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_10",
+      "text": "모모가 말해요. 한 번 더 보고 싶어. 마침 바람이 다시 살랑 불었어요. 물 위의 동그라미가 또 흔들려요.",
+      "sourceSpeechSha256": "0a200e4ce938b7154c7187ec30582c14dec84a21081a2f8d9d43925b46b362fb",
+      "voiceSeconds": 12.16,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 말해요. 한 번 더 보고 싶어. 마침 바람이 다시 살랑 불었어요. 물 위의 동그라미가 또 흔들려요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_11",
+      "text": "두리가 천천히 말해요. 물이 흔들리면 달빛도 흔들려 보여. 물이 멈추면 동그랗게 보여. 두 번 모두 그랬어.",
+      "sourceSpeechSha256": "e987623ad4c521ca4f3d09acf66d6098b6e0b03fc4f430d1497339e25d7dfbd9",
+      "voiceSeconds": 12.56,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "두리가 천천히 말해요. 물이 흔들리면 달빛도 흔들려 보여. 물이 멈추면 동그랗게 보여. 두 번 모두 그랬어.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_12",
+      "text": "누리가 길을 따라 왔어요. 무엇을 보고 있어? 두리가 말해요. 연못의 달! 처음에는 잎사귀가 가린 줄 알았어.",
+      "sourceSpeechSha256": "2d565f914cbccf889b36f7328b91ed6f4a8bc09fb4ee21ad831df04e862ed6fa",
+      "voiceSeconds": 12.08,
+      "narrationMatch": "allowedSpokenVariant",
+      "review": {
+        "transcript": "누리가 길을 따라왔어요. \"무엇을 보고 있어?\" 두리가 말해요. \"연못에 달! 처음에는 잎사귀가 가린 줄 알았어.\"",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_13",
+      "text": "누리가 물어요. 그런데 어떻게 알았어? 모모가 대답해요. 잎이 옆으로 가도 흔들렸어. 그래서 다른 것을 살펴봤지.",
+      "sourceSpeechSha256": "eb3497d9f395d03da330fb0ccc0169a226de65d89e53efb6baa20ea5964693e6",
+      "voiceSeconds": 12.08,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "누리가 물어요. 그런데 어떻게 알았어? 모모가 대답해요. 잎이 옆으로 가도 흔들렸어. 그래서 다른 것을 살펴봤지.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_14",
+      "text": "두리가 덧붙여요. 바람이 멈출 때, 다시 불 때, 물 위의 모습이 달라졌어. 생각만 하지 않고, 직접 봤어.",
+      "sourceSpeechSha256": "d5effaaff36f30d9e660d15c426a07d8c1e3badee857e70732b1a246b52b007c",
+      "voiceSeconds": 10.44,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "두리가 덧붙여요. 바람이 멈출 때 다시 불 때 물 위의 모습이 달라졌어. 생각만 하지 않고 직접 봤어.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_15",
+      "text": "누리가 하늘과 연못을 번갈아 봐요. 물에 보이는 건 달이 비친 모습이구나. 진짜 달은, 저 하늘에 있어.",
+      "sourceSpeechSha256": "13e593e09fb48be1b81a89fef185553e4ac38bd1e931ea4c686a73d0037a3d31",
+      "voiceSeconds": 11.92,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "누리가 하늘과 연못을 번갈아 봐요. 물에 보이는 건 달이 비친 모습이구나. 진짜 달은 저 하늘에 있어.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_16",
+      "text": "그때 누리의 얼굴도 물에 살짝 비쳤어요. 바람이 불자 볼이 길쭉길쭉! 두리가 웃어요. 누리 얼굴도 춤추네!",
+      "sourceSpeechSha256": "c0916d974bbf0e16ad30c81d7c737d3d36d77286a3b7b235e68093a876b8d6cd",
+      "voiceSeconds": 13,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "그때 누리의 얼굴도 물에 살짝 비쳤어요. 바람이 불자 볼이 길쭉길쭉. 두리가 웃어요. \"누리 얼굴도 춤추네?\"",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_17",
+      "text": "누리는 볼을 만져 봤어요. 내 얼굴은 그대로인데? 모모가 웃어요. 물에 비친 모습이 흔들린 거야. 세 친구가 웃어요.",
+      "sourceSpeechSha256": "4d881f15a3921cab1a1039e5305ce8d0169b3d0a74366038c2643284254a8bc5",
+      "voiceSeconds": 14.76,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "누리는 볼을 만져 봤어요. \"내 얼굴은 그대로인데?\" 모모가 웃어요. \"물에 비친 모습이 흔들린 거야.\" 세 친구가 웃어요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_18",
+      "text": "처음 생각이 달라도 괜찮아요. 자세히 보고, 다시 확인하면 새로운 걸 알 수 있어요. 오늘의 달빛 탐정들처럼요.",
+      "sourceSpeechSha256": "e1286bccefd48eeddefe69861d6ef583f732411ee65e4d1174ec389da31935fe",
+      "voiceSeconds": 10.56,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "처음 생각이 달라도 괜찮아요. 자세히 보고 다시 확인하면 새로운 걸 알 수 있어요. 오늘의 달빛 탐정들처럼요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_moon_19",
+      "text": "다음에는 어른과 함께, 물그릇에 비친 모습을 살펴볼까요? 물이 움직이면 어떻게 될까요? 달빛 탐정들의 오늘 이야기는 여기까지. 안녕!",
+      "sourceSpeechSha256": "a2e80f0aa43973e65b26a1b8873e4dc98d099db5e7e9320f0be82f403cb47f67",
+      "voiceSeconds": 14.76,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "다음에는 어른과 함께 물그릇에 비친 모습을 살펴볼까요? 물이 움직이면 어떻게 될까요? 달빛 탐정들의 오늘 이야기는 여기까지! 안녕!",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    }
+  ]
+}

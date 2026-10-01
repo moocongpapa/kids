@@ -212,7 +212,7 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
                   const SizedBox(height: 6),
                   Text(
                     widget.preview
-                        ? '${current.productionPreview ? '제작 중 · 첫 장면 미리보기\n' : ''}${current.ageLabel} · ${current.durationLabel} · ${current.theme}'
+                        ? '${current.productionPreview ? '보호자 미리보기\n' : ''}${current.ageLabel} · ${current.durationLabel} · ${current.theme}'
                         : current.durationLabel,
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: forestInk, fontSize: 13),
@@ -232,7 +232,7 @@ class _StoryForestScreenState extends State<StoryForestScreen> {
                     children: [
                       ForestAction(
                         label: current.productionPreview
-                            ? '첫 장면 음성 듣기'
+                            ? '미리보기 음성 듣기'
                             : '이야기 제목 듣기',
                         icon: Icons.volume_up_rounded,
                         size: 60,

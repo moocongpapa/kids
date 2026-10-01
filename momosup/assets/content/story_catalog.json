@@ -1,6 +1,6 @@
 {
-  "version": "story-pilot-2026-09-30",
-  "productionStatus": "AWAITING_GEMINI_PROJECT_SPEND_CAP",
+  "version": "story-pilot-2026-10-01-parent-review",
+  "productionStatus": "WAITING_VIDEO_DAILY_QUOTA_RESET",
   "episodes": [],
   "previews": [
     {
@@ -11,22 +11,45 @@
       "maxAgeMonths": 35,
       "theme": "내 마음을 말로 표현하기",
       "parentPrompt": "아이의 표정을 따라 해 보고, 지금 마음을 한 단어로 이야기해 보세요. 대답을 재촉하지 않아도 괜찮아요.",
-      "durationSeconds": 47,
-      "videoAsset": "assets/stories/story_cloud_preview.mp4",
-      "titleAudioAsset": "assets/stories/story_cloud_preview_intro.m4a",
+      "finalAudioReview": {
+        "titleReview": {
+          "transcript": "구름아 내 마음을 들어줘",
+          "abruptNoise": false,
+          "music": false
+        },
+        "musicReview": {
+          "voice": false,
+          "abruptNoise": false,
+          "notes": "Gentle acoustic guitar playing throughout the clip without speech or abrupt noises."
+        },
+        "model": "gemini-3.8-flash",
+        "passed": true,
+        "checkedAt": "2026-10-01T00:04:35.264Z"
+      },
+      "durationSeconds": 183.04,
+      "videoAsset": "assets/stories/story_cloud.mp4",
       "posterAsset": "assets/stories/story_cloud.jpg",
-      "musicAsset": "",
-      "status": "PRODUCTION_PREVIEW",
-      "automatedReviewPassed": true,
-      "humanReviewedAt": null,
-      "note": "Opening three scenes only. The complete film and new score are pending the Google project monthly spend cap. Available only in the parent preview.",
+      "titleAudioAsset": "assets/stories/story_cloud_title.m4a",
+      "musicAsset": "assets/stories/story_cloud_music.m4a",
+      "bytes": 12831777,
+      "sha256": "f31ac9e3f7a4319080bbd5dfc1721782f3bbdc763df193a80aaa7d8a63ae65d3",
       "videoModel": "gemini-omni-1.1-flash",
       "voiceModel": "gemini-3.8-flash-tts",
+      "musicModel": "lyria-3-clip-preview",
+      "voice": "Kore",
+      "createdAt": "2026-10-01T00:04:35.351Z",
+      "humanReviewedAt": null,
+      "applicationAuthorization": "Owner explicitly requested production and app integration of three age-targeted story films on 2026-09-30.",
+      "status": "PRODUCTION_PREVIEW",
+      "automatedReviewPassed": true,
       "assetHashes": {
-        "assets/stories/story_cloud_preview.mp4": "a4cd783b78608f1fea97958d0225566eb488552e5f00224e43dd6f07d555fca3",
+        "assets/stories/story_cloud.mp4": "f31ac9e3f7a4319080bbd5dfc1721782f3bbdc763df193a80aaa7d8a63ae65d3",
         "assets/stories/story_cloud.jpg": "b38dc811ab2b95ce745abf58fdd3aa95e1135e37b6134f4b1af801c715cdb130",
-        "assets/stories/story_cloud_preview_intro.m4a": "532379241f2585c6dab8ba645ffa4bb0d07728c879a8c304749c32ccabcd0a1e"
-      }
+        "assets/stories/story_cloud_title.m4a": "6cdbdc763a485c99ea1abac17a2bb1e9070044dcc93440089f3e98855bec4f99",
+        "assets/stories/story_cloud_music.m4a": "2e90c155884eec914382aea4bc07ee624ceca6281829c2156b3d7d1309df29c2"
+      },
+      "fullFilmPreview": true,
+      "note": "Complete film, title voice and music reviewed; available in the parent preview while the three-film child release remains in production. Native playback and family observation are pending."
     },
     {
       "id": "story_swing",
@@ -44,7 +67,7 @@
       "status": "PRODUCTION_PREVIEW",
       "automatedReviewPassed": true,
       "humanReviewedAt": null,
-      "note": "Opening three scenes only. The complete film and new score are pending the Google project monthly spend cap. Available only in the parent preview.",
+      "note": "Opening three scenes only. Remaining video production is waiting for the daily video quota; title voice and music are prepared. Available only in the parent preview.",
       "videoModel": "gemini-omni-1.1-flash",
       "voiceModel": "gemini-3.8-flash-tts",
       "assetHashes": {
@@ -69,7 +92,7 @@
       "status": "PRODUCTION_PREVIEW",
       "automatedReviewPassed": true,
       "humanReviewedAt": null,
-      "note": "Opening three scenes only. The complete film and new score are pending the Google project monthly spend cap. Available only in the parent preview.",
+      "note": "Opening three scenes only. Remaining video production is waiting for the daily video quota; title voice and music are prepared. Available only in the parent preview.",
       "videoModel": "gemini-omni-1.1-flash",
       "voiceModel": "gemini-3.8-flash-tts",
       "assetHashes": {

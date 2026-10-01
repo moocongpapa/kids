@@ -9,12 +9,14 @@ const ffmpeg=process.env.STORY_FFMPEG ?? 'ffmpeg';
 const hash=b=>createHash('sha256').update(b).digest('hex');
 const args=process.argv.slice(2);
 const preview=args.includes('--previews'), publish=args.includes('--publish');
-if(preview===publish)throw new Error('Choose --previews or --publish. Publishing requires all three complete, reviewed episodes.');
-const visualReview=publish?JSON.parse(await fs.readFile(path.join(root,'production/story_pilot/visual_review.json'))):null;
+const parentId=args.find(a=>a.startsWith('--reviewed-parent-preview='))?.split('=')[1];
+if(Number(preview)+Number(publish)+Number(Boolean(parentId))!==1)throw new Error('Choose --previews, --publish, or --reviewed-parent-preview=<episode>. Child publication requires all three reviewed films.');
+if(parentId&&!episodes.some(e=>e.id===parentId))throw new Error('Unknown parent preview episode');
+const visualReview=publish||parentId?JSON.parse(await fs.readFile(path.join(root,'production/story_pilot/visual_review.json'))):null;
 if(publish&&visualReview.publishBlocked!==false)throw new Error('Scene continuity corrections and final full-film inspection are still required.');
 function ff(a){const r=spawnSync(ffmpeg,['-hide_banner','-loglevel','error','-y',...a],{encoding:'utf8'});if(r.status!==0)throw new Error(r.stderr.slice(-800));}
 const packed=[];
-for(const e of episodes){
+for(const e of episodes.filter(e=>!parentId||e.id===parentId)){
  let item;
  if(preview){
   const dir=path.join(root,'production/story_work',e.id);
@@ -34,7 +36,7 @@ for(const e of episodes){
   item={...e,scenes:records,durationSeconds:records.reduce((n,r)=>n+r.seconds,0),
    videoAsset,titleAudioAsset,posterAsset:`assets/stories/${e.id}.jpg`,musicAsset:'',
    status:'PRODUCTION_PREVIEW',automatedReviewPassed:true,humanReviewedAt:null,
-   note:'Opening three scenes only. The complete film and new score are pending the Google project monthly spend cap. Available only in the parent preview.',
+   note:'Opening three scenes only. Full films remain in production. Available only in the parent preview.',
    videoModel:'gemini-omni-1.1-flash',voiceModel:'gemini-3.8-flash-tts'};
   await fs.writeFile(path.join(root,'production/story_pilot',e.id+'.preview.json'),JSON.stringify(item,null,2)+'\n');
  }else{
@@ -46,6 +48,7 @@ for(const e of episodes){
   const fullReview=JSON.parse(await fs.readFile(path.join(root,'production/story_pilot',e.id+'.film_review.json')));
   if(!fullReview.passed||fullReview.sha256!==item.sha256)throw new Error('Full-film review required '+e.id);
   if(!visualReview.reviewedFilms?.some(f=>f.id===e.id&&f.sha256===item.sha256))throw new Error('Final contact-sheet inspection required '+e.id);
+  if(visualReview.requiredCorrections?.some(c=>c.id.startsWith(e.id+'_')))throw new Error('Outstanding scene correction '+e.id);
   item.automatedReviewPassed=true;
  }
  const {scenes,palette,musicPrompt,...metadata}=item;
@@ -53,8 +56,23 @@ for(const e of episodes){
  for(const field of ['videoAsset','posterAsset','titleAudioAsset','musicAsset']){
   if(metadata[field])metadata.assetHashes[metadata[field]]=hash(await fs.readFile(path.join(root,metadata[field])));
  }
+ if(parentId){
+  metadata.status='PRODUCTION_PREVIEW';
+  metadata.fullFilmPreview=true;
+  metadata.note='Complete film, title voice and music reviewed; available in the parent preview while the three-film child release remains in production. Native playback and family observation are pending.';
+ }
  packed.push(metadata);
- console.log(item.id,item.durationSeconds,'seconds',item.status);
+ console.log(item.id,item.durationSeconds,'seconds',metadata.status);
 }
-const catalog={version:'story-pilot-2026-09-30'+(publish?'-full':''),productionStatus:preview?'AWAITING_GEMINI_PROJECT_SPEND_CAP':'COMPLETE',episodes:preview?[]:packed,previews:preview?packed:[]};
+let catalog;
+if(parentId){
+ catalog=JSON.parse(await fs.readFile(path.join(root,'assets/content/story_catalog.json')));
+ if(!catalog.previews?.some(e=>e.id===parentId))throw new Error('Parent preview must already exist');
+ catalog.previews=catalog.previews.map(e=>e.id===parentId?packed[0]:{...e,note:'Opening three scenes only. Remaining video production is waiting for the daily video quota; title voice and music are prepared. Available only in the parent preview.'});
+ const progress=JSON.parse(await fs.readFile(path.join(root,'production/story_pilot/progress.json')));
+ catalog.productionStatus=progress.status;
+ catalog.version='story-pilot-'+new Date().toISOString().slice(0,10)+'-parent-review';
+}else{
+ catalog={version:'story-pilot-2026-09-30'+(publish?'-full':''),productionStatus:preview?'PRODUCTION_IN_PROGRESS':'COMPLETE',episodes:preview?[]:packed,previews:preview?packed:[]};
+}
 await fs.writeFile(path.join(root,'assets/content/story_catalog.json'),JSON.stringify(catalog,null,2)+'\n');

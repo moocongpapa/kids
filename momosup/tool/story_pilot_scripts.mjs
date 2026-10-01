@@ -58,6 +58,6 @@ export const episodes=[
  scene('그때 누리의 얼굴도 물에 살짝 비쳤어요. 바람이 불자 볼이 길쭉길쭉! 두리가 웃어요. 누리 얼굴도 춤추네!', 'View from dry path of Nuri reflected near pond edge at an angle, without leaning over water. A mild ripple playfully distorts reflection. Real Nuri keeps normal shape. Gentle humor.'),
  scene('누리는 볼을 만져 봤어요. 내 얼굴은 그대로인데? 모모가 웃어요. 물에 비친 모습이 흔들린 거야. 세 친구가 웃어요.', 'Close shot Nuri gently pats round cheeks, puzzled then amused. Momo and Duri chuckle. Pond reflection glimmers behind them, bright comforting twilight.'),
  scene('처음 생각이 달라도 괜찮아요. 자세히 보고, 다시 확인하면 새로운 걸 알 수 있어요. 오늘의 달빛 탐정들처럼요.', 'The friends quietly admire calm pond from bench, a sense of discovery and conclusion. Floating leaf rests to side, moon reflection clear. Slow cinematic pullback.'),
- scene('다음에는 어른과 물그릇에 비친 모습을 살펴볼까요? 물이 움직이면 어떻게 될까요? 달빛 탐정들의 오늘 이야기는 여기까지. 안녕!', 'Final wide forest tableau with Momo Duri Nuri waving once from dry path and then walking calmly toward a warmly lit forest home, pond and full moon behind. Peaceful complete ending.')
+ scene('다음에는 어른과 함께, 물그릇에 비친 모습을 살펴볼까요? 물이 움직이면 어떻게 될까요? 달빛 탐정들의 오늘 이야기는 여기까지. 안녕!', 'Final wide forest tableau with Momo Duri Nuri waving once from dry path and then walking calmly toward a warmly lit forest home, pond and full moon behind. Peaceful complete ending.')
  ]}
 ];

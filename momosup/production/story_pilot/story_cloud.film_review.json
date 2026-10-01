@@ -1,0 +1,21 @@
+{
+  "episode": "story_cloud",
+  "sha256": "f31ac9e3f7a4319080bbd5dfc1721782f3bbdc763df193a80aaa7d8a63ae65d3",
+  "checkedAt": "2026-10-01T00:05:53.603Z",
+  "model": "gemini-3.8-flash",
+  "reviewCopy": "640x360 at 8fps; original narration retained",
+  "review": {
+    "watchedThroughSeconds": 183.04,
+    "plotCoherent": true,
+    "narrationClear": true,
+    "themeFocused": true,
+    "endingComplete": true,
+    "issues": [],
+    "strengths": [
+      "Clear and emotionally resonant pacing tailored appropriately for toddlers.",
+      "Precise synchronization between the narrated text and character expressions.",
+      "Effective modeling of identifying and verbally expressing feelings."
+    ]
+  },
+  "passed": true
+}

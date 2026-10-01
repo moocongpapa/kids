@@ -21,9 +21,12 @@ const characterRefs=Object.fromEntries(await Promise.all(['momo','duri','nuri'].
 const visualStyle='Original Momosup hand-painted watercolor storybook animation. Match these exact reference characters throughout: Momo olive-green round leaf-feathered bird with cream face, belly and orange beak; Duri small warm brown bear with cream muzzle and belly; Nuri white cloud creature with curled top, small arms and feet. Keep species, colors and anatomy consistent, no clothes or accessories unless scene specifies. Large readable expressions, expressive full character animation, subtle layered forest movement, calm camera, no flashing. Use reference as character/style guide, not a literal starting frame. A continuous 10 second animated shot, with a beginning action and gentle settling. No text, subtitles, symbols, speech or music. ';
 const normalize=s=>s.normalize('NFC').replace(/[^\p{L}\p{N}]/gu,'');
 // TTS/ASR can render the same surprised "앗" as "아/어" or a soft "응" as "음".
-// Only these standalone interjections vary; names, actions and instructions must match.
-const normalizeInterjections=s=>normalize(s.replace(/(^|[\s.!?])(?:앗|아|어)(?=[\s.!?,])/gu,'$1앗').replace(/(^|[\s.!?])(?:응|음)(?=[\s.!?,])/gu,'$1응'));
-const sameNarration=(a,b)=>normalizeInterjections(a)===normalizeInterjections(b);
+// Also allow the documented [에] pronunciation of possessive 의 ONLY in
+// "연못의 달", which ASR repeatedly spells "연못에 달". Never merge 의/에 globally.
+// Standard pronunciation rule 5: https://m.korean.go.kr/front/page/pageView.do?mn_id=95&page_id=P000098
+// Names, actions, instructions and other particles must still match.
+const normalizeNarration=s=>normalize(s.replace(/(^|[\s.!?])(?:앗|아|어)(?=[\s.!?,])/gu,'$1앗').replace(/(^|[\s.!?])(?:응|음)(?=[\s.!?,])/gu,'$1응').replace(/연못[의에](?=\s*달)/gu,'연못의'));
+const sameNarration=(a,b)=>normalizeNarration(a)===normalizeNarration(b);
 const sceneCast=(e,i)=>e.id==='story_cloud'?(i<3?['momo']:['momo','nuri']):e.id==='story_moon'?(i===2?[]:i<12?['momo','duri']:['momo','duri','nuri']):['momo','duri','nuri'];
 function sceneContinuity(e,i){
  if(e.id==='story_cloud')return 'Continuity: '+(i>=2&&i<=8?'On one low flat mossy stone lie THREE LOOSE FLAT LEAVES, scattered horizontally. This is what remains after the previous collapse. Keep these separate leaves flat; no upright leaf structure or house exists yet. ':'The leaf house is a tiny handmade pile/tent of three loose broad leaves on one low flat mossy stone. It is not an architectural cottage: no doors, windows, walls or wooden frame. ')+(i>=2&&i<=6?'Momo is disappointed: drooping wings, downcast eyes, small downturned mouth. Momo must NOT smile, laugh, dance or look delighted yet. Nuri is gentle and concerned. ':'');
@@ -33,8 +36,50 @@ function sceneContinuity(e,i){
 function json(r){const s=content(r).filter(c=>c.type==='text').map(c=>c.text).join('');return JSON.parse(s.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,''));}
 function speechPayload(text){
  const payload=buildPayload({kind:'speech',text});
- payload.input[0].content[0].annotations[0].style='Dry studio spoken voice only, absolutely no background music or sound effects. Warm expressive Korean adult storyteller. Natural clear Korean for young children, gentle character inflections, conversational pace with short breaths. Read exactly this text. No added words, no humming, no singing. Silence behind the voice.';
+ payload.input[0].content[0].annotations[0].style='Dry studio spoken voice only, absolutely no background music or sound effects. Warm expressive Korean adult storyteller. Natural clear Korean for young children, gentle character inflections, conversational pace with short breaths. Read exactly this text, articulating each word fully without contractions. Carefully distinguish the names: 모모 (mo-mo), 두리 (du-ri), 누리 (nu-ri). Never replace 누리 with 두리 or 노리, or 모모 with 모무. Also articulate 어른 (eo-reun, adult) clearly, never 얼음 (eol-eum, ice). These pronunciation instructions must not be spoken. No added words, no humming, no singing. Silence behind the voice.';
  return payload;
+}
+async function reviewNarration(speech){
+ return json(await request({model:'gemini-3.8-flash',input:[{type:'text',text:'Listen carefully to the entire Korean narration. Transcribe exactly what is audibly said without correcting or inventing words. Music means separate audible instrumental accompaniment or actual singing/humming. Expressive speech with melodic intonation alone is NOT music. Abrupt noise means startling unwanted impacts, glitches or screams, not clear spoken exclamations. JSON only: {"transcript":string,"abruptNoise":boolean,"music":boolean,"soundNotes":string}.'},{type:'audio',mime_type:'audio/wav',data:speech.toString('base64')}]}));
+}
+async function cachedNarrationReview(stem,speech){
+ const file=stem+'_narration_review.json';
+ if(!existsSync(file))return null;
+ const cached=JSON.parse(await fs.readFile(file));
+ return cached.sha256===hash(speech)?cached.review:null;
+}
+async function prepareEpisodeNarration(e,dir){
+ const records=[];
+ for(let i=0;i<e.scenes.length;i++){
+  const s=e.scenes[i],id=`${e.id}_${String(i).padStart(2,'0')}`,stem=path.join(dir,id);
+  let accepted=null;
+  for(let attempt=1;attempt<=3;attempt++){
+   if(!existsSync(stem+'.wav'))await fs.writeFile(stem+'.wav',extractWav(await request(speechPayload(s.text))));
+   const speech=await fs.readFile(stem+'.wav');
+   let review=await cachedNarrationReview(stem,speech);
+   if(!review&&existsSync(stem+'.json')){
+    const scene=JSON.parse(await fs.readFile(stem+'.json'));
+    if(scene.sourceSpeechSha256===hash(speech))review=scene.review?.transcript;
+   }
+   if(!review)review=await reviewNarration(speech);
+   const passed=sameNarration(review.transcript??'',s.text)&&!review.abruptNoise&&!review.music;
+   if(passed){
+    accepted={id,text:s.text,sourceSpeechSha256:hash(speech),voiceSeconds:duration(stem+'.wav'),narrationMatch:normalize(review.transcript??'')===normalize(s.text)?'exact':'allowedSpokenVariant',review};
+    await fs.writeFile(stem+'_narration_review.json',JSON.stringify({sha256:hash(speech),review},null,2)+'\n');
+    console.log('NARRATION_READY',id);
+    break;
+   }
+   console.log('NARRATION_REVIEW_REQUIRED',id,JSON.stringify(review));
+   // Keep rejected takes privately; the next video run must not reuse them.
+   await fs.rename(stem+'.wav',stem+'.narration-rejected-'+Date.now()+'.wav');
+   if(existsSync(stem+'_narration_review.json'))await fs.unlink(stem+'_narration_review.json');
+  }
+  if(!accepted)throw new Error('Narration requires correction '+id);
+  records.push(accepted);
+ }
+ const result={episode:e.id,title:e.title,voiceModel:'gemini-3.8-flash-tts',reviewModel:'gemini-3.8-flash',createdAt:new Date().toISOString(),status:'AUTOMATED_NARRATION_REVIEW_PASSED',storage:'Raw WAV files remain in gitignored production/story_work; the app uses them only after video assembly and film review.',scenes:records};
+ await fs.writeFile(path.join(root,'production/story_pilot',e.id+'.narration.json'),JSON.stringify(result,null,2)+'\n');
+ console.log('NARRATION_COMPLETE',e.id,records.length);
 }
 async function prepareEpisodeAudio(e,dir){
  // Spoken title for the large, text-optional story selection screen.
@@ -60,6 +105,10 @@ async function prepareEpisodeAudio(e,dir){
 }
 async function runEpisode(e){
  const dir=path.join(work,e.id);await fs.mkdir(dir,{recursive:true});
+ if(args.includes('--narration-only')){
+  await prepareEpisodeNarration(e,dir);
+  return;
+ }
  if(args.includes('--audio-only')){
   const audio=await prepareEpisodeAudio(e,dir);
   console.log('AUDIO_COMPLETE',e.id,audio.status);
@@ -118,9 +167,9 @@ async function runEpisode(e){
   const reviewPath=stem+'_review.json';let review;
   if(existsSync(reviewPath))review=JSON.parse(await fs.readFile(reviewPath));
   else{
-   const transcript=json(await request({model:'gemini-3.8-flash',input:[{type:'text',text:'Listen carefully to the entire Korean narration. Transcribe exactly what is audibly said without correcting or inventing words. Music means separate audible instrumental accompaniment or actual singing/humming. Expressive speech with melodic intonation alone is NOT music. Abrupt noise means startling unwanted impacts, glitches or screams, not clear spoken exclamations. JSON only: {"transcript":string,"abruptNoise":boolean,"music":boolean,"soundNotes":string}.'},{type:'audio',mime_type:'audio/wav',data:speech.toString('base64')}]}));
+   const transcript=await cachedNarrationReview(stem,speech)??await reviewNarration(speech);
    const visual=json(await request({model:'gemini-3.8-flash',input:[{type:'text',text:'Review this original preschool animation. Expected scene: '+s.visual+' Allowed cast: '+(sceneCast(e,i).join(', ')||'NONE: water close-up without characters')+'. Momo is an olive-green bird, Duri a brown bear, Nuri a white cloud creature. No other character should appear. Lighting: '+e.palette+'. '+sceneContinuity(e,i)+'Return JSON only: {"animated":boolean,"unsafeOrFrightening":boolean,"majorCharacterDeformation":boolean,"sceneMatches":boolean,"notes":string}. Set sceneMatches false for an extra character, wrong time of day, wrong emotion/prop state that contradicts the plot, a static reference portrait instead of the described action, or a missing key action. Minor artistic differences are acceptable. A quiet scene can have subtle movement. Judge only visible content.'},{type:'video',mime_type:'video/mp4',data:video.toString('base64')}]}));
-   review={transcript,visual,narrationMatch:normalize(transcript.transcript??'')===normalize(s.text)?'exact':sameNarration(transcript.transcript??'',s.text)?'expressiveInterjectionOnly':'mismatch',passed:sameNarration(transcript.transcript??'',s.text)&&!transcript.abruptNoise&&!transcript.music&&visual.animated&&!visual.unsafeOrFrightening&&!visual.majorCharacterDeformation&&visual.sceneMatches,model:'gemini-3.8-flash',checkedAt:new Date().toISOString()};
+   review={transcript,visual,narrationMatch:normalize(transcript.transcript??'')===normalize(s.text)?'exact':sameNarration(transcript.transcript??'',s.text)?'allowedSpokenVariant':'mismatch',passed:sameNarration(transcript.transcript??'',s.text)&&!transcript.abruptNoise&&!transcript.music&&visual.animated&&!visual.unsafeOrFrightening&&!visual.majorCharacterDeformation&&visual.sceneMatches,model:'gemini-3.8-flash',checkedAt:new Date().toISOString()};
    await fs.writeFile(reviewPath,JSON.stringify(review,null,2));
   }
   if(!review.passed){

@@ -1,0 +1,494 @@
+{
+  "checkedAt": "2026-10-01T00:25:40.473Z",
+  "sceneCount": 52,
+  "decodedCount": 52,
+  "episodes": [
+    {
+      "id": "story_cloud",
+      "scenes": [
+        {
+          "id": "story_cloud_00",
+          "sourceSpeechSha256": "ac3308f3b7d1f4e52b400f42ccefe33746de5c3732bb82d684c49e8b56f5c0c4",
+          "durationSeconds": 13.36,
+          "sampleRate": 24000,
+          "peakDbfs": -1.1,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_cloud_01",
+          "sourceSpeechSha256": "c09347a778f6bce4f55c07e0db7e55836d7116c48bfd79193fcce35f58c8e66f",
+          "durationSeconds": 12.12,
+          "sampleRate": 24000,
+          "peakDbfs": -1.6,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_cloud_02",
+          "sourceSpeechSha256": "03f7223652a2ed522a57e522b06d35052ace6ca66dab0ef5661cc9deb4bf06e6",
+          "durationSeconds": 13.24,
+          "sampleRate": 24000,
+          "peakDbfs": -1.5,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_cloud_03",
+          "sourceSpeechSha256": "3e8f4aa20012cd6d0ba0c7fc55365ad48c9db4a3a561c48b7316acd30b0426ec",
+          "durationSeconds": 9.92,
+          "sampleRate": 24000,
+          "peakDbfs": -0.3,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_cloud_04",
+          "sourceSpeechSha256": "5a6889bb5f8eb800bab2bb490fc05848695daac3147c3f82952ce9d2eb8b1d1f",
+          "durationSeconds": 13.4,
+          "sampleRate": 24000,
+          "peakDbfs": -1.6,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_cloud_05",
+          "sourceSpeechSha256": "5f6b0fe5338fde8b27f75f3cc453e2aff9c36fcc6a9a7df205de1e7b28050dbd",
+          "durationSeconds": 12.24,
+          "sampleRate": 24000,
+          "peakDbfs": -0.7,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_cloud_06",
+          "sourceSpeechSha256": "015ed6a6eb6ac074f44e50cca7e671815ba9a5f942b8e1a6b8bc4129c86cbcec",
+          "durationSeconds": 11.24,
+          "sampleRate": 24000,
+          "peakDbfs": -1.5,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_cloud_07",
+          "sourceSpeechSha256": "c07d856ae31ba634a1c3864786173cdd8f4bd7c1c81c3882c63e70f150063de1",
+          "durationSeconds": 12.4,
+          "sampleRate": 24000,
+          "peakDbfs": -1.8,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_cloud_08",
+          "sourceSpeechSha256": "f5ebdc3eb9532b2cd132d10e7d5285fb343faefb2ec3bfc3dbe4dd987ee5eb4e",
+          "durationSeconds": 10.56,
+          "sampleRate": 24000,
+          "peakDbfs": -1.2,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_cloud_09",
+          "sourceSpeechSha256": "2b5a86dc94f166f877430b06def2c5f870ebc4da022a2ff413df741e2ae7c0ea",
+          "durationSeconds": 12.16,
+          "sampleRate": 24000,
+          "peakDbfs": -1,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_cloud_10",
+          "sourceSpeechSha256": "3f9a060d8483e0bfb3673710379e168c00c8db7fb64bfa3ead736f28bed6e770",
+          "durationSeconds": 12.84,
+          "sampleRate": 24000,
+          "peakDbfs": -0.8,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_cloud_11",
+          "sourceSpeechSha256": "735e24b4ac2861777fd055cd36bbc8bd65965de1b9b9e1ffbd558bfc4464cd6e",
+          "durationSeconds": 12.08,
+          "sampleRate": 24000,
+          "peakDbfs": -1.9,
+          "clippedSamples": 0,
+          "decoded": true
+        }
+      ]
+    },
+    {
+      "id": "story_swing",
+      "scenes": [
+        {
+          "id": "story_swing_00",
+          "sourceSpeechSha256": "9351551dfcf784b7a81d65682ea2ce077f625f4972ae1516303d1c2cb451d27a",
+          "durationSeconds": 13.04,
+          "sampleRate": 24000,
+          "peakDbfs": -2.9,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_01",
+          "sourceSpeechSha256": "fbdb78d20ac33f93015b65ddae70d086abef6c9df7b57c063c7e1c4e71f5d23d",
+          "durationSeconds": 11.12,
+          "sampleRate": 24000,
+          "peakDbfs": -1.2,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_02",
+          "sourceSpeechSha256": "aa1b541647993f1d0cc655446f958808deda1220fa94119005362539373a035e",
+          "durationSeconds": 14.36,
+          "sampleRate": 24000,
+          "peakDbfs": -1.5,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_03",
+          "sourceSpeechSha256": "b3c90418700e938088742346e09f9034481dd53834c9a3b6af9db7b072d606bd",
+          "durationSeconds": 13.12,
+          "sampleRate": 24000,
+          "peakDbfs": -1.4,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_04",
+          "sourceSpeechSha256": "dd449ddc088f7233e8a3439d96ae6eedd10a7d4d258468a452a716c984a5ea33",
+          "durationSeconds": 12.4,
+          "sampleRate": 24000,
+          "peakDbfs": -1.1,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_05",
+          "sourceSpeechSha256": "5808417d575cecdedcaca51143dd01e9ad842c0d56865eaa0bfbd5eb7e593a9c",
+          "durationSeconds": 13,
+          "sampleRate": 24000,
+          "peakDbfs": -1.2,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_06",
+          "sourceSpeechSha256": "767fe708dc8e31803039523d0a259d98482d0d25a7ee5fd9ce10098a37ed4b6e",
+          "durationSeconds": 12.16,
+          "sampleRate": 24000,
+          "peakDbfs": -1.7,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_07",
+          "sourceSpeechSha256": "d48846e9c569d1ba809f65cc40db250fb915d837f315b01abc36a95fcad73ac7",
+          "durationSeconds": 12.48,
+          "sampleRate": 24000,
+          "peakDbfs": -1,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_08",
+          "sourceSpeechSha256": "a57db466e15ad2c6e3ae9a7f1da0fd5a1c157dfec2642f0483829f36bf07d0a5",
+          "durationSeconds": 13.04,
+          "sampleRate": 24000,
+          "peakDbfs": -1.4,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_09",
+          "sourceSpeechSha256": "3379e5b5f023e8846cd9dd000b50735fe776442ac2b9947b920735c928360ebe",
+          "durationSeconds": 11.48,
+          "sampleRate": 24000,
+          "peakDbfs": -0.8,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_10",
+          "sourceSpeechSha256": "a62d526df8dcf4737912a00f6f18618bbeb8a40368c83b566ea04add841047f3",
+          "durationSeconds": 13.68,
+          "sampleRate": 24000,
+          "peakDbfs": -1.1,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_11",
+          "sourceSpeechSha256": "c872f3a8aa55322e7b6b7c19a116dc72ed61b87c6dbabd2a1e0f0d630143ec44",
+          "durationSeconds": 13,
+          "sampleRate": 24000,
+          "peakDbfs": -1.6,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_12",
+          "sourceSpeechSha256": "edcd88798194528aa67ee894e96089df5358669ba4cb7b71e249bde859c0d098",
+          "durationSeconds": 13.32,
+          "sampleRate": 24000,
+          "peakDbfs": -1,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_13",
+          "sourceSpeechSha256": "c9be8c448e513ef6aff74617aabe68e5d6ecf34c63dda0288410f86d20b7de6b",
+          "durationSeconds": 12.6,
+          "sampleRate": 24000,
+          "peakDbfs": -1.6,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_14",
+          "sourceSpeechSha256": "290b868a34b56ce18c80523e68aa4886106017db5fc179412afd5c6fe7b69ee3",
+          "durationSeconds": 12.84,
+          "sampleRate": 24000,
+          "peakDbfs": -1.8,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_15",
+          "sourceSpeechSha256": "1380b788a89dad5ba5f9cb18ce6a437f2f4f07f61c501969564f1fca88829408",
+          "durationSeconds": 12.96,
+          "sampleRate": 24000,
+          "peakDbfs": -1.9,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_16",
+          "sourceSpeechSha256": "8482da1d8ec6b0fd26cfcb624582415b59ea7a7a3649ba91369751ee3f713d3f",
+          "durationSeconds": 13.08,
+          "sampleRate": 24000,
+          "peakDbfs": -1.9,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_17",
+          "sourceSpeechSha256": "87116e88cf695dd642d69ddced8b81db99eacadece9c5fd0df08643ca36cf530",
+          "durationSeconds": 11.24,
+          "sampleRate": 24000,
+          "peakDbfs": -1.7,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_18",
+          "sourceSpeechSha256": "2bd4bbc81f6cd6f56a9d739be8d47a8ecb3fb2351677620dbc4c93a77c76dc27",
+          "durationSeconds": 11.8,
+          "sampleRate": 24000,
+          "peakDbfs": -1.3,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_swing_19",
+          "sourceSpeechSha256": "cc3f610c5413fb14bef99fc525542ad883c75c4726f6c845f17efbced2d067bb",
+          "durationSeconds": 12.48,
+          "sampleRate": 24000,
+          "peakDbfs": -1.7,
+          "clippedSamples": 0,
+          "decoded": true
+        }
+      ]
+    },
+    {
+      "id": "story_moon",
+      "scenes": [
+        {
+          "id": "story_moon_00",
+          "sourceSpeechSha256": "6573708c83e120a9d0ddf8a06066d168018737b14c91f4b475bc81af4d559231",
+          "durationSeconds": 13.6,
+          "sampleRate": 24000,
+          "peakDbfs": -1.5,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_01",
+          "sourceSpeechSha256": "7de3fe96ca005193f1cf85861b6dada03f26369798a185298b2bffb1de6727d7",
+          "durationSeconds": 13.44,
+          "sampleRate": 24000,
+          "peakDbfs": -1.8,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_02",
+          "sourceSpeechSha256": "02fffc818ac64e15866538b53f3b624a657f78a80ce5b086b56919270f56ff83",
+          "durationSeconds": 14.24,
+          "sampleRate": 24000,
+          "peakDbfs": -1.9,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_03",
+          "sourceSpeechSha256": "8692e93a63696de06ea38cbe405dd7574fffb4c4b38a08b34f442c86edec65bb",
+          "durationSeconds": 14.96,
+          "sampleRate": 24000,
+          "peakDbfs": -1.5,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_04",
+          "sourceSpeechSha256": "44b5e57661cdda699b93cb463875f2a5936a0cb5b74567634786a4b78d6810b7",
+          "durationSeconds": 12.68,
+          "sampleRate": 24000,
+          "peakDbfs": -1.4,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_05",
+          "sourceSpeechSha256": "93a79ea0c7fe651bedf32a84e7cd94ebb1886590db0a69a79bf1339cd93aa5eb",
+          "durationSeconds": 13.56,
+          "sampleRate": 24000,
+          "peakDbfs": -1.5,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_06",
+          "sourceSpeechSha256": "36a9e13c9a79dc93af64284e375040c4d5ae7d897775504499e7e9463e3e8afe",
+          "durationSeconds": 11.72,
+          "sampleRate": 24000,
+          "peakDbfs": -1.7,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_07",
+          "sourceSpeechSha256": "b4193edf9b9e2a4bfd0293b6e1590ccf59816c2b763acd05ffdaadb84ad22aa0",
+          "durationSeconds": 13.36,
+          "sampleRate": 24000,
+          "peakDbfs": -1.7,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_08",
+          "sourceSpeechSha256": "cffccbf3b23536cb3caa7ba2f4eb264f8441e91ca7b5c75acb383d27902b7f93",
+          "durationSeconds": 13.08,
+          "sampleRate": 24000,
+          "peakDbfs": -1.4,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_09",
+          "sourceSpeechSha256": "0af729ebaf2e53c58daa569a002c212ce36f3d40a8f45ace301cc21e6c16e016",
+          "durationSeconds": 12.56,
+          "sampleRate": 24000,
+          "peakDbfs": -1.4,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_10",
+          "sourceSpeechSha256": "0a200e4ce938b7154c7187ec30582c14dec84a21081a2f8d9d43925b46b362fb",
+          "durationSeconds": 12.16,
+          "sampleRate": 24000,
+          "peakDbfs": -1.3,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_11",
+          "sourceSpeechSha256": "e987623ad4c521ca4f3d09acf66d6098b6e0b03fc4f430d1497339e25d7dfbd9",
+          "durationSeconds": 12.56,
+          "sampleRate": 24000,
+          "peakDbfs": -1.6,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_12",
+          "sourceSpeechSha256": "2d565f914cbccf889b36f7328b91ed6f4a8bc09fb4ee21ad831df04e862ed6fa",
+          "durationSeconds": 12.08,
+          "sampleRate": 24000,
+          "peakDbfs": -1.6,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_13",
+          "sourceSpeechSha256": "eb3497d9f395d03da330fb0ccc0169a226de65d89e53efb6baa20ea5964693e6",
+          "durationSeconds": 12.08,
+          "sampleRate": 24000,
+          "peakDbfs": -1.4,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_14",
+          "sourceSpeechSha256": "d5effaaff36f30d9e660d15c426a07d8c1e3badee857e70732b1a246b52b007c",
+          "durationSeconds": 10.44,
+          "sampleRate": 24000,
+          "peakDbfs": -1.1,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_15",
+          "sourceSpeechSha256": "13e593e09fb48be1b81a89fef185553e4ac38bd1e931ea4c686a73d0037a3d31",
+          "durationSeconds": 11.92,
+          "sampleRate": 24000,
+          "peakDbfs": -2,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_16",
+          "sourceSpeechSha256": "c0916d974bbf0e16ad30c81d7c737d3d36d77286a3b7b235e68093a876b8d6cd",
+          "durationSeconds": 13,
+          "sampleRate": 24000,
+          "peakDbfs": -1.1,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_17",
+          "sourceSpeechSha256": "4d881f15a3921cab1a1039e5305ce8d0169b3d0a74366038c2643284254a8bc5",
+          "durationSeconds": 14.76,
+          "sampleRate": 24000,
+          "peakDbfs": -1.1,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_18",
+          "sourceSpeechSha256": "e1286bccefd48eeddefe69861d6ef583f732411ee65e4d1174ec389da31935fe",
+          "durationSeconds": 10.56,
+          "sampleRate": 24000,
+          "peakDbfs": -1.5,
+          "clippedSamples": 0,
+          "decoded": true
+        },
+        {
+          "id": "story_moon_19",
+          "sourceSpeechSha256": "a2e80f0aa43973e65b26a1b8873e4dc98d099db5e7e9320f0be82f403cb47f67",
+          "durationSeconds": 14.76,
+          "sampleRate": 24000,
+          "peakDbfs": -1.4,
+          "clippedSamples": 0,
+          "decoded": true
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "nativePlaybackVerified": false,
+  "humanReviewedAt": null,
+  "passed": true
+}

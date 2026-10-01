@@ -1,0 +1,265 @@
+{
+  "episode": "story_swing",
+  "title": "그네 하나, 친구 셋",
+  "voiceModel": "gemini-3.8-flash-tts",
+  "reviewModel": "gemini-3.8-flash",
+  "createdAt": "2026-10-01T00:23:40.833Z",
+  "status": "AUTOMATED_NARRATION_REVIEW_PASSED",
+  "storage": "Raw WAV files remain in gitignored production/story_work; the app uses them only after video assembly and film review.",
+  "scenes": [
+    {
+      "id": "story_swing_00",
+      "text": "숲에 새 그네가 생겼어요. 튼튼한 나무 아래, 낮고 작은 그네예요. 모모와 두리, 누리가 눈을 반짝였어요.",
+      "sourceSpeechSha256": "9351551dfcf784b7a81d65682ea2ce077f625f4972ae1516303d1c2cb451d27a",
+      "voiceSeconds": 13.04,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "숲에 새 그네가 생겼어요. 튼튼한 나무 아래 낮고 작은 그네예요. 모모와 두리, 누리가 눈을 반짝였어요.",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_swing_01",
+      "text": "내가 먼저! 나도 타고 싶어! 세 친구가 동시에 말했어요. 그네는 하나인데, 타고 싶은 친구는 셋이에요.",
+      "sourceSpeechSha256": "fbdb78d20ac33f93015b65ddae70d086abef6c9df7b57c063c7e1c4e71f5d23d",
+      "voiceSeconds": 11.12,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "내가 먼저! 나도 타고 싶어! 세 친구가 동시에 말했어요. 그네는 하나인데 타고 싶은 친구는 셋이에요.",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_swing_02",
+      "text": "두리가 그네를 바라봐요. 셋이 모두 앉을 수 있을까? 작은 자리에 엉덩이를 대어 보려다, 멈췄어요. 너무 좁네.",
+      "sourceSpeechSha256": "aa1b541647993f1d0cc655446f958808deda1220fa94119005362539373a035e",
+      "voiceSeconds": 14.36,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "두리가 그네를 바라봐요. 셋이 모두 앉을 수 있을까? 작은 자리에 엉덩이를 대어 보려다 멈췄어요. 너무 좁네.",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_swing_03",
+      "text": "모모가 날개를 번쩍 들어요. 목소리가 제일 큰 친구부터? 두리는 입을 열었다가 닫았어요. 누리는 뒤로 쏙 숨었어요.",
+      "sourceSpeechSha256": "b3c90418700e938088742346e09f9034481dd53834c9a3b6af9db7b072d606bd",
+      "voiceSeconds": 13.12,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 날개를 번쩍 들어요. 목소리가 제일 큰 친구부터? 두리는 입을 열었다가 닫았어요. 누리는 뒤로 쏙 숨었어요.",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_swing_04",
+      "text": "모모가 누리를 봤어요. 누리야, 너도 타고 싶어? 누리가 끄덕여요. 응. 나는 큰 소리가 잘 안 나와.",
+      "sourceSpeechSha256": "dd449ddc088f7233e8a3439d96ae6eedd10a7d4d258468a452a716c984a5ea33",
+      "voiceSeconds": 12.4,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 누리를 봤어요. 누리야, 너도 타고 싶어? 누리가 끄덕여요. 응. 나는 큰 소리가 잘 안 나와.",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_swing_05",
+      "text": "모모가 날개를 내렸어요. 큰 소리 말고, 차례를 정하자. 누리가 말해요. 먼저 온 두리, 그다음 모모, 그다음 나.",
+      "sourceSpeechSha256": "5808417d575cecdedcaca51143dd01e9ad842c0d56865eaa0bfbd5eb7e593a9c",
+      "voiceSeconds": 13,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 날개를 내렸어요. 큰 소리 말고 차례를 정하자. 누리가 말해요. 먼저 온 두리, 그다음 모모, 그다음 나.",
+        "abruptNoise": false,
+        "music": false
+      }
+    },
+    {
+      "id": "story_swing_06",
+      "text": "두리가 물었어요. 그럼 우리 모두 탈 수 있겠네? 모모가 고개를 끄덕여요. 응! 조금씩 타고, 다음 친구에게 바꿔 주자.",
+      "sourceSpeechSha256": "767fe708dc8e31803039523d0a259d98482d0d25a7ee5fd9ce10098a37ed4b6e",
+      "voiceSeconds": 12.16,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "두리가 물었어요. 그럼 우리 모두 탈 수 있겠네? 모모가 고개를 끄덕여요. 응, 조금씩 타고 다음 친구에게 바꿔 주자.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_swing_07",
+      "text": "친구들이 함께 약속해요. 한 친구가 타고, 다른 친구는 밖에서 기다리기. 차례를 바꿀 때는 그네를 멈추고 내려오기.",
+      "sourceSpeechSha256": "d48846e9c569d1ba809f65cc40db250fb915d837f315b01abc36a95fcad73ac7",
+      "voiceSeconds": 12.48,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "친구들이 함께 약속해요. 한 친구가 타고 다른 친구는 밖에서 기다리기. 차례를 바꿀 때는 그네를 멈추고 내려오기.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_swing_08",
+      "text": "두리 차례예요. 앞으로 살랑, 뒤로 살랑. 두리 귀도 살랑살랑. 모모와 누리가 그네 바깥에서 함께 웃어요.",
+      "sourceSpeechSha256": "a57db466e15ad2c6e3ae9a7f1da0fd5a1c157dfec2642f0483829f36bf07d0a5",
+      "voiceSeconds": 13.04,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "두리 차례예요. 앞으로 살랑, 뒤로 살랑. 두리 귀도 살랑살랑. 모모와 누리가 그네 바깥에서 함께 웃어요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": "A female speaker narrates warmly in Korean with clear pronunciation and no background music."
+      }
+    },
+    {
+      "id": "story_swing_09",
+      "text": "모모는 발을 꼼지락거려요. 나도 빨리 타고 싶은데. 누리가 물어요. 기다리면서, 나뭇잎 모자를 만들어 볼까?",
+      "sourceSpeechSha256": "3379e5b5f023e8846cd9dd000b50735fe776442ac2b9947b920735c928360ebe",
+      "voiceSeconds": 11.48,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모는 발을 꼼지락거려요. 나도 빨리 타고 싶은데. 누리가 물어요. 기다리면서 나뭇잎 모자를 만들어 볼까?",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_swing_10",
+      "text": "누리가 작은 잎을 머리에 올려요. 그런데 잎이 툭, 코로 내려왔어요. 에취! 모모가 웃어요. 코 모자가 됐네!",
+      "sourceSpeechSha256": "a62d526df8dcf4737912a00f6f18618bbeb8a40368c83b566ea04add841047f3",
+      "voiceSeconds": 13.68,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "누리가 작은 잎을 머리에 올려요. 그런데 잎이 툭 코로 내려왔어요. 에취! 모모가 웃어요. 코모자가 됐네.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_swing_11",
+      "text": "두리는 조금 더 타고 싶었어요. 그네 줄을 꼭 잡고, 친구들을 바라봐요. 모모도 기다리고 있네. 두리가 천천히 멈췄어요.",
+      "sourceSpeechSha256": "c872f3a8aa55322e7b6b7c19a116dc72ed61b87c6dbabd2a1e0f0d630143ec44",
+      "voiceSeconds": 13,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "두리는 조금 더 타고 싶었어요. 그네줄을 꼭 잡고 친구들을 바라봐요. 모모도 기다리고 있네. 두리가 천천히 멈췄어요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_swing_12",
+      "text": "두리가 말해요. 아쉽지만, 이제 모모 차례지. 그네가 멈추자 내려왔어요. 모모가 대답해요. 기다려 줘서 고마워.",
+      "sourceSpeechSha256": "edcd88798194528aa67ee894e96089df5358669ba4cb7b71e249bde859c0d098",
+      "voiceSeconds": 13.32,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "두리가 말해요. 아쉽지만 이제 모모 차례지. 그네가 멈추자 내려왔어요. 모모가 대답해요. 기다려줘서 고마워.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": "A female narrator speaking expressively in Korean without background music or noise."
+      }
+    },
+    {
+      "id": "story_swing_13",
+      "text": "모모가 앉았어요. 작고 동그란 몸이 살랑살랑. 두리는 기다리는 자리에 앉아요. 아까는 나, 지금은 모모 차례예요.",
+      "sourceSpeechSha256": "c9be8c448e513ef6aff74617aabe68e5d6ecf34c63dda0288410f86d20b7de6b",
+      "voiceSeconds": 12.6,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "모모가 앉았어요. 작고 동그란 몸이 살랑살랑. 두리는 기다리는 자리에 앉아요. 아까는 나, 지금은 모모 차례예요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_swing_14",
+      "text": "두리도 발을 꼼지락거려요. 누리가 잎사귀 모자를 내밀어요. 두리가 쓰자, 귀 한쪽만 쏙 덮였어요. 귀 모자네!",
+      "sourceSpeechSha256": "290b868a34b56ce18c80523e68aa4886106017db5fc179412afd5c6fe7b69ee3",
+      "voiceSeconds": 12.84,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "두리도 발을 꼼지락거려요. 누리가 잎사귀 모자를 내밀어요. 두리가 쓰자 귀 한쪽만 쏙 덮였어요. 귀모자네.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_swing_15",
+      "text": "잠시 뒤, 모모가 그네를 멈췄어요. 누리야, 네 차례야. 누리가 방긋 웃어요. 작은 목소리로도, 내 차례가 왔네.",
+      "sourceSpeechSha256": "1380b788a89dad5ba5f9cb18ce6a437f2f4f07f61c501969564f1fca88829408",
+      "voiceSeconds": 12.96,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "잠시 뒤 모모가 그네를 멈췄어요. 누리야, 네 차례야. 누리가 방긋 웃어요. 작은 목소리로도 내 차례가 왔네?",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_swing_16",
+      "text": "누리는 아주 살짝만 흔들고 싶대요. 모모와 두리가 고개를 끄덕여요. 누리의 그네는 구름처럼, 천천히 움직여요.",
+      "sourceSpeechSha256": "8482da1d8ec6b0fd26cfcb624582415b59ea7a7a3649ba91369751ee3f713d3f",
+      "voiceSeconds": 13.08,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "누리는 아주 살짝만 흔들고 싶대요. 모모와 두리가 고개를 끄덕여요. 누리의 그네는 구름처럼 천천히 움직여요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_swing_17",
+      "text": "두리가 그네 앞으로 가려다 멈춰요. 아, 여기서 기다리기로 했지. 두리는 모모 옆에 앉아, 누리에게 손을 흔들어요.",
+      "sourceSpeechSha256": "87116e88cf695dd642d69ddced8b81db99eacadece9c5fd0df08643ca36cf530",
+      "voiceSeconds": 11.24,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "두리가 그네 앞으로 가려다 멈춰요. 아, 여기서 기다리기로 했지? 두리는 모모 옆에 앉아 누리에게 손을 흔들어요.",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_swing_18",
+      "text": "세 친구 모두 그네를 탔어요. 기다릴 때는 조금 아쉬웠지만, 내 차례도 왔어요. 다음에도 이 약속으로 놀자!",
+      "sourceSpeechSha256": "2bd4bbc81f6cd6f56a9d739be8d47a8ecb3fb2351677620dbc4c93a77c76dc27",
+      "voiceSeconds": 11.8,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "세 친구 모두 그네를 탔어요. 기다릴 때는 조금 아쉬웠지만 내 차례도 왔어요. 다음에도 이 약속으로 놀자!",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    },
+    {
+      "id": "story_swing_19",
+      "text": "우리도 장난감 하나로 차례를 바꿔 볼까요? 기다리는 동안 무엇을 할까요? 모모와 두리, 누리가 인사해요. 다음에 만나!",
+      "sourceSpeechSha256": "cc3f610c5413fb14bef99fc525542ad883c75c4726f6c845f17efbced2d067bb",
+      "voiceSeconds": 12.48,
+      "narrationMatch": "exact",
+      "review": {
+        "transcript": "우리도 장난감 하나로 차례를 바꿔 볼까요? 기다리는 동안 무엇을 할까요? 모모와 두리, 누리가 인사해요. 다음에 만나!",
+        "abruptNoise": false,
+        "music": false,
+        "soundNotes": ""
+      }
+    }
+  ]
+}

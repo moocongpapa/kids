@@ -282,7 +282,7 @@ class _StoryPlayerScreenState extends State<StoryPlayerScreen> {
             player.expired
                 ? '숲도 쉬는 시간'
                 : widget.episode.productionPreview
-                ? '첫 장면 미리보기 끝'
+                ? '미리보기 끝'
                 : '이야기 끝, 우리 차례!',
             textAlign: TextAlign.center,
             style: const TextStyle(

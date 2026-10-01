@@ -1,11 +1,49 @@
 {
   "reviewer": "assistant contact-sheet inspection; not a human or family observation",
-  "reviewedAt": "2026-09-30",
+  "reviewedAt": "2026-10-01T00:06:56.180Z",
   "publishBlocked": true,
   "requiredCorrections": [
-    {"id":"story_cloud_01","reason":"Other characters and the reference clearing appear while the script is about Momo's leaf house falling. Keep Momo alone and the same leaf house/stone."},
-    {"id":"story_moon_00","reason":"Nuri appears before the later scripted entrance. Keep only Momo and Duri in this opening."},
-    {"id":"story_moon_02","reason":"The pond close-up becomes daylight. Keep the established indigo dusk, visible moon reflection, and matched lighting."}
+    {
+      "id": "story_moon_02",
+      "reason": "The current night pond shot includes Momo and Duri, whereas the revised scene is a character-free insert showing only the rippling moon reflection. Regenerate with no character references and retain indigo night."
+    }
   ],
-  "nextReview": "After regeneration, inspect all full-length episodes for scene-to-scene continuity, accurate actions, voice timing and gentle sound. Do not publish merely because single-clip automated checks pass."
+  "nextReview": "Inspect the remaining swing and moon scenes and full films. Keep publication blocked until all three films and their exact hashes have completed both full-film automated review and contact-sheet inspection.",
+  "reviewedFilms": [
+    {
+      "id": "story_cloud",
+      "sha256": "f31ac9e3f7a4319080bbd5dfc1721782f3bbdc763df193a80aaa7d8a63ae65d3",
+      "checkedAt": "2026-10-01T00:06:56.185Z",
+      "method": "All 12 scenes inspected in chronological early/middle/late contact sheets; full film automated audio/plot review passed.",
+      "observations": "Momo appears alone before Nuri enters; the collapsed leaf pile and rebuilt leaf tent follow the plot, with no wooden frame. Sadness softens gradually. The ending invites naming feelings to a nearby adult."
+    }
+  ],
+  "resolvedCorrections": [
+    {
+      "id": "story_cloud_01",
+      "checkedAt": "2026-10-01T00:07:33.411Z",
+      "observation": "Only Momo is present; the wind collapses the leaf pile in the forest location."
+    },
+    {
+      "id": "story_moon_00",
+      "checkedAt": "2026-10-01T00:07:33.411Z",
+      "observation": "Current opening contact sheet shows only Momo and Duri, with one sky moon and its pond reflection in indigo night."
+    }
+  ],
+  "partialSceneInspections": [
+    {
+      "episode": "story_swing",
+      "checkedAt": "2026-10-01T00:12:29.408Z",
+      "sceneIds": [
+        "story_swing_00",
+        "story_swing_01",
+        "story_swing_02",
+        "story_swing_03",
+        "story_swing_04",
+        "story_swing_05",
+        "story_swing_06"
+      ],
+      "observations": "Existing seven scenes inspected in chronological contact sheets: one swing, recognisable cast, no simultaneous riders. The turn-taking agreement precedes the first rider. The remaining scenes and complete film still require inspection."
+    }
+  ]
 }

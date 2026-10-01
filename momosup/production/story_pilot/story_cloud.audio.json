@@ -10,11 +10,11 @@
     "musicReview": {
       "voice": false,
       "abruptNoise": false,
-      "notes": "Gentle acoustic guitar music playing throughout."
+      "notes": "Gentle acoustic guitar playing throughout the clip without speech or abrupt noises."
     },
     "model": "gemini-3.8-flash",
     "passed": true,
-    "checkedAt": "2026-09-30T22:13:53.032Z"
+    "checkedAt": "2026-10-01T00:04:35.264Z"
   },
   "musicPrompt": "Instrumental only, absolutely no voice, singing or humming. Gentle warm watercolor woodland animation underscore, about 30 seconds. Tender soft acoustic guitar and warm felt piano, reassuring with a little gentle humor. No sharp impacts or sudden changes, sparse arrangement with plenty of room for Korean narration, soft ending.",
   "titleAudioAsset": "assets/stories/story_cloud_title.m4a",
@@ -25,6 +25,6 @@
   },
   "voiceModel": "gemini-3.8-flash-tts",
   "musicModel": "lyria-3-clip-preview",
-  "createdAt": "2026-09-30T22:13:53.041Z",
+  "createdAt": "2026-10-01T00:04:35.265Z",
   "status": "AUTOMATED_AUDIO_REVIEW_PASSED"
 }
