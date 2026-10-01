@@ -9,24 +9,27 @@ import 'age_journey_test.dart' as fixtures;
 
 void main() {
   group('ColoringCatalog', () {
-    test('8가지 다양한 도안이 모두 등록되어 있고 최소 5개 이상의 영역을 갖는다', () {
+    test('30종 이상의 다양한 동물·사물 도안이 등록되어 있고 최소 5개 이상의 영역을 갖는다', () {
       final catalog = ColoringCatalog.all;
-      expect(catalog.length, 8);
+      expect(catalog.length, greaterThanOrEqualTo(30));
+      expect(catalog.length, 34);
 
-      final expectedIds = [
-        'rabbit',
-        'bear',
-        'cat',
-        'bus',
-        'flower',
-        'rocket',
-        'fruit',
-        'whale',
-      ];
+      final ids = catalog.map((t) => t.id).toSet();
+      expect(ids.length, catalog.length, reason: '모든 도안 ID는 고유해야 함');
 
-      for (var i = 0; i < catalog.length; i++) {
-        final template = catalog[i];
-        expect(template.id, expectedIds[i]);
+      // Specifically check requested animals
+      expect(ids.contains('butterfly'), isTrue, reason: '나비 도안 필수');
+      expect(ids.contains('dinosaur'), isTrue, reason: '공룡 도안 필수');
+      expect(ids.contains('pig'), isTrue, reason: '돼지 도안 필수');
+      expect(ids.contains('penguin'), isTrue, reason: '펭귄 도안 필수');
+      expect(ids.contains('rabbit'), isTrue);
+      expect(ids.contains('bear'), isTrue);
+      expect(ids.contains('cat'), isTrue);
+      expect(ids.contains('puppy'), isTrue);
+      expect(ids.contains('lion'), isTrue);
+      expect(ids.contains('elephant'), isTrue);
+
+      for (final template in catalog) {
         expect(template.title.isNotEmpty, isTrue);
         expect(template.emoji.isNotEmpty, isTrue);
 
@@ -37,12 +40,19 @@ void main() {
           reason: '${template.id}는 최소 5개 이상의 색칠 영역을 가져야 함',
         );
 
+        final segmentIds = <String>{};
         for (final seg in segments) {
           expect(seg.id.isNotEmpty, isTrue);
           expect(seg.name.isNotEmpty, isTrue);
           expect(seg.path.getBounds().isEmpty, isFalse);
           expect(seg.color, isNull);
+          segmentIds.add(seg.id);
         }
+        expect(
+          segmentIds.length,
+          segments.length,
+          reason: '${template.id}의 모든 세그먼트 ID는 중복되지 않아야 함',
+        );
       }
     });
   });
