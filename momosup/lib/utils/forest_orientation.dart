@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 enum ForestOrientation { portrait, landscape }
@@ -16,6 +17,7 @@ class _OrientationRequests with WidgetsBindingObserver {
   final requests = <Object, ({ForestOrientation mode, bool active})>{};
   ForestOrientation? applied;
   bool queued = false;
+  bool changedAfterBuild = false;
   void update(Object key, ForestOrientation mode, bool active) {
     requests[key] = (mode: mode, active: active);
     sync();
@@ -27,10 +29,26 @@ class _OrientationRequests with WidgetsBindingObserver {
   }
 
   void sync() {
-    if (queued) return;
+    if (queued) {
+      // A preceding post-frame callback can navigate again after this frame's
+      // pages have built. Its incoming scope cannot register until next frame.
+      if (WidgetsBinding.instance.schedulerPhase ==
+          SchedulerPhase.postFrameCallbacks) {
+        changedAfterBuild = true;
+      }
+      return;
+    }
     queued = true;
-    scheduleMicrotask(() {
+    // didPushNext runs before the incoming page builds its scope. Resolve after
+    // that build so the temporary lack of an active scope never requests a
+    // portrait rotation between two landscape pages.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       queued = false;
+      if (changedAfterBuild) {
+        changedAfterBuild = false;
+        sync();
+        return;
+      }
       final active = requests.values.where((r) => r.active);
       final mode = active.lastOrNull?.mode ?? ForestOrientation.portrait;
       if (applied == mode) return;
@@ -48,7 +66,10 @@ class _OrientationRequests with WidgetsBindingObserver {
           debugPrint('Screen orientation request failed: $error');
         }),
       );
-    });
+    }, debugLabel: 'forest orientation');
+    // Route changes and app resume can arrive between frames. Post-frame
+    // callbacks alone do not schedule a frame in that case.
+    WidgetsBinding.instance.ensureVisualUpdate();
   }
 
   @override
