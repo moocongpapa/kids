@@ -66,6 +66,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
   int color = 0, stamp = 0, wiggle = 0;
   bool broad = true;
   ArtMark? current;
+  final List<ArtMark> undone = [];
   int? drawingPointer;
   Offset point(Offset p, Size s) =>
       Offset((p.dx / s.width).clamp(0, 1), (p.dy / s.height).clamp(0, 1));
@@ -89,6 +90,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
   void begin(Offset p, Size s) {
     if (widget.locked) return;
     compactMarks();
+    undone.clear();
     setState(() {
       current = ArtMark(
         colors[color],
@@ -179,9 +181,23 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
                           current = null;
                         }
                       },
-                      child: CustomPaint(
-                        painter: ForestArtPainter(widget.theme, widget.marks),
-                        child: const SizedBox.expand(),
+                      child: TweenAnimationBuilder<double>(
+                        key: ValueKey('living-art-$wiggle'),
+                        tween: Tween(begin: 0, end: wiggle == 0 ? 0 : 1),
+                        duration: widget.quiet || wiggle == 0
+                            ? Duration.zero
+                            : const Duration(milliseconds: 2400),
+                        builder: (_, progress, _) => CustomPaint(
+                          painter: ForestArtPainter(
+                            widget.theme,
+                            widget.marks,
+                            life: widget.quiet
+                                ? 0
+                                : math.sin(progress * math.pi * 2) *
+                                      math.sin(progress * math.pi),
+                          ),
+                          child: const SizedBox.expand(),
+                        ),
                       ),
                     ),
                   ),
@@ -200,7 +216,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
           for (var i = 0; i < (widget.simple ? 3 : colors.length); i++)
             PlayPiece(
               label: '${['분홍', '노랑', '초록', '파랑', '보라', '짙은 초록'][i]} 크레용',
-              size: forestIsWide(context) ? 64 : 56,
+              size: 64,
               quiet: widget.quiet,
               selected: color == i,
               enabled: !widget.locked,
@@ -221,7 +237,7 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
           for (var i = 0; i < 4; i++)
             PlayPiece(
               label: ['붓으로 그리기', '꽃 도장', '나뭇잎 도장', '반짝 도장'][i],
-              size: forestIsWide(context) ? 64 : 61,
+              size: 64,
               selected: stamp == i,
               quiet: widget.quiet,
               enabled: !widget.locked,
@@ -235,15 +251,27 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
             ),
           PlayPiece(
             label: '마지막 선 지우기',
-            size: forestIsWide(context) ? 64 : 61,
+            size: 64,
             quiet: widget.quiet,
             enabled: widget.marks.isNotEmpty && !widget.locked,
             onTap: () {
-              setState(() => widget.marks.removeLast());
+              setState(() => undone.add(widget.marks.removeLast()));
               widget.onChanged();
             },
             child: const Icon(Icons.undo_rounded, color: forestInk, size: 31),
           ),
+          if (!widget.simple)
+            PlayPiece(
+              label: '지운 선 되돌리기',
+              size: 64,
+              quiet: widget.quiet,
+              enabled: undone.isNotEmpty && !widget.locked,
+              onTap: () {
+                setState(() => widget.marks.add(undone.removeLast()));
+                widget.onChanged();
+              },
+              child: const Icon(Icons.redo_rounded, color: forestInk, size: 31),
+            ),
         ],
       ),
       const SizedBox(height: 8),
@@ -252,8 +280,9 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
         children: [
           PlayPiece(
             label: broad ? '가는 붓으로 바꾸기' : '굵은 붓으로 바꾸기',
-            size: forestIsWide(context) ? 64 : 62,
+            size: 64,
             quiet: widget.quiet,
+            enabled: !widget.locked,
             onTap: () => setState(() => broad = !broad),
             child: Center(
               child: Container(
@@ -268,9 +297,10 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
           ),
           PlayPiece(
             label: '그림 흔들어 보기',
-            size: forestIsWide(context) ? 64 : 62,
+            // Kept for existing narrated controls; the picture itself comes alive.
+            size: 64,
             quiet: widget.quiet,
-            enabled: widget.marks.isNotEmpty,
+            enabled: widget.marks.isNotEmpty && !widget.locked,
             onTap: () => setState(() => wiggle++),
             child: const ForestProp(ForestObject.heart, size: 46),
           ),
@@ -281,7 +311,8 @@ class _ForestArtStudioState extends State<ForestArtStudio> {
 }
 
 class ForestArtPainter extends CustomPainter {
-  const ForestArtPainter(this.theme, this.marks);
+  const ForestArtPainter(this.theme, this.marks, {this.life = 0});
+  final double life;
   final String theme;
   final List<ArtMark> marks;
   @override
@@ -294,12 +325,19 @@ class ForestArtPainter extends CustomPainter {
         Paint()..color = const Color(0x147B976B),
       );
     }
+    c.save();
+    if (theme == 'my_bus' || theme == 'age_30_05') {
+      c.translate(life * 14, -life.abs() * 3);
+    } else if (theme == 'feeling_cloud' || theme == 'age_36_05') {
+      c.translate(life * 5, -life * 14);
+    }
     for (final mark in marks) {
       Offset scale(Offset p) => Offset(p.dx * s.width, p.dy * s.height);
       if (mark.stamp != 0) {
         for (final p in mark.points) {
           c.save();
           c.translate(scale(p).dx, scale(p).dy);
+          c.rotate(life * .18 * (p.dx < .5 ? 1 : -1));
           drawArtStamp(c, mark.stamp, mark.color, mark.width * 1.6);
           c.restore();
         }
@@ -312,10 +350,19 @@ class ForestArtPainter extends CustomPainter {
       } else {
         final path = Path()
           ..moveTo(scale(mark.points.first).dx, scale(mark.points.first).dy);
-        for (final p in mark.points.skip(1)) {
-          final q = scale(p);
-          path.lineTo(q.dx, q.dy);
+        for (var i = 1; i < mark.points.length; i++) {
+          final previous = scale(mark.points[i - 1]);
+          final next = scale(mark.points[i]);
+          final middle = Offset.lerp(previous, next, .5)!;
+          path.quadraticBezierTo(
+            previous.dx,
+            previous.dy,
+            middle.dx,
+            middle.dy,
+          );
         }
+        final last = scale(mark.points.last);
+        path.lineTo(last.dx, last.dy);
         c.drawPath(
           path,
           Paint()
@@ -419,6 +466,7 @@ class ForestArtPainter extends CustomPainter {
         c.drawOval(Rect.fromLTWH(x, 201, 35, 15), ink);
       }
     }
+    c.restore();
     c.restore();
   }
 

@@ -21,9 +21,14 @@ class JourneyRevealScene extends StatefulWidget {
     required this.quiet,
     required this.onChoose,
     this.stage = 1,
+    this.seed = 0,
+    this.initialFound = const {},
+    this.hiddenHat,
     super.key,
   });
-  final int stage;
+  final int stage, seed;
+  final Set<int> initialFound;
+  final int? hiddenHat;
   final String id, avatar;
   final int step, selected;
   final List<ForestObject> options;
@@ -38,9 +43,19 @@ class _JourneyRevealSceneState extends State<JourneyRevealScene> {
   final found = <int>{};
   int taps = 0;
   @override
+  void initState() {
+    super.initState();
+    found.addAll(widget.initialFound);
+  }
+
+  @override
   void didUpdateWidget(JourneyRevealScene old) {
     super.didUpdateWidget(old);
-    if (old.id != widget.id || old.step != widget.step) found.clear();
+    if (old.id != widget.id || old.step != widget.step) {
+      found
+        ..clear()
+        ..addAll(widget.initialFound);
+    }
   }
 
   @override
@@ -59,7 +74,12 @@ class _JourneyRevealSceneState extends State<JourneyRevealScene> {
         widget.id == 'age_48_02' ||
         widget.id == 'age_84_05';
     final hat = widget.id == 'age_36_01';
+    final positions = List.generate(widget.options.length, (i) => i);
+    if (widget.stage > 0) {
+      positions.shuffle(math.Random(widget.seed + widget.step * 37));
+    }
     return ForestPlayStage(
+      quiet: widget.quiet,
       height: 340,
       child: LayoutBuilder(
         builder: (_, box) {
@@ -88,7 +108,7 @@ class _JourneyRevealSceneState extends State<JourneyRevealScene> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    for (var i = 0; i < widget.options.length; i++)
+                    for (final i in positions)
                       SizedBox(
                         width: extent,
                         height: 220,
@@ -153,7 +173,7 @@ class _JourneyRevealSceneState extends State<JourneyRevealScene> {
                                                 lowStimulation: widget.quiet,
                                                 showBlush: found.contains(i),
                                               ),
-                                              if (hat)
+                                              if (hat && i == widget.hiddenHat)
                                                 Transform.translate(
                                                   offset: const Offset(0, -23),
                                                   child: CustomPaint(

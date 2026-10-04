@@ -1,5 +1,6 @@
 import 'package:flame/game.dart';
 import 'package:momosup/widgets/journey_detective_scene.dart';
+import 'package:momosup/widgets/journey_reveal_scene.dart';
 import 'package:momosup/game/build_experiment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -73,6 +74,12 @@ void main() {
                 find.byType(JourneyDetectiveScene),
               );
               await tap(tester, '${detective.target + 1}번째 단서 친구');
+            } else if (find.byType(JourneyRevealScene).evaluate().isNotEmpty &&
+                a.id != 'age_24_01' &&
+                a.id != 'age_24_06') {
+              for (final option in a.choices[step].take(3)) {
+                await tap(tester, propLabel(option));
+              }
             } else {
               await tap(
                 tester,
@@ -143,6 +150,15 @@ void main() {
             for (var i = 1; i <= scene.count; i++) {
               await tap(tester, '$i번째 소리 자리');
             }
+            expect(
+              find.byTooltip(step == 2 ? '놀이 마치기' : '다음 장면'),
+              findsNothing,
+            );
+            await tap(tester, '내 소리 이어 듣기');
+            for (var i = 0; i <= scene.count; i++) {
+              await tester.pump(const Duration(milliseconds: 700));
+            }
+            await tester.pumpAndSettle();
           case 'draw':
             final canvas = find.byKey(const ValueKey('journey_canvas'));
             await tester.ensureVisible(canvas);

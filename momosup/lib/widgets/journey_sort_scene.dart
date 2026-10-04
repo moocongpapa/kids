@@ -1,5 +1,7 @@
 import '../game/sort_sequence.dart';
 
+import 'dart:ui' show lerpDouble;
+
 import 'package:flutter/material.dart';
 
 import 'avatar_image.dart';
@@ -34,7 +36,25 @@ class JourneySortScene extends StatefulWidget {
   State<JourneySortScene> createState() => _JourneySortSceneState();
 }
 
-class _JourneySortSceneState extends State<JourneySortScene> {
+class _JourneySortSceneState extends State<JourneySortScene>
+    with SingleTickerProviderStateMixin {
+  late final flight =
+      AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 700),
+      )..addStatusListener((status) {
+        if (status == AnimationStatus.completed && mounted) {
+          setState(() => delivering = null);
+          widget.onMatch();
+        }
+      });
+  int? delivering;
+  @override
+  void dispose() {
+    flight.dispose();
+    super.dispose();
+  }
+
   bool hint = false, picked = false;
   int get target => widget.sequence[widget.progress.clamp(0, widget.goal - 1)];
   bool get done => widget.progress >= widget.goal;
@@ -47,7 +67,7 @@ class _JourneySortSceneState extends State<JourneySortScene> {
       ? (i == 0 ? '작은 도토리 바구니' : '큰 도토리 바구니')
       : (i == 0 ? '빨간 바구니' : '파란 바구니');
   void deliver(int i) {
-    if (done) return;
+    if (done || delivering != null) return;
     if (i != target) {
       setState(() => hint = true);
       return;
@@ -56,7 +76,12 @@ class _JourneySortSceneState extends State<JourneySortScene> {
       hint = false;
       picked = false;
     });
-    widget.onMatch();
+    if (widget.quiet) {
+      widget.onMatch();
+    } else {
+      setState(() => delivering = i);
+      flight.forward(from: 0);
+    }
   }
 
   Widget object(int i, double size) => post
@@ -127,6 +152,8 @@ class _JourneySortSceneState extends State<JourneySortScene> {
                     quiet: widget.quiet,
                     child: const ForestProp(ForestObject.heart, size: 110),
                   )
+                : delivering != null
+                ? const SizedBox(width: 126, height: 126)
                 : TouchInvitation(
                     visible: widget.progress == 0 && !picked,
                     quiet: widget.quiet,
@@ -156,7 +183,7 @@ class _JourneySortSceneState extends State<JourneySortScene> {
               children: [
                 for (var i = 0; i < widget.bins; i++)
                   DragTarget<int>(
-                    onWillAcceptWithDetails: (_) => !done,
+                    onWillAcceptWithDetails: (_) => !done && delivering == null,
                     onAcceptWithDetails: (d) {
                       if (d.data == target) deliver(i);
                     },
@@ -170,6 +197,7 @@ class _JourneySortSceneState extends State<JourneySortScene> {
                         selected:
                             candidates.isNotEmpty ||
                             ((hint || widget.guided) && i == target),
+                        enabled: !done && delivering == null,
                         onTap: () => deliver(i),
                         child: Stack(
                           alignment: Alignment.center,
@@ -234,6 +262,36 @@ class _JourneySortSceneState extends State<JourneySortScene> {
               ],
             ),
           ),
+          if (delivering != null)
+            Positioned.fill(
+              child: IgnorePointer(
+                child: AnimatedBuilder(
+                  animation: flight,
+                  builder: (_, _) {
+                    final t = Curves.easeInOutCubic.transform(flight.value);
+                    final start = Offset(box.maxWidth / 2, 95);
+                    final end = Offset(
+                      box.maxWidth * (delivering! + .5) / widget.bins,
+                      box.maxHeight - 94,
+                    );
+                    final p = Offset.lerp(start, end, t)!;
+                    final size = lerpDouble(104, 44, t)!;
+                    return Stack(
+                      children: [
+                        Positioned(
+                          left: p.dx - size / 2,
+                          top: p.dy - size / 2 - 18 * (1 - (2 * t - 1).abs()),
+                          child: Transform.rotate(
+                            angle: (1 - t) * .18,
+                            child: object(delivering!, size),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            ),
           Positioned(
             bottom: 0,
             child: ForestProgress(count: widget.progress, total: widget.goal),

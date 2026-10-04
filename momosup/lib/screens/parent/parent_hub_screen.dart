@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../models/activity.dart';
 import '../../state/app_state.dart';
 import '../../widgets/avatar_image.dart';
-import '../../widgets/kakao_share_modal.dart';
 import '../../widgets/parent_today_play.dart';
 import '../family_management_screen.dart';
 import '../journey_screen.dart';
@@ -12,6 +11,7 @@ import '../parent_onboarding_screen.dart';
 import '../play_library_screen.dart';
 import '../story_forest_screen.dart';
 import 'parent_common_widgets.dart';
+import 'parent_care_summary.dart';
 import 'parent_gallery_screen.dart';
 import 'parent_settings_screen.dart';
 import 'profile_editor_screen.dart';
@@ -110,7 +110,7 @@ class ParentHubScreen extends StatelessWidget {
                   ParentNoticeCard(
                     text: appState.parentAccount?.isDevelopment == true
                         ? '개발용 접속 · 카카오 로그인 없이 이 기기에서 놀이를 사용할 수 있습니다.'
-                        : '비공개 시제품 · 카카오 계정으로 아이 프로필을 가족과 안전하게 공유할 수 있습니다.',
+                        : '비공개 시제품 · 보호자가 먼저 살펴보고 아이와 함께 이용해 주세요.',
                   ),
                   const SizedBox(height: 16),
                   if (profile != null)
@@ -118,6 +118,20 @@ class ParentHubScreen extends StatelessWidget {
                       key: ValueKey(profile.id),
                       appState: appState,
                       profile: profile,
+                    ),
+                  if (profile != null)
+                    ParentCareSummary(
+                      appState: appState,
+                      profile: profile,
+                      onSettings: () => Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (_) => ParentSettingsScreen(
+                            appState: appState,
+                            profile: profile,
+                          ),
+                        ),
+                      ),
                     ),
                   Text('자녀 프로필', style: Theme.of(context).textTheme.titleLarge),
                   const SizedBox(height: 8),
@@ -138,7 +152,7 @@ class ParentHubScreen extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.only(top: 2),
                                 child: Text(
-                                  '👨‍👩‍👧 가족 공유 중 (${item.sharedMembers.isEmpty ? 1 : item.sharedMembers.length}명)',
+                                  '이전에 가져온 프로필 · 이 기기에 저장됨',
                                   style: const TextStyle(
                                     color: Color(0xFF477A53),
                                     fontSize: 12,
@@ -185,31 +199,6 @@ class ParentHubScreen extends StatelessWidget {
                           icon: const Icon(Icons.edit_outlined),
                           label: const Text('프로필 수정'),
                         ),
-                        ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFFEE500),
-                            foregroundColor: const Color(0xFF191919),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          onPressed: () async {
-                            final payload = await appState.createFamilyInvite(
-                              profile,
-                              inviterRole: '가족',
-                            );
-                            if (!context.mounted) return;
-                            KakaoShareModal.show(
-                              context,
-                              profile: profile,
-                              payload: payload,
-                              parentAccount: appState.parentAccount,
-                            );
-                          },
-                          icon: const Icon(Icons.chat_bubble, size: 16),
-                          label: const Text('가족 초대 (카카오톡)'),
-                        ),
                       ],
                     ],
                   ),
@@ -242,8 +231,8 @@ class ParentHubScreen extends StatelessWidget {
                     const SizedBox(height: 12),
                     ParentHubTile(
                       icon: Icons.family_restroom_rounded,
-                      title: '가족 공유 관리 (카카오톡)',
-                      subtitle: '배우자·조부모님과 아이 프로필 공유 및 초대장 발송',
+                      title: '기기별 프로필 안내',
+                      subtitle: '외부 초대 중단 · 프로필과 기록은 이 기기에 보관',
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute<void>(
                           builder: (_) => FamilyManagementScreen(
@@ -324,10 +313,10 @@ class ParentHubScreen extends StatelessWidget {
                     ParentHubTile(
                       icon: Icons.shield_outlined,
                       title: '안전·검수 정보',
-                      subtitle: '왜 아직 공개되지 않았는지 확인',
+                      subtitle: '실제 보호 설정·콘텐츠 준비 상태·데이터 보관',
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute<void>(
-                          builder: (_) => const TrustScreen(),
+                          builder: (_) => TrustScreen(appState: appState),
                         ),
                       ),
                     ),
@@ -337,16 +326,16 @@ class ParentHubScreen extends StatelessWidget {
                   const ListTile(
                     leading: Icon(Icons.login_rounded),
                     title: Text('카카오 로그인'),
-                    subtitle: Text('법정대리인 확인·개인정보 고지 설계 뒤 연결'),
+                    subtitle: Text('카카오 인증은 보호자 신원·법정대리인 확인을 대신하지 않아요'),
                   ),
                   const ListTile(
                     leading: Icon(Icons.family_restroom_rounded),
-                    title: Text('가족 초대·동시 접속'),
-                    subtitle: Text('공개 MVP 구현 범위'),
+                    title: Text('기기별 이용 기록'),
+                    subtitle: Text('가족 기기 사이의 기록·시간 제한은 아직 동기화되지 않아요'),
                   ),
                   const ListTile(
                     leading: Icon(Icons.credit_card_off_rounded),
-                    title: Text('월 4,900원 구독'),
+                    title: Text('시제품 이용'),
                     subtitle: Text('비공개 시제품에서는 결제하지 않음'),
                   ),
                 ],

@@ -65,7 +65,13 @@ void main() {
         ),
       );
       await tester.runAsync(() async {
-        for (final image in ['momo', 'duri', 'nuri', 'forest_weather']) {
+        for (final image in [
+          'momo',
+          'duri',
+          'nuri',
+          'forest_weather',
+          'forest_places_v2',
+        ]) {
           await precacheImage(
             AssetImage('assets/images/$image.png'),
             tester.element(find.byType(Scaffold).first),

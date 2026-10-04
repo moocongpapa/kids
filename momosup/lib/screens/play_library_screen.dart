@@ -8,7 +8,8 @@ import '../models/child_profile.dart';
 import '../state/app_state.dart';
 import '../widgets/forest_background.dart';
 import '../widgets/forest_game_ui.dart';
-import '../widgets/forest_landscape.dart';
+import '../widgets/forest_place_art.dart';
+import '../widgets/avatar_image.dart';
 import 'dynamic_toy_screen.dart';
 import 'journey_screen.dart';
 import 'play_screen.dart';
@@ -76,6 +77,25 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
   late PlayArea? area = widget.initialArea;
   int collection = 0;
   bool allAges = false;
+  bool opening = false;
+
+  Future<void> _open(PlayEntry entry, ChildProfile profile) async {
+    if (opening || !mounted) return;
+    opening = true;
+    try {
+      await openPlay(
+        context,
+        entry,
+        widget.appState,
+        profile,
+        preview: widget.parent,
+        restoreSaved: widget.parent && collection == 3,
+      );
+    } finally {
+      opening = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) => ForestOrientationScope(
     mode: widget.parent
@@ -118,11 +138,6 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
             child: SafeArea(
               child: Column(
                 children: [
-                  if (!widget.parent)
-                    ForestHeader(
-                      title: '놀이숲',
-                      onExit: () => Navigator.pop(context),
-                    ),
                   if (widget.parent)
                     SwitchListTile(
                       title: Text(
@@ -132,59 +147,8 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
                       value: allAges,
                       onChanged: (v) => setState(() => allAges = v),
                     ),
-                  if (forestIsWide(context) && !widget.parent)
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 4,
-                      ),
-                      child: Row(
-                        children: [
-                          for (var i = 0; i < 4; i++) ...[
-                            _filter(
-                              ['모두', '탐색', '만들기', '소리'][i],
-                              [
-                                Icons.forest_rounded,
-                                Icons.pets_rounded,
-                                Icons.palette_rounded,
-                                Icons.music_note_rounded,
-                              ][i],
-                              i == 0
-                                  ? area == null
-                                  : area == PlayArea.values[i - 1],
-                              () => setState(
-                                () =>
-                                    area = i == 0
-                                        ? null
-                                        : PlayArea.values[i - 1],
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                          ],
-                          Container(
-                            height: 24,
-                            width: 1.5,
-                            margin: const EdgeInsets.symmetric(horizontal: 6),
-                            color: forestInk.withValues(alpha: 0.2),
-                          ),
-                          for (var i = 0; i < 4; i++) ...[
-                            _filter(
-                              ['모든 놀이', '좋아하는 놀이', '최근 놀이', '저장된 놀이'][i],
-                              [
-                                Icons.apps_rounded,
-                                Icons.favorite_rounded,
-                                Icons.history_rounded,
-                                Icons.collections_rounded,
-                              ][i],
-                              collection == i,
-                              () => setState(() => collection = i),
-                            ),
-                            if (i < 3) const SizedBox(width: 8),
-                          ],
-                        ],
-                      ),
-                    )
+                  if (!widget.parent)
+                    _childTrail(p)
                   else ...[
                     Wrap(
                       alignment: WrapAlignment.center,
@@ -204,9 +168,7 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
                                 : area == PlayArea.values[i - 1],
                             () => setState(
                               () =>
-                                  area = i == 0
-                                      ? null
-                                      : PlayArea.values[i - 1],
+                                  area = i == 0 ? null : PlayArea.values[i - 1],
                             ),
                           ),
                       ],
@@ -253,14 +215,7 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
                                   subtitle: Text(
                                     '${e.minAge}~${e.maxAge}개월 · ${e.approved(state) ? '승인' : '검수 대기'} · 도움 ${p.stageFor(e.id) + 1}${state.workFor(p.id, e.id) != null ? ' · 저장 있음' : ''}',
                                   ),
-                                  onTap: () => openPlay(
-                                    context,
-                                    e,
-                                    state,
-                                    p,
-                                    preview: true,
-                                    restoreSaved: collection == 3,
-                                  ),
+                                  onTap: () => _open(e, p),
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
@@ -325,43 +280,21 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
                             ],
                           )
                         : GridView.extent(
-                            maxCrossAxisExtent: 190,
-                            mainAxisExtent: 174,
-                            padding: const EdgeInsets.all(18),
-                            mainAxisSpacing: 12,
-                            crossAxisSpacing: 12,
+                            maxCrossAxisExtent: 224,
+                            mainAxisExtent: 194,
+                            padding: const EdgeInsets.fromLTRB(16, 4, 16, 20),
+                            mainAxisSpacing: 4,
+                            crossAxisSpacing: 8,
                             children: [
                               for (final e in entries)
-                                Center(
-                                  child: Stack(
-                                    alignment: Alignment.center,
-                                    children: [
-                                      ForestAction(
-                                        label: e.title,
-                                        size: 128,
-                                        leaf: true,
-                                        quiet: p.lowStimulation,
-                                        onPressed: () =>
-                                            openPlay(context, e, state, p),
-                                        child: ForestProp(
-                                          journeyProp(e.symbol),
-                                          size: 86,
-                                        ),
-                                      ),
-                                      if (state.workFor(p.id, e.id) != null)
-                                        const Positioned(
-                                          right: 0,
-                                          bottom: 0,
-                                          child: IgnorePointer(
-                                            child: Icon(
-                                              Icons.collections_rounded,
-                                              color: forestInk,
-                                              size: 25,
-                                            ),
-                                          ),
-                                        ),
-                                    ],
-                                  ),
+                                _WoodlandPlayPlace(
+                                  entry: e,
+                                  quiet:
+                                      p.lowStimulation ||
+                                      MediaQuery.disableAnimationsOf(context),
+                                  saved: state.workFor(p.id, e.id) != null,
+                                  favorite: p.favoriteJourneys.contains(e.id),
+                                  onTap: () => _open(e, p),
                                 ),
                             ],
                           ),
@@ -374,6 +307,62 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
       },
     ),
   );
+  Widget _childTrail(ChildProfile profile) => Semantics(
+    label: '놀이숲',
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(12, 6, 12, 4),
+      child: Row(
+        children: [
+          ForestAction(
+            label: '놀이 마치기',
+            size: 64,
+            quiet: profile.lowStimulation,
+            icon: Icons.close_rounded,
+            onPressed: () => Navigator.pop(context),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  for (var i = 0; i < 4; i++) ...[
+                    _filter(
+                      ['모두', '탐색', '만들기', '소리'][i],
+                      [
+                        Icons.forest_rounded,
+                        Icons.pets_rounded,
+                        Icons.palette_rounded,
+                        Icons.music_note_rounded,
+                      ][i],
+                      i == 0 ? area == null : area == PlayArea.values[i - 1],
+                      () => setState(
+                        () => area = i == 0 ? null : PlayArea.values[i - 1],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                  ],
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(width: 8),
+          Semantics(
+            toggled: collection == 1,
+            child: _filter(
+              '좋아하는 놀이',
+              collection == 1
+                  ? Icons.favorite_rounded
+                  : Icons.favorite_border_rounded,
+              collection == 1,
+              () => setState(() => collection = collection == 1 ? 0 : 1),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+
   Widget _filter(
     String label,
     IconData icon,
@@ -384,7 +373,7 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
     child: ForestAction(
       label: label,
       icon: icon,
-      size: 58,
+      size: 64,
       quiet: widget.profile.lowStimulation,
       leaf: selected,
       onPressed: action,
@@ -402,4 +391,135 @@ class _PlayLibraryScreenState extends State<PlayLibraryScreen> {
       }
     }
   }
+}
+
+/// A play destination is an illustrated place in the same woodland as home.
+/// The friend and object identify the activity without requiring reading.
+class _WoodlandPlayPlace extends StatefulWidget {
+  const _WoodlandPlayPlace({
+    required this.entry,
+    required this.quiet,
+    required this.saved,
+    required this.favorite,
+    required this.onTap,
+  });
+  final PlayEntry entry;
+  final bool quiet, saved, favorite;
+  final VoidCallback onTap;
+  @override
+  State<_WoodlandPlayPlace> createState() => _WoodlandPlayPlaceState();
+}
+
+class _WoodlandPlayPlaceState extends State<_WoodlandPlayPlace> {
+  bool pressed = false;
+  ForestPlace get place => widget.entry.area == PlayArea.music
+      ? ForestPlace.music
+      : widget.entry.journey?.mechanic == 'build'
+      ? ForestPlace.house
+      : widget.entry.area == PlayArea.create
+      ? ForestPlace.art
+      : widget.entry.journey?.mechanic == 'story' ||
+            widget.entry.id == 'bus_stop'
+      ? ForestPlace.house
+      : ForestPlace.garden;
+  ForestObject get object => switch (widget.entry.id) {
+    'animal_tracks' => ForestObject.paw,
+    'bus_stop' || 'my_bus' => ForestObject.bus,
+    'feeling_cloud' => ForestObject.cloud,
+    'momo_faces' => ForestObject.heart,
+    'forest_weather' => ForestObject.sun,
+    _ => journeyProp(widget.entry.symbol),
+  };
+  @override
+  Widget build(BuildContext context) => Semantics(
+    label: widget.entry.title,
+    button: true,
+    child: Tooltip(
+      message: widget.entry.title,
+      excludeFromSemantics: true,
+      child: AnimatedScale(
+        scale: pressed && !widget.quiet ? .97 : 1,
+        duration: widget.quiet
+            ? Duration.zero
+            : const Duration(milliseconds: 120),
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            borderRadius: BorderRadius.circular(60),
+            splashColor: const Color(0x24E9E7B4),
+            highlightColor: const Color(0x14FFF5D8),
+            onTap: widget.onTap,
+            onTapDown: (_) => setState(() => pressed = true),
+            onTapUp: (_) => setState(() => pressed = false),
+            onTapCancel: () => setState(() => pressed = false),
+            child: ExcludeSemantics(
+              child: LayoutBuilder(
+                builder: (_, box) {
+                  final size = (box.maxWidth - 8).clamp(120.0, 188.0);
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Positioned(
+                        bottom: 5,
+                        child: Container(
+                          width: size * .84,
+                          height: 19,
+                          decoration: const BoxDecoration(
+                            color: Color(0x2862804A),
+                            borderRadius: BorderRadius.all(
+                              Radius.elliptical(90, 12),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        bottom: 8,
+                        child: ForestPlaceArt(place, size: size),
+                      ),
+                      Positioned(
+                        left: 2,
+                        bottom: 2,
+                        child: AvatarImage(
+                          avatar: widget.entry.avatar,
+                          size: 64,
+                          interactive: false,
+                          lowStimulation: true,
+                          showBlush: false,
+                        ),
+                      ),
+                      Positioned(
+                        right: 2,
+                        bottom: 6,
+                        child: ForestProp(object, size: 65),
+                      ),
+                      if (widget.favorite)
+                        const Positioned(
+                          top: 8,
+                          left: 8,
+                          child: Icon(
+                            Icons.favorite_rounded,
+                            color: Color(0xFFB96F66),
+                            size: 22,
+                          ),
+                        ),
+                      if (widget.saved)
+                        const Positioned(
+                          top: 8,
+                          right: 8,
+                          child: Icon(
+                            Icons.collections_rounded,
+                            color: forestInk,
+                            size: 22,
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }

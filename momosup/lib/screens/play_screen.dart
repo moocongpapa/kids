@@ -1,4 +1,5 @@
 import '../utils/sound_effects.dart';
+import '../game/forest_response_scene.dart';
 import '../utils/forest_orientation.dart';
 import '../widgets/forest_landscape.dart';
 import '../utils/narration_player.dart';
@@ -61,6 +62,7 @@ class _PlayScreenState extends State<PlayScreen> {
   int phase = 0; // 0: introduction, 1: interaction, 2: finite ending.
   int step = 0;
   int reaction = 0;
+  int lastMarkCount = 0;
   int? selectedChoice;
   final Set<int> visitedChoices = {};
   bool saved = false;
@@ -98,6 +100,7 @@ class _PlayScreenState extends State<PlayScreen> {
         );
       }
     }
+    lastMarkCount = strokes.length;
     checkpoint = PlayCheckpoint(
       widget.appState,
       widget.profile.id,
@@ -245,6 +248,16 @@ class _PlayScreenState extends State<PlayScreen> {
 
   bool get quiet =>
       widget.profile.lowStimulation || MediaQuery.disableAnimationsOf(context);
+  Widget respond(Widget child) => ForestResponseScene(
+    event: reaction,
+    response: widget.activity.mode == PlayMode.color
+        ? ForestResponse.painting
+        : widget.activity.mode == PlayMode.move
+        ? ForestResponse.music
+        : ForestResponse.discovery,
+    quiet: quiet,
+    child: child,
+  );
   String get shortTitle => switch (widget.activity.id) {
     'animal_tracks' => '누구 발자국?',
     'animal_steps_song' => '동물처럼 쿵쿵',
@@ -315,7 +328,8 @@ class _PlayScreenState extends State<PlayScreen> {
                                           : '안내 소리를 다시 들어 주세요. 그림을 보며 계속 놀 수도 있어요.',
                                     ),
                                   if (phase == 0) _intro(context),
-                                  if (phase == 1) _interaction(context),
+                                  if (phase == 1)
+                                    respond(_interaction(context)),
                                   if (phase == 2) _ending(context),
                                 ],
                               ),
@@ -352,11 +366,11 @@ class _PlayScreenState extends State<PlayScreen> {
         ? _intro(context)
         : phase == 2
         ? _ending(context)
-        : switch (widget.activity.mode) {
+        : respond(switch (widget.activity.mode) {
             PlayMode.touch => _touch(context),
             PlayMode.move => _move(context),
             PlayMode.color => _color(context),
-          },
+          }),
   );
 
   Widget _intro(BuildContext context) => ForestSceneComposition(
@@ -509,7 +523,15 @@ class _PlayScreenState extends State<PlayScreen> {
 
   Widget _move(BuildContext context) => ForestSceneComposition(
     children: [
-      ForestMovementScene(id: widget.activity.id, step: step, quiet: quiet),
+      ForestMovementScene(
+        id: widget.activity.id,
+        step: step,
+        quiet: quiet,
+        onReplay: () {
+          setState(() => reaction++);
+          checkpoint.event('actions');
+        },
+      ),
       if (widget.isParentPreview)
         Padding(
           padding: const EdgeInsets.all(12),
@@ -530,7 +552,10 @@ class _PlayScreenState extends State<PlayScreen> {
             : Icons.check_rounded,
         onPressed: step < widget.activity.verses.length - 1
             ? () {
-                setState(() => step++);
+                setState(() {
+                  step++;
+                  reaction++;
+                });
                 checkpoint.changed();
               }
             : finish,
@@ -552,7 +577,11 @@ class _PlayScreenState extends State<PlayScreen> {
             'firstActionSeconds',
             () => session.seconds,
           );
-          setState(() => saved = false);
+          setState(() {
+            saved = false;
+            if (strokes.length > lastMarkCount) reaction++;
+            lastMarkCount = strokes.length;
+          });
           checkpoint.changed();
         },
       ),

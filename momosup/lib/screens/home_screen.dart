@@ -1,9 +1,10 @@
 import '../utils/forest_orientation.dart';
+import '../game/forest_world_scene.dart';
 import '../utils/development_access.dart';
 import '../data/play_catalog.dart';
 import 'play_library_screen.dart';
 import '../utils/audio_policy.dart';
-import '../widgets/journey_garden_scene.dart';
+import '../widgets/forest_place_art.dart';
 import '../models/age_journey.dart';
 import '../data/journey_recommendation.dart';
 import 'journey_screen.dart';
@@ -15,13 +16,11 @@ import '../models/activity.dart';
 import '../models/child_profile.dart';
 import '../state/app_state.dart';
 import '../utils/forest_audio.dart';
-import '../utils/sound_effects.dart';
 import '../widgets/avatar_image.dart';
 import '../widgets/forest_background.dart';
 import '../widgets/forest_game_ui.dart';
 import 'parent_screen.dart';
 import 'parent_onboarding_screen.dart';
-import 'family_invite_screen.dart';
 import 'story_forest_screen.dart';
 import 'coloring_screen.dart';
 import '../widgets/touch_invitation.dart';
@@ -71,9 +70,13 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       AudioPolicy.instance.suspend(true);
     } else {
       AudioPolicy.instance.suspend(false);
-      ForestAudio.instance.startBgm(
-        enabled: widget.appState.activeProfile?.musicOn ?? false,
-      );
+      if (area == 1) {
+        ForestAudio.instance.pauseBgm();
+      } else {
+        ForestAudio.instance.startBgm(
+          enabled: widget.appState.activeProfile?.musicOn ?? false,
+        );
+      }
     }
   }
 
@@ -119,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                             icon: muted
                                 ? Icons.music_off_rounded
                                 : Icons.music_note_rounded,
-                            size: 58,
+                            size: 64,
                             quiet: quiet,
                             onPressed: profile?.caregiverMode == true
                                 ? null
@@ -127,12 +130,12 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           ),
                         ),
                         const Spacer(),
-                        const ForestSign('모모숲', large: true),
+                        const ForestSign('모모숲'),
                         const Spacer(),
                         ForestAction(
                           label: '보호자 영역',
                           icon: Icons.lock_rounded,
-                          size: 58,
+                          size: 64,
                           quiet: quiet,
                           onPressed: openParent,
                         ),
@@ -227,26 +230,6 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   '카카오로 3초 만에 시작하기',
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: double.infinity,
-              height: 48,
-              child: OutlinedButton.icon(
-                style: OutlinedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                ),
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute<void>(
-                    builder: (_) =>
-                        FamilyInviteAcceptScreen(appState: widget.appState),
-                  ),
-                ),
-                icon: const Icon(Icons.link_rounded, size: 18),
-                label: const Text('가족 초대 링크/코드 등록'),
               ),
             ),
             const SizedBox(height: 14),
@@ -449,96 +432,38 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
       );
     }
     return AnimatedSwitcher(
-      duration: profile.lowStimulation
+      duration:
+          profile.lowStimulation || MediaQuery.disableAnimationsOf(context)
           ? Duration.zero
-          : const Duration(milliseconds: 300),
-      child: LayoutBuilder(
+          : const Duration(milliseconds: 240),
+      child: ForestWorldScene(
         key: ValueKey(area),
-        builder: (context, box) {
-          final landscape = box.maxWidth > box.maxHeight * 1.45;
-          final boardSize = landscape
-              ? const Size(800, 250)
-              : const Size(420, 535);
-          final positions = landscape
-              ? List.generate(
-                  entries.length,
-                  (i) => Offset(20 + i * (650 / entries.length), 55),
-                )
-              : switch (entries.length) {
-                  1 => const [Offset(140, 250)],
-                  2 => const [Offset(50, 250), Offset(235, 250)],
-                  3 => const [
-                    Offset(140, 165),
-                    Offset(30, 340),
-                    Offset(250, 340),
-                  ],
-                  4 => const [
-                    Offset(40, 165),
-                    Offset(240, 165),
-                    Offset(40, 345),
-                    Offset(240, 345),
-                  ],
-                  _ => const [
-                    Offset(40, 170),
-                    Offset(240, 170),
-                    Offset(16, 345),
-                    Offset(146, 330),
-                    Offset(276, 345),
-                  ],
-                };
-          return Center(
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: SizedBox(
-                width: boardSize.width,
-                height: boardSize.height,
-                child: Stack(
-                  clipBehavior: Clip.none,
-                  children: [
-                    if (!landscape)
-                      Positioned(
-                        left: 140,
-                        top: 5,
-                        width: 140,
-                        height: 160,
-                        child: Semantics(
-                          button: true,
-                          label: '모모에게 인사하기',
-                          child: GestureDetector(
-                            onTap: () => SoundEffects.instance.pop(),
-                            child: ForestFloat(
-                              still: profile.lowStimulation,
-                              child: AvatarImage(
-                                avatar: profile.avatar,
-                                size: 145,
-                                lowStimulation: profile.lowStimulation,
-                              ),
-                            ),
-                          ),
-                        ),
+        count: entries.length,
+        area: area,
+        quiet: profile.lowStimulation,
+        child: LayoutBuilder(
+          builder: (context, box) {
+            final layout = ForestWorldLayout(box.biggest, entries.length);
+            return Stack(
+              children: [
+                for (var i = 0; i < entries.length; i++)
+                  Positioned.fromRect(
+                    rect: layout.portals[i],
+                    child: TouchInvitation(
+                      visible: i == 0 && area == 0 && !profile.lowStimulation,
+                      delay: const Duration(seconds: 4),
+                      quiet: profile.lowStimulation,
+                      child: _ForestPortal(
+                        entry: entries[i],
+                        quiet: profile.lowStimulation,
+                        phase: i.toDouble(),
                       ),
-                    for (var i = 0; i < entries.length; i++)
-                      Positioned(
-                        left: positions[i].dx,
-                        top: positions[i].dy,
-                        child: TouchInvitation(
-                          visible:
-                              i == 0 && area == 0 && !profile.lowStimulation,
-                          delay: const Duration(seconds: 4),
-                          quiet: profile.lowStimulation,
-                          child: _ForestPortal(
-                            entry: entries[i],
-                            quiet: profile.lowStimulation,
-                            phase: i.toDouble(),
-                          ),
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-            ),
-          );
-        },
+                    ),
+                  ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }
@@ -571,7 +496,7 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                   key: ValueKey('forest-area-$i'),
                   label: ['감각 놀이숲', '이야기숲', '그림숲', '노래숲'][i],
                   caption: ['놀이', '이야기', '그림', '노래'][i],
-                  size: 60,
+                  size: 64,
                   selected: area == i,
                   leaf: area == i,
                   quiet: quiet,
@@ -631,7 +556,7 @@ class _WorldEntry {
   final String? journeyId, avatar;
   final ForestObject object;
   final String caption, label;
-  final VoidCallback onTap;
+  final Future<void> Function() onTap;
 }
 
 class _ForestPortal extends StatefulWidget {
@@ -649,89 +574,83 @@ class _ForestPortal extends StatefulWidget {
 
 class _ForestPortalState extends State<_ForestPortal> {
   bool pressed = false;
+  bool opening = false;
+
+  Future<void> open() async {
+    if (opening) return;
+    setState(() => opening = true);
+    try {
+      await widget.entry.onTap();
+    } finally {
+      if (mounted) setState(() => opening = false);
+    }
+  }
+
   @override
   Widget build(BuildContext context) => Semantics(
     label: widget.entry.label,
     button: true,
-    onTap: widget.entry.onTap,
+    enabled: !opening,
+    onTap: opening ? null : open,
     child: ExcludeSemantics(
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTapDown: (_) => setState(() => pressed = true),
         onTapCancel: () => setState(() => pressed = false),
         onTapUp: (_) => setState(() => pressed = false),
-        onTap: widget.entry.onTap,
+        onTap: open,
         child: AnimatedScale(
-          scale: pressed && !widget.quiet ? .93 : 1,
+          scale:
+              pressed &&
+                  !widget.quiet &&
+                  !MediaQuery.disableAnimationsOf(context)
+              ? .94
+              : 1,
           duration: const Duration(milliseconds: 140),
-          child: SizedBox(
-            width: 138,
-            height: 164,
-            child: Stack(
+          child: LayoutBuilder(
+            builder: (context, box) => Stack(
               alignment: Alignment.center,
               children: [
-                Positioned(
-                  bottom: 34,
-                  child: Container(
-                    width: 122,
-                    height: 38,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFF8DA765),
-                      borderRadius: BorderRadius.all(Radius.elliptical(70, 24)),
+                Positioned.fill(
+                  bottom: 16,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: ForestPlaceArt(switch (widget.entry.object) {
+                      ForestObject.home ||
+                      ForestObject.puzzle => ForestPlace.house,
+                      ForestObject.music => ForestPlace.music,
+                      ForestObject.paint => ForestPlace.art,
+                      _ => ForestPlace.garden,
+                    }, size: box.maxWidth),
+                  ),
+                ),
+                if (widget.entry.avatar != null)
+                  Positioned(
+                    left: 0,
+                    bottom: 10,
+                    child: ForestFloat(
+                      still: widget.quiet,
+                      offset: widget.phase,
+                      child: AvatarImage(
+                        avatar: widget.entry.avatar!,
+                        size: box.maxWidth * .42,
+                        interactive: false,
+                        lowStimulation: widget.quiet,
+                      ),
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: 40,
-                  child: Container(
-                    width: 128,
-                    height: 40,
-                    decoration: const BoxDecoration(
-                      color: Color(0xFFADC780),
-                      borderRadius: BorderRadius.all(Radius.elliptical(70, 24)),
-                    ),
-                  ),
-                ),
-                Positioned(
-                  top: 4,
-                  child: ForestFloat(
-                    still: widget.quiet,
-                    offset: widget.phase,
-                    child: widget.entry.journeyId == 'age_24_01'
-                        ? const GardenFlower(variant: 0, open: true, size: 132)
-                        : widget.entry.avatar != null
-                        ? SizedBox(
-                            width: 136,
-                            height: 132,
-                            child: Stack(
-                              children: [
-                                Positioned(
-                                  left: 2,
-                                  bottom: 0,
-                                  child: AvatarImage(
-                                    avatar: widget.entry.avatar!,
-                                    size: 96,
-                                    interactive: false,
-                                  ),
-                                ),
-                                Positioned(
-                                  right: 0,
-                                  top: 0,
-                                  child: ForestProp(
-                                    widget.entry.object,
-                                    size: 70,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          )
-                        : ForestProp(widget.entry.object, size: 115),
-                  ),
-                ),
                 if (widget.entry.caption.isNotEmpty)
                   Positioned(
-                    bottom: 6,
-                    child: ForestSign(widget.entry.caption),
+                    bottom: 0,
+                    child: Text(
+                      widget.entry.caption,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w800,
+                        color: forestInk,
+                        shadows: [Shadow(color: forestCream, blurRadius: 5)],
+                      ),
+                    ),
                   ),
               ],
             ),

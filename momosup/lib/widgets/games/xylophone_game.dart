@@ -1,4 +1,5 @@
 import '../forest_landscape.dart';
+import 'toy_habitat.dart';
 
 import 'package:flutter/material.dart';
 
@@ -44,21 +45,38 @@ class _XylophoneGameState extends State<XylophoneGame>
   GameMode _currentMode = GameMode.freePlay;
   bool _unlockedFollowMode = false;
 
-  List<int> get _melodySequence => widget.stage == 0
-      ? [0, 1]
-      : widget.stage == 2
-      ? [0, 2, 4, 4, 2, 0]
-      : [0, 1, 2, 0];
+  int _melodyIndex = 0;
+  List<int> get _melodySequence {
+    final melodies = widget.stage == 0
+        ? [
+            [0, 1],
+            [0, 2],
+            [2, 1, 0],
+          ]
+        : widget.stage == 2
+        ? [
+            [0, 2, 4, 4, 2, 0],
+            [4, 4, 5, 4, 2, 0],
+            [0, 2, 4, 5, 4, 2, 0],
+          ]
+        : [
+            [0, 1, 2, 0],
+            [2, 2, 1, 0],
+            [0, 2, 4, 2],
+          ];
+    return melodies[_melodyIndex % melodies.length];
+  }
+
   int _melodyProgress = 0;
 
   int? _activeBar;
-  int _lastTriggeredBar = -1;
+  final _pointerBars = <int, int>{};
 
   late final AnimationController _dancerController;
   late final List<AnimationController> _rippleControllers;
   late final List<AnimationController> _squeezeControllers;
 
-  final _barsAreaKey = GlobalKey();
+  final _barKeys = List.generate(8, (_) => GlobalKey());
   final _stackKey = GlobalKey();
   final _particlesKey = GlobalKey<GameParticlesState>();
 
@@ -125,47 +143,44 @@ class _XylophoneGameState extends State<XylophoneGame>
   }
 
   void _handlePointer(PointerEvent event) {
-    final box = _barsAreaKey.currentContext?.findRenderObject() as RenderBox?;
-    if (box == null) return;
-
-    final localPosition = box.globalToLocal(event.position);
-    final width = box.size.width;
-    final barWidth = width / 8;
-
-    int barIndex = (localPosition.dx / barWidth).floor();
-    barIndex = barIndex.clamp(0, 7);
-
-    if (event is PointerDownEvent) {
-      _lastTriggeredBar = barIndex;
-      _playNote(barIndex);
-    } else if (event is PointerMoveEvent) {
-      if (barIndex != _lastTriggeredBar) {
-        _lastTriggeredBar = barIndex;
-        _playNote(barIndex);
+    if (event is! PointerMoveEvent ||
+        !_pointerBars.containsKey(event.pointer)) {
+      return;
+    }
+    var barIndex = -1;
+    for (var i = 0; i < _barKeys.length; i++) {
+      final box = _barKeys[i].currentContext?.findRenderObject() as RenderBox?;
+      if (box != null &&
+          (Offset.zero & box.size).contains(
+            box.globalToLocal(event.position),
+          )) {
+        barIndex = i;
+        break;
       }
-    } else if (event is PointerUpEvent || event is PointerCancelEvent) {
-      setState(() => _activeBar = null);
-      _lastTriggeredBar = -1;
+    }
+    if (barIndex < 0) {
+      _pointerBars[event.pointer] = -1;
+      return;
+    }
+    if (barIndex != _pointerBars[event.pointer]) {
+      _pointerBars[event.pointer] = barIndex;
+      _playNote(barIndex);
     }
   }
 
   void _handlePointerUp(PointerEvent event) {
-    setState(() => _activeBar = null);
-    _lastTriggeredBar = -1;
+    _pointerBars.remove(event.pointer);
+    if (_pointerBars.isEmpty) setState(() => _activeBar = null);
   }
 
   Offset _getBarTopPos(int index) {
-    final barsBox =
-        _barsAreaKey.currentContext?.findRenderObject() as RenderBox?;
+    final barBox =
+        _barKeys[index].currentContext?.findRenderObject() as RenderBox?;
     final stackBox = _stackKey.currentContext?.findRenderObject() as RenderBox?;
-    if (barsBox != null && stackBox != null) {
-      final barWidth = barsBox.size.width / 8;
-      final barX = (index + 0.5) * barWidth;
-      final barY = barsBox.size.height - _barHeights[index];
-      final globalPos = barsBox.localToGlobal(Offset(barX, barY));
-      return stackBox.globalToLocal(globalPos);
-    }
-    return Offset.zero;
+    if (barBox == null || stackBox == null) return Offset.zero;
+    return stackBox.globalToLocal(
+      barBox.localToGlobal(Offset(barBox.size.width / 2, 0)),
+    );
   }
 
   void _playNote(int index) {
@@ -210,13 +225,14 @@ class _XylophoneGameState extends State<XylophoneGame>
           !_unlockedFollowMode) {
         setState(() => _unlockedFollowMode = true);
         GameFeedback.celebration(lowStimulation: widget.lowStimulation);
-        SoundEffects.instance.tada();
         if (!widget.lowStimulation) {
           final stackBox =
               _stackKey.currentContext?.findRenderObject() as RenderBox?;
           if (stackBox != null) {
-            final center =
-                Offset(stackBox.size.width / 2, stackBox.size.height / 2);
+            final center = Offset(
+              stackBox.size.width / 2,
+              stackBox.size.height / 2,
+            );
             _particlesKey.currentState?.celebrate(center);
           }
         }
@@ -241,7 +257,6 @@ class _XylophoneGameState extends State<XylophoneGame>
     if (_melodyCompleted) return;
     _melodyCompleted = true;
     GameFeedback.celebration(lowStimulation: widget.lowStimulation);
-    SoundEffects.instance.tada();
     widget.onComplete?.call();
     if (!widget.lowStimulation) {
       final stackBox =
@@ -385,11 +400,15 @@ class _XylophoneGameState extends State<XylophoneGame>
       },
     );
 
-    final interactiveBar = GestureDetector(
+    final interactiveBar = Listener(
       behavior: HitTestBehavior.opaque,
-      onTapDown: (_) => _playNote(index),
-      onTapUp: (_) => setState(() => _activeBar = null),
-      onTapCancel: () => setState(() => _activeBar = null),
+      onPointerDown: (event) {
+        _pointerBars[event.pointer] = index;
+        _playNote(index);
+      },
+      // Pointer up is handled by the shared listener so sliding across keys
+      // keeps the last played key visible after the tap recognizer cancels.
+
       child: IdleNudge(
         active: isNextInMelody,
         enabled: !widget.lowStimulation,
@@ -398,6 +417,7 @@ class _XylophoneGameState extends State<XylophoneGame>
     );
 
     final semanticBar = Semantics(
+      key: _barKeys[index],
       label: '${_noteLabels[index]} 음 연주',
       button: true,
       onTap: () => _playNote(index),
@@ -411,192 +431,241 @@ class _XylophoneGameState extends State<XylophoneGame>
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      key: _stackKey,
-      children: [
-        if (!widget.lowStimulation)
-          CuteBubblesLayer(particlesKey: _particlesKey),
-        ForestToyComposition(
-          children: [
-            if (!widget.lowStimulation) ...[
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Row(
-                  children: [
-                    Flexible(
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: _currentMode == GameMode.freePlay
-                            ? ForestProgress(
-                                count: _playedNotes.length,
-                                total: 8,
-                              )
-                            : ForestProgress(
-                                count: _melodyProgress,
-                                total: _melodySequence.length,
-                              ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    AnimatedBuilder(
-                      animation: _dancerController,
-                      builder: (context, child) {
-                        return Transform.rotate(
-                          angle: _dancerController.value * 0.05,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              const AvatarImage(
-                                avatar: 'momo',
-                                size: 60,
-                                interactive: true,
-                              ),
-                              CharacterBlushOverlay(
-                                size: 60,
-                                isBlushing: _activeBar != null,
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            ],
-            const Spacer(),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final isNarrow = constraints.maxWidth < 500;
-                if (isNarrow) {
-                  final barW = ((constraints.maxWidth - 36) / 4).clamp(
-                    forestIsWide(context) ? 64.0 : 60.0,
-                    84.0,
-                  );
-                  return Center(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(
-                            4,
-                            (i) => _buildBar(i, width: barW, height: 110.0),
-                          ),
-                        ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(
-                            4,
-                            (i) => _buildBar(i + 4, width: barW, height: 110.0),
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                return SizedBox(
-                  height: 200,
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
+    return Listener(
+      onPointerMove: _handlePointer,
+      onPointerUp: _handlePointerUp,
+      onPointerCancel: _handlePointerUp,
+      child: Stack(
+        key: _stackKey,
+        children: [
+          if (!widget.lowStimulation)
+            CuteBubblesLayer(particlesKey: _particlesKey),
+          ForestToyComposition(
+            children: [
+              if (!widget.lowStimulation) ...[
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
                     children: [
-                      Positioned(
-                        bottom: 10,
-                        left: 16,
-                        right: 16,
-                        height: 12,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF8B5A2B),
-                            borderRadius: BorderRadius.circular(6),
-                          ),
+                      Flexible(
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: _currentMode == GameMode.freePlay
+                              ? ToyDiscoverySprig(
+                                  count: _playedNotes.length,
+                                  total: 8,
+                                )
+                              : ToyDiscoverySprig(
+                                  count: _melodyProgress,
+                                  total: _melodySequence.length,
+                                ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Listener(
-                          onPointerDown: _handlePointer,
-                          onPointerMove: _handlePointer,
-                          onPointerUp: _handlePointerUp,
-                          onPointerCancel: _handlePointerUp,
-                          child: Container(
-                            key: _barsAreaKey,
-                            height: 180,
-                            color: Colors.transparent,
-                            child: IgnorePointer(
+                      const SizedBox(width: 8),
+                      AnimatedBuilder(
+                        animation: _dancerController,
+                        builder: (context, child) {
+                          return Transform.rotate(
+                            angle: _dancerController.value * 0.05,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                const AvatarImage(
+                                  avatar: 'momo',
+                                  size: 60,
+                                  interactive: true,
+                                ),
+                                CharacterBlushOverlay(
+                                  size: 60,
+                                  isBlushing: _activeBar != null,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+              const Spacer(),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final isNarrow = constraints.maxWidth < 500;
+                  if (isNarrow) {
+                    final barW = ((constraints.maxWidth - 36) / 4).clamp(
+                      forestIsWide(context) ? 64.0 : 60.0,
+                      84.0,
+                    );
+                    return Center(
+                      child: ToyHabitat(
+                        kind: ToyHabitatKind.music,
+                        discoveries: _playedNotes.length,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(
+                                4,
+                                (i) => _buildBar(i, width: barW, height: 110.0),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(
+                                4,
+                                (i) => _buildBar(
+                                  i + 4,
+                                  width: barW,
+                                  height: 110.0,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }
+
+                  return ToyHabitat(
+                    kind: ToyHabitatKind.music,
+                    discoveries: _playedNotes.length,
+                    child: SizedBox(
+                      height: 200,
+                      child: Stack(
+                        alignment: Alignment.bottomCenter,
+                        children: [
+                          Positioned(
+                            bottom: 10,
+                            left: 16,
+                            right: 16,
+                            height: 12,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF8B5A2B),
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 16),
+                            child: SizedBox(
+                              height: 180,
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: List.generate(8, (i) => _buildBar(i)),
                               ),
                             ),
                           ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+              if (_currentMode == GameMode.follow)
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 4,
+                  children: [
+                    for (var i = 0; i < _melodySequence.length; i++)
+                      ToySelectionGlow(
+                        selected: i == _melodyProgress,
+                        child: Opacity(
+                          opacity: i < _melodyProgress ? .4 : 1,
+                          child: ForestProp(
+                            const [
+                              ForestObject.berry,
+                              ForestObject.sun,
+                              ForestObject.flower,
+                              ForestObject.leaf,
+                              ForestObject.cloud,
+                              ForestObject.paw,
+                              ForestObject.acorn,
+                              ForestObject.heart,
+                            ][_melodySequence[i]],
+                            size: 28,
+                          ),
                         ),
                       ),
-                    ],
+                  ],
+                ),
+              if (_currentMode == GameMode.follow &&
+                  _melodyProgress == _melodySequence.length)
+                ForestAction(
+                  label: '다른 노래 불러보기',
+                  icon: Icons.replay_rounded,
+                  size: 64,
+                  leaf: true,
+                  quiet: widget.lowStimulation,
+                  onPressed: () => setState(() {
+                    _melodyIndex++;
+                    _melodyProgress = 0;
+                    _melodyCompleted = false;
+                  }),
+                ),
+              const SizedBox(height: 24),
+              if (_unlockedFollowMode)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildModeButton(
+                      GameMode.freePlay,
+                      '자유 연주',
+                      Icons.music_note_rounded,
+                    ),
+                    const SizedBox(width: 16),
+                    _buildModeButton(
+                      GameMode.follow,
+                      '따라하기',
+                      Icons.library_music_rounded,
+                    ),
+                  ],
+                )
+              else
+                const SizedBox(height: 98),
+              const SizedBox(height: 16),
+            ],
+          ),
+
+          ..._floaters.map(
+            (f) => TweenAnimationBuilder<double>(
+              key: ValueKey(f.id),
+              duration: const Duration(milliseconds: 800),
+              tween: Tween(begin: 0.0, end: 1.0),
+              builder: (context, val, child) {
+                return Positioned(
+                  left: f.startX,
+                  top: f.startY - (val * 80),
+                  child: Opacity(
+                    opacity: 1.0 - val,
+                    child: Text(
+                      '♪',
+                      style: TextStyle(
+                        fontSize: 32,
+                        color: _colors[f.barIndex],
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 );
               },
             ),
-            const SizedBox(height: 24),
-            if (_unlockedFollowMode)
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _buildModeButton(
-                    GameMode.freePlay,
-                    '자유 연주',
-                    Icons.music_note_rounded,
-                  ),
-                  const SizedBox(width: 16),
-                  _buildModeButton(
-                    GameMode.follow,
-                    '따라하기',
-                    Icons.library_music_rounded,
-                  ),
-                ],
-              )
-            else
-              const SizedBox(height: 98),
-            const SizedBox(height: 16),
-          ],
-        ),
-
-        ..._floaters.map(
-          (f) => TweenAnimationBuilder<double>(
-            key: ValueKey(f.id),
-            duration: const Duration(milliseconds: 800),
-            tween: Tween(begin: 0.0, end: 1.0),
-            builder: (context, val, child) {
-              return Positioned(
-                left: f.startX,
-                top: f.startY - (val * 80),
-                child: Opacity(
-                  opacity: 1.0 - val,
-                  child: Text(
-                    '♪',
-                    style: TextStyle(
-                      fontSize: 32,
-                      color: _colors[f.barIndex],
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              );
-            },
           ),
-        ),
 
-        if (!widget.lowStimulation) GameParticles(key: _particlesKey),
-      ],
+          if (!widget.lowStimulation) GameParticles(key: _particlesKey),
+        ],
+      ),
     );
   }
 
   Widget _buildModeButton(GameMode mode, String text, IconData icon) {
     final isSelected = _currentMode == mode;
-    final shouldNudge = mode == GameMode.follow &&
+    final shouldNudge =
+        mode == GameMode.follow &&
         _unlockedFollowMode &&
         _currentMode == GameMode.freePlay &&
         !widget.lowStimulation;
@@ -609,6 +678,7 @@ class _XylophoneGameState extends State<XylophoneGame>
             setState(() {
               _currentMode = mode;
               _melodyProgress = 0;
+              _melodyCompleted = false;
             });
             widget.onModeChanged?.call(mode == GameMode.follow);
           }
@@ -616,7 +686,7 @@ class _XylophoneGameState extends State<XylophoneGame>
         leaf: true,
         selected: isSelected,
         size: 72,
-        caption: text,
+        quiet: widget.lowStimulation,
         child: Icon(icon, color: forestCream, size: 36),
       ),
     );

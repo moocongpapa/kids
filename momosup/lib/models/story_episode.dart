@@ -17,11 +17,13 @@ class StoryEpisode {
     this.productionPreview = false,
     this.fullFilmPreview = false,
     this.togetherActivity,
+    this.humanReviewedAt,
   });
   final String id, title, series, theme, parentPrompt;
   final String videoAsset, posterAsset, titleAudioAsset, musicAsset;
   final int minAgeMonths, maxAgeMonths, durationSeconds;
   final bool productionPreview, fullFilmPreview;
+  final String? humanReviewedAt;
   final StoryTogetherActivity? togetherActivity;
   String get previewLabel => fullFilmPreview ? '완성본 · 보호자 미리보기' : '제작 중 · 첫 장면';
   bool get openingAudioPreview => productionPreview && !fullFilmPreview;
@@ -76,6 +78,7 @@ class StoryEpisode {
       titleAudioAsset: asset('titleAudioAsset', '.m4a'),
       musicAsset: j['musicAsset'] == '' ? '' : asset('musicAsset', '.m4a'),
       productionPreview: draft,
+      humanReviewedAt: j['humanReviewedAt'] as String?,
       fullFilmPreview: fullPreview,
       togetherActivity: j['togetherActivity'] == null
           ? null

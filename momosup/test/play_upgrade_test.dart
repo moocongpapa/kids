@@ -146,6 +146,54 @@ void main() {
     await tester.pumpWidget(const SizedBox.shrink());
   });
 
+  testWidgets('진행 중 움직임 줄이기를 켜면 같은 시험이 곧 멈춘다', (tester) async {
+    var completed = 0;
+    const trial = BuildTrial(
+      attempt: 1,
+      id: 'age_60_03',
+      step: 1,
+      stage: 2,
+      count: 3,
+      pieces: {0: 2, 1: 0, 2: 0},
+    );
+    Widget world(bool quiet) => MaterialApp(
+      home: Scaffold(
+        body: SizedBox(
+          width: 360,
+          height: 325,
+          child: ForestExperimentScene(
+            trial: trial,
+            quiet: quiet,
+            onFinished: () => completed++,
+          ),
+        ),
+      ),
+    );
+    await tester.pumpWidget(world(false));
+    final finder = find.byWidgetPredicate((w) => w is GameWidget);
+    await tester.runAsync(
+      () => tester.state<GameWidgetState>(finder).loaderFuture,
+    );
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+    final game =
+        tester.widget<GameWidget>(finder).game! as ForestExperimentGame;
+    expect(game.running, isTrue);
+    expect(game.quiet, isFalse);
+    await tester.pumpWidget(world(true));
+    expect(game.trial, same(trial));
+    expect(game.quiet, isTrue);
+    for (var i = 0; i < 4; i++) {
+      await tester.pump(const Duration(milliseconds: 50));
+    }
+    expect(completed, 1);
+    expect(game.running, isFalse);
+    expect(game.paused, isTrue);
+    await tester.pump(const Duration(seconds: 3));
+    expect(completed, 1);
+    await tester.pumpWidget(const SizedBox.shrink());
+  });
+
   testWidgets('시험 후 조각을 수정하다 앱을 나가도 다시 시험할 수 있다', (tester) async {
     final state = await fixtures.prepare(36);
     final a = fixtures.approvedPack.firstWhere((a) => a.id == 'age_36_06');
@@ -365,7 +413,8 @@ void main() {
       await tester.tap(key(n));
       await tester.pump();
     }
-    await tester.tap(find.text('따라하기'));
+    // Child controls use pictures; the accessible tooltip names the mode.
+    await tester.tap(find.byTooltip('따라하기'));
     await tester.pump();
     for (final n in ['도', '레', '미', '도', '미', '도', '레']) {
       await tester.tap(key(n));

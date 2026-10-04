@@ -1,4 +1,5 @@
 import '../forest_landscape.dart';
+import 'toy_habitat.dart';
 
 import 'dart:async';
 import 'dart:math' as math;
@@ -47,6 +48,7 @@ class _FeedingGameState extends State<FeedingGame>
   final GlobalKey<GameParticlesState> _particlesKey = GlobalKey();
   final GlobalKey _momoKey = GlobalKey();
   final GlobalKey _stackKey = GlobalKey();
+  final _fruitKeys = List.generate(4, (_) => GlobalKey());
 
   int totalEaten = 0;
   int currentRound = 0;
@@ -55,7 +57,7 @@ class _FeedingGameState extends State<FeedingGame>
 
   bool hovering = false;
   bool _chewing = false;
-  String currentText = '배고파~ 열매 줘!';
+  String currentText = '함께 냠냠';
 
   FlyingFruit? flyingFruit;
 
@@ -123,7 +125,7 @@ class _FeedingGameState extends State<FeedingGame>
     ];
     if (round > 0) baseFruits.shuffle(math.Random());
     roundFruits = baseFruits.take(widget.stage == 0 ? 2 : 4).toList();
-    currentText = '배고파~ 열매 줘!';
+    currentText = '함께 냠냠';
   }
 
   void _onFruitHover() {
@@ -139,7 +141,7 @@ class _FeedingGameState extends State<FeedingGame>
 
   void _onFruitDropped(DragTargetDetails<int> details) {
     final index = details.data;
-    if (eatenIndices.contains(index)) return;
+    if (eatenIndices.contains(index) || _chewing || flyingFruit != null) return;
 
     setState(() {
       hovering = false;
@@ -151,6 +153,10 @@ class _FeedingGameState extends State<FeedingGame>
     final RenderBox? momoBox =
         _momoKey.currentContext?.findRenderObject() as RenderBox?;
     if (stackBox == null || momoBox == null) {
+      _onFruitArrived(roundFruits[index]);
+      return;
+    }
+    if (widget.lowStimulation) {
       _onFruitArrived(roundFruits[index]);
       return;
     }
@@ -177,7 +183,28 @@ class _FeedingGameState extends State<FeedingGame>
       hovering = false;
       eatenIndices.add(index);
     });
-    _onFruitArrived(roundFruits[index]);
+    final fruitBox =
+        _fruitKeys[index].currentContext?.findRenderObject() as RenderBox?;
+    final momoBox = _momoKey.currentContext?.findRenderObject() as RenderBox?;
+    final stackBox = _stackKey.currentContext?.findRenderObject() as RenderBox?;
+    if (widget.lowStimulation ||
+        fruitBox == null ||
+        momoBox == null ||
+        stackBox == null) {
+      _onFruitArrived(roundFruits[index]);
+      return;
+    }
+    setState(
+      () => flyingFruit = FlyingFruit(
+        fruit: roundFruits[index],
+        start: stackBox.globalToLocal(
+          fruitBox.localToGlobal(fruitBox.size.center(Offset.zero)),
+        ),
+        end: stackBox.globalToLocal(
+          momoBox.localToGlobal(momoBox.size.center(Offset.zero)),
+        ),
+      ),
+    );
   }
 
   void _onFruitArrived(ForestObject fruitObj) {
@@ -189,7 +216,6 @@ class _FeedingGameState extends State<FeedingGame>
     });
     GameFeedback.success(lowStimulation: widget.lowStimulation);
     SoundEffects.instance.chew();
-    SoundEffects.instance.playSuccessPitch(eatenIndices.length - 1);
     _chewController.forward(from: 0.0).then((_) {
       if (!mounted) return;
 
@@ -303,7 +329,7 @@ class _FeedingGameState extends State<FeedingGame>
         }
 
         double blinkSy = 1.0 - (_blinkController.value * 0.15);
-        double jumpY = math.sin(_jumpController.value * math.pi) * -40.0;
+        double jumpY = math.sin(_jumpController.value * math.pi) * -16.0;
 
         if (widget.lowStimulation) {
           chewSx = 1.0;
@@ -391,65 +417,70 @@ class _FeedingGameState extends State<FeedingGame>
       children: [
         ForestToyComposition(
           children: [
-            ForestProgress(
+            ToyDiscoverySprig(
               count: eatenIndices.length,
               total: roundFruits.length,
             ),
             Expanded(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  LayoutBuilder(
-                    builder: (_, box) {
-                      final size = (box.maxHeight * .72).clamp(120.0, 250.0);
-                      return DragTarget<int>(
-                        onWillAcceptWithDetails: (details) {
-                          _onFruitHover();
-                          return !_chewing && flyingFruit == null;
-                        },
-                        onLeave: (_) {
-                          if (hovering) {
-                            setState(() {
-                              hovering = false;
-                              currentText = '배고파~ 열매 줘!';
-                            });
-                          }
-                        },
-                        onAcceptWithDetails: _onFruitDropped,
-                        builder: (_, _, _) => SizedBox(
-                          width: double.infinity,
-                          height: double.infinity,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              if (hovering && !widget.lowStimulation)
-                                Container(
-                                  width: size + 40,
-                                  height: size + 40,
-                                  decoration: const BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: Color(0xFFF8DEA2),
+              child: ToyHabitat(
+                kind: ToyHabitatKind.picnic,
+                discoveries: totalEaten,
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    LayoutBuilder(
+                      builder: (_, box) {
+                        final size = (box.maxHeight * .72).clamp(120.0, 250.0);
+                        return DragTarget<int>(
+                          onWillAcceptWithDetails: (details) {
+                            _onFruitHover();
+                            return !_chewing && flyingFruit == null;
+                          },
+                          onLeave: (_) {
+                            if (hovering) {
+                              setState(() {
+                                hovering = false;
+                                currentText = '함께 냠냠';
+                              });
+                            }
+                          },
+                          onAcceptWithDetails: _onFruitDropped,
+                          builder: (_, _, _) => SizedBox(
+                            width: double.infinity,
+                            height: double.infinity,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                if (hovering && !widget.lowStimulation)
+                                  Container(
+                                    width: size + 40,
+                                    height: size + 40,
+                                    decoration: const BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: Color(0xFFF8DEA2),
+                                    ),
                                   ),
-                                ),
-                              buildMomo(size),
-                            ],
+                                buildMomo(size),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                  if (!widget.lowStimulation) GameParticles(key: _particlesKey),
-                  if (totalEaten == 0 &&
-                      !widget.lowStimulation &&
-                      flyingFruit == null)
-                    const Positioned(
-                      bottom: 0,
-                      child: HandGuideHint(
-                        start: Offset(-70, 25),
-                        end: Offset(0, -65),
-                      ),
+                        );
+                      },
                     ),
-                ],
+                    if (!widget.lowStimulation)
+                      GameParticles(key: _particlesKey),
+                    if (totalEaten == 0 &&
+                        !widget.lowStimulation &&
+                        flyingFruit == null)
+                      const Positioned(
+                        bottom: 0,
+                        child: HandGuideHint(
+                          start: Offset(-70, 25),
+                          end: Offset(0, -65),
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
             AnimatedSwitcher(
@@ -478,13 +509,14 @@ class _FeedingGameState extends State<FeedingGame>
 
                   return Expanded(
                     child: Semantics(
+                      key: _fruitKeys[i],
                       button: true,
                       label: _semanticLabelFor(fruitObj),
                       enabled: !isDisabled,
                       onTap: isDisabled ? null : () => _triggerEat(i),
                       child: ExcludeSemantics(
                         child: IdleNudge(
-                          active: !isDisabled,
+                          active: !isDisabled && eatenIndices.isEmpty && i == 0,
                           enabled: !widget.lowStimulation,
                           child: Draggable<int>(
                             data: i,

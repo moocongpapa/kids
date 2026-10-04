@@ -1,4 +1,5 @@
 import '../../utils/narration_player.dart';
+import '../../game/forest_response_scene.dart';
 import '../../utils/forest_orientation.dart';
 import '../../widgets/forest_landscape.dart';
 import '../../widgets/journey_detective_scene.dart';
@@ -80,6 +81,8 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
   BuildResult? trialResult;
   final List<Map<String, dynamic>> trials = [];
   final List<String> results = [];
+  final Set<int> discoveries = {};
+  int lastMarkCount = 0;
   final Map<int, int> slots = {};
   final List<ArtMark> strokes = [];
   AgeJourney get a => widget.journey;
@@ -92,6 +95,31 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
       journeyEligible(a, widget.profile) &&
       (widget.preview || widget.appState.journeyApproved(a));
   int get sceneCount => stage == 0 ? 1 : 3;
+  bool get searchTogether =>
+      a.mechanic == 'reveal' &&
+      !const [
+        'age_24_01',
+        'age_24_06',
+        'age_36_01',
+        'age_30_03',
+        'age_48_02',
+        'age_84_05',
+      ].contains(a.id);
+  int? get hiddenHat =>
+      a.id == 'age_36_01' ? (sequenceSeed + step * 37) % options.length : null;
+  ForestResponse get response => switch (a.mechanic) {
+    'reveal' => ForestResponse.discovery,
+    'sort' || 'story' => ForestResponse.belonging,
+    'build' => ForestResponse.building,
+    'rhythm' => ForestResponse.music,
+    _ => ForestResponse.painting,
+  };
+  Widget respond(Widget child) => ForestResponseScene(
+    event: reaction,
+    response: response,
+    quiet: quiet,
+    child: child,
+  );
   int get slotCount => stage == 0
       ? 2
       : a.minAge >= 72
@@ -139,8 +167,13 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
         action = saved['action'] as int? ?? 0;
         ready = saved['ready'] == true;
         results.addAll(List<String>.from(saved['results'] as List? ?? []));
+        discoveries.addAll(List<int>.from(saved['discoveries'] as List? ?? []));
       }
     }
+    lastMarkCount = strokes.length;
+    discoveries.removeWhere((i) => i < 0 || i >= options.length);
+    if (searchTogether) ready = discoveries.length == options.length;
+    if (hiddenHat != null) ready = discoveries.contains(hiddenHat);
     selected = selected.clamp(
       0,
       a.mechanic == 'build' ? a.symbols.length - 1 : options.length - 1,
@@ -166,6 +199,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
         'action': action,
         'ready': ready,
         'results': results,
+        'discoveries': discoveries.toList(),
         'complete': ended,
         'slots': slots.map((k, v) => MapEntry('$k', v)),
         'marks': strokes.map((m) => m.toJson()).toList(),
@@ -281,6 +315,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     narration.stop();
     setState(() {
       step++;
+      discoveries.clear();
       trialResult = null;
       helpRequested = false;
       ready = false;
@@ -299,9 +334,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     final mine = token;
     setState(() => busy = true);
     await narration.stop();
-    final maxFilled = slots.isEmpty
-        ? 0
-        : slots.keys.reduce(math.max) + 1;
+    final maxFilled = slots.isEmpty ? 0 : slots.keys.reduce(math.max) + 1;
     final playCount = slots.length == slotCount ? slotCount : maxFilled;
     for (var i = 0; i < playCount; i++) {
       if (!mounted || ended || token != mine) break;
@@ -316,7 +349,12 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
       setState(() {
         activeNote = -1;
         busy = false;
+        if (slots.length == slotCount && !ended) {
+          ready = true;
+          reaction++;
+        }
       });
+      checkpoint.changed();
     }
   }
 
@@ -409,7 +447,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
                                         ? _ending()
                                         : !started
                                         ? _intro()
-                                        : _play(),
+                                        : respond(_play()),
                                   ),
                                 ),
                               ),
@@ -440,7 +478,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
         ? _ending()
         : !started
         ? _intro()
-        : _playLandscape(),
+        : respond(_playLandscape()),
   );
   Widget _playLandscape() => ForestSceneComposition(
     controlsWidth: 100,
@@ -787,12 +825,19 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     setState(() {
       reaction++;
       selected = i;
-      if (!ready || results.isEmpty) {
-        results.add(options[i]);
+      if (searchTogether || hiddenHat != null) {
+        if (discoveries.add(i)) results.add(options[i]);
+        ready = hiddenHat != null
+            ? discoveries.contains(hiddenHat)
+            : discoveries.length == options.length;
       } else {
-        results[results.length - 1] = options[i];
+        if (!ready || results.isEmpty) {
+          results.add(options[i]);
+        } else {
+          results[results.length - 1] = options[i];
+        }
+        ready = true;
       }
-      ready = true;
     });
     checkpoint.changed();
     if (sound) {
@@ -819,6 +864,9 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
         )
       : JourneyRevealScene(
           stage: helpRequested ? 0 : stage,
+          seed: sequenceSeed,
+          initialFound: discoveries,
+          hiddenHat: hiddenHat,
           id: a.id,
           step: step,
           avatar: a.avatar,
@@ -865,6 +913,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     onMatch: () {
       setState(() {
         action++;
+        reaction++;
         ready =
             action >=
             (stage == 0
@@ -874,6 +923,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
                 : 4);
         if (ready) results.add('basket');
       });
+      checkpoint.event('actions');
       checkpoint.changed();
       if (sound) SoundEffects.instance.snap();
     },
@@ -883,7 +933,9 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     if (busy) return;
     setState(() {
       slots[i] = value;
+      reaction++;
       ready = false;
+      trial = null;
       trialResult = null;
       results
         ..clear()
@@ -917,6 +969,7 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
       busy = false;
       trialResult = trial!.evaluate();
       ready = trialResult!.success;
+      if (ready) reaction++;
       trials.add(trial!.toJson());
       if (trials.length > 30) trials.removeAt(0);
     });
@@ -1015,7 +1068,8 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     if (busy) return;
     setState(() {
       slots[slot] = note;
-      ready = slots.length == slotCount;
+      reaction++;
+      ready = stage < 2 && slots.length == slotCount;
     });
     checkpoint.changed();
     if (sound && note != 3) SoundEffects.instance.playNote(note * 2);
@@ -1043,10 +1097,31 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
       }
     },
     onPlace: placeNote,
-    onListen: () {
-      setState(() => ready = slots.length == slotCount);
-      melody();
+    onUndo: () {
+      if (busy || slots.isEmpty) return;
+      setState(() {
+        slots.remove(slots.keys.reduce(math.max));
+        ready = false;
+      });
+      checkpoint.changed();
     },
+    onReverse: () {
+      if (busy || slots.length < 2) return;
+      final reversed = List<int>.generate(
+        slotCount,
+        (i) => i,
+      ).map((i) => slots[i]).toList().reversed.toList();
+      setState(() {
+        slots.clear();
+        for (var i = 0; i < reversed.length; i++) {
+          if (reversed[i] != null) slots[i] = reversed[i]!;
+        }
+        reaction++;
+        ready = false;
+      });
+      checkpoint.changed();
+    },
+    onListen: melody,
   );
 
   Widget _draw() => ForestArtStudio(
@@ -1056,7 +1131,11 @@ class _JourneyPlayScreenState extends State<JourneyPlayScreen> {
     simple: stage == 0,
     canvasKey: const ValueKey('journey_canvas'),
     onChanged: () {
-      setState(() => ready = strokes.isNotEmpty);
+      setState(() {
+        ready = strokes.isNotEmpty;
+        if (strokes.length > lastMarkCount) reaction++;
+        lastMarkCount = strokes.length;
+      });
       checkpoint.changed();
     },
   );

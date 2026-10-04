@@ -308,11 +308,13 @@ class ForestMovementScene extends StatefulWidget {
     required this.id,
     required this.step,
     required this.quiet,
+    this.onReplay,
     super.key,
   });
   final String id;
   final int step;
   final bool quiet;
+  final VoidCallback? onReplay;
   @override
   State<ForestMovementScene> createState() => _ForestMovementSceneState();
 }
@@ -322,11 +324,13 @@ class _ForestMovementSceneState extends State<ForestMovementScene> {
   @override
   Widget build(BuildContext context) => ForestPlayStage(
     height: 350,
+    quiet: widget.quiet,
     child: GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () {
         SoundEffects.instance.pop();
         setState(() => replay++);
+        widget.onReplay?.call();
       },
       child: Tooltip(
         message: '동작 다시 보기',

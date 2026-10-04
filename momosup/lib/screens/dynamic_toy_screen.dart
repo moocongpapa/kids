@@ -193,12 +193,8 @@ class _DynamicToyScreenState extends State<DynamicToyScreen> {
           sticker.toJson(),
         );
       }
-      final quiet =
-          widget.profile.lowStimulation ||
-          MediaQuery.disableAnimationsOf(context);
-      if (!quiet && mounted) {
-        ForestStickerModal.show(context, sticker: sticker);
-      }
+      // Keep the child's play in view. The keepsake appears on the quiet
+      // ending screen rather than interrupting exploration with a modal.
     }
   }
 

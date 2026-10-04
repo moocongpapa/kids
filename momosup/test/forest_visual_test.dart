@@ -37,7 +37,13 @@ void main() {
 
   Future<void> images(WidgetTester tester) async {
     await tester.runAsync(() async {
-      for (final name in ['momo', 'duri', 'nuri', 'forest_weather']) {
+      for (final name in [
+        'momo',
+        'duri',
+        'nuri',
+        'forest_weather',
+        'forest_places_v2',
+      ]) {
         await precacheImage(
           AssetImage('assets/images/$name.png'),
           tester.element(find.byType(Scaffold).first),

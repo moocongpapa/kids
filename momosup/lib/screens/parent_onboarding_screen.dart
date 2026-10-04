@@ -9,8 +9,6 @@ import '../utils/development_access.dart';
 import '../utils/child_birth_date_picker.dart';
 import '../widgets/avatar_image.dart';
 import '../widgets/forest_background.dart';
-import '../widgets/kakao_share_modal.dart';
-import 'family_invite_screen.dart';
 
 class ParentOnboardingScreen extends StatefulWidget {
   const ParentOnboardingScreen({
@@ -223,21 +221,6 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
     } finally {
       if (mounted) setState(() => saving = false);
     }
-  }
-
-  Future<void> _shareWithFamily() async {
-    if (createdProfile == null) return;
-    final payload = await widget.appState.createFamilyInvite(
-      createdProfile!,
-      inviterRole: '보호자',
-    );
-    if (!mounted) return;
-    KakaoShareModal.show(
-      context,
-      profile: createdProfile!,
-      payload: payload,
-      parentAccount: connectedAccount,
-    );
   }
 
   @override
@@ -456,20 +439,6 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
           ),
         ),
         const SizedBox(height: 14),
-        Center(
-          child: TextButton.icon(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute<void>(
-                  builder: (_) =>
-                      FamilyInviteAcceptScreen(appState: widget.appState),
-                ),
-              );
-            },
-            icon: const Icon(Icons.link_rounded, size: 18),
-            label: const Text('💌 가족에게 초대 링크를 받으셨나요?'),
-          ),
-        ),
       ],
     );
   }
@@ -713,8 +682,8 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
           maxLength: 4,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           decoration: const InputDecoration(
-            labelText: '보호자 PIN 숫자 (4~8자리)',
-            hintText: '숫자 4자리 권장',
+            labelText: '보호자 PIN 숫자 (4자리)',
+            hintText: '숫자 4자리',
           ),
         ),
         const SizedBox(height: 12),
@@ -768,55 +737,12 @@ class _ParentOnboardingScreenState extends State<ParentOnboardingScreen> {
           style: const TextStyle(fontSize: 14, color: Colors.black54),
         ),
         const SizedBox(height: 24),
-        Container(
-          padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFFD7DDBE)),
-          ),
-          child: Column(
-            children: [
-              const Row(
-                children: [
-                  Icon(Icons.family_restroom_rounded, color: Color(0xFF477A53)),
-                  SizedBox(width: 8),
-                  Text(
-                    '아이 프로필 가족 공유',
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF284E3D),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 6),
-              const Text(
-                '배우자나 조부모님께 카카오톡으로 아이 프로필 링크를 보내 함께 놀이와 관찰 기록을 볼 수 있어요.',
-                style: TextStyle(fontSize: 13, color: Colors.black87),
-              ),
-              const SizedBox(height: 14),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFFFEE500),
-                    foregroundColor: const Color(0xFF191919),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                  onPressed: _shareWithFamily,
-                  icon: const Icon(Icons.chat_bubble, size: 20),
-                  label: const Text(
-                    '카카오톡으로 가족 초대하기',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ),
-              ),
-            ],
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          child: Text(
+            '프로필과 놀이 기록은 이 기기에 저장돼요. 보호자 공간에서 이용시간과 소리를 조절할 수 있어요.',
+            textAlign: TextAlign.center,
+            style: TextStyle(height: 1.6, color: Color(0xFF455348)),
           ),
         ),
         const SizedBox(height: 24),

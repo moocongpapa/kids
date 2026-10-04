@@ -1,4 +1,5 @@
 import '../forest_landscape.dart';
+import 'toy_habitat.dart';
 
 import 'dart:async';
 import 'dart:math' as math;
@@ -76,6 +77,7 @@ class _SortingGameState extends State<SortingGame>
   late final List<GlobalKey> _trayKeys;
 
   Acorn? selected;
+  bool? hintedBasket;
 
   @override
   void initState() {
@@ -108,6 +110,9 @@ class _SortingGameState extends State<SortingGame>
   void startRound(int r) {
     round = r;
     sorted.clear();
+    bigSortedTotal = 0;
+    smallSortedTotal = 0;
+    hintedBasket = null;
     selected = null;
     final bigSize = r == 1 && widget.stage < 2 ? 74.0 : 64.0;
     final smallSize = r == 1 && widget.stage < 2 ? 44.0 : 54.0;
@@ -173,15 +178,22 @@ class _SortingGameState extends State<SortingGame>
     );
   }
 
-  void onAccept(Acorn acorn, Offset dropOffset, bool isBigBasket) {
+  void onAccept(
+    Acorn acorn,
+    Offset dropOffset,
+    bool isBigBasket, {
+    Offset? localStart,
+  }) {
     if (sorted.contains(acorn.id) || _flyingBack.contains(acorn.id)) return;
-    final start = getLocalDrop(dropOffset, Size(acorn.size, acorn.size));
+    final start =
+        localStart ?? getLocalDrop(dropOffset, Size(acorn.size, acorn.size));
     final targetKey = isBigBasket ? _bigBasketKey : _smallBasketKey;
     final end = getLocalCenter(targetKey) ?? start;
 
     if (acorn.isBig == isBigBasket) {
       setState(() {
         sorted.add(acorn.id);
+        hintedBasket = null;
         _flying.add(
           FlyingAcorn(
             id: DateTime.now().microsecondsSinceEpoch,
@@ -197,14 +209,12 @@ class _SortingGameState extends State<SortingGame>
       SoundEffects.instance.playSuccessPitch(sorted.length - 1);
 
       (isBigBasket ? _bigBasketAnim : _smallBasketAnim).forward(from: 0);
-      showMessage(
-        ['좋아!', '잘했어!', '대박!', '멋져!', '우와!', '쏙!'][math.Random().nextInt(6)],
-        false,
-      );
+      showMessage('쏙!', false);
     } else {
       GameFeedback.light(lowStimulation: widget.lowStimulation);
-      SoundEffects.instance.boing();
-      showMessage('이쪽이 아니야~ 🤔', true);
+      SoundEffects.instance.pop();
+      setState(() => hintedBasket = acorn.isBig);
+      showMessage('천천히 다시', true);
 
       final trayEnd = getLocalCenter(_trayKeys[acorn.id]) ?? start;
 
@@ -268,10 +278,11 @@ class _SortingGameState extends State<SortingGame>
     final start = getLocalCenter(_trayKeys[a.id]) ?? Offset.zero;
     if (a.isBig == isBig) {
       setState(() => selected = null);
-      onAccept(a, start, isBig);
+      onAccept(a, Offset.zero, isBig, localStart: start);
     } else {
-      SoundEffects.instance.boing();
-      showMessage('이쪽이 아니야~ 🤔', true);
+      SoundEffects.instance.pop();
+      setState(() => hintedBasket = a.isBig);
+      showMessage('천천히 다시', true);
     }
   }
 
@@ -286,7 +297,10 @@ class _SortingGameState extends State<SortingGame>
         onWillAcceptWithDetails: (_) => true,
         onAcceptWithDetails: (d) => onAccept(d.data, d.offset, isBig),
         builder: (_, candidates, _) {
-          final isHovered = candidates.isNotEmpty && !widget.lowStimulation;
+          final isHovered = candidates.isNotEmpty;
+          final suggested =
+              hintedBasket == isBig ||
+              (widget.stage == 0 && selected?.isBig == isBig);
           final count = isBig ? bigSortedTotal : smallSortedTotal;
 
           return Semantics(
@@ -297,15 +311,17 @@ class _SortingGameState extends State<SortingGame>
               behavior: HitTestBehavior.opaque,
               onTap: () => _onBasketTapped(isBig),
               child: ScaleTransition(
-                scale: _getBasketScale(bounceCtrl),
+                scale: widget.lowStimulation
+                    ? const AlwaysStoppedAnimation(1)
+                    : _getBasketScale(bounceCtrl),
                 child: AnimatedScale(
-                  scale: isHovered ? 1.1 : 1.0,
+                  scale: isHovered && !widget.lowStimulation ? 1.04 : 1.0,
                   duration: const Duration(milliseconds: 200),
                   curve: Curves.easeOut,
                   child: Container(
                     key: key,
                     decoration: BoxDecoration(
-                      boxShadow: isHovered
+                      boxShadow: isHovered || suggested
                           ? const [
                               BoxShadow(
                                 color: Color(0x66FFFFFF),
@@ -395,38 +411,44 @@ class _SortingGameState extends State<SortingGame>
       children: [
         ForestToyComposition(
           children: [
-            ForestProgress(count: sorted.length, total: acorns.length),
+            ToyDiscoverySprig(count: sorted.length, total: acorns.length),
             Expanded(
               child: LayoutBuilder(
-                builder: (_, box) => Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        buildBasket(
-                          true,
-                          (box.maxHeight - 80).clamp(100, 200),
-                          _bigBasketAnim,
-                          _bigBasketKey,
-                        ),
-                        buildBasket(
-                          false,
-                          (box.maxHeight - 80).clamp(100, 200),
-                          _smallBasketAnim,
-                          _smallBasketKey,
-                        ),
-                      ],
-                    ),
-                    if (sorted.isEmpty && round == 1 && !widget.lowStimulation)
-                      const Positioned(
-                        bottom: 0,
-                        child: HandGuideHint(
-                          start: Offset(-60, 20),
-                          end: Offset(-80, -70),
-                        ),
+                builder: (_, box) => ToyHabitat(
+                  kind: ToyHabitatKind.gathering,
+                  discoveries: sorted.length,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          buildBasket(
+                            true,
+                            (box.maxHeight - 80).clamp(100, 200),
+                            _bigBasketAnim,
+                            _bigBasketKey,
+                          ),
+                          buildBasket(
+                            false,
+                            (box.maxHeight - 80).clamp(100, 200),
+                            _smallBasketAnim,
+                            _smallBasketKey,
+                          ),
+                        ],
                       ),
-                  ],
+                      if (sorted.isEmpty &&
+                          round == 1 &&
+                          !widget.lowStimulation)
+                        const Positioned(
+                          bottom: 0,
+                          child: HandGuideHint(
+                            start: Offset(-60, 20),
+                            end: Offset(-80, -70),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -472,11 +494,17 @@ class _SortingGameState extends State<SortingGame>
                             button: true,
                             selected: selected?.id == a.id,
                             onTap: () {
-                              setState(() => selected = a);
+                              setState(() {
+                                selected = a;
+                                hintedBasket = null;
+                              });
                             },
                             child: GestureDetector(
                               onTap: () {
-                                setState(() => selected = a);
+                                setState(() {
+                                  selected = a;
+                                  hintedBasket = null;
+                                });
                               },
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
@@ -486,7 +514,10 @@ class _SortingGameState extends State<SortingGame>
                                   shape: BoxShape.circle,
                                 ),
                                 child: IdleNudge(
-                                  active: !isSorted && !isFlyingBack,
+                                  active:
+                                      sorted.isEmpty &&
+                                      selected == null &&
+                                      a == acorns.first,
                                   enabled: !widget.lowStimulation,
                                   child: ForestFloat(
                                     still: widget.lowStimulation,
@@ -614,6 +645,15 @@ class _FlyingAcornWidgetState extends State<FlyingAcornWidget>
     _ctrl.addStatusListener((s) {
       if (s == AnimationStatus.completed) widget.onComplete();
     });
+
+    if (widget.lowStimulation) {
+      _xAnim = AlwaysStoppedAnimation(widget.end.dx);
+      _yAnim = AlwaysStoppedAnimation(widget.end.dy);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) widget.onComplete();
+      });
+      return;
+    }
 
     if (widget.isCorrect) {
       _xAnim = Tween<double>(

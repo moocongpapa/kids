@@ -20,6 +20,8 @@ class JourneyRhythmScene extends StatelessWidget {
     required this.onSelect,
     required this.onPlace,
     required this.onListen,
+    this.onUndo,
+    this.onReverse,
     super.key,
   });
   final String id;
@@ -29,6 +31,7 @@ class JourneyRhythmScene extends StatelessWidget {
   final ValueChanged<int> onSelect;
   final void Function(int slot, int note) onPlace;
   final VoidCallback onListen;
+  final VoidCallback? onUndo, onReverse;
   @override
   Widget build(BuildContext context) => ForestSceneComposition(
     children: [
@@ -152,6 +155,29 @@ class JourneyRhythmScene extends StatelessWidget {
             ),
         ],
       ),
+      if (stage > 0)
+        Wrap(
+          alignment: WrapAlignment.center,
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            ForestAction(
+              label: '마지막 소리 지우기',
+              icon: Icons.undo_rounded,
+              size: 64,
+              quiet: quiet,
+              onPressed: busy || slots.isEmpty ? null : onUndo,
+            ),
+            if (stage == 2)
+              ForestAction(
+                label: '소리 순서 뒤집기',
+                icon: Icons.swap_horiz_rounded,
+                size: 64,
+                quiet: quiet,
+                onPressed: busy || slots.length < 2 ? null : onReverse,
+              ),
+          ],
+        ),
       const SizedBox(height: 16),
       ForestAction(
         label: '내 소리 이어 듣기',

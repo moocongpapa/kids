@@ -41,6 +41,14 @@ class ForestExperimentGame extends FlameGame {
     syncPause();
   }
 
+  void clear() {
+    trial = null;
+    running = false;
+    elapsed = 0;
+    pauseEngine();
+    stepEngine(stepTime: 0);
+  }
+
   @override
   void update(double dt) {
     if (AudioPolicy.instance.suspended) {
@@ -129,7 +137,10 @@ class _ForestExperimentSceneState extends State<ForestExperimentScene> {
   @override
   void didUpdateWidget(ForestExperimentScene old) {
     super.didUpdateWidget(old);
-    if (widget.trial != null && widget.trial != old.trial) {
+    game.quiet = widget.quiet;
+    if (widget.trial == null && old.trial != null) {
+      game.clear();
+    } else if (widget.trial != null && widget.trial != old.trial) {
       game.run(widget.trial!, widget.quiet);
     }
   }

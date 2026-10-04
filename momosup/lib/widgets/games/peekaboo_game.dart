@@ -1,16 +1,14 @@
-import '../forest_landscape.dart';
-
-import 'dart:math' as math;
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
 import '../../utils/sound_effects.dart';
 import '../avatar_image.dart';
-import '../forest_game_ui.dart';
-import '../game_particles.dart';
 import '../cute_game_effects.dart';
-import '../hand_guide_hint.dart';
+import '../forest_game_ui.dart';
+import '../forest_landscape.dart';
+import 'toy_habitat.dart';
 
 class PeekabooGame extends StatefulWidget {
   const PeekabooGame({
@@ -27,497 +25,292 @@ class PeekabooGame extends StatefulWidget {
 }
 
 class _PeekabooGameState extends State<PeekabooGame> {
-  int round = 1;
-  int totalFound = 0;
-
-  List<int> activeSpots = [];
-  Map<int, String> spotCharacter = {};
-  Map<int, ForestObject> spotBush = {};
-  Map<int, int> spotRevealState = {};
-  Map<int, int> spotTeaseCount = {};
-
-  Timer? _teaseTimer;
-  final _rng = math.Random();
-  final _particlesKey = GlobalKey<GameParticlesState>();
-
-  static const spotPositions = [
-    Offset(20, 20),
-    Offset(210, 20),
-    Offset(115, 120),
-    Offset(20, 220),
-    Offset(210, 220),
-  ];
+  final _random = math.Random();
+  Timer? _clueTimer;
+  List<String> _friends = [];
+  final _revealed = <int, int>{};
+  int _round = 0;
+  int? _clue;
+  int get _found => _revealed.values.where((step) => step == 2).length;
+  bool get _quiet =>
+      widget.lowStimulation || MediaQuery.disableAnimationsOf(context);
 
   @override
   void initState() {
     super.initState();
-    _setupRound();
-    _scheduleTease();
+    _prepareRound();
   }
 
-  void _setupRound() {
-    spotRevealState.clear();
-    spotTeaseCount.clear();
-
-    final chars = widget.lowStimulation
-        ? ['momo', 'duri', 'nuri']
-        : (['momo', 'duri', 'nuri']..shuffle(_rng));
-    final bushes = widget.lowStimulation
-        ? [ForestObject.bush, ForestObject.leaf, ForestObject.flower]
-        : ([ForestObject.bush, ForestObject.leaf, ForestObject.flower]
-            ..shuffle(_rng));
-    activeSpots = widget.lowStimulation
-        ? [0, 1, 2]
-        : (([0, 1, 2, 3, 4]..shuffle(_rng)).sublist(0, 3)..sort());
-
-    activeSpots = activeSpots.take(widget.stage == 0 ? 1 : 3).toList();
-    for (int i = 0; i < activeSpots.length; i++) {
-      final spot = activeSpots[i];
-      spotCharacter[spot] = chars[i];
-      spotBush[spot] = bushes[i];
-      spotRevealState[spot] = 0;
-      spotTeaseCount[spot] = 0;
-    }
+  void _prepareRound() {
+    _friends = ['momo', 'duri', 'nuri'];
+    if (!widget.lowStimulation) _friends.shuffle(_random);
+    if (widget.stage == 0) _friends = _friends.take(1).toList();
+    _revealed.clear();
+    _clue = null;
   }
 
-  void _scheduleTease() {
-    _teaseTimer?.cancel();
-    if (widget.lowStimulation) return;
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _scheduleClue();
+  }
 
-    final waitTime = 2000 + _rng.nextInt(3000);
-    _teaseTimer = Timer(Duration(milliseconds: waitTime), () {
+  void _scheduleClue() {
+    _clueTimer?.cancel();
+    if (_quiet || _found == _friends.length) return;
+    _clueTimer = Timer(const Duration(seconds: 5), () {
       if (!mounted) return;
-
-      final hidden = activeSpots.where((i) => spotRevealState[i] == 0).toList();
-      if (hidden.isNotEmpty) {
-        final target = hidden[_rng.nextInt(hidden.length)];
-        setState(() {
-          spotTeaseCount[target] = (spotTeaseCount[target] ?? 0) + 1;
-        });
-      }
-
-      _scheduleTease();
+      final hidden = List.generate(
+        _friends.length,
+        (i) => i,
+      ).where((i) => (_revealed[i] ?? 0) < 2).toList();
+      if (hidden.isEmpty) return;
+      setState(() => _clue = hidden[_random.nextInt(hidden.length)]);
+      // Only one friend hints at a time. Hints are silent and never reveal
+      // anything for the child or impose a time limit.
     });
   }
 
+  void _reveal(int index) {
+    if (_revealed[index] == 2) return;
+    GameFeedback.tap(lowStimulation: _quiet);
+    final next = widget.stage == 2 && (_revealed[index] ?? 0) == 0 ? 1 : 2;
+    setState(() {
+      _revealed[index] = next;
+      _clue = null;
+    });
+    if (next == 1) {
+      SoundEffects.instance.pop();
+    } else {
+      SoundEffects.instance.playSuccessPitch(_found - 1);
+      if (_found == _friends.length) widget.onComplete?.call();
+    }
+    _scheduleClue();
+  }
+
+  void _hideAgain() {
+    setState(() {
+      _round++;
+      _prepareRound();
+    });
+    _scheduleClue();
+  }
+
   @override
   void dispose() {
-    _teaseTimer?.cancel();
+    _clueTimer?.cancel();
     super.dispose();
   }
 
-  Offset _getSpotCenter(int i) {
-    final pos = spotPositions[i];
-    return Offset(pos.dx + 75, pos.dy + 85);
-  }
-
-  void _handleTap(int i) {
-    if (spotRevealState[i] == 2) return;
-
-    GameFeedback.tap(lowStimulation: widget.lowStimulation);
-
-    if (widget.stage < 2) {
-      setState(() {
-        spotRevealState[i] = 2;
-        totalFound++;
-      });
-      GameFeedback.success(lowStimulation: widget.lowStimulation);
-      SoundEffects.instance.snap();
-      SoundEffects.instance.playSuccessPitch(
-        spotRevealState.values.where((v) => v == 2).length - 1,
-      );
-      _particlesKey.currentState?.burst(
-        origin: _getSpotCenter(i),
-        count: 8,
-        style: ParticleStyle.sparkles,
-      );
-      _checkRoundComplete();
-    } else {
-      if (spotRevealState[i] == 0) {
-        setState(() => spotRevealState[i] = 1);
-        GameFeedback.light(lowStimulation: widget.lowStimulation);
-        SoundEffects.instance.pop();
-      } else if (spotRevealState[i] == 1) {
-        setState(() {
-          spotRevealState[i] = 2;
-          totalFound++;
-        });
-        GameFeedback.success(lowStimulation: widget.lowStimulation);
-        SoundEffects.instance.whoosh();
-        SoundEffects.instance.playSuccessPitch(
-          spotRevealState.values.where((v) => v == 2).length - 1,
-        );
-        _particlesKey.currentState?.burst(
-          origin: _getSpotCenter(i),
-          count: 8,
-          style: ParticleStyle.sparkles,
-        );
-        _checkRoundComplete();
-      }
-    }
-  }
-
-  void _checkRoundComplete() {
-    if (spotRevealState.values.where((v) => v == 2).length ==
-        activeSpots.length) {
-      widget.onComplete?.call();
-      GameFeedback.celebration(lowStimulation: widget.lowStimulation);
-      if (widget.lowStimulation) return;
-      Future.delayed(const Duration(milliseconds: 500), () {
-        if (!mounted) return;
-        SoundEffects.instance.tada();
-        _particlesKey.currentState?.burst(
-          origin: const Offset(190, 210),
-          count: 30,
-          style: ParticleStyle.confetti,
-          spread: 200,
-        );
-      });
-    }
-  }
-
   @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ForestToyComposition(
-          children: [
-            FittedBox(
-              fit: BoxFit.scaleDown,
-              child: ForestProgress(
-                count: spotRevealState.values.where((v) => v == 2).length,
-                total: 3,
-              ),
-            ),
-            if (!widget.lowStimulation) ...[
-              const SizedBox(height: 8),
-              Text(
-                '라운드 $round/5',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: forestInk,
-                ),
-              ),
-            ],
-            Expanded(
-              child: LayoutBuilder(
-                builder: (_, box) => Center(
-                  child: FittedBox(
-                    fit: BoxFit.contain,
-                    child: SizedBox(
-                      width: 380,
-                      height: 420,
-                      child: Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          for (int i = 0; i < 5; i++)
-                            if (activeSpots.contains(i))
-                              Positioned(
-                                left: spotPositions[i].dx,
-                                top: spotPositions[i].dy,
-                                child: IdleNudge(
-                                  active: (spotRevealState[i] ?? 0) < 2,
-                                  enabled: !widget.lowStimulation,
-                                  child: _PeekabooSpot(
-                                    revealState: spotRevealState[i] ?? 0,
-                                    teaseCount: spotTeaseCount[i] ?? 0,
-                                    character: spotCharacter[i] ?? 'momo',
-                                    bush: spotBush[i] ?? ForestObject.bush,
-                                    lowStimulation: widget.lowStimulation,
-                                    onTap: () => _handleTap(i),
-                                  ),
-                                ),
-                              ),
-                          Positioned.fill(
-                            child: IgnorePointer(
-                              child: GameParticles(key: _particlesKey),
-                            ),
-                          ),
-                          if (totalFound == 0 &&
-                              !widget.lowStimulation &&
-                              activeSpots.isNotEmpty &&
-                              !spotRevealState.values.any((s) => s > 0))
-                            Positioned.fill(
-                              child: IgnorePointer(
-                                child: HandGuideHint(
-                                  start: Offset(
-                                    spotPositions[activeSpots.first].dx + 75,
-                                    spotPositions[activeSpots.first].dy + 120,
-                                  ),
-                                  end: Offset(
-                                    spotPositions[activeSpots.first].dx + 75,
-                                    spotPositions[activeSpots.first].dy + 65,
-                                  ),
-                                ),
-                              ),
-                            ),
-                        ],
+  Widget build(BuildContext context) => ForestToyComposition(
+    children: [
+      ToyDiscoverySprig(count: _found, total: _friends.length),
+      Expanded(
+        child: ToyHabitat(
+          kind: ToyHabitatKind.hideaway,
+          discoveries: _found,
+          child: LayoutBuilder(
+            builder: (context, box) {
+              final single = _friends.length == 1;
+              final inRow = box.maxWidth > box.maxHeight * 1.55;
+              final size = math
+                  .min(
+                    single
+                        ? box.maxWidth * .7
+                        : box.maxWidth / (inRow ? 3.1 : 2.05),
+                    single
+                        ? box.maxHeight * .78
+                        : box.maxHeight / (inRow ? 1.25 : 2.1),
+                  )
+                  .clamp(80.0, 180.0);
+              final places = single
+                  ? const [Offset(.5, .5)]
+                  : inRow
+                  ? const [Offset(.17, .51), Offset(.5, .46), Offset(.83, .53)]
+                  : const [Offset(.25, .27), Offset(.75, .27), Offset(.5, .73)];
+              return Stack(
+                children: [
+                  for (var i = 0; i < _friends.length; i++)
+                    Positioned(
+                      left: places[i].dx * box.maxWidth - size / 2,
+                      top: places[i].dy * box.maxHeight - size * .55,
+                      width: size,
+                      height: size * 1.15,
+                      child: _HidingFriend(
+                        key: ValueKey('$_round-$i'),
+                        character: _friends[i],
+                        cover: [
+                          ForestObject.bush,
+                          ForestObject.leaf,
+                          ForestObject.flower,
+                        ][i],
+                        step: _revealed[i] ?? 0,
+                        clue: _clue == i,
+                        quiet: _quiet,
+                        onReveal: () => _reveal(i),
                       ),
                     ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 66,
-              child: totalFound == 15
-                  ? ForestAction(
-                      label: '다시 하기',
-                      icon: Icons.refresh_rounded,
-                      size: 60,
-                      onPressed: () {
-                        setState(() {
-                          round = 1;
-                          totalFound = 0;
-                          _setupRound();
-                        });
-                      },
-                    )
-                  : const Icon(
-                      Icons.touch_app_rounded,
-                      size: 32,
-                      color: Color(0xFF779363),
-                    ),
-            ),
-          ],
+                ],
+              );
+            },
+          ),
         ),
-        CuteBubblesLayer(
-          particlesKey: _particlesKey,
-          enabled: !widget.lowStimulation,
-        ),
-      ],
-    );
-  }
+      ),
+      SizedBox(
+        height: 80,
+        child: _found == _friends.length
+            ? ForestAction(
+                label: '친구들 다시 숨기기',
+                icon: Icons.visibility_off_rounded,
+                size: 72,
+                leaf: true,
+                quiet: _quiet,
+                onPressed: _hideAgain,
+              )
+            : const ForestProp(ForestObject.paw, size: 40),
+      ),
+    ],
+  );
 }
 
-class _PeekabooSpot extends StatefulWidget {
-  final int revealState;
-  final int teaseCount;
-  final String character;
-  final ForestObject bush;
-  final VoidCallback onTap;
-  final bool lowStimulation;
-
-  const _PeekabooSpot({
-    required this.revealState,
-    required this.teaseCount,
+class _HidingFriend extends StatefulWidget {
+  const _HidingFriend({
     required this.character,
-    required this.bush,
-    required this.onTap,
-    required this.lowStimulation,
+    required this.cover,
+    required this.step,
+    required this.clue,
+    required this.quiet,
+    required this.onReveal,
+    super.key,
   });
-
+  final String character;
+  final ForestObject cover;
+  final int step;
+  final bool clue, quiet;
+  final VoidCallback onReveal;
   @override
-  State<_PeekabooSpot> createState() => _PeekabooSpotState();
+  State<_HidingFriend> createState() => _HidingFriendState();
 }
 
-class _PeekabooSpotState extends State<_PeekabooSpot>
-    with TickerProviderStateMixin {
-  late final AnimationController _teaseController;
-  late final AnimationController _peekController;
-  late final AnimationController _springController;
-  late final AnimationController _waveController;
-  Timer? _idleTimer;
-
-  @override
-  void initState() {
-    super.initState();
-    _teaseController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-    _peekController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _springController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 500),
-    );
-    _waveController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 1500),
-    );
-  }
-
-  @override
-  void didUpdateWidget(_PeekabooSpot oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (widget.teaseCount != oldWidget.teaseCount && widget.revealState == 0) {
-      _teaseController.forward(from: 0);
-    }
-    if (widget.revealState == 1 && oldWidget.revealState == 0) {
-      _peekController.forward();
-    }
-    if (widget.revealState == 2 && oldWidget.revealState != 2) {
-      _springController.forward();
-      _waveController.forward(from: 0);
-      _scheduleIdle();
-    }
-    if (widget.revealState == 0 && oldWidget.revealState != 0) {
-      _peekController.reset();
-      _springController.reset();
-      _waveController.reset();
-      _idleTimer?.cancel();
-    }
-  }
-
+class _HidingFriendState extends State<_HidingFriend>
+    with SingleTickerProviderStateMixin {
+  late final _wave = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 650),
+  );
   @override
   void dispose() {
-    _teaseController.dispose();
-    _peekController.dispose();
-    _springController.dispose();
-    _waveController.dispose();
-    _idleTimer?.cancel();
+    _wave.dispose();
     super.dispose();
   }
 
-  void _scheduleIdle() {
-    _idleTimer?.cancel();
-    if (widget.revealState != 2) return;
-    _idleTimer = Timer(
-      Duration(milliseconds: 4000 + math.Random().nextInt(2000)),
-      () {
-        if (mounted && widget.revealState == 2) {
-          _waveController.forward(from: 0);
-          _scheduleIdle();
-        }
-      },
-    );
-  }
-
-  String get _semanticsLabel {
-    final b = widget.bush == ForestObject.flower
-        ? '꽃밭 속'
-        : (widget.bush == ForestObject.leaf ? '나무 뒤' : '풀숲 속');
-    final c = widget.character == 'momo'
-        ? '모모'
-        : (widget.character == 'duri' ? '두리' : '누리');
-    return '$b $c 찾기';
-  }
-
-  Widget _buildText() {
-    if (widget.revealState == 1) {
-      return Positioned(
-        top: 0,
-        child: FadeTransition(
-          opacity: _peekController,
-          child: const Text(
-            '어...?',
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              color: forestInk,
-            ),
-          ),
-        ),
-      );
-    } else if (widget.revealState == 2) {
-      return Positioned(
-        top: 0,
-        child: ScaleTransition(
-          scale: CurvedAnimation(
-            parent: _springController,
-            curve: Curves.elasticOut,
-          ),
-          child: const Text(
-            '까꿍!',
-            style: TextStyle(
-              fontSize: 22,
-              fontWeight: FontWeight.w900,
-              color: forestInk,
-            ),
-          ),
-        ),
-      );
+  void _touch() {
+    if (widget.step == 2) {
+      if (!widget.quiet) _wave.forward(from: 0);
+      GameFeedback.light(lowStimulation: widget.quiet);
+    } else {
+      widget.onReveal();
     }
-    return const SizedBox.shrink();
   }
 
   @override
   Widget build(BuildContext context) {
+    final name = switch (widget.character) {
+      'momo' => '모모',
+      'duri' => '두리',
+      _ => '누리',
+    };
+    final place = switch (widget.cover) {
+      ForestObject.bush => '풀숲 속',
+      ForestObject.leaf => '나무 뒤',
+      _ => '꽃밭 속',
+    };
     return Semantics(
+      label: '$place $name 찾기',
+      value: widget.step == 2
+          ? '친구를 찾았어요'
+          : widget.step == 1
+          ? '친구가 살짝 보여요'
+          : '친구가 숨어 있어요',
       button: true,
-      label: _semanticsLabel,
-      onTap: widget.onTap,
-      child: GestureDetector(
-        onTap: widget.onTap,
-        behavior: HitTestBehavior.opaque,
-        child: SizedBox(
-          width: 150,
-          height: 170,
-          child: AnimatedBuilder(
-            animation: Listenable.merge([
-              _teaseController,
-              _peekController,
-              _springController,
-              _waveController,
-            ]),
-            builder: (context, child) {
-              double baseBottom = widget.lowStimulation
-                  ? 0
-                  : (_peekController.value * 45);
-              double springDist = 80 - (widget.lowStimulation ? 0 : 45);
-              double bottom =
-                  math.sin(_teaseController.value * math.pi) * 15 +
-                  baseBottom +
-                  Curves.elasticOut.transform(_springController.value) *
-                      springDist;
-
-              double teaseAngle =
-                  math.sin(_teaseController.value * math.pi * 3) * 0.087;
-              double waveAngle =
-                  math.sin(_waveController.value * math.pi * 6) * 0.08;
-
+      onTap: _touch,
+      child: ExcludeSemantics(
+        child: GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: _touch,
+          child: LayoutBuilder(
+            builder: (_, box) {
+              final size = box.maxWidth;
               return Stack(
                 alignment: Alignment.bottomCenter,
-                clipBehavior: Clip.none,
                 children: [
                   Positioned(
-                    bottom: bottom,
-                    child: Transform.rotate(
-                      angle: waveAngle,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          AvatarImage(
-                            avatar: widget.character,
-                            size: 106,
-                            interactive: widget.revealState == 2,
-                          ),
-                          if (!widget.lowStimulation && widget.revealState == 2)
-                            const CharacterBlushOverlay(
-                              isBlushing: true,
-                              size: 106,
-                            ),
-                        ],
+                    bottom: size * .025,
+                    child: Container(
+                      width: size * .92,
+                      height: size * .18,
+                      decoration: const BoxDecoration(
+                        color: Color(0x28748B51),
+                        shape: BoxShape.circle,
                       ),
                     ),
                   ),
-                  if (widget.revealState == 0 &&
-                      !widget.lowStimulation &&
-                      widget.teaseCount > 0)
+                  AnimatedPositioned(
+                    duration: widget.quiet
+                        ? Duration.zero
+                        : const Duration(milliseconds: 520),
+                    curve: Curves.easeOutCubic,
+                    bottom:
+                        size *
+                        (widget.step == 2
+                            ? .23
+                            : widget.step == 1 || widget.clue
+                            ? .11
+                            : -.13),
+                    child: AnimatedBuilder(
+                      animation: _wave,
+                      child: AvatarImage(
+                        avatar: widget.character,
+                        size: size * .75,
+                        interactive: widget.step == 2,
+                        lowStimulation: widget.quiet,
+                      ),
+                      builder: (_, child) => Transform.rotate(
+                        angle: widget.quiet
+                            ? 0
+                            : math.sin(_wave.value * math.pi * 4) * .08,
+                        child: child,
+                      ),
+                    ),
+                  ),
+                  AnimatedSlide(
+                    offset: widget.step == 2
+                        ? const Offset(.20, .16)
+                        : Offset.zero,
+                    duration: widget.quiet
+                        ? Duration.zero
+                        : const Duration(milliseconds: 450),
+                    curve: Curves.easeOutCubic,
+                    child: ForestProp(widget.cover, size: size * .91),
+                  ),
+                  if (widget.step == 2)
                     Positioned(
-                      bottom:
-                          58 + math.sin(_teaseController.value * math.pi) * 16,
-                      child: Opacity(
-                        opacity: (_teaseController.value * 2).clamp(0.0, 1.0),
-                        child: const CuteFace(
-                          size: 36,
-                          mood: FaceMood.surprised,
+                      top: 0,
+                      child: Text(
+                        '까꿍!',
+                        style: TextStyle(
+                          fontSize: (size * .15).clamp(16, 22),
+                          fontWeight: FontWeight.w900,
+                          color: forestInk,
                         ),
                       ),
                     ),
-                  Transform.rotate(
-                    angle: teaseAngle,
-                    child: ForestFloat(
-                      still: widget.lowStimulation || widget.revealState == 2,
-                      offset: 0,
-                      child: ForestProp(widget.bush, size: 143),
+                  if (widget.step == 1)
+                    Positioned(
+                      top: 2,
+                      child: ForestProp(ForestObject.paw, size: size * .2),
                     ),
-                  ),
-                  _buildText(),
                 ],
               );
             },

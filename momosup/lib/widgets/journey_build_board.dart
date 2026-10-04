@@ -144,42 +144,47 @@ class JourneyBuildBoard extends StatelessWidget {
                         child: AnimatedScale(
                           scale: candidates.isNotEmpty && !quiet ? 1.06 : 1,
                           duration: const Duration(milliseconds: 180),
-                          child: SceneReaction(
-                            event: 'piece-$i-${slots[i]}',
+                          child: _TrialMaterial(
+                            trial: trial,
+                            index: i,
                             quiet: quiet,
-                            child: Opacity(
-                              opacity: slots.containsKey(i) ? 1 : .27,
-                              child: bus
-                                  ? AvatarImage(
-                                      avatar: [
-                                        'momo',
-                                        'duri',
-                                        'nuri',
-                                      ][(slots[i] ?? i) % 3],
-                                      size: 85,
-                                      interactive: false,
-                                      lowStimulation: quiet,
-                                      showBlush: slots.containsKey(i),
-                                    )
-                                  : house
-                                  ? CustomPaint(
-                                      painter: _HousePart(i, slots[i] ?? 0),
-                                    )
-                                  : garden
-                                  ? (slots[i] == (id == 'age_84_02' ? 1 : 2)
-                                        ? const ForestProp(
-                                            ForestObject.home,
-                                            size: 100,
-                                          )
-                                        : GardenFlower(
-                                            variant: slots[i] ?? i,
-                                            open: slots.containsKey(i),
-                                            size: positions[i].width,
-                                            quiet: quiet,
-                                          ))
-                                  : CustomPaint(
-                                      painter: _BridgePlank(slots[i] ?? 0),
-                                    ),
+                            child: SceneReaction(
+                              event: 'piece-$i-${slots[i]}',
+                              quiet: quiet,
+                              child: Opacity(
+                                opacity: slots.containsKey(i) ? 1 : .27,
+                                child: bus
+                                    ? AvatarImage(
+                                        avatar: [
+                                          'momo',
+                                          'duri',
+                                          'nuri',
+                                        ][(slots[i] ?? i) % 3],
+                                        size: 85,
+                                        interactive: false,
+                                        lowStimulation: quiet,
+                                        showBlush: slots.containsKey(i),
+                                      )
+                                    : house
+                                    ? CustomPaint(
+                                        painter: _HousePart(i, slots[i] ?? 0),
+                                      )
+                                    : garden
+                                    ? (slots[i] == (id == 'age_84_02' ? 1 : 2)
+                                          ? const ForestProp(
+                                              ForestObject.home,
+                                              size: 100,
+                                            )
+                                          : GardenFlower(
+                                              variant: slots[i] ?? i,
+                                              open: slots.containsKey(i),
+                                              size: positions[i].width,
+                                              quiet: quiet,
+                                            ))
+                                    : CustomPaint(
+                                        painter: _BridgePlank(slots[i] ?? 0),
+                                      ),
+                              ),
                             ),
                           ),
                         ),
@@ -188,8 +193,7 @@ class JourneyBuildBoard extends StatelessWidget {
                   ),
                 ),
               ),
-            if (trial == null ||
-                (trial != null && active < 0 && trial!.evaluate().success))
+            if (trial == null)
               AnimatedPositioned(
                 duration: quiet
                     ? Duration.zero
@@ -197,8 +201,8 @@ class JourneyBuildBoard extends StatelessWidget {
                 curve: Curves.easeInOut,
                 left: active < 0
                     ? ((trial != null && trial!.evaluate().success)
-                        ? (w - 76)
-                        : 4)
+                          ? (w - 76)
+                          : 4)
                     : positions[active.clamp(0, count - 1)].center.dx - 32,
                 top: active < 0
                     ? (house || garden ? 228 : 97)
@@ -249,6 +253,49 @@ class JourneyBuildBoard extends StatelessWidget {
       },
     ),
   );
+}
+
+/// Show the material being tested, then leave it ready for a gentle repair.
+/// Movement ends with the Flame walk; it never shakes indefinitely.
+class _TrialMaterial extends StatelessWidget {
+  const _TrialMaterial({
+    required this.trial,
+    required this.index,
+    required this.quiet,
+    required this.child,
+  });
+  final BuildTrial? trial;
+  final int index;
+  final bool quiet;
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    final result = trial?.evaluate();
+    if (trial == null ||
+        result!.success ||
+        result.problemSlot != index ||
+        (!trial!.wind && !trial!.bridge)) {
+      return child;
+    }
+    return TweenAnimationBuilder<double>(
+      key: ValueKey('material-trial-${trial!.attempt}-$index'),
+      tween: Tween(begin: 0, end: 1),
+      duration: quiet ? Duration.zero : const Duration(milliseconds: 2400),
+      child: child,
+      builder: (_, t, child) {
+        final wave = quiet
+            ? 0.0
+            : math.sin(t * math.pi * 4) * math.sin(t * math.pi);
+        return Transform.translate(
+          offset: Offset(
+            trial!.wind ? wave * 10 : 0,
+            trial!.bridge ? wave.abs() * 11 : 0,
+          ),
+          child: Transform.rotate(angle: wave * .07, child: child),
+        );
+      },
+    );
+  }
 }
 
 class _HousePart extends CustomPainter {

@@ -1,4 +1,5 @@
 import '../forest_landscape.dart';
+import 'toy_habitat.dart';
 
 import 'dart:async';
 import 'dart:math' as math;
@@ -37,6 +38,7 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
   int _totalMatched = 0;
   String? _hoveredWrongTarget;
   String? _selected;
+  String? _suggestedTarget;
 
   final Map<String, GlobalKey<_PuzzleTargetState>> _targetKeys = {};
   final Map<String, GlobalKey> _pieceKeys = {};
@@ -90,8 +92,8 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
       setState(() => _selected = null);
       _onMatch(matchedId);
     } else {
-      SoundEffects.instance.boing();
-      _targetKeys[targetId]?.currentState?.shake();
+      SoundEffects.instance.pop();
+      setState(() => _suggestedTarget = _selected);
     }
   }
 
@@ -112,6 +114,7 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
         : (List.from(_currentTargets)..shuffle(math.Random()));
     _matched.clear();
     _selected = null;
+    _suggestedTarget = null;
     _hoveredWrongTarget = null;
 
     for (var id in _currentTargets) {
@@ -162,20 +165,20 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
   }
 
   void _onMatch(String id) {
+    if (_matched.contains(id)) return;
     setState(() {
+      _suggestedTarget = null;
       _matched.add(id);
       _totalMatched++;
     });
 
     GameFeedback.success(lowStimulation: widget.lowStimulation);
-    SoundEffects.instance.snap();
     SoundEffects.instance.playSuccessPitch(_matched.length - 1);
 
     if (!widget.lowStimulation) {
       final key = _targetKeys[id];
       if (key?.currentContext != null) {
-        final box = key!.currentContext!.findRenderObject() as RenderBox;
-        final pos = box.localToGlobal(box.size.center(Offset.zero));
+        final pos = _getStackPos(key!);
         _particlesKey.currentState?.burst(
           origin: pos,
           count: 6,
@@ -192,27 +195,30 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
   }
 
   void _onRoundComplete() {
-    _addTimer(const Duration(milliseconds: 600), () {
-      GameFeedback.celebration(lowStimulation: widget.lowStimulation);
-      SoundEffects.instance.tada();
+    _addTimer(
+      widget.lowStimulation ? Duration.zero : const Duration(milliseconds: 600),
+      () {
+        GameFeedback.celebration(lowStimulation: widget.lowStimulation);
+        SoundEffects.instance.tada();
 
-      if (!widget.lowStimulation) {
-        final size = MediaQuery.of(context).size;
-        _particlesKey.currentState?.celebrate(
-          Offset(size.width / 2, size.height / 3),
-        );
-      }
+        if (!widget.lowStimulation) {
+          final size = MediaQuery.of(context).size;
+          _particlesKey.currentState?.celebrate(
+            Offset(size.width / 2, size.height / 3),
+          );
+        }
 
-      int index = 0;
-      for (var id in _currentTargets) {
-        _targetKeys[id]?.currentState?.celebrate(
-          Duration(milliseconds: index * 150),
-        );
-        index++;
-      }
+        int index = 0;
+        for (var id in _currentTargets) {
+          _targetKeys[id]?.currentState?.celebrate(
+            Duration(milliseconds: index * 150),
+          );
+          index++;
+        }
 
-      widget.onComplete?.call();
-    });
+        widget.onComplete?.call();
+      },
+    );
   }
 
   Widget _buildItem(
@@ -311,7 +317,10 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
                   onTap: isMatched
                       ? null
                       : () {
-                          setState(() => _selected = id);
+                          setState(() {
+                            _selected = id;
+                            _suggestedTarget = null;
+                          });
                         },
                   child: DecoratedBox(
                     decoration: BoxDecoration(
@@ -321,7 +330,10 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
                       shape: BoxShape.circle,
                     ),
                     child: IdleNudge(
-                      active: !isMatched,
+                      active:
+                          _totalMatched == 0 &&
+                          _selected == null &&
+                          id == _shuffledTray.first,
                       enabled: !widget.lowStimulation,
                       child: Draggable<String>(
                         data: id,
@@ -338,10 +350,9 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
                           GameFeedback.light(
                             lowStimulation: widget.lowStimulation,
                           );
-                          SoundEffects.instance.boing();
+                          SoundEffects.instance.pop();
                           if (_hoveredWrongTarget != null) {
-                            _targetKeys[_hoveredWrongTarget]?.currentState
-                                ?.shake();
+                            setState(() => _suggestedTarget = id);
                           }
                         },
                         child: ForestFloat(
@@ -380,39 +391,59 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
         ForestToyComposition(
           children: [
             SizedBox(height: compact ? 6 : 16),
-            ForestProgress(
+            ToyDiscoverySprig(
               count: _matched.length,
               total: _currentTargets.length,
             ),
             SizedBox(height: compact ? 8 : 24),
             Expanded(
-              child: Center(
-                child: SingleChildScrollView(
-                  child: Wrap(
-                    alignment: WrapAlignment.center,
-                    spacing: compact ? 8 : 16,
-                    runSpacing: compact ? 8 : 16,
-                    children: _currentTargets
-                        .map(
-                          (id) => _PuzzleTarget(
-                            key: _targetKeys[id],
-                            id: id,
-                            isMatched: _matched.contains(id),
-                            onMatch: () => _onMatch(id),
-                            onWrongHover: (targetId) =>
-                                _hoveredWrongTarget = targetId,
-                            buildItem: _buildItem,
-                            onTap: () => _onTargetTapped(id),
-                            width: targetWidth,
-                            height: targetHeight,
-                            iconSize: targetIconSize,
-                          ),
-                        )
-                        .toList(),
+              child: ToyHabitat(
+                kind: ToyHabitatKind.shadows,
+                discoveries: _matched.length,
+                child: Center(
+                  child: SingleChildScrollView(
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: compact ? 8 : 16,
+                      runSpacing: compact ? 8 : 16,
+                      children: _currentTargets
+                          .map(
+                            (id) => _PuzzleTarget(
+                              key: _targetKeys[id],
+                              id: id,
+                              isMatched: _matched.contains(id),
+                              quiet: widget.lowStimulation,
+                              suggested:
+                                  _suggestedTarget == id ||
+                                  (widget.stage == 0 && _selected == id),
+                              onMatch: () => _onMatch(id),
+                              onWrongHover: (targetId) =>
+                                  _hoveredWrongTarget = targetId,
+                              buildItem: _buildItem,
+                              onTap: () => _onTargetTapped(id),
+                              width: targetWidth,
+                              height: targetHeight,
+                              iconSize: targetIconSize,
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
                 ),
               ),
             ),
+            if (_matched.length == _currentTargets.length)
+              ForestAction(
+                label: '다른 그림자로 한 번 더',
+                icon: Icons.replay_rounded,
+                size: 72,
+                leaf: true,
+                quiet: widget.lowStimulation,
+                onPressed: () => setState(() {
+                  _currentRound++;
+                  _initRound();
+                }),
+              ),
             Padding(
               padding: EdgeInsets.only(bottom: compact ? 12.0 : 32.0),
               child: ForestTrayScroll(
@@ -432,20 +463,6 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
         if (_showGuide) HandGuideHint(start: _guideStart, end: _guideEnd),
 
         Positioned.fill(child: GameParticles(key: _particlesKey)),
-
-        if (_matched.length == _currentTargets.length && _currentRound == 1)
-          Center(
-            child: ForestAction(
-              label: '다른 그림자로 한 번 더',
-              icon: Icons.replay_rounded,
-              size: 90,
-              quiet: widget.lowStimulation,
-              onPressed: () => setState(() {
-                _currentRound = 2;
-                _initRound();
-              }),
-            ),
-          ),
       ],
     );
   }
@@ -454,6 +471,8 @@ class _SilhouettePuzzleGameState extends State<SilhouettePuzzleGame>
 class _PuzzleTarget extends StatefulWidget {
   final String id;
   final bool isMatched;
+  final bool quiet;
+  final bool suggested;
   final VoidCallback onMatch;
   final Function(String?) onWrongHover;
   final Widget Function(String, {required double size, bool silhouette})
@@ -466,6 +485,8 @@ class _PuzzleTarget extends StatefulWidget {
   const _PuzzleTarget({
     required this.id,
     required this.isMatched,
+    required this.quiet,
+    required this.suggested,
     required this.onMatch,
     required this.onWrongHover,
     required this.buildItem,
@@ -540,10 +561,14 @@ class _PuzzleTargetState extends State<_PuzzleTarget>
   void didUpdateWidget(_PuzzleTarget oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.isMatched && !oldWidget.isMatched) {
+      if (widget.quiet) {
+        _snapController.value = 1;
+        return;
+      }
       _snapController.forward(from: 0.0);
       _wobbleTimer?.cancel();
       _wobbleTimer = Timer(const Duration(milliseconds: 400), () {
-        if (mounted) _wobbleController.repeat(reverse: true);
+        if (mounted) _wobbleController.forward(from: 0);
       });
     }
   }
@@ -560,10 +585,11 @@ class _PuzzleTargetState extends State<_PuzzleTarget>
   }
 
   void shake() {
-    _shakeController.forward(from: 0.0);
+    if (!widget.quiet) _shakeController.forward(from: 0.0);
   }
 
   void celebrate(Duration delay) {
+    if (widget.quiet) return;
     _celebrateTimer?.cancel();
     _celebrateTimer = Timer(delay, () {
       if (mounted) _celebrateController.forward(from: 0.0);
@@ -595,6 +621,7 @@ class _PuzzleTargetState extends State<_PuzzleTarget>
           offset: Offset(shakeVal, 0),
           child: DragTarget<String>(
             onWillAcceptWithDetails: (details) {
+              if (widget.isMatched) return false;
               if (details.data == widget.id) {
                 setState(() => _isHovered = true);
                 return true;
@@ -617,14 +644,20 @@ class _PuzzleTargetState extends State<_PuzzleTarget>
                 height: widget.height,
                 margin: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: _isHovered
-                        ? Colors.orangeAccent
-                        : const Color(0xFF8B6B4A),
-                    width: _isHovered ? 4 : 2,
+                  color: const Color(0xFFEBD6AA),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(43),
+                    topRight: Radius.circular(36),
+                    bottomLeft: Radius.circular(32),
+                    bottomRight: Radius.circular(45),
                   ),
-                  boxShadow: _isHovered
+                  border: Border.all(
+                    color: _isHovered || widget.suggested
+                        ? const Color(0xFFE2B64E)
+                        : const Color(0xFFC9AA75),
+                    width: _isHovered || widget.suggested ? 4 : 3,
+                  ),
+                  boxShadow: _isHovered || widget.suggested
                       ? [
                           BoxShadow(
                             color: Colors.orangeAccent.withAlpha(128),
@@ -633,11 +666,15 @@ class _PuzzleTargetState extends State<_PuzzleTarget>
                           ),
                         ]
                       : const [
-                          BoxShadow(color: Colors.black54),
                           BoxShadow(
-                            color: Color(0xFFC4A47C),
-                            spreadRadius: -2.0,
-                            blurRadius: 4.0,
+                            color: Color(0x3871593B),
+                            offset: Offset(0, 5),
+                            blurRadius: 1,
+                          ),
+                          BoxShadow(
+                            color: Color(0x25FFFFFF),
+                            spreadRadius: -4,
+                            blurRadius: 3,
                           ),
                         ],
                 ),

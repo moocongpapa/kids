@@ -148,6 +148,7 @@ void main() {
           'assets/images/duri.png',
           'assets/images/nuri.png',
           'assets/images/forest_weather.png',
+          'assets/images/forest_places_v2.png',
           'assets/stories/story_cloud.jpg',
         ]) {
           await precacheImage(
