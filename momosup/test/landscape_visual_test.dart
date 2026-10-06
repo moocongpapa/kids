@@ -1,3 +1,5 @@
+import 'woodland_visual_assets.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -142,6 +144,7 @@ void main() {
           home: screen,
         ),
       );
+      await precacheWoodlandArt(tester);
       await tester.runAsync(() async {
         for (final file in [
           'assets/images/momo.png',

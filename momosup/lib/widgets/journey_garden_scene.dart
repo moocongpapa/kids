@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'forest_game_ui.dart';
 import 'forest_play_stage.dart';
 import 'touch_invitation.dart';
+import 'woodland_art.dart';
 
 /// The same little garden persists across the three approved narrated scenes.
 class JourneyGardenScene extends StatelessWidget {
@@ -52,9 +53,7 @@ class JourneyGardenScene extends StatelessWidget {
           child: Stack(
             alignment: Alignment.center,
             children: [
-              const Positioned.fill(
-                child: CustomPaint(painter: GardenGround()),
-              ),
+              const Positioned.fill(child: WoodlandGround()),
               if (revealed)
                 Positioned(
                   top: 28,
@@ -154,11 +153,13 @@ class JourneyGardenScene extends StatelessWidget {
                             quiet: quiet,
                           ),
                         )
-                      : GardenFlower(
-                          variant: 1,
-                          open: step == 2,
-                          size: 205,
-                          quiet: quiet,
+                      : IgnorePointer(
+                          child: GardenFlower(
+                            variant: 1,
+                            open: step == 2,
+                            size: 205,
+                            quiet: quiet,
+                          ),
                         ),
                 ),
                 if (step == 2)
@@ -234,152 +235,39 @@ class GardenFlower extends StatelessWidget {
       tween: Tween(begin: 0, end: open ? 1 : 0),
       duration: quiet ? Duration.zero : const Duration(milliseconds: 850),
       curve: Curves.easeOutCubic,
-      builder: (_, t, _) =>
-          CustomPaint(size: Size(size, size), painter: _Flower(variant, t)),
+      builder: (_, t, _) => SizedBox.square(
+        dimension: size,
+        child: Stack(
+          children: [
+            Opacity(
+              opacity: 1 - t,
+              child: WoodlandSprite(
+                asset: woodlandArtAssets[4],
+                frame: 3,
+                columns: 4,
+                rows: 3,
+                size: size,
+              ),
+            ),
+            Opacity(
+              opacity: t,
+              child: Transform.scale(
+                scale: .92 + t * .08,
+                alignment: Alignment.bottomCenter,
+                child: WoodlandSprite(
+                  asset: woodlandArtAssets[4],
+                  frame: variant % 3,
+                  columns: 4,
+                  rows: 3,
+                  size: size,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     ),
   );
-}
-
-class _Flower extends CustomPainter {
-  _Flower(this.variant, this.open);
-  final int variant;
-  final double open;
-  @override
-  void paint(Canvas c, Size s) {
-    c.save();
-    c.scale(s.width / 220, s.height / 220);
-    final stem = Paint()
-      ..color = const Color(0xFF568C5D)
-      ..strokeWidth = 9
-      ..strokeCap = StrokeCap.round;
-    c.drawPath(
-      Path()
-        ..moveTo(111, 207)
-        ..quadraticBezierTo(119, 160, 110, 92),
-      stem..style = PaintingStyle.stroke,
-    );
-    for (final flip in [-1.0, 1.0]) {
-      c.save();
-      c.translate(112, 164);
-      c.scale(flip, 1);
-      c.drawPath(
-        Path()
-          ..moveTo(0, 0)
-          ..quadraticBezierTo(37, -42, 61, -27)
-          ..quadraticBezierTo(37, 10, 0, 0),
-        Paint()..color = const Color(0xFF7EAA63),
-      );
-      c.restore();
-    }
-    final colors = [
-      const Color(0xFFEAA0AD),
-      const Color(0xFFF2CD68),
-      const Color(0xFFB6A3D3),
-    ];
-    final center = Offset(110, 91 + (1 - open) * 13);
-    c.save();
-    c.translate(center.dx, center.dy);
-    final petals = [6, 9, 5][variant % 3];
-    for (var i = 0; i < petals; i++) {
-      c.save();
-      c.rotate(i * math.pi * 2 / petals);
-      c.drawOval(
-        Rect.fromCenter(
-          center: Offset(0, -13 - open * 28),
-          width: 27 + open * 17,
-          height: 47 + open * 25,
-        ),
-        Paint()..color = colors[variant % 3],
-      );
-      c.drawOval(
-        Rect.fromCenter(
-          center: Offset(-5, -27 - open * 25),
-          width: 8,
-          height: 14 + open * 13,
-        ),
-        Paint()..color = Colors.white.withValues(alpha: .2),
-      );
-      c.restore();
-    }
-    c.drawCircle(
-      Offset.zero,
-      15 + open * 14,
-      Paint()..color = const Color(0xFFFFE3A0),
-    );
-    if (open > .5) {
-      final face = Paint()
-        ..color = const Color(0xFF69583F)
-        ..strokeWidth = 2.5
-        ..strokeCap = StrokeCap.round;
-      c.drawCircle(const Offset(-8, -2), 2, face);
-      c.drawCircle(const Offset(8, -2), 2, face);
-      c.drawArc(
-        const Rect.fromLTWH(-7, 0, 14, 10),
-        0,
-        math.pi,
-        false,
-        face..style = PaintingStyle.stroke,
-      );
-    } else {
-      c.drawPath(
-        Path()
-          ..moveTo(-25, 11)
-          ..quadraticBezierTo(0, 40, 25, 11)
-          ..lineTo(12, 39)
-          ..lineTo(-10, 40)
-          ..close(),
-        Paint()..color = const Color(0xFF85AA61),
-      );
-    }
-    c.restore();
-    c.restore();
-  }
-
-  @override
-  bool? hitTest(Offset position) => false;
-  @override
-  bool shouldRepaint(_Flower old) => old.open != open || old.variant != variant;
-}
-
-class GardenGround extends CustomPainter {
-  const GardenGround();
-  @override
-  void paint(Canvas c, Size s) {
-    c.drawOval(
-      Rect.fromLTWH(5, s.height - 72, s.width - 10, 67),
-      Paint()..color = const Color(0xFF7B9D60),
-    );
-    c.drawOval(
-      Rect.fromLTWH(5, s.height - 79, s.width - 10, 65),
-      Paint()..color = const Color(0xFFB5C989),
-    );
-    final p = Paint()..color = const Color(0xFFEEE6AA);
-    for (var i = 0; i < 12; i++) {
-      c.drawCircle(
-        Offset(28 + i * 25, s.height - 36 + math.sin(i * 2) * 15),
-        2.5,
-        p,
-      );
-    }
-    for (var i = 0; i < 7; i++) {
-      final x = 18.0 + i * 49;
-      final y = s.height - 47 + math.sin(i) * 8;
-      c.drawOval(
-        Rect.fromCenter(center: Offset(x, y), width: 15, height: 7),
-        Paint()..color = const Color(0x88E9DDAC),
-      );
-      c.drawLine(
-        Offset(x + 8, y),
-        Offset(x + 12, y - 12),
-        Paint()
-          ..color = const Color(0xFF719154)
-          ..strokeWidth = 2,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(GardenGround old) => false;
 }
 
 class _Butterfly extends CustomPainter {

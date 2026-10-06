@@ -1,3 +1,5 @@
+import 'woodland_visual_assets.dart';
+
 import 'package:momosup/widgets/journey_sort_scene.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -47,6 +49,7 @@ void main() {
           ),
         ),
       );
+      await precacheWoodlandArt(tester);
       await tester.runAsync(() async {
         for (final image in ['momo', 'duri', 'nuri']) {
           await precacheImage(

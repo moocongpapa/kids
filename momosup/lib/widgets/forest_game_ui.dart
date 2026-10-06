@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'avatar_image.dart';
 import 'cute_game_effects.dart';
 import 'forest_landscape.dart';
+import 'woodland_art.dart';
 
 export 'bouncy_tap.dart';
 
@@ -32,15 +33,43 @@ enum ForestObject {
   heart,
 }
 
-/// Original vector play objects, kept crisp on every phone and tablet.
+/// Painted objects use the same palette, grain and lighting as the characters.
 class ForestProp extends StatelessWidget {
   const ForestProp(this.object, {this.size = 84, super.key});
   final ForestObject object;
   final double size;
   @override
-  Widget build(BuildContext context) => ExcludeSemantics(
-    child: CustomPaint(size: Size.square(size), painter: _PropPainter(object)),
-  );
+  Widget build(BuildContext context) {
+    final frame = switch (object) {
+      ForestObject.berry => 0,
+      ForestObject.raspberry => 1,
+      ForestObject.blueberry => 2,
+      ForestObject.acorn => 3,
+      ForestObject.basket => 4,
+      ForestObject.bush => 5,
+      ForestObject.music => 6,
+      ForestObject.puzzle => 7,
+      ForestObject.paint => 8,
+      ForestObject.sun => 9,
+      ForestObject.bus => 10,
+      ForestObject.flower => 11,
+      ForestObject.cloud => 12,
+      ForestObject.leaf => 13,
+      ForestObject.home => 14,
+      _ => null,
+    };
+    return ExcludeSemantics(
+      child: frame == null
+          ? CustomPaint(size: Size.square(size), painter: _PropPainter(object))
+          : WoodlandSprite(
+              asset: woodlandArtAssets.first,
+              frame: frame,
+              columns: 4,
+              rows: 4,
+              size: size,
+            ),
+    );
+  }
 }
 
 class ForestFloat extends StatefulWidget {
@@ -603,6 +632,28 @@ class _ButtonPainter extends CustomPainter {
         ..strokeWidth = selected ? 4 : 2,
     );
     if (!leaf) {
+      canvas.save();
+      canvas.clipPath(path);
+      for (var i = 0; i < 4; i++) {
+        final y = r.top + r.height * (.23 + i * .18);
+        canvas.drawPath(
+          Path()
+            ..moveTo(r.left, y)
+            ..cubicTo(
+              r.width * .3,
+              y - 5,
+              r.width * .66,
+              y + 5,
+              r.right,
+              y + 1,
+            ),
+          Paint()
+            ..color = const Color(0x207D542F)
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 1,
+        );
+      }
+      canvas.restore();
       canvas.drawArc(
         r.deflate(7),
         .3,

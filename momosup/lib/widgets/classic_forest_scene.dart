@@ -9,6 +9,7 @@ import 'forest_game_ui.dart';
 import 'forest_play_stage.dart';
 import 'journey_garden_scene.dart';
 import 'touch_invitation.dart';
+import 'woodland_art.dart';
 import '../utils/sound_effects.dart';
 
 class ClassicForestScene extends StatelessWidget {
@@ -346,13 +347,39 @@ class _ForestMovementSceneState extends State<ForestMovementScene> {
               duration: widget.quiet
                   ? Duration.zero
                   : const Duration(milliseconds: 2400),
-              builder: (_, t, _) => CustomPaint(
-                painter: _MovementBuddy(
-                  widget.id,
-                  widget.step,
-                  widget.quiet ? 0 : math.sin(t * math.pi * 4),
-                ),
-                child: const SizedBox.expand(),
+              builder: (_, t, _) => LayoutBuilder(
+                builder: (_, box) {
+                  final rest = widget.step == 2;
+                  final frame = rest
+                      ? 11
+                      : widget.id == 'animal_steps_song' && widget.step == 0
+                      ? 10
+                      : (widget.quiet || t >= 1
+                                ? widget.step % 2
+                                : (t * 4).floor() % 2) +
+                            8;
+                  final extent = math.min(
+                    box.maxWidth * .7,
+                    box.maxHeight * .85,
+                  );
+                  return Center(
+                    child: Transform.translate(
+                      offset: Offset(
+                        0,
+                        widget.quiet || rest
+                            ? 0
+                            : -math.sin(t * math.pi * 4).abs() * 4,
+                      ),
+                      child: WoodlandSprite(
+                        asset: woodlandArtAssets[4],
+                        frame: frame,
+                        columns: 4,
+                        rows: 3,
+                        size: extent,
+                      ),
+                    ),
+                  );
+                },
               ),
             ),
           ),
@@ -360,91 +387,4 @@ class _ForestMovementSceneState extends State<ForestMovementScene> {
       ),
     ),
   );
-}
-
-class _MovementBuddy extends CustomPainter {
-  const _MovementBuddy(this.id, this.step, this.wave);
-  final String id;
-  final int step;
-  final double wave;
-  @override
-  void paint(Canvas c, Size s) {
-    c.save();
-    c.translate(s.width / 2, s.height * 183 / 350);
-    c.scale(math.min(1.0, s.height / 350));
-    final rest = step == 2;
-    c.rotate(rest ? 0 : wave * .05);
-    final fur = Paint()..color = const Color(0xFFC99562);
-    final light = Paint()..color = const Color(0xFFEED0A0);
-    final line = Paint()
-      ..color = const Color(0xFF735541)
-      ..strokeWidth = 4
-      ..strokeCap = StrokeCap.round
-      ..style = PaintingStyle.stroke;
-    for (final side in [-1.0, 1.0]) {
-      c.save();
-      c.scale(side, 1);
-      c.drawOval(Rect.fromLTWH(12, 61, 37, 60), fur);
-      c.save();
-      c.translate(42, 0);
-      c.rotate(
-        rest
-            ? -.4
-            : (id == 'animal_steps_song' && step == 0
-                  ? -1.1 + wave * .4
-                  : -.8 + wave * .65),
-      );
-      c.drawRRect(
-        RRect.fromRectAndRadius(
-          const Rect.fromLTWH(0, -14, 71, 30),
-          const Radius.circular(16),
-        ),
-        fur,
-      );
-      c.drawCircle(const Offset(60, 0), 8, light);
-      c.restore();
-      c.drawCircle(const Offset(44, -87), 22, fur);
-      c.drawCircle(const Offset(44, -87), 12, light);
-      c.restore();
-    }
-    c.drawOval(const Rect.fromLTWH(-55, -15, 110, 110), fur);
-    c.drawOval(const Rect.fromLTWH(-38, 10, 76, 68), light);
-    c.drawOval(const Rect.fromLTWH(-67, -102, 134, 114), fur);
-    c.drawOval(const Rect.fromLTWH(-34, -46, 68, 42), light);
-    for (final x in [-26.0, 26.0]) {
-      if (rest) {
-        c.drawArc(Rect.fromLTWH(x - 7, -62, 14, 10), 0, math.pi, false, line);
-      } else {
-        c.drawCircle(
-          Offset(x, -60),
-          5,
-          Paint()..color = const Color(0xFF594738),
-        );
-      }
-    }
-    c.drawOval(
-      const Rect.fromLTWH(-9, -40, 18, 12),
-      Paint()..color = const Color(0xFF6F4C34),
-    );
-    c.drawArc(const Rect.fromLTWH(-13, -34, 26, 18), 0, math.pi, false, line);
-    if (!rest) {
-      for (final side in [-1.0, 1.0]) {
-        c.drawArc(
-          Rect.fromLTWH(side * 90 - 13, -25 + wave * 10, 26, 42),
-          -.8,
-          1.6,
-          false,
-          Paint()
-            ..color = const Color(0xAA91AC70)
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 3,
-        );
-      }
-    }
-    c.restore();
-  }
-
-  @override
-  bool shouldRepaint(_MovementBuddy old) =>
-      old.wave != wave || old.step != step || old.id != id;
 }

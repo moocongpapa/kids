@@ -1,3 +1,5 @@
+import 'woodland_visual_assets.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -47,6 +49,7 @@ void main() {
           ),
         ),
       );
+      await precacheWoodlandArt(tester);
       await tester.runAsync(() async {
         for (final e in fixture.allStories) {
           await precacheImage(
@@ -100,6 +103,7 @@ void main() {
           ),
         ),
       );
+      await precacheWoodlandArt(tester);
       await tester.runAsync(() async {
         for (final e in stories) {
           await precacheImage(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:momosup/utils/sound_effects.dart';
 import 'package:momosup/widgets/avatar_image.dart';
+import 'package:momosup/widgets/woodland_art.dart';
 import 'package:momosup/widgets/bouncy_tap.dart';
 import 'package:momosup/widgets/forest_background.dart';
 import 'package:momosup/widgets/forest_coloring_studio.dart';
@@ -121,7 +122,7 @@ void main() {
   });
 
   group('3. Living Characters & AvatarImage Tests', () {
-    testWidgets('AvatarImage가 터치 시 통통 튀며 하트·별빛 반응을 표시한다', (tester) async {
+    testWidgets('캐릭터가 터치한 아이를 바라보고 인사한 뒤 쉬는 표정으로 돌아온다', (tester) async {
       await tester.pumpWidget(
         const MaterialApp(
           home: Scaffold(
@@ -145,11 +146,12 @@ void main() {
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
 
-      // Heart or star sparkle appears
-      expect(find.text('💖'), findsOneWidget);
+      expect(tester.widget<WoodlandCharacter>(find.byType(WoodlandCharacter)).mood, WoodlandMood.lookRight);
+      await tester.pump(const Duration(milliseconds: 100));
+      expect(tester.widget<WoodlandCharacter>(find.byType(WoodlandCharacter)).mood, WoodlandMood.wave);
 
       await tester.pump(const Duration(milliseconds: 700));
-      expect(find.text('💖'), findsNothing);
+      expect(tester.widget<WoodlandCharacter>(find.byType(WoodlandCharacter)).mood, WoodlandMood.idle);
     });
   });
 

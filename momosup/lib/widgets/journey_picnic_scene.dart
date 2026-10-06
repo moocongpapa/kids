@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'avatar_image.dart';
 import 'forest_game_ui.dart';
 import 'journey_garden_scene.dart';
+import 'woodland_art.dart';
 
 /// Each gift changes the place or the friend's action. All choices are welcome.
 class JourneyPicnicScene extends StatelessWidget {
@@ -48,9 +49,7 @@ class JourneyPicnicScene extends StatelessWidget {
             child: Stack(
               alignment: Alignment.center,
               children: [
-                const Positioned.fill(
-                  child: CustomPaint(painter: GardenGround()),
-                ),
+                const Positioned.fill(child: WoodlandGround()),
                 Positioned(
                   top: 16,
                   left: 5,

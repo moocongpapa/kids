@@ -1,3 +1,5 @@
+import 'woodland_visual_assets.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -36,6 +38,7 @@ void main() {
   }
 
   Future<void> images(WidgetTester tester) async {
+    await precacheWoodlandArt(tester);
     await tester.runAsync(() async {
       for (final name in [
         'momo',

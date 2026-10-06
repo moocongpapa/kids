@@ -9,6 +9,7 @@ import 'avatar_image.dart';
 import 'forest_game_ui.dart';
 import 'forest_play_stage.dart';
 import 'journey_garden_scene.dart';
+import 'woodland_art.dart';
 
 class JourneyBuildPiece extends StatelessWidget {
   const JourneyBuildPiece({
@@ -33,10 +34,7 @@ class JourneyBuildPiece extends StatelessWidget {
       ? value == (id == 'age_84_02' ? 1 : 2)
             ? const ForestProp(ForestObject.home, size: 72)
             : GardenFlower(variant: value, open: true, size: 72, quiet: quiet)
-      : CustomPaint(
-          painter: _BridgePlank(value),
-          child: const SizedBox.expand(),
-        );
+      : _PaintedBridgePiece(value);
 }
 
 /// Children place pieces into the world and send a friend through their creation.
@@ -166,9 +164,7 @@ class JourneyBuildBoard extends StatelessWidget {
                                         showBlush: slots.containsKey(i),
                                       )
                                     : house
-                                    ? CustomPaint(
-                                        painter: _HousePart(i, slots[i] ?? 0),
-                                      )
+                                    ? _PaintedHousePart(i, slots[i] ?? 0)
                                     : garden
                                     ? (slots[i] == (id == 'age_84_02' ? 1 : 2)
                                           ? const ForestProp(
@@ -181,9 +177,7 @@ class JourneyBuildBoard extends StatelessWidget {
                                               size: positions[i].width,
                                               quiet: quiet,
                                             ))
-                                    : CustomPaint(
-                                        painter: _BridgePlank(slots[i] ?? 0),
-                                      ),
+                                    : _PaintedBridgePiece(slots[i] ?? 0),
                               ),
                             ),
                           ),
@@ -298,246 +292,66 @@ class _TrialMaterial extends StatelessWidget {
   }
 }
 
-class _HousePart extends CustomPainter {
-  const _HousePart(this.part, this.variant);
+class _PaintedHousePart extends StatelessWidget {
+  const _PaintedHousePart(this.part, this.variant);
   final int part, variant;
   @override
-  void paint(Canvas c, Size s) {
-    const woods = [Color(0xFFD2A26B), Color(0xFFC18D65), Color(0xFFE0BB80)];
-    const roofs = [Color(0xFF79966A), Color(0xFFB47D65), Color(0xFF88A9A4)];
-    if (part == 0) {
-      final roof = Path()
-        ..moveTo(2, s.height - 7)
-        ..quadraticBezierTo(s.width * .2, s.height * .75, s.width / 2, 3)
-        ..quadraticBezierTo(
-          s.width * .8,
-          s.height * .75,
-          s.width - 2,
-          s.height - 7,
-        )
-        ..close();
-      c.drawShadow(roof, const Color(0x995F6843), 5, false);
-      c.drawPath(
-        roof,
-        Paint()
-          ..shader = LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.lerp(roofs[variant % 3], Colors.white, .25)!,
-              roofs[variant % 3],
-            ],
-          ).createShader(Offset.zero & s),
-      );
-      c.save();
-      c.clipPath(roof);
-      for (var y = 23.0; y < s.height; y += 18) {
-        c.drawPath(
-          Path()
-            ..moveTo(0, y)
-            ..quadraticBezierTo(s.width / 2, y + 8, s.width, y),
-          Paint()
-            ..color = const Color(0x4470844D)
-            ..style = PaintingStyle.stroke
-            ..strokeWidth = 3,
-        );
-      }
-      c.restore();
-      c.drawLine(
-        Offset(4, s.height - 7),
-        Offset(s.width - 4, s.height - 7),
-        Paint()
-          ..color = const Color(0xFFE1CB99)
-          ..strokeWidth = 7
-          ..strokeCap = StrokeCap.round,
-      );
-    } else {
-      final body = RRect.fromRectAndRadius(
-        Offset.zero & s,
-        const Radius.circular(8),
-      );
-      c.drawRRect(
-        body.shift(const Offset(0, 4)),
-        Paint()..color = const Color(0xFF99704D),
-      );
-      c.drawRRect(
-        body,
-        Paint()
-          ..shader = LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color.lerp(woods[variant % 3], Colors.white, .14)!,
-              woods[variant % 3],
-            ],
-          ).createShader(Offset.zero & s),
-      );
-      c.save();
-      c.clipRRect(body);
-      for (var y = 19.0; y < s.height; y += 23) {
-        c.drawLine(
-          Offset(0, y),
-          Offset(s.width, y + 2),
-          Paint()
-            ..color = const Color(0x33876645)
-            ..strokeWidth = 2,
-        );
-        c.drawLine(
-          Offset(0, y + 3),
-          Offset(s.width, y + 4),
-          Paint()
-            ..color = const Color(0x44FFF0BB)
-            ..strokeWidth = 2,
-        );
-      }
-      c.restore();
-      if (part == 1) {
-        final window = Rect.fromCenter(
-          center: Offset(s.width / 2, s.height * .44),
-          width: s.width * .49,
-          height: 45,
-        );
-        c.drawRRect(
-          RRect.fromRectAndRadius(window.inflate(5), const Radius.circular(12)),
-          Paint()..color = const Color(0xFF8F7250),
-        );
-        c.drawRRect(
-          RRect.fromRectAndRadius(window, const Radius.circular(9)),
-          Paint()..color = const Color(0xFFD9EAC4),
-        );
-        c.drawLine(
-          Offset(window.center.dx, window.top),
-          Offset(window.center.dx, window.bottom),
-          Paint()
-            ..color = const Color(0xFFE7CD9E)
-            ..strokeWidth = 4,
-        );
-        c.drawLine(
-          Offset(window.left, window.center.dy),
-          Offset(window.right, window.center.dy),
-          Paint()
-            ..color = const Color(0xFFE7CD9E)
-            ..strokeWidth = 4,
-        );
-        c.drawRRect(
-          RRect.fromRectAndRadius(
-            Rect.fromLTWH(
-              window.left - 7,
-              window.bottom + 8,
-              window.width + 14,
-              11,
-            ),
-            const Radius.circular(5),
-          ),
-          Paint()..color = const Color(0xFF819D63),
-        );
-      } else {
-        final door = RRect.fromRectAndRadius(
-          Rect.fromLTWH(
-            s.width * .24,
-            s.height * .32,
-            s.width * .55,
-            s.height * .68,
-          ),
-          const Radius.circular(24),
-        );
-        c.drawRRect(door, Paint()..color = const Color(0xFF8D7354));
-        c.drawRRect(door.deflate(5), Paint()..color = const Color(0xFFAE9066));
-        c.drawCircle(
-          Offset(s.width * .65, s.height * .7),
-          4,
-          Paint()..color = const Color(0xFFFFE6A0),
-        );
-      }
-    }
-  }
-
-  @override
-  bool shouldRepaint(_HousePart old) =>
-      old.part != part || old.variant != variant;
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (_, box) => ColorFiltered(
+      colorFilter: ColorFilter.mode(
+        [
+          Colors.transparent,
+          const Color(0x309D704B),
+          const Color(0x308FA883),
+        ][variant % 3],
+        BlendMode.srcATop,
+      ),
+      child: WoodlandSprite(
+        asset: woodlandArtAssets[4],
+        frame: part == 0
+            ? 5
+            : part == 1
+            ? 6
+            : 7,
+        columns: 4,
+        rows: 3,
+        size: box.maxWidth,
+        height: box.maxHeight,
+      ),
+    ),
+  );
 }
 
-class _BridgePlank extends CustomPainter {
-  const _BridgePlank(this.variant);
+class _PaintedBridgePiece extends StatelessWidget {
+  const _PaintedBridgePiece(this.variant);
   final int variant;
   @override
-  void paint(Canvas c, Size s) {
-    if (variant == 2) {
-      final leaf = Path()
-        ..moveTo(5, s.height * .7)
-        ..quadraticBezierTo(s.width * .2, 0, s.width - 5, s.height * .2)
-        ..quadraticBezierTo(s.width * .9, s.height, s.width * .1, s.height * .9)
-        ..close();
-      c.drawShadow(leaf, const Color(0x66607142), 3, false);
-      c.drawPath(leaf, Paint()..color = const Color(0xFF91B875));
-      c.drawLine(
-        Offset(8, s.height * .8),
-        Offset(s.width - 14, s.height * .3),
-        Paint()
-          ..color = const Color(0xFFCCE2AA)
-          ..strokeWidth = 3,
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (_, box) {
+      final w = box.maxWidth;
+      final h = box.maxHeight;
+      return Stack(
+        alignment: Alignment.center,
+        children: [
+          if (variant == 2)
+            Center(child: ForestProp(ForestObject.leaf, size: math.min(w, h)))
+          else
+            for (var i = 0; i < (variant == 1 ? 2 : 3); i++)
+              Positioned(
+                left: 0,
+                right: 0,
+                top: h * (.02 + i * (variant == 1 ? .44 : .30)),
+                child: WoodlandSprite(
+                  asset: woodlandArtAssets.first,
+                  frame: 15,
+                  columns: 4,
+                  rows: 4,
+                  size: w,
+                  height: h * (variant == 1 ? .48 : .29),
+                ),
+              ),
+        ],
       );
-      return;
-    }
-    final color = [
-      const Color(0xFFD0A26A),
-      const Color(0xFFB68C67),
-      const Color(0xFFE0BA82),
-    ][variant % 3];
-    final h = s.height * (variant == 1 ? .32 : .18);
-    for (var i = 0; i < (variant == 1 ? 2 : 3); i++) {
-      final r = Rect.fromLTWH(
-        3,
-        5 + i * s.height * (variant == 1 ? .42 : .29),
-        s.width - 6,
-        h,
-      );
-      final plank = RRect.fromRectAndRadius(r, const Radius.circular(7));
-      c.drawRRect(
-        plank.shift(const Offset(0, 4)),
-        Paint()..color = const Color(0xFF9F7B52),
-      );
-      c.drawRRect(
-        plank,
-        Paint()
-          ..shader = LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [Color.lerp(color, Colors.white, .18)!, color],
-          ).createShader(r),
-      );
-      c.drawPath(
-        Path()
-          ..moveTo(12, r.top + h * .45)
-          ..quadraticBezierTo(
-            s.width * .5,
-            r.top + h * .2,
-            s.width - 13,
-            r.top + h * .5,
-          ),
-        Paint()
-          ..color = const Color(0x44856546)
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.3,
-      );
-      for (final x in [10.0, s.width - 10]) {
-        c.drawCircle(
-          Offset(x, r.top + h * .5),
-          1.8,
-          Paint()..color = const Color(0xFF9A8158),
-        );
-      }
-      c.drawOval(
-        Rect.fromCenter(
-          center: Offset(s.width * .62, r.top + h * .65),
-          width: 9,
-          height: 3,
-        ),
-        Paint()..color = const Color(0x22836542),
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(_BridgePlank old) => old.variant != variant;
+    },
+  );
 }

@@ -1,0 +1,96 @@
+{
+  "version": 1,
+  "createdOn": "2026-10-07",
+  "generator": "Built-in imagegen",
+  "mode": "Reference-guided generation with transparent background",
+  "promptFiles": [
+    "prompts.json",
+    "terrain_prompt.json",
+    "activity_prompt.json"
+  ],
+  "geminiRequests": 0,
+  "assistantVisualReview": {
+    "date": "2026-10-07",
+    "checks": [
+      "RGBA alpha",
+      "row crop bounds and feet",
+      "small portrait and landscape scenes",
+      "character expression sheet",
+      "interactive targets remain usable"
+    ]
+  },
+  "humanReviewedAt": null,
+  "rightsVerifiedAt": null,
+  "assets": [
+    {
+      "file": "assets/images/woodland_props_v3.png",
+      "sha256": "3d4d76c1e6e36d2d017d849a619074b897edee7a344d96556fac2084f002d96b",
+      "bytes": 1675606,
+      "width": 1254,
+      "height": 1254,
+      "pngColorType": 6,
+      "grid": [
+        4,
+        4
+      ],
+      "sourceImagegenResult": "exec-7cbceda4-1f15-47f7-a0f2-40c635a8b4ad.png",
+      "sourceImageUnmodified": true
+    },
+    {
+      "file": "assets/images/momo_poses_v3.png",
+      "sha256": "c0b9b91e894d050e2cb01d41a52831907fd42c6ce9cea5424ddeb36753d1f284",
+      "bytes": 1601525,
+      "width": 1774,
+      "height": 887,
+      "pngColorType": 6,
+      "grid": [
+        4,
+        2
+      ],
+      "sourceImagegenResult": "exec-24fc2655-3aff-4626-93ad-e2b815b4fe9c.png",
+      "sourceImageUnmodified": true
+    },
+    {
+      "file": "assets/images/friends_poses_v3.png",
+      "sha256": "1da35b6bc6fdc15da7be601bcea4f6cef412fe3f69ade83ff26347b3883163e0",
+      "bytes": 1545252,
+      "width": 1774,
+      "height": 887,
+      "pngColorType": 6,
+      "grid": [
+        4,
+        2
+      ],
+      "sourceImagegenResult": "exec-56c5ba7a-e054-4298-9580-634610d90169.png",
+      "sourceImageUnmodified": true
+    },
+    {
+      "file": "assets/images/woodland_ground_v3.png",
+      "sha256": "7e489947b358de7d415396e25177e5265564104a06670ae4645b33a05cbe2dac",
+      "bytes": 2361153,
+      "width": 1774,
+      "height": 887,
+      "pngColorType": 6,
+      "grid": [
+        2,
+        2
+      ],
+      "sourceImagegenResult": "exec-75c07e69-7d1f-4158-a283-fcb6a40e5187.png",
+      "sourceImageUnmodified": true
+    },
+    {
+      "file": "assets/images/woodland_activity_v3.png",
+      "sha256": "cd41d0cce83a3cdded7749c409bc2f7c156901dd4ee62f9876af88118d1d3dfa",
+      "bytes": 1570206,
+      "width": 1448,
+      "height": 1086,
+      "pngColorType": 6,
+      "grid": [
+        4,
+        3
+      ],
+      "sourceImagegenResult": "exec-7ff3673d-1a94-43a9-80ab-74d8cc511dd9.png",
+      "sourceImageUnmodified": true
+    }
+  ]
+}

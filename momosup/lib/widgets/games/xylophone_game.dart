@@ -1,5 +1,6 @@
 import '../forest_landscape.dart';
 import 'toy_habitat.dart';
+import '../woodland_art.dart';
 
 import 'package:flutter/material.dart';
 
@@ -311,7 +312,16 @@ class _XylophoneGameState extends State<XylophoneGame>
             height: barHeight,
             margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 3),
             decoration: BoxDecoration(
-              color: barColor,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Color.lerp(barColor, const Color(0xFFFFF1CE), .28)!,
+                  barColor!,
+                  Color.lerp(barColor, const Color(0xFF714C34), .20)!,
+                ],
+                stops: const [0, .45, 1],
+              ),
               borderRadius: const BorderRadius.all(Radius.circular(16)),
               border: Border.all(
                 color: isNextInMelody ? Colors.white : const Color(0xFFD09C72),
@@ -337,6 +347,11 @@ class _XylophoneGameState extends State<XylophoneGame>
               clipBehavior: Clip.none,
               alignment: Alignment.center,
               children: [
+                const Positioned.fill(
+                  child: IgnorePointer(
+                    child: CustomPaint(painter: WoodlandGrainPainter()),
+                  ),
+                ),
                 Positioned(
                   top: 8,
                   child: forestIsWide(context)

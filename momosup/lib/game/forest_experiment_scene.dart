@@ -20,7 +20,7 @@ class ForestExperimentGame extends FlameGame {
   Color backgroundColor() => Colors.transparent;
   @override
   Future<void> onLoad() async {
-    friend = await images.load('duri.png');
+    friend = await images.load('friends_poses_v3.png');
     AudioPolicy.instance.addListener(syncPause);
     if (!running) pauseEngine();
   }
@@ -83,7 +83,12 @@ class ForestExperimentGame extends FlameGame {
         (quiet ? 0 : math.sin(progress * math.pi * 6).abs() * 6);
     canvas.drawImageRect(
       friend!,
-      Rect.fromLTWH(0, 0, friend!.width.toDouble(), friend!.height.toDouble()),
+      Rect.fromLTWH(
+        (progress >= 1 && result.success ? 3 : 1) * friend!.width / 4,
+        0,
+        friend!.width / 4,
+        friend!.height * .53,
+      ),
       Rect.fromLTWH(x.clamp(0.0, size.x - 66), y, 66, 66),
       Paint(),
     );

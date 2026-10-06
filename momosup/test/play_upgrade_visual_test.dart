@@ -1,3 +1,5 @@
+import 'woodland_visual_assets.dart';
+
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -84,6 +86,7 @@ void main() {
           await tester.pumpAndSettle();
         }
       }
+      await precacheWoodlandArt(tester);
       await tester.runAsync(() async {
         for (final name in ['momo', 'duri', 'nuri', 'forest_places_v2']) {
           await precacheImage(

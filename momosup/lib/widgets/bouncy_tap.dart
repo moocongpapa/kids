@@ -16,6 +16,7 @@ class BouncyTap extends StatefulWidget {
     this.popSound = false,
     this.squash = 0.90,
     this.enabled = true,
+    this.quiet = false,
     super.key,
   });
 
@@ -27,6 +28,7 @@ class BouncyTap extends StatefulWidget {
   final bool popSound;
   final double squash;
   final bool enabled;
+  final bool quiet;
 
   @override
   State<BouncyTap> createState() => _BouncyTapState();
@@ -36,6 +38,19 @@ class _BouncyTapState extends State<BouncyTap>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _scale;
+  bool get _still => widget.quiet || MediaQuery.disableAnimationsOf(context);
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_still) _controller.reset();
+  }
+
+  @override
+  void didUpdateWidget(BouncyTap oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (_still) _controller.reset();
+  }
 
   @override
   void initState() {
@@ -61,20 +76,20 @@ class _BouncyTapState extends State<BouncyTap>
 
   void _onTapDown(TapDownDetails _) {
     if (!widget.enabled || widget.onTap == null) return;
-    _controller.forward();
-    if (widget.haptic) {
+    if (!_still) _controller.forward();
+    if (widget.haptic && !_still) {
       HapticFeedback.lightImpact();
     }
   }
 
   void _onTapUp(TapUpDetails _) {
     if (!widget.enabled) return;
-    _controller.reverse();
+    if (!_still) _controller.reverse();
   }
 
   void _onTapCancel() {
     if (!widget.enabled) return;
-    _controller.reverse();
+    if (!_still) _controller.reverse();
   }
 
   void _onTap() {
@@ -102,10 +117,8 @@ class _BouncyTapState extends State<BouncyTap>
       onLongPress: widget.onLongPress,
       child: AnimatedBuilder(
         animation: _scale,
-        builder: (context, child) => Transform.scale(
-          scale: _scale.value,
-          child: child,
-        ),
+        builder: (context, child) =>
+            Transform.scale(scale: _scale.value, child: child),
         child: widget.child,
       ),
     );

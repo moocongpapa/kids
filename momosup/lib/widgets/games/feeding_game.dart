@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/sound_effects.dart';
 import '../avatar_image.dart';
+import '../woodland_art.dart';
 import '../forest_game_ui.dart';
 import '../hand_guide_hint.dart';
 import '../game_particles.dart';
@@ -38,12 +39,12 @@ class FlyingFruit {
 }
 
 class _FeedingGameState extends State<FeedingGame>
-    with TickerProviderStateMixin {
-  late final AnimationController _breatheController;
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController _chewController;
   late final AnimationController _blinkController;
   late final AnimationController _jumpController;
   Timer? _blinkTimer;
+  bool _away = false;
 
   final GlobalKey<GameParticlesState> _particlesKey = GlobalKey();
   final GlobalKey _momoKey = GlobalKey();
@@ -64,14 +65,7 @@ class _FeedingGameState extends State<FeedingGame>
   @override
   void initState() {
     super.initState();
-    _breatheController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    );
-    if (!widget.lowStimulation) {
-      _breatheController.repeat(reverse: true);
-    }
-
+    WidgetsBinding.instance.addObserver(this);
     _chewController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
@@ -87,12 +81,36 @@ class _FeedingGameState extends State<FeedingGame>
       duration: const Duration(milliseconds: 300),
     );
 
-    _scheduleBlink();
     initRound(0);
   }
 
+  bool get _quiet =>
+      widget.lowStimulation || MediaQuery.disableAnimationsOf(context);
+  WoodlandMood _look = WoodlandMood.idle;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _syncMotion();
+  }
+
+  @override
+  void didUpdateWidget(FeedingGame oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _syncMotion();
+  }
+
+  void _syncMotion() {
+    _blinkTimer?.cancel();
+    if (_quiet || _away || !TickerMode.valuesOf(context).enabled) {
+      _blinkController.reset();
+    } else {
+      _scheduleBlink();
+    }
+  }
+
   void _scheduleBlink() {
-    if (widget.lowStimulation) return;
+    if (_quiet || _away || !TickerMode.valuesOf(context).enabled) return;
     final delay = 3000 + math.Random().nextInt(2000);
     _blinkTimer = Timer(Duration(milliseconds: delay), () {
       if (mounted) {
@@ -105,9 +123,15 @@ class _FeedingGameState extends State<FeedingGame>
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    _away = state != AppLifecycleState.resumed;
+    if (mounted) _syncMotion();
+  }
+
+  @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _blinkTimer?.cancel();
-    _breatheController.dispose();
     _chewController.dispose();
     _blinkController.dispose();
     _jumpController.dispose();
@@ -156,7 +180,7 @@ class _FeedingGameState extends State<FeedingGame>
       _onFruitArrived(roundFruits[index]);
       return;
     }
-    if (widget.lowStimulation) {
+    if (_quiet) {
       _onFruitArrived(roundFruits[index]);
       return;
     }
@@ -165,7 +189,9 @@ class _FeedingGameState extends State<FeedingGame>
       details.offset + const Offset(38, 38),
     );
     final momoCenter = stackBox.globalToLocal(
-      momoBox.localToGlobal(momoBox.size.center(Offset.zero)),
+      momoBox.localToGlobal(
+        Offset(momoBox.size.width * .61, momoBox.size.height * .40),
+      ),
     );
 
     setState(() {
@@ -187,10 +213,7 @@ class _FeedingGameState extends State<FeedingGame>
         _fruitKeys[index].currentContext?.findRenderObject() as RenderBox?;
     final momoBox = _momoKey.currentContext?.findRenderObject() as RenderBox?;
     final stackBox = _stackKey.currentContext?.findRenderObject() as RenderBox?;
-    if (widget.lowStimulation ||
-        fruitBox == null ||
-        momoBox == null ||
-        stackBox == null) {
+    if (_quiet || fruitBox == null || momoBox == null || stackBox == null) {
       _onFruitArrived(roundFruits[index]);
       return;
     }
@@ -201,7 +224,9 @@ class _FeedingGameState extends State<FeedingGame>
           fruitBox.localToGlobal(fruitBox.size.center(Offset.zero)),
         ),
         end: stackBox.globalToLocal(
-          momoBox.localToGlobal(momoBox.size.center(Offset.zero)),
+          momoBox.localToGlobal(
+            Offset(momoBox.size.width * .61, momoBox.size.height * .40),
+          ),
         ),
       ),
     );
@@ -214,14 +239,14 @@ class _FeedingGameState extends State<FeedingGame>
       _chewing = true;
       currentText = '냠냠!';
     });
-    GameFeedback.success(lowStimulation: widget.lowStimulation);
+    GameFeedback.success(lowStimulation: _quiet);
     SoundEffects.instance.chew();
     _chewController.forward(from: 0.0).then((_) {
       if (!mounted) return;
 
       _jumpController.forward(from: 0.0);
 
-      if (!widget.lowStimulation) {
+      if (!_quiet) {
         final box = _momoKey.currentContext?.findRenderObject() as RenderBox?;
         if (box != null) {
           final center = box.localToGlobal(box.size.center(Offset.zero));
@@ -242,6 +267,7 @@ class _FeedingGameState extends State<FeedingGame>
       setState(() {
         totalEaten++;
         _chewing = false;
+        _look = WoodlandMood.happy;
         switch (fruitObj) {
           case ForestObject.berry:
             currentText = '으~ 달콤해! 🍓';
@@ -268,10 +294,10 @@ class _FeedingGameState extends State<FeedingGame>
       setState(() {
         currentText = '배부르다! 😊';
       });
-      GameFeedback.celebration(lowStimulation: widget.lowStimulation);
+      GameFeedback.celebration(lowStimulation: _quiet);
       SoundEffects.instance.snap();
 
-      if (!widget.lowStimulation) {
+      if (!_quiet) {
         final box = _momoKey.currentContext?.findRenderObject() as RenderBox?;
         if (box != null) {
           final center = box.localToGlobal(box.size.center(Offset.zero));
@@ -288,89 +314,34 @@ class _FeedingGameState extends State<FeedingGame>
     }
   }
 
-  Widget buildMomo(double size) {
-    return AnimatedBuilder(
-      animation: Listenable.merge([
-        _breatheController,
-        _chewController,
-        _blinkController,
-        _jumpController,
-      ]),
-      builder: (context, child) {
-        double scale = 1.0;
-        if (!widget.lowStimulation) {
-          if (hovering) {
-            scale = 1.1;
-          } else {
-            scale = 1.0 + (_breatheController.value * 0.03);
-          }
-        }
-
-        double t = _chewController.value;
-        double chewSx = 1.0;
-        double chewSy = 1.0;
-        double rotateZ = 0.0;
-        if (t > 0) {
-          if (t < 0.2) {
-            chewSx = lerpDouble(1.0, 1.15, t / 0.2)!;
-            chewSy = lerpDouble(1.0, 0.88, t / 0.2)!;
-          } else if (t < 0.5) {
-            chewSx = lerpDouble(1.15, 0.9, (t - 0.2) / 0.3)!;
-            chewSy = lerpDouble(0.88, 1.1, (t - 0.2) / 0.3)!;
-          } else if (t < 0.8) {
-            chewSx = lerpDouble(0.9, 1.1, (t - 0.5) / 0.3)!;
-            chewSy = lerpDouble(1.1, 0.9, (t - 0.5) / 0.3)!;
-          } else {
-            chewSx = lerpDouble(1.1, 1.0, (t - 0.8) / 0.2)!;
-            chewSy = lerpDouble(0.9, 1.0, (t - 0.8) / 0.2)!;
-          }
-
-          rotateZ = math.sin(t * math.pi * 4) * 0.1;
-        }
-
-        double blinkSy = 1.0 - (_blinkController.value * 0.15);
-        double jumpY = math.sin(_jumpController.value * math.pi) * -16.0;
-
-        if (widget.lowStimulation) {
-          chewSx = 1.0;
-          chewSy = 1.0;
-          rotateZ = 0.0;
-          jumpY = 0.0;
-          blinkSy = 1.0;
-          scale = 1.0;
-        }
-
-        return Transform.translate(
-          offset: Offset(0, jumpY),
-          child: Transform.scale(
-            scale: scale,
-            child: Transform(
-              alignment: Alignment.center,
-              transform: Matrix4.diagonal3Values(chewSx, chewSy * blinkSy, 1.0)
-                ..rotateZ(rotateZ),
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  AvatarImage(
-                    key: _momoKey,
-                    avatar: 'momo',
-                    size: size,
-                    interactive: true,
-                    lowStimulation: widget.lowStimulation,
-                  ),
-                  if (!widget.lowStimulation)
-                    CharacterBlushOverlay(
-                      isBlushing: hovering || _chewing,
-                      size: size,
-                    ),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
+  Widget buildMomo(double size) => AnimatedBuilder(
+    animation: Listenable.merge([
+      _chewController,
+      _blinkController,
+      _jumpController,
+    ]),
+    builder: (_, _) {
+      final mood = hovering || flyingFruit != null
+          ? WoodlandMood.open
+          : _chewing
+          ? (_quiet || (_chewController.value * 4).floor().isEven
+                ? WoodlandMood.chew
+                : WoodlandMood.blink)
+          : !_quiet && _jumpController.isAnimating
+          ? WoodlandMood.happy
+          : !_quiet && _blinkController.value > .4
+          ? WoodlandMood.blink
+          : _look;
+      return AvatarImage(
+        key: _momoKey,
+        avatar: 'momo',
+        size: size,
+        interactive: false,
+        lowStimulation: _quiet,
+        mood: mood,
+      );
+    },
+  );
 
   Widget fruitWidget(
     ForestObject fruit, {
@@ -378,18 +349,17 @@ class _FeedingGameState extends State<FeedingGame>
     double size = 76,
     FaceMood mood = FaceMood.idle,
   }) => Opacity(
-    opacity: faded ? 0.16 : 1.0,
+    opacity: faded ? .16 : 1,
     child: SizedBox.square(
       dimension: size,
       child: Stack(
         alignment: Alignment.center,
         children: [
+          Positioned(
+            bottom: 0,
+            child: WoodlandContactShadow(width: size * .62, height: 9),
+          ),
           ForestProp(fruit, size: size - 4),
-          if (!faded && !widget.lowStimulation)
-            Positioned(
-              top: size * 0.22,
-              child: CuteFace(size: size * 0.58, mood: mood),
-            ),
         ],
       ),
     ),
@@ -430,7 +400,9 @@ class _FeedingGameState extends State<FeedingGame>
                   children: [
                     LayoutBuilder(
                       builder: (_, box) {
-                        final size = (box.maxHeight * .72).clamp(120.0, 250.0);
+                        final size = math
+                            .min(box.maxWidth * .68, box.maxHeight * .88)
+                            .clamp(110.0, 290.0);
                         return DragTarget<int>(
                           onWillAcceptWithDetails: (details) {
                             _onFruitHover();
@@ -450,28 +422,14 @@ class _FeedingGameState extends State<FeedingGame>
                             height: double.infinity,
                             child: Stack(
                               alignment: Alignment.center,
-                              children: [
-                                if (hovering && !widget.lowStimulation)
-                                  Container(
-                                    width: size + 40,
-                                    height: size + 40,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Color(0xFFF8DEA2),
-                                    ),
-                                  ),
-                                buildMomo(size),
-                              ],
+                              children: [buildMomo(size)],
                             ),
                           ),
                         );
                       },
                     ),
-                    if (!widget.lowStimulation)
-                      GameParticles(key: _particlesKey),
-                    if (totalEaten == 0 &&
-                        !widget.lowStimulation &&
-                        flyingFruit == null)
+                    if (!_quiet) GameParticles(key: _particlesKey),
+                    if (totalEaten == 0 && !_quiet && flyingFruit == null)
                       const Positioned(
                         bottom: 0,
                         child: HandGuideHint(
@@ -517,13 +475,39 @@ class _FeedingGameState extends State<FeedingGame>
                       child: ExcludeSemantics(
                         child: IdleNudge(
                           active: !isDisabled && eatenIndices.isEmpty && i == 0,
-                          enabled: !widget.lowStimulation,
+                          enabled: !_quiet,
                           child: Draggable<int>(
                             data: i,
                             maxSimultaneousDrags: isDisabled ? 0 : 1,
-                            onDragStarted: () => GameFeedback.tap(
-                              lowStimulation: widget.lowStimulation,
-                            ),
+                            onDragStarted: () {
+                              setState(() => _look = WoodlandMood.lookRight);
+                              GameFeedback.tap(lowStimulation: _quiet);
+                            },
+                            onDragUpdate: (details) {
+                              if (_quiet || hovering || flyingFruit != null) {
+                                return;
+                              }
+                              final box =
+                                  _momoKey.currentContext?.findRenderObject()
+                                      as RenderBox?;
+                              if (box == null) return;
+                              final left =
+                                  details.globalPosition.dx <
+                                  box
+                                      .localToGlobal(
+                                        box.size.center(Offset.zero),
+                                      )
+                                      .dx;
+                              final next = left
+                                  ? WoodlandMood.lookLeft
+                                  : WoodlandMood.lookRight;
+                              if (_look != next) setState(() => _look = next);
+                            },
+                            onDragEnd: (_) {
+                              if (mounted) {
+                                setState(() => _look = WoodlandMood.idle);
+                              }
+                            },
                             feedback: Material(
                               color: Colors.transparent,
                               child: fruitWidget(
@@ -560,7 +544,7 @@ class _FeedingGameState extends State<FeedingGame>
                       label: '한 번 더 먹이기',
                       icon: Icons.replay_rounded,
                       size: 60,
-                      quiet: widget.lowStimulation,
+                      quiet: _quiet,
                       onPressed: () =>
                           setState(() => initRound(currentRound + 1)),
                     )
@@ -572,10 +556,7 @@ class _FeedingGameState extends State<FeedingGame>
             ),
           ],
         ),
-        CuteBubblesLayer(
-          particlesKey: _particlesKey,
-          enabled: !widget.lowStimulation,
-        ),
+        CuteBubblesLayer(particlesKey: _particlesKey, enabled: !_quiet),
         if (flyingFruit != null)
           TweenAnimationBuilder<double>(
             tween: Tween(begin: 0.0, end: 1.0),
@@ -586,8 +567,8 @@ class _FeedingGameState extends State<FeedingGame>
               final end = flyingFruit!.end;
               double x = lerpDouble(start.dx, end.dx, val)!;
               double baseY = lerpDouble(start.dy, end.dy, val)!;
-              double curveY = math.sin(val * math.pi) * -80.0;
-              double scale = 1.0 - val;
+              double curveY = math.sin(val * math.pi) * -32.0;
+              double scale = 1.0 - Curves.easeIn.transform(val) * .92;
 
               return Positioned(
                 left: x - 38,
