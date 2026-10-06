@@ -6,6 +6,7 @@ import 'forest_game_ui.dart';
 import 'forest_landscape.dart';
 import 'forest_play_stage.dart';
 import 'game_particles.dart';
+import 'living_creation_overlay.dart';
 
 export 'coloring_templates.dart';
 
@@ -67,6 +68,7 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
   int _lastTappedSegment = -1;
   int _wobble = 0;
   bool _celebrated = false;
+  bool _showLivingCreation = false;
 
   @override
   void initState() {
@@ -82,6 +84,7 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
     _history.clear();
     _saveHistory();
     _celebrated = false;
+    _showLivingCreation = false;
   }
 
   void _saveHistory() {
@@ -147,6 +150,11 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
             Offset(canvasSize.width / 2, canvasSize.height / 2),
           );
         }
+        Future.delayed(const Duration(milliseconds: 650), () {
+          if (mounted && !_showLivingCreation) {
+            setState(() => _showLivingCreation = true);
+          }
+        });
       }
     }
   }
@@ -369,7 +377,7 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
             button: true,
             child: GestureDetector(
               onTap: () {
-                SoundEffects.instance.pop();
+                SoundEffects.instance.musicalTap();
                 setState(() => selectedColorIndex = i);
               },
               child: AnimatedScale(
@@ -411,7 +419,7 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
       ],
     );
 
-    // 5. Action Buttons (Undo & Reset)
+    // 5. Action Buttons (Undo, Reset, Living Preview)
     final actionButtons = Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -423,7 +431,7 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
           quiet: widget.quiet,
           onPressed: _history.length > 1 ? _undo : null,
         ),
-        const SizedBox(width: 16),
+        const SizedBox(width: 12),
         ForestAction(
           label: '깨끗이 다시 칠하기',
           caption: '다시 시작',
@@ -432,55 +440,79 @@ class _ForestColoringStudioState extends State<ForestColoringStudio> {
           quiet: widget.quiet,
           onPressed: _reset,
         ),
+        const SizedBox(width: 12),
+        ForestAction(
+          label: '살아난 모습 보기',
+          caption: '살아나기',
+          icon: Icons.auto_awesome_rounded,
+          size: 58,
+          leaf: true,
+          quiet: widget.quiet,
+          onPressed: () => setState(() => _showLivingCreation = true),
+        ),
       ],
     );
 
-    if (isWide) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                titleRow,
-                canvasWidget,
-              ],
-            ),
-          ),
-          const SizedBox(width: 8),
-          SizedBox(
-            width: 260,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                categorySelector,
-                const SizedBox(height: 4),
-                templateSelector,
-                const SizedBox(height: 8),
-                paletteWidget,
-                const SizedBox(height: 10),
-                actionButtons,
-              ],
-            ),
-          ),
-        ],
-      );
-    }
+    final mainLayout = isWide
+        ? Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    titleRow,
+                    canvasWidget,
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              SizedBox(
+                width: 260,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    categorySelector,
+                    const SizedBox(height: 4),
+                    templateSelector,
+                    const SizedBox(height: 8),
+                    paletteWidget,
+                    const SizedBox(height: 10),
+                    actionButtons,
+                  ],
+                ),
+              ),
+            ],
+          )
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              categorySelector,
+              const SizedBox(height: 4),
+              templateSelector,
+              titleRow,
+              canvasWidget,
+              const SizedBox(height: 12),
+              paletteWidget,
+              const SizedBox(height: 12),
+              actionButtons,
+            ],
+          );
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    return Stack(
+      alignment: Alignment.center,
       children: [
-        categorySelector,
-        const SizedBox(height: 4),
-        templateSelector,
-        titleRow,
-        canvasWidget,
-        const SizedBox(height: 12),
-        paletteWidget,
-        const SizedBox(height: 12),
-        actionButtons,
+        mainLayout,
+        if (_showLivingCreation)
+          Positioned.fill(
+            child: LivingCreationOverlay(
+              template: template,
+              segments: currentSegments,
+              quiet: widget.quiet,
+              onClose: () => setState(() => _showLivingCreation = false),
+            ),
+          ),
       ],
     );
   }

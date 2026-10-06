@@ -2,6 +2,8 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import 'touch_trail.dart';
+
 /// Existing reviewed forest artwork, with gentle light and drifting leaves.
 /// Reduced motion keeps the complete forest scene while stopping its ticker.
 class ForestBackground extends StatefulWidget {
@@ -100,7 +102,10 @@ class _ForestBackgroundState extends State<ForestBackground>
           ),
         ),
       ),
-      widget.child,
+      ForestTouchTrail(
+        enabled: !widget.lowStimulation,
+        child: widget.child,
+      ),
     ],
   );
 }

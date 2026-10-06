@@ -110,6 +110,12 @@ class SoundEffects with WidgetsBindingObserver {
 
   Future<void> playNote(int index) => play('sfx_note_${index.clamp(0, 7)}');
   Future<void> playSuccessPitch(int streak) => playNote(streak.clamp(0, 7));
+  int _musicalStep = 0;
+  Future<void> musicalTap() {
+    _musicalStep = (_musicalStep + 1) % 5;
+    const pentatonic = [0, 1, 2, 4, 5];
+    return playNote(pentatonic[_musicalStep]);
+  }
   Future<void> pop() => play('sfx_pop');
   Future<void> chew() => play('sfx_chew');
   Future<void> snap() => play('sfx_snap');

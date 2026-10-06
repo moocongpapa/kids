@@ -16,6 +16,7 @@ import '../models/activity.dart';
 import '../models/child_profile.dart';
 import '../state/app_state.dart';
 import '../utils/forest_audio.dart';
+import '../utils/sound_effects.dart';
 import '../widgets/avatar_image.dart';
 import '../widgets/forest_background.dart';
 import '../widgets/forest_game_ui.dart';
@@ -130,7 +131,11 @@ class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
                           ),
                         ),
                         const Spacer(),
-                        const ForestSign('모모숲'),
+                        BouncyTap(
+                          onTap: () => SoundEffects.instance.snap(),
+                          musicalSound: true,
+                          child: const ForestSign('모모숲'),
+                        ),
                         const Spacer(),
                         ForestAction(
                           label: '보호자 영역',

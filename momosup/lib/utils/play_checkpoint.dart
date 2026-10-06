@@ -10,12 +10,17 @@ class PlayCheckpoint {
     this.activityId,
     this.snapshot, {
     this.preview = false,
+    this.splitLongSessions = false,
     this.onError,
   });
   final AppState state;
   final String profileId, activityId;
   final Map<String, dynamic> Function() snapshot;
   final bool preview;
+
+  /// Free play can exceed AppState's seven-minute bound for a single record.
+  /// Store cumulative time in stable chunks without changing the daily limit.
+  final bool splitLongSessions;
   final void Function()? onError;
   final Map<String, int> metrics = {};
   void event(String name) {
@@ -49,17 +54,34 @@ class PlayCheckpoint {
     }
   }
 
-  Future<void> checkpoint(int seconds) async {
+  Future<void> _checkpointWrites = Future.value();
+  Future<void> checkpoint(int seconds) {
+    if (!splitLongSessions) return _checkpoint(seconds);
+    // A later cumulative total must never be overwritten by an older chunk.
+    final next = _checkpointWrites
+        .catchError((Object _) {})
+        .then((_) => _checkpoint(seconds));
+    _checkpointWrites = next;
+    return next;
+  }
+
+  Future<void> _checkpoint(int seconds) async {
     if (preview) return;
     await flush();
     if (seconds > 0) {
-      await state.recordPlay(
-        profileId: profileId,
-        activityId: activityId,
-        seconds: seconds,
-        sessionId: sessionId,
-        metrics: metrics,
-      );
+      const recordLimitSeconds = 7 * 60;
+      final chunkSize = splitLongSessions ? recordLimitSeconds : seconds;
+      for (var offset = 0; offset < seconds; offset += chunkSize) {
+        final chunk = offset ~/ chunkSize;
+        await state.recordPlay(
+          profileId: profileId,
+          activityId: activityId,
+          seconds: (seconds - offset).clamp(0, chunkSize),
+          sessionId: chunk == 0 ? sessionId : '$sessionId:$chunk',
+          // Session metrics belong to the first chunk only.
+          metrics: chunk == 0 ? metrics : const {},
+        );
+      }
     }
   }
 

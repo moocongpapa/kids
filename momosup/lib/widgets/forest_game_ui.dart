@@ -1,10 +1,13 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'avatar_image.dart';
 import 'cute_game_effects.dart';
 import 'forest_landscape.dart';
+
+export 'bouncy_tap.dart';
 
 const forestInk = Color(0xFF284E3D);
 const forestCream = Color(0xFFFFF4D6);
@@ -143,7 +146,10 @@ class _ForestActionState extends State<ForestAction> {
           behavior: HitTestBehavior.opaque,
           onTapDown: widget.onPressed == null
               ? null
-              : (_) => setState(() => pressed = true),
+              : (_) {
+                  setState(() => pressed = true);
+                  if (!widget.quiet) HapticFeedback.lightImpact();
+                },
           onTapCancel: () => setState(() => pressed = false),
           onTapUp: (_) => setState(() => pressed = false),
           onTap: widget.onPressed,
@@ -152,9 +158,10 @@ class _ForestActionState extends State<ForestAction> {
                 pressed &&
                     !widget.quiet &&
                     !MediaQuery.disableAnimationsOf(context)
-                ? .92
+                ? .88
                 : 1,
-            duration: const Duration(milliseconds: 120),
+            curve: pressed ? Curves.easeIn : Curves.easeOutBack,
+            duration: Duration(milliseconds: pressed ? 90 : 250),
             child: Opacity(
               opacity: widget.onPressed == null ? .4 : 1,
               child: SizedBox(

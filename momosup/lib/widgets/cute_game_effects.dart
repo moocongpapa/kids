@@ -32,6 +32,7 @@ class CuteFace extends StatefulWidget {
 
 class _CuteFaceState extends State<CuteFace> {
   Timer? _blinkTimer;
+  Timer? _blinkResetTimer;
   bool _isBlinking = false;
 
   @override
@@ -45,17 +46,24 @@ class _CuteFaceState extends State<CuteFace> {
     if (widget.animateBlink && !MediaQuery.disableAnimationsOf(context)) {
       _scheduleNextBlink();
     } else {
-      _blinkTimer?.cancel();
+      _cancelTimers();
     }
   }
 
-  void _scheduleNextBlink() {
+  void _cancelTimers() {
     _blinkTimer?.cancel();
+    _blinkTimer = null;
+    _blinkResetTimer?.cancel();
+    _blinkResetTimer = null;
+  }
+
+  void _scheduleNextBlink() {
+    _cancelTimers();
     final delayMs = 2500 + math.Random().nextInt(3000);
     _blinkTimer = Timer(Duration(milliseconds: delayMs), () {
       if (!mounted) return;
       setState(() => _isBlinking = true);
-      Timer(const Duration(milliseconds: 140), () {
+      _blinkResetTimer = Timer(const Duration(milliseconds: 140), () {
         if (!mounted) return;
         setState(() => _isBlinking = false);
         _scheduleNextBlink();
@@ -65,7 +73,7 @@ class _CuteFaceState extends State<CuteFace> {
 
   @override
   void dispose() {
-    _blinkTimer?.cancel();
+    _cancelTimers();
     super.dispose();
   }
 
