@@ -13,6 +13,19 @@ const spoken = s => normalize(s.replace(/(^|[\s.!?])(?:앗|아|어)(?=[\s.!?,])/
 export const sameNarration = (a, b) => typeof a === 'string' && typeof b === 'string' && spoken(a) === spoken(b);
 export const narrationPassed = (review, text) => sameNarration(review?.transcript, text) && review.abruptNoise === false && review.music === false;
 export const visualPassed = r => r?.animated === true && r.unsafeOrFrightening === false && r.majorCharacterDeformation === false && r.sceneMatches === true;
+// Older completed scenes predate prompt sidecars. Their exact raw and encoded
+// bytes plus passing scene review can establish provenance without inventing one.
+export function rawVideoSpec({scene, raw, prompt, record, encoded}) {
+  if (!raw?.length) return null;
+  if (/^[a-f0-9]{64}$/.test(prompt?.specSha256 ?? '')) return prompt.specSha256;
+  if (record?.specSha256 === sceneSpecHash(scene) && encoded?.length
+    && record.sourceVideoSha256 === hash(raw) && record.sha256 === hash(encoded)
+    && record.review?.passed === true && narrationPassed(record.review.transcript, scene.text)
+    && visualPassed(record.review.visual)
+    && (!record.review.specSha256 || record.review.specSha256 === record.specSha256)
+    && (!record.review.sourceVideoSha256 || record.review.sourceVideoSha256 === record.sourceVideoSha256)) return record.specSha256;
+  return null;
+}
 export async function readJson(file) {
   try { return JSON.parse(await fs.readFile(file, 'utf8')); }
   catch (error) { if (error.code === 'ENOENT') return null; throw error; }

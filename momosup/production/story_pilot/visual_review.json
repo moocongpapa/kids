@@ -28,6 +28,12 @@
       "id": "story_moon_00",
       "checkedAt": "2026-10-01T00:07:33.411Z",
       "observation": "Current opening contact sheet shows only Momo and Duri, with one sky moon and its pond reflection in indigo night."
+    },
+    {
+      "id": "story_swing_10",
+      "checkedAt": "2026-10-06T13:20:13.673Z",
+      "sha256": "3e54258542afb4cc77b213504f2d2d8faf8da5f3b43e7b73e0ede55676f64639",
+      "observation": "Assistant inspected early/middle/late frames of the regenerated leaf-hat insert: only Momo and Nuri appear on the waiting bench; Duri stays offscreen, so his turn continues consistently into scene11."
     }
   ],
   "partialSceneInspections": [
@@ -44,6 +50,29 @@
         "story_swing_06"
       ],
       "observations": "Existing seven scenes inspected in chronological contact sheets: one swing, recognisable cast, no simultaneous riders. The turn-taking agreement precedes the first rider. The remaining scenes and complete film still require inspection."
+    },
+    {
+      "episode": "story_swing",
+      "checkedAt": "2026-10-06T13:35:54.332Z",
+      "sceneIds": [
+        "story_swing_07",
+        "story_swing_08",
+        "story_swing_09",
+        "story_swing_10",
+        "story_swing_12",
+        "story_swing_13"
+      ],
+      "sceneHashes": {
+        "story_swing_07": "787c341c100538ef5b94d30e25cd687e9fa79e2a18e0fe941a6b661e3e49ce41",
+        "story_swing_08": "a9c11eac7e5209bb6ef248b3080e21a950d7b78a082ff12af2e43bb67dba0b50",
+        "story_swing_09": "1d6237f1d3475e446000f7cefca3b4fe3eb0664f0d91cdb089bb3924bbabae0a",
+        "story_swing_10": "3e54258542afb4cc77b213504f2d2d8faf8da5f3b43e7b73e0ede55676f64639",
+        "story_swing_12": "8991a8cec0c34aa79f397b36308bc567601fb59334364f329df55cb37b405ee0",
+        "story_swing_13": "4ba02302a531cded1cb0aec6c6eb81f3ec05b0a4981a76a31f548c9764e0e44e"
+      },
+      "method": "Assistant early/middle/late contact-sheet inspection; not human viewing or continuous playback.",
+      "observations": "The turn-taking agreement is followed by Duri riding and Momo/Nuri waiting. Scene10 is now a close shot of only Momo and Nuri, preserving Duri riding offscreen. Scene12 is the handover and scene13 Momo rides with Duri and Nuri waiting. Scene11 remains pending; no full-film continuity approval is recorded.",
+      "fullFilmReviewed": false
     }
   ]
 }

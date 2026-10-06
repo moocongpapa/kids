@@ -4,7 +4,7 @@ import path from 'node:path';
 import {spawnSync} from 'node:child_process';
 import {episodes} from './story_pilot_scripts.mjs';
 import {request,content,root,configureStoryRequests} from './story_api.mjs';
-import {hash,visualStyle,sceneSpecHash,normalize,sameNarration,narrationPassed,visualPassed,readJson,writeJson} from './story_production_shared.mjs';
+import {hash,visualStyle,sceneSpecHash,normalize,sameNarration,narrationPassed,visualPassed,rawVideoSpec,readJson,writeJson} from './story_production_shared.mjs';
 import {buildPayload,extractWav} from './generate_gemini_tts.mjs';
 const args=process.argv.slice(2), only=args.find(x=>x.startsWith('--episode='))?.slice(10);
 const repairIds=new Set((args.find(x=>x.startsWith('--repair-scenes='))?.slice(16)??'').split(',').filter(Boolean));
@@ -23,10 +23,12 @@ await fs.mkdir(work,{recursive:true});await fs.mkdir(out,{recursive:true});
 function ff(a){const r=spawnSync(ffmpeg,['-hide_banner','-loglevel','error','-y',...a],{encoding:'utf8',maxBuffer:4e6});if(r.status!==0)throw new Error('FFmpeg: '+r.stderr.slice(-1200));}
 function duration(file){const p=spawnSync(ffmpeg,['-hide_banner','-i',file],{encoding:'utf8'});const m=p.stderr.match(/Duration: (\d+):(\d+):([\d.]+)/);if(!m)throw new Error('No duration '+file);return Number(m[1])*3600+Number(m[2])*60+Number(m[3]);}
 const characterRefs=Object.fromEntries(await Promise.all(['momo','duri','nuri'].map(async name=>[name,await fs.readFile(path.join(root,'assets/images',name+'.png'))])));
-const sceneCast=(e,i)=>e.id==='story_cloud'?(i<3?['momo']:['momo','nuri']):e.id==='story_moon'?(i===2?[]:i<12?['momo','duri']:['momo','duri','nuri']):['momo','duri','nuri'];
+const sceneCast=(e,i)=>e.id==='story_swing'&&i===10?['momo','nuri']:e.id==='story_swing'&&i===11?['duri']:e.id==='story_cloud'?(i<3?['momo']:['momo','nuri']):e.id==='story_moon'?(i===2?[]:i<12?['momo','duri']:['momo','duri','nuri']):['momo','duri','nuri'];
 function sceneContinuity(e,i){
  if(e.id==='story_cloud')return 'Continuity: '+(i>=2&&i<=8?'On one low flat mossy stone lie THREE LOOSE FLAT LEAVES, scattered horizontally. This is what remains after the previous collapse. Keep these separate leaves flat; no upright leaf structure or house exists yet. ':'The leaf house is a tiny handmade pile/tent of three loose broad leaves on one low flat mossy stone. It is not an architectural cottage: no doors, windows, walls or wooden frame. ')+(i>=2&&i<=6?'Momo is disappointed: drooping wings, downcast eyes, small downturned mouth. Momo must NOT smile, laugh, dance or look delighted yet. Nuri is gentle and concerned. ':'');
  if(e.id==='story_moon')return 'Continuity: indigo night throughout. A single full moon and its reflected light, no extra moons. '+(i===2?'POND INSERT SHOT ONLY: do not show any character, creature, animal, face, or portrait. The ONLY action is wind rippling the moon reflection. ':'')+'Any friends shown stay back on the broad dry path, never in water or leaning over the edge. ';
+ if(e.id==='story_swing'&&i===10)return 'NEW CLOSE CAMERA ANGLE in the same warm forest clearing. Frame only Momo and Nuri on the waiting bench. Duri and the single swing are entirely OFFSCREEN; Duri is still taking his turn and must not appear walking nearby. Nuri wears one broad leaf, which gently slips toward its nose and flutters away after a tiny sneeze. Momo smiles. Never add a bear, another friend, or a swing behind them. ';
+ if(e.id==='story_swing'&&i===11)return 'NEW CLOSE CAMERA ANGLE in the same warm forest clearing. Show Duri ALONE seated on the ONLY low wooden swing, exactly one seat and one pair of ropes. The waiting friends and their bench are offscreen. Use a medium full-body view with the ground visible. The seat is just below Duri knee height, so BOTH feet can rest FLAT on the ground without leaving the seat. Begin with tiny slow movement, then show both soles touching the earth and remaining firmly planted as this SAME seat becomes fully still. Duri stays seated, holding both ropes, and looks gently toward the offscreen friends. No other swings or bears anywhere in the background. ';
  return 'Continuity: only one low wooden swing with two ropes, in a warm forest clearing. Only one seated rider at a time, holding ropes, with waiting friends outside its arc. ';
 }
 function json(r){const s=content(r).filter(c=>c.type==='text').map(c=>c.text).join('');return JSON.parse(s.replace(/^```(?:json)?\s*/,'').replace(/\s*```$/,''));}
@@ -128,6 +130,9 @@ async function runEpisode(e){
   const attemptFile=stem+'_attempt.json';
   let attempt=existsSync(attemptFile)?JSON.parse(await fs.readFile(attemptFile)).attempt:1;
   const recordPath=stem+'.json';
+  // Keep validated historical provenance available if an explicit recheck
+  // archives a scene record that predates video prompt sidecars.
+  const historicalScene=await readJson(recordPath);
   if(recheckIds.delete(id)){
    for(const suffix of ['.json','_review.json','_attempt.json']){
     if(existsSync(stem+suffix))await fs.rename(stem+suffix,stem+'.before-recheck-'+Date.now()+suffix);
@@ -135,7 +140,7 @@ async function runEpisode(e){
    attempt=1;
   }
   if(repairIds.delete(id)){
-   for(const suffix of ['.json','_raw.mp4','_review.json','_attempt.json']){
+   for(const suffix of ['.json','_raw.mp4','_review.json','_attempt.json','_clip_edit.json']){
     if(existsSync(stem+suffix))await fs.rename(stem+suffix,stem+'.before-repair-'+Date.now()+suffix);
    }
    attempt=1;
@@ -145,33 +150,48 @@ async function runEpisode(e){
    if(old.specSha256===specHash&&old.review?.passed&&narrationPassed(old.review.transcript,s.text)&&visualPassed(old.review.visual)&&existsSync(stem+'.mp4')&&hash(await fs.readFile(stem+'.mp4'))===old.sha256){records.push(old);console.log('Reuse',id);continue;}
   }
   console.log('Producing',id);
-  const {speech,review:voiceReview}=await prepareSceneNarration(e,s,id,stem);
   const videoPrompt=await readJson(stem+'_video_prompt.json');
-  const previousScene=await readJson(recordPath);
-  const sourceSpec=videoPrompt?.specSha256??previousScene?.specSha256;
-  if(existsSync(stem+'_raw.mp4')&&sourceSpec&&sourceSpec!==specHash){
-   for(const suffix of ['_raw.mp4','_review.json','_video_prompt.json'])if(existsSync(stem+suffix))await fs.rename(stem+suffix,stem+'.before-spec-change-'+Date.now()+suffix);
+  const existingRaw=existsSync(stem+'_raw.mp4')?await fs.readFile(stem+'_raw.mp4'):null;
+  const sourceSpec=rawVideoSpec({scene:s,raw:existingRaw,prompt:videoPrompt,record:historicalScene,encoded:existsSync(stem+'.mp4')?await fs.readFile(stem+'.mp4'):null});
+  // Missing provenance is not permission to review an old take against today's
+  // script. Preserve it and stop before narration or any other billable call.
+  if(existingRaw&&!sourceSpec)throw new Error('STORY_RAW_PROVENANCE_UNKNOWN: preserved '+id+'; inspect its source records or explicitly archive it with --repair-scenes='+id+' before generating a replacement.');
+  if(existingRaw&&sourceSpec!==specHash){
+   for(const suffix of ['_raw.mp4','_review.json','_video_prompt.json','_clip_edit.json'])if(existsSync(stem+suffix))await fs.rename(stem+suffix,stem+'.before-spec-change-'+Date.now()+suffix);
   }
+  const {speech,review:voiceReview}=await prepareSceneNarration(e,s,id,stem);
   let video;
   if(existsSync(stem+'_raw.mp4')) video=await fs.readFile(stem+'_raw.mp4');
   else{
    const cast=sceneCast(e,i);
    const references=cast.map(name=>({type:'image',data:characterRefs[name].toString('base64'),mime_type:'image/png'}));
+   let storyboardReference=null;
+   if(e.id==='story_swing'&&i===11){
+    const asset='production/story_pilot/duri_stop_keyframe.png';
+    const bytes=await fs.readFile(path.join(root,asset));
+    references.unshift({type:'image',data:bytes.toString('base64'),mime_type:'image/png'});
+    storyboardReference={asset,sha256:hash(bytes)};
+   }
    const previous=records.at(-1);
    let continuityReference=null;
-   if(i>0&&cast.length&&previous?.id===`${e.id}_${String(i-1).padStart(2,'0')}`){
+   if(i>0&&cast.length&&!(e.id==='story_swing'&&[10,11].includes(i))&&previous?.id===`${e.id}_${String(i-1).padStart(2,'0')}`){
     const frame=path.join(dir,id+'_continuity.jpg');
     ff(['-sseof','-0.4','-i',path.join(dir,previous.id+'.mp4'),'-frames:v','1','-vf','scale=640:360','-q:v','3',frame]);
     const bytes=await fs.readFile(frame);
     references.unshift({type:'image',data:bytes.toString('base64'),mime_type:'image/jpeg'});
     continuityReference={previousScene:previous.id,sha256:hash(bytes)};
    }
-   const prompt=visualStyle+'Palette: '+e.palette+'. Only include these characters when the scene requires them: '+(cast.join(', ')||'NONE')+'. '+(continuityReference?'The FIRST image is the ending of the previous shot. Continue the same location, lighting, actor appearance and prop states. You may choose a new camera angle to show the current action. The remaining images are isolated character design references. ':'The supplied images are isolated CHARACTER REFERENCES, not starting frames. ')+'Do not recreate a group portrait or a white studio background. Place the action in the same lush mossy woodland with broad tree roots and softly layered trees. Create the specified setting and action. '+sceneContinuity(e,i)+'Scene: '+s.visual;
+   const retryFeedback=(await readJson(attemptFile))?.visualFeedback;
+   const correctionHint=typeof retryFeedback==='string'?' The previous take was rejected for this visible problem: '+retryFeedback.slice(0,800)+'. Correct that problem while keeping the scene and cast described above. ':'';
+   const referenceInstruction=storyboardReference?'The FIRST image is a purpose-drawn layout keyframe. Preserve its ONE low seat, ONE bear, two ropes and clearly grounded feet. Animate this same composition, with a tiny movement settling to complete stillness as both feet plant on the ground. Do not raise the seat or let the feet float. The remaining image is the isolated character identity reference. ':continuityReference?'The FIRST image is the ending of the previous shot. Continue the same location, lighting, actor appearance and prop states. You may choose a new camera angle and reframe the existing actors to show the current action; the previous image is not a fixed background layer. The remaining images are isolated character design references. ':'The supplied images are isolated CHARACTER REFERENCES, not starting frames. ';
+   const prompt=visualStyle+'Palette: '+e.palette+'. Only include these characters when the scene requires them: '+(cast.join(', ')||'NONE')+'. Each named character is a SINGLE individual: never create duplicate birds, bears or cloud friends. In a closer shot, reframe the existing actor; do not retain that actor in the background and add a second copy in the foreground. Characters may remain offscreen when the shot focuses on their friends. '+referenceInstruction+'Do not recreate a group portrait or a white studio background. Place the action in the same lush mossy woodland with broad tree roots and softly layered trees. Create the specified setting and action. '+sceneContinuity(e,i)+'Scene: '+s.visual+correctionHint;
    const r=await request({model:'gemini-omni-1.1-flash',input:[...references,{type:'text',text:prompt}],response_format:{type:'video',resolution:'720p',aspect_ratio:'16:9'},store:false},{episode:e.id,scene:id,purpose:'video'});
-   await writeJson(stem+'_video_prompt.json',{specSha256:specHash,prompt,continuityReference,referenceAssets:cast.map(name=>'assets/images/'+name+'.png'),referenceSha256:cast.map(name=>hash(characterRefs[name]))});
+   await writeJson(stem+'_video_prompt.json',{specSha256:specHash,prompt,continuityReference,storyboardReference,referenceAssets:cast.map(name=>'assets/images/'+name+'.png'),referenceSha256:cast.map(name=>hash(characterRefs[name]))});
    const v=content(r).find(c=>c.type==='video');if(!v?.data)throw new Error('No inline video '+id);
    video=Buffer.from(v.data,'base64');await fs.writeFile(stem+'_raw.mp4',video);
   }
+  const sourceEdit=await readJson(stem+'_clip_edit.json');
+  if(sourceEdit&&sourceEdit.outputSha256!==hash(video))throw new Error('Stale local video edit: '+id);
   const reviewPath=stem+'_review.json';let review;
   review=await readJson(reviewPath);
   if(review?.specSha256!==specHash||review?.sourceSpeechSha256!==hash(speech)||review?.sourceVideoSha256!==hash(video))review=null;
@@ -183,20 +203,22 @@ async function runEpisode(e){
   }
   if(!review.passed){
    console.log('REVIEW_REQUIRED',id,JSON.stringify(review));
+   // Local editorial changes must not be replaced by an unrelated paid take.
+   if(sourceEdit||args.includes('--stop-on-scene-rejection'))throw new Error('SCENE_REVIEW_REQUIRED: inspect the saved take before another billable video request: '+id);
    if(attempt>=3){console.log('SCENE_BLOCKED',id);continue;}
    const speechGood=sameNarration(review.transcript.transcript??'',s.text)&&!review.transcript.abruptNoise&&!review.transcript.music;
    const videoGood=review.visual.animated&&!review.visual.unsafeOrFrightening&&!review.visual.majorCharacterDeformation&&review.visual.sceneMatches;
    if(!speechGood)await fs.rename(stem+'.wav',stem+`.rejected${attempt}.wav`);
    if(!videoGood)await fs.rename(stem+'_raw.mp4',stem+`.rejected${attempt}.mp4`);
    await fs.rename(reviewPath,stem+`.rejected${attempt}.json`);
-   await fs.writeFile(attemptFile,JSON.stringify({attempt:attempt+1}));
+   await fs.writeFile(attemptFile,JSON.stringify({attempt:attempt+1,...(!videoGood&&typeof review.visual?.notes==='string'?{visualFeedback:review.visual.notes}:{})}));
    i--;continue;
   }
   const voiceSeconds=duration(stem+'.wav'),rawSeconds=duration(stem+'_raw.mp4');
   const seconds=Math.max(s.targetSeconds,Math.ceil(voiceSeconds+1.8));
   if(seconds/rawSeconds>2.25)throw new Error('Scene needs another animated shot '+id);
   ff(['-i',stem+'_raw.mp4','-i',stem+'.wav','-filter_complex',`[0:v]setpts=${seconds/rawSeconds}*PTS,scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,fps=24,setsar=1[v];[1:a]loudnorm=I=-20:TP=-3:LRA=7,adelay=350:all=1,apad[a]`,'-map','[v]','-map','[a]','-t',String(seconds),'-c:v','libx264','-preset','fast','-crf','25','-pix_fmt','yuv420p','-c:a','aac','-b:a','80k','-ar','24000','-movflags','+faststart',stem+'.mp4']);
-  const record={id,...s,seconds,voiceSeconds,sourceVideoSeconds:rawSeconds,specSha256:specHash,sourceVideoSha256:hash(video),sourceSpeechSha256:hash(speech),sha256:hash(await fs.readFile(stem+'.mp4')),review};
+  const record={id,...s,seconds,voiceSeconds,sourceVideoSeconds:rawSeconds,specSha256:specHash,sourceVideoSha256:hash(video),sourceSpeechSha256:hash(speech),sha256:hash(await fs.readFile(stem+'.mp4')),review,...(sourceEdit?{sourceEdit}:{})};
   await writeJson(recordPath,record);records.push(record);console.log('Ready',id,seconds+'s');
  }
  if(records.length!==e.scenes.length)throw new Error('Some scenes require correction: '+e.id);

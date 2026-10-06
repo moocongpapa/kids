@@ -1,0 +1,77 @@
+{
+  "id": "story_swing",
+  "createdAt": "2026-10-06T13:33:33.906Z",
+  "status": "UNFINISHED_WORKPRINT",
+  "finishedFilm": false,
+  "notForChildPublication": true,
+  "humanReviewedAt": null,
+  "fullFilmAutomatedReviewPassed": false,
+  "scope": "Contiguous scenes 00 through 10 only; no ending. Narration included, background music not mixed. Scenes 12 and 13 remain separate until scene 11 is reviewed.",
+  "file": "production/story_pilot/story_swing_workprint_2026_10_06.mp4",
+  "durationSeconds": 168.04,
+  "h264": true,
+  "aac": true,
+  "landscape720": true,
+  "sha256": "f6a7aa94abb7557dc8aecbc3b11a5babb9c0d910113aa6bbe6a51409b6abd637",
+  "bytes": 17777216,
+  "fullDecodePassed": true,
+  "maximumDbfs": -3,
+  "passed": true,
+  "scenes": [
+    {
+      "id": "story_swing_00",
+      "seconds": 15,
+      "sha256": "b89bdb52db5ea0b508ce6882911f4f5a7df6a7178933b361220218584cc1d078"
+    },
+    {
+      "id": "story_swing_01",
+      "seconds": 15,
+      "sha256": "26c4fbc2300ddc4012571cba5a925b090829c6215a6fb8ef77690213898f77a9"
+    },
+    {
+      "id": "story_swing_02",
+      "seconds": 17,
+      "sha256": "778377ed5b9cd32880b96f476377a76ac284c030d9809a30fee66094b4a693b4"
+    },
+    {
+      "id": "story_swing_03",
+      "seconds": 15,
+      "sha256": "c36d2561a53e84ca71535ca2eb69276e02cff127fd6d42a0d5f4b4d678a35403"
+    },
+    {
+      "id": "story_swing_04",
+      "seconds": 15,
+      "sha256": "e9972db3747d28a4663c9c3df7a8b58e737105b98668b107c97193197c234c42"
+    },
+    {
+      "id": "story_swing_05",
+      "seconds": 15,
+      "sha256": "472a46b57ae2439f391d514bc1cfc1a04d0d60de31ef85f8a287ab16d38a3b48"
+    },
+    {
+      "id": "story_swing_06",
+      "seconds": 15,
+      "sha256": "79d5e30b312998bfe8511fe09c0567755cdc115a6aa57e433d5633b18358581b"
+    },
+    {
+      "id": "story_swing_07",
+      "seconds": 15,
+      "sha256": "787c341c100538ef5b94d30e25cd687e9fa79e2a18e0fe941a6b661e3e49ce41"
+    },
+    {
+      "id": "story_swing_08",
+      "seconds": 15,
+      "sha256": "a9c11eac7e5209bb6ef248b3080e21a950d7b78a082ff12af2e43bb67dba0b50"
+    },
+    {
+      "id": "story_swing_09",
+      "seconds": 15,
+      "sha256": "1d6237f1d3475e446000f7cefca3b4fe3eb0664f0d91cdb089bb3924bbabae0a"
+    },
+    {
+      "id": "story_swing_10",
+      "seconds": 16,
+      "sha256": "3e54258542afb4cc77b213504f2d2d8faf8da5f3b43e7b73e0ede55676f64639"
+    }
+  ]
+}

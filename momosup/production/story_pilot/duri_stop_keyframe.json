@@ -1,0 +1,55 @@
+{
+  "file": "production/story_pilot/duri_stop_keyframe.png",
+  "assetType": "production_keyframe",
+  "episode": "story_swing",
+  "scene": "story_swing_11",
+  "generator": "built-in imagegen tool",
+  "generationMode": "reference-guided illustration",
+  "generationCount": 1,
+  "createdAt": "2026-10-06",
+  "status": "used_in_video_generation_and_local_edit_pending_video_review",
+  "sourceOutput": "/Users/wanseok/.codex/generated_images/01a106f2-7b1a-7830-a612-538b74f90aec/exec-fbd51e7d-68d0-464b-84ce-f074c334f677.png",
+  "referenceAssets": [
+    {
+      "file": "assets/images/duri.png",
+      "role": "Duri character identity and painted fur reference",
+      "sha256": "b02ed69be6dbc7bd7e7f7e5dd6aca5c8cf3f3dd3f95165bbeaf05ae13fbc4def"
+    },
+    {
+      "file": "production/story_pilot/forest_reference.png",
+      "role": "Forest environment, palette, light and watercolor/gouache reference; group composition excluded",
+      "sha256": "9db165e1191db02a6da811f6bfe50dfb7852f99bab099a78578fe4a050f48bb3"
+    }
+  ],
+  "prompt": "Use case: illustration-story.\nAsset type: single production keyframe for a gentle preschool animated story, landscape 16:9 (prefer 2048 x 1152).\nInput image 1 is Duri's exact character-design reference: keep this one little warm brown bear's face, large brown eyes, rounded ears, cream muzzle and belly, rosy cheeks, very short stocky legs and soft painted fur. Input image 2 is ONLY the watercolor forest style, warm light and environment reference. Do not copy its group composition or its empty background swing.\nPrimary request: Duri has gently stopped a very LOW wooden swing by resting BOTH feet on the ground, while remaining SEATED. Show this unambiguously in one beautiful coherent frame.\nScene: same honey-sunlit mossy forest clearing, sage foliage, soft layered trees and a subtly visible distant pond. Quiet hand-painted watercolor and gouache storybook animation, fine paper texture, warm dappled light. A sturdy overhead tree branch supports exactly ONE swing with exactly ONE horizontal wooden seat and exactly TWO ropes.\nComposition: medium full-body shot, Duri centered and occupying roughly half of the image height. Camera nearly frontal with a very slight three-quarter angle, at bear chest level so the seat, both bent knees, both feet, and the ground contact are clearly visible. Leave ample earth in the foreground below the feet. All of Duri is inside frame.\nEssential physical staging: the seat is EXTREMELY LOW, about one bear foot-height above earth and BELOW the bear's knees. Duri's bottom visibly rests ON the seat; show the wooden seat edge extending beside both hips. Bear is sitting with its weight on the seat, knees softly bent forward. BOTH short legs reach earth naturally. BOTH broad bear feet are fully flat on the same earth plane, toes pointing forward, the entire bottom of each foot touching dirt; soft tight contact shadows directly underneath, with absolutely no air gap. No stretched legs. Duri's left paw visibly curls around the left rope and its right paw visibly curls around the right rope, paws at comfortable chest height. Ropes remain attached to the two ends of that same seat. The ropes hang vertically because the swing is stopped.\nExpression: relaxed, proud small smile, calm open eyes, looking slightly toward the viewer.\nConstraints: one Duri only; one occupied swing only; one seat; two ropes; two arms/paws; two short legs; two grounded feet. No additional swing anywhere, no other animals or characters, no standing bear, no floating feet, no flying/swinging pose, no dangling legs, no duplicate limbs, no motion blur or action lines, no text, captions, labels, logos or UI. This is a grounded seated stopping pose, not a swinging-in-midair pose.",
+  "visualReview": {
+    "inspectedBy": "Codex visual inspection",
+    "acceptedFor": "animation source keyframe",
+    "checks": {
+      "exactOneDuri": true,
+      "exactOneSwing": true,
+      "exactOneSeat": true,
+      "exactTwoRopes": true,
+      "bothPawsHoldSeparateRopes": true,
+      "seatedOnSeat": true,
+      "bothFeetFlatOnGround": true,
+      "groundContactVisible": true,
+      "noOtherCharacters": true,
+      "noText": true,
+      "matchesReferenceStyle": true
+    },
+    "notes": "Duri sits centered on one low wooden seat. The seat edge is visible at both hips; both bent legs end in broad feet contacting the same mossy earth plane with no visible air gap. Each paw holds its corresponding vertical rope. Seat sits below the tops of the bent knees. Two rope knots are visible underneath the seat ends. No second swing or other character is present. Still-image composition only; this does not verify the future animation."
+  },
+  "rights": {
+    "inheritedReferenceMetadata": "Original reference rights/provenance metadata has not been edited or replaced.",
+    "referenceStyleProvenance": "production/story_pilot/style_source.json",
+    "originalAssetRegister": "assets/content/asset_register.json",
+    "userAuthorization": "User authorized media production using existing project art references.",
+    "approvalScope": "This record documents generation and visual inspection; no new user rights approval is asserted.",
+    "originalAssetRegisterSha256": "9dbc5a5f619ec6c3c5f52d45b5fec994261c639cbd6b465d01ef8d5fd1fbcb48",
+    "referenceStyleProvenanceSha256": "2199c8b8ec0721cce2d531474e0104c3797919f306e55961cf82233ca1843df6"
+  },
+  "width": 1672,
+  "height": 941,
+  "sha256": "24a53c469b6587637682324c4f6615549d3cd1b76c782fd63c1b910aa11a27c4"
+}

@@ -46,13 +46,15 @@ export function createStoryRequester({getKey, fetchImpl, writeEvent, sleep, warn
         return result;
       }
       const message = String(result?.error?.message ?? '');
-      const category = response.ok && !result ? 'response-unknown'
+      const category = response.status === 402 ? 'payment-required'
+        : response.ok && !result ? 'response-unknown'
         : /monthly spending cap|spend(ing)? (cap|limit)/i.test(message) ? 'project-spend-cap'
         : /requests per day|daily (?:request )?(?:limit|quota)/i.test(message) ? 'daily-quota'
         : /spend-based rate|spending rate/i.test(message) ? 'spending-rate' : 'http-error';
       // Never record the provider message, payload, key, prompts or base64 media.
       const retryAfter = message.match(/retry in ([0-9dhms ]+)/i)?.[1]?.trim();
       await writeEvent({...fields, attempt, event: 'failed', time: new Date(now()).toISOString(), httpStatus: response.status, elapsedMs: now() - start, category, ...(retryAfter ? {retryAfter} : {})});
+      if (category === 'payment-required') throw new Error('PROJECT_PAYMENT_REQUIRED: Gemini HTTP 402; check project billing before resuming.');
       if (category === 'project-spend-cap') throw new Error('PROJECT_SPEND_CAP_REACHED: resume after the owner raises the project cap.');
       if (category === 'daily-quota') throw new Error(`DAILY_REQUEST_QUOTA_REACHED (${model})${retryAfter ? '; retry after ' + retryAfter : ''}`);
       if (!result && response.ok) throw new Error('STORY_RESPONSE_UNKNOWN: inspect the provider before repeating this request.');

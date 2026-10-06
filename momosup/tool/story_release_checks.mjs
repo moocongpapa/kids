@@ -73,3 +73,10 @@ export function validateCatalog(catalog, episodes) {
     }
   }
 }
+
+// Updating one adult preview must preserve every other film's media and review metadata.
+export function replaceParentPreview(catalog, episodeId, replacement) {
+  if (!catalog.previews?.some(item => item.id === episodeId)) throw new Error('Parent preview must already exist');
+  if (replacement.id !== episodeId) throw new Error('Parent preview replacement does not match episode');
+  return {...catalog, previews: catalog.previews.map(item => item.id === episodeId ? replacement : item)};
+}

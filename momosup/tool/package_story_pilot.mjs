@@ -4,7 +4,7 @@ import {fileURLToPath} from 'node:url';
 import {spawnSync} from 'node:child_process';
 import {createHash} from 'node:crypto';
 import {episodes} from './story_pilot_scripts.mjs';
-import {loadReviewedFilm,validateCatalog} from './story_release_checks.mjs';
+import {loadReviewedFilm,validateCatalog,replaceParentPreview} from './story_release_checks.mjs';
 import {writeJson} from './story_production_shared.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const ffmpeg=process.env.STORY_FFMPEG ?? 'ffmpeg';
@@ -61,8 +61,7 @@ for(const e of episodes.filter(e=>!parentId||e.id===parentId)){
 let catalog;
 if(parentId){
  catalog=JSON.parse(await fs.readFile(path.join(root,'assets/content/story_catalog.json')));
- if(!catalog.previews?.some(e=>e.id===parentId))throw new Error('Parent preview must already exist');
- catalog.previews=catalog.previews.map(e=>e.id===parentId?packed[0]:{...e,note:'Opening three scenes only. Remaining video production is waiting for the daily video quota; title voice and music are prepared. Available only in the parent preview.'});
+ catalog=replaceParentPreview(catalog,parentId,packed[0]);
  const progress=JSON.parse(await fs.readFile(path.join(root,'production/story_pilot/progress.json')));
  catalog.productionStatus=progress.status;
  catalog.version='story-pilot-'+new Date().toISOString().slice(0,10)+'-parent-review';

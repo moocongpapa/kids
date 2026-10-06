@@ -1,9 +1,9 @@
 {
-  "status": "WAITING_VIDEO_DAILY_QUOTA_RESET",
-  "savedAt": "2026-10-01T00:26:31.719Z",
-  "reason": "09:00 KST resume completed the cloud film and swing scene06. Video scene07 hit the daily quota; all 52 scene narrations, all three titles and music tracks are now prepared and automatically reviewed. Cloud full-film parent preview is integrated; the child release waits for the other two films.",
+  "status": "WAITING_PROJECT_BILLING",
+  "savedAt": "2026-10-06T13:35:54.332Z",
+  "reason": "Resumed on 2026-10-06: six new swing scenes completed. Swing11 edited take is saved, but fresh visual review returned HTTP402. All API calls stopped pending project billing confirmation. Complete film count remains1. Legacy moon03 raw is preserved but needs provenance inspection; moon02 still requires repair.",
   "completeFilmCount": 1,
-  "automatedSceneCount": 22,
+  "automatedSceneCount": 28,
   "fullSequenceReviewed": false,
   "scenes": [
     {
@@ -597,6 +597,216 @@
       }
     },
     {
+      "id": "story_swing_07",
+      "text": "친구들이 함께 약속해요. 한 친구가 타고, 다른 친구는 밖에서 기다리기. 차례를 바꿀 때는 그네를 멈추고 내려오기.",
+      "visual": "Wide clear staging shows the low swing with Duri seated holding both ropes and the other two friends waiting on a bench outside the swing arc. Swing moves only slightly.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 12.48,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "5dfd468951f88e402a0ead3929047f8ee51405d94929c22b55aeaac26dd6caf9",
+      "sourceVideoSha256": "44ff351725f64ac0d279a4ff51ca35a1ca186563f73269a790b2932902d9d61c",
+      "sourceSpeechSha256": "d48846e9c569d1ba809f65cc40db250fb915d837f315b01abc36a95fcad73ac7",
+      "sha256": "787c341c100538ef5b94d30e25cd687e9fa79e2a18e0fe941a6b661e3e49ce41",
+      "review": {
+        "specSha256": "5dfd468951f88e402a0ead3929047f8ee51405d94929c22b55aeaac26dd6caf9",
+        "sourceSpeechSha256": "d48846e9c569d1ba809f65cc40db250fb915d837f315b01abc36a95fcad73ac7",
+        "sourceVideoSha256": "44ff351725f64ac0d279a4ff51ca35a1ca186563f73269a790b2932902d9d61c",
+        "transcript": {
+          "transcript": "친구들이 함께 약속해요. 한 친구가 타고 다른 친구는 밖에서 기다리기. 차례를 바꿀 때는 그네를 멈추고 내려오기.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": ""
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The animation accurately portrays Duri on the swing while Momo and Nuri watch from the bench, meeting all visual and cast requirements."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-10-06T12:58:33.822Z"
+      }
+    },
+    {
+      "id": "story_swing_08",
+      "text": "두리 차례예요. 앞으로 살랑, 뒤로 살랑. 두리 귀도 살랑살랑. 모모와 누리가 그네 바깥에서 함께 웃어요.",
+      "visual": "Duri enjoys a very gentle low swing while seated holding ropes. Momo and Nuri smile on distant bench. Ears softly bounce, subtle humorous joy, no high swinging.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 13.04,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "8a4f70294e7bdc881236ce4e8638de1815bdf332ffe2ec9f6027163e2895a465",
+      "sourceVideoSha256": "4a6e24da31bc290427ab0a1cff954dc6827d4138fe0eb0bc20a4de20c8bd7cee",
+      "sourceSpeechSha256": "a57db466e15ad2c6e3ae9a7f1da0fd5a1c157dfec2642f0483829f36bf07d0a5",
+      "sha256": "a9c11eac7e5209bb6ef248b3080e21a950d7b78a082ff12af2e43bb67dba0b50",
+      "review": {
+        "specSha256": "8a4f70294e7bdc881236ce4e8638de1815bdf332ffe2ec9f6027163e2895a465",
+        "sourceSpeechSha256": "a57db466e15ad2c6e3ae9a7f1da0fd5a1c157dfec2642f0483829f36bf07d0a5",
+        "sourceVideoSha256": "4a6e24da31bc290427ab0a1cff954dc6827d4138fe0eb0bc20a4de20c8bd7cee",
+        "transcript": {
+          "transcript": "두리 차례예요. 앞으로 살랑, 뒤로 살랑. 두리 귀도 살랑살랑. 모모와 누리가 그네 바깥에서 함께 웃어요.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": "A female speaker narrates warmly in Korean with clear pronunciation and no background music."
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "Duri gently sways on the swing holding the ropes while Momo and Nuri watch from a bench in a warm forest clearing."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-10-06T12:59:35.718Z"
+      }
+    },
+    {
+      "id": "story_swing_09",
+      "text": "모모는 발을 꼼지락거려요. 나도 빨리 타고 싶은데. 누리가 물어요. 기다리면서, 나뭇잎 모자를 만들어 볼까?",
+      "visual": "Close shot on waiting bench. Momo impatiently wiggles orange toes, then looks at Nuri offering a broad leaf as a silly hat. Swing remains safely distant.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 11.48,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "cb1460b8eb4b56dd077f773f31945526fd37811c9a1b10fdb01e548f41725211",
+      "sourceVideoSha256": "62f039c87731effab9bff417454db99c024447ac1224d837e391534cfaeccbc6",
+      "sourceSpeechSha256": "3379e5b5f023e8846cd9dd000b50735fe776442ac2b9947b920735c928360ebe",
+      "sha256": "1d6237f1d3475e446000f7cefca3b4fe3eb0664f0d91cdb089bb3924bbabae0a",
+      "review": {
+        "specSha256": "cb1460b8eb4b56dd077f773f31945526fd37811c9a1b10fdb01e548f41725211",
+        "sourceSpeechSha256": "3379e5b5f023e8846cd9dd000b50735fe776442ac2b9947b920735c928360ebe",
+        "sourceVideoSha256": "62f039c87731effab9bff417454db99c024447ac1224d837e391534cfaeccbc6",
+        "transcript": {
+          "transcript": "모모는 발을 꼼지락거려요. 나도 빨리 타고 싶은데. 누리가 물어요. 기다리면서 나뭇잎 모자를 만들어 볼까?",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": ""
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The animation matches the prompt well, showing Momo on the bench placing a broad leaf on Nuri as a silly hat while Duri swings in the background."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-10-06T13:02:32.072Z"
+      }
+    },
+    {
+      "id": "story_swing_10",
+      "text": "누리가 작은 잎을 머리에 올려요. 그런데 잎이 툭, 코로 내려왔어요. 에취! 모모가 웃어요. 코 모자가 됐네!",
+      "visual": "Nuri leaf hat slides down over its face, landing on its little nose area, then flutters away with a tiny sneeze. Momo giggles. No explosive sneeze or rapid cuts.",
+      "targetSeconds": 15,
+      "seconds": 16,
+      "voiceSeconds": 13.68,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "63edf31344e7b8ec081f093f192f2ded8b07c3437d759a8bef0cfbcdc8492186",
+      "sourceVideoSha256": "03e71755f89e5d6272bb887d14fb6eae56621cda6291f5f0da6b0148aa128580",
+      "sourceSpeechSha256": "a62d526df8dcf4737912a00f6f18618bbeb8a40368c83b566ea04add841047f3",
+      "sha256": "3e54258542afb4cc77b213504f2d2d8faf8da5f3b43e7b73e0ede55676f64639",
+      "review": {
+        "specSha256": "63edf31344e7b8ec081f093f192f2ded8b07c3437d759a8bef0cfbcdc8492186",
+        "sourceSpeechSha256": "a62d526df8dcf4737912a00f6f18618bbeb8a40368c83b566ea04add841047f3",
+        "sourceVideoSha256": "03e71755f89e5d6272bb887d14fb6eae56621cda6291f5f0da6b0148aa128580",
+        "transcript": {
+          "transcript": "누리가 작은 잎을 머리에 올려요. 그런데 잎이 툭 코로 내려왔어요. 에취! 모모가 웃어요. 코모자가 됐네.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": ""
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The video follows the prompt closely. The leaf slips down Nuri's face, flutters away after a gentle sneeze, and Momo giggles without extra characters present."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-10-06T13:18:03.246Z"
+      }
+    },
+    {
+      "id": "story_swing_12",
+      "text": "두리가 말해요. 아쉽지만, 이제 모모 차례지. 그네가 멈추자 내려왔어요. 모모가 대답해요. 기다려 줘서 고마워.",
+      "visual": "Stationary low swing: Duri steps off safely to side, Momo approaches only after it is empty. They exchange warm smiles and a small wave.",
+      "targetSeconds": 15,
+      "seconds": 16,
+      "voiceSeconds": 13.32,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "ac04b48d9b67f7b99533e964fd44477860489cbbd2b7d4da212b47738f2f9b12",
+      "sourceVideoSha256": "c818b1b061e2babfd614e3924479986fd44c4c4c01628b9e67ddde2cfad3d1db",
+      "sourceSpeechSha256": "edcd88798194528aa67ee894e96089df5358669ba4cb7b71e249bde859c0d098",
+      "sha256": "8991a8cec0c34aa79f397b36308bc567601fb59334364f329df55cb37b405ee0",
+      "review": {
+        "specSha256": "ac04b48d9b67f7b99533e964fd44477860489cbbd2b7d4da212b47738f2f9b12",
+        "sourceSpeechSha256": "edcd88798194528aa67ee894e96089df5358669ba4cb7b71e249bde859c0d098",
+        "sourceVideoSha256": "c818b1b061e2babfd614e3924479986fd44c4c4c01628b9e67ddde2cfad3d1db",
+        "transcript": {
+          "transcript": "두리가 말해요. 아쉽지만 이제 모모 차례지. 그네가 멈추자 내려왔어요. 모모가 대답해요. 기다려줘서 고마워.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": "A female narrator speaking expressively in Korean without background music or noise."
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "Duri safely exits the swing before Momo approaches and takes a turn, accompanied by warm smiles and a wave among the friends."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-10-06T13:09:18.555Z"
+      }
+    },
+    {
+      "id": "story_swing_13",
+      "text": "모모가 앉았어요. 작고 동그란 몸이 살랑살랑. 두리는 기다리는 자리에 앉아요. 아까는 나, 지금은 모모 차례예요.",
+      "visual": "Momo sits centered on low swing holding both ropes with wings. Tiny gentle motion. Duri sits beside Nuri on bench outside swing path. Establish clear spatial arrangement.",
+      "targetSeconds": 15,
+      "seconds": 15,
+      "voiceSeconds": 12.6,
+      "sourceVideoSeconds": 10.01,
+      "specSha256": "f520af71b2766f8a0b5bec176f4bcdb5766db42973420031705436d9e035ff10",
+      "sourceVideoSha256": "25286f8387a028221896784b7a89d35d5fda48fa0ee4ace45bbd58d1db3b17e2",
+      "sourceSpeechSha256": "c9be8c448e513ef6aff74617aabe68e5d6ecf34c63dda0288410f86d20b7de6b",
+      "sha256": "4ba02302a531cded1cb0aec6c6eb81f3ec05b0a4981a76a31f548c9764e0e44e",
+      "review": {
+        "specSha256": "f520af71b2766f8a0b5bec176f4bcdb5766db42973420031705436d9e035ff10",
+        "sourceSpeechSha256": "c9be8c448e513ef6aff74617aabe68e5d6ecf34c63dda0288410f86d20b7de6b",
+        "sourceVideoSha256": "25286f8387a028221896784b7a89d35d5fda48fa0ee4ace45bbd58d1db3b17e2",
+        "transcript": {
+          "transcript": "모모가 앉았어요. 작고 동그란 몸이 살랑살랑. 두리는 기다리는 자리에 앉아요. 아까는 나, 지금은 모모 차례예요.",
+          "abruptNoise": false,
+          "music": false,
+          "soundNotes": ""
+        },
+        "visual": {
+          "animated": true,
+          "unsafeOrFrightening": false,
+          "majorCharacterDeformation": false,
+          "sceneMatches": true,
+          "notes": "The scene features Momo gently moving on the swing while holding the ropes, alongside Duri and Nuri watching from the side bench in a sunny forest clearing."
+        },
+        "narrationMatch": "exact",
+        "passed": true,
+        "model": "gemini-3.8-flash",
+        "checkedAt": "2026-10-06T13:15:10.280Z"
+      }
+    },
+    {
       "id": "story_moon_00",
       "text": "해가 지고, 달이 떠올랐어요. 모모와 두리는 넓고 마른 길에서 연못을 바라봐요. 물 위에도 동그란 달이 보였어요.",
       "visual": "Peaceful dusk, a full moon in sky and its clear reflection on still small pond. Momo and Duri stand well back on a broad dry path. Soft bright twilight, no scary darkness.",
@@ -745,7 +955,7 @@
       "humanReviewedAt": null
     }
   ],
-  "remainingVideoScenes": 30,
+  "remainingVideoScenes": 22,
   "repairRequired": [
     "story_moon_02"
   ],
@@ -809,5 +1019,65 @@
       "nativePlaybackVerified": false,
       "familyObservationPerformed": false
     }
+  },
+  "remainingVideoScenesDefinition": "Scenes with no raw or encoded video; pending review, unverified raw and repair scenes are listed separately.",
+  "reusableSceneCount": 27,
+  "pendingReviewScenes": [
+    {
+      "id": "story_swing_11",
+      "state": "PENDING_REVIEW",
+      "narrationReady": true,
+      "rawVideoSha256": "37d3bae9358de6b87579c149f97e3a95dc2fcc716c769d1f4de61b3fe06526ba",
+      "edited": true,
+      "note": "Existing take preserved; visual review and encoding remain. No new video is required to review this take."
+    }
+  ],
+  "unverifiedRawScenes": [
+    {
+      "id": "story_moon_03",
+      "state": "RAW_UNVERIFIED",
+      "narrationReady": true
+    }
+  ],
+  "lastApiBlocker": {
+    "category": "payment-required",
+    "httpStatus": 402,
+    "model": "gemini-3.8-flash",
+    "time": "2026-10-06T13:23:55.762Z",
+    "message": "The latest payment-required response has no later successful request. Check project billing before manually resuming."
+  },
+  "currentResume": {
+    "dateKST": "2026-10-06",
+    "newApprovedScenes": [
+      "story_swing_07",
+      "story_swing_08",
+      "story_swing_09",
+      "story_swing_10",
+      "story_swing_12",
+      "story_swing_13"
+    ],
+    "requestSummary": {
+      "started": 35,
+      "succeeded": 34,
+      "failed": 1,
+      "unknown": 0,
+      "videoRequests": 17,
+      "reviewRequests": 18,
+      "lastFailure": {
+        "model": "gemini-3.8-flash",
+        "httpStatus": 402,
+        "category": "payment-required"
+      },
+      "scope": "This 2026-10-06 production run only; not the account total or an exact cost."
+    },
+    "completeSwingScenes": 13,
+    "expectedSwingScenes": 20,
+    "workprint": "production/story_pilot/story_swing_workprint_2026_10_06.mp4",
+    "workprintSeconds": 168.04,
+    "finishedFilm": false,
+    "audit": "production/story_pilot/resume_audit_2026_10_06.json",
+    "handoff": "production/story_pilot/RESUME_2026-10-06.md",
+    "simulatorRuns": 0,
+    "humanReviewedAt": null
   }
 }

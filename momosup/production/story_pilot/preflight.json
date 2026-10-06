@@ -1,5 +1,5 @@
 {
-  "checkedAt": "2026-10-01T02:49:51.285Z",
+  "checkedAt": "2026-10-06T13:37:40.578Z",
   "apiRequests": 0,
   "scenes": [
     {
@@ -99,37 +99,40 @@
     },
     {
       "id": "story_swing_07",
-      "state": "MISSING_VIDEO",
+      "state": "REUSE",
       "narrationReady": true
     },
     {
       "id": "story_swing_08",
-      "state": "MISSING_VIDEO",
+      "state": "REUSE",
       "narrationReady": true
     },
     {
       "id": "story_swing_09",
-      "state": "MISSING_VIDEO",
+      "state": "REUSE",
       "narrationReady": true
     },
     {
       "id": "story_swing_10",
-      "state": "MISSING_VIDEO",
+      "state": "REUSE",
       "narrationReady": true
     },
     {
       "id": "story_swing_11",
-      "state": "MISSING_VIDEO",
-      "narrationReady": true
+      "state": "PENDING_REVIEW",
+      "narrationReady": true,
+      "rawVideoSha256": "37d3bae9358de6b87579c149f97e3a95dc2fcc716c769d1f4de61b3fe06526ba",
+      "edited": true,
+      "note": "Existing take preserved; visual review and encoding remain. No new video is required to review this take."
     },
     {
       "id": "story_swing_12",
-      "state": "MISSING_VIDEO",
+      "state": "REUSE",
       "narrationReady": true
     },
     {
       "id": "story_swing_13",
-      "state": "MISSING_VIDEO",
+      "state": "REUSE",
       "narrationReady": true
     },
     {
@@ -180,7 +183,7 @@
     },
     {
       "id": "story_moon_03",
-      "state": "MISSING_VIDEO",
+      "state": "RAW_UNVERIFIED",
       "narrationReady": true
     },
     {
@@ -276,7 +279,7 @@
     {
       "id": "story_swing",
       "expectedScenes": 20,
-      "reusableScenes": 7,
+      "reusableScenes": 13,
       "preparedNarration": 20,
       "audioReady": true,
       "fullFilmReady": false
@@ -290,26 +293,52 @@
       "fullFilmReady": false
     }
   ],
-  "errors": [],
+  "errors": [
+    "Existing raw take has no matching scene provenance: story_moon_03"
+  ],
+  "apiBlockers": [
+    {
+      "category": "payment-required",
+      "httpStatus": 402,
+      "model": "gemini-3.8-flash",
+      "time": "2026-10-06T13:23:55.762Z",
+      "message": "The latest payment-required response has no later successful request. Check project billing before manually resuming."
+    }
+  ],
   "requests": {
-    "started": 0,
-    "succeeded": 0,
-    "failed": 0,
+    "started": 35,
+    "succeeded": 34,
+    "failed": 1,
     "unknown": 0,
-    "byModel": {}
+    "byModel": {
+      "gemini-omni-1.1-flash": {
+        "started": 17,
+        "succeeded": 17,
+        "failed": 0
+      },
+      "gemini-3.8-flash": {
+        "started": 18,
+        "succeeded": 17,
+        "failed": 1
+      }
+    }
   },
   "nextCommands": [
-    "node tool/generate_story_pilot.mjs --generate --episode=story_swing --max-video-requests=5",
-    "node tool/generate_story_pilot.mjs --generate --episode=story_moon --max-video-requests=5 --repair-scenes=story_moon_02"
+    "node tool/generate_story_pilot.mjs --generate --episode=story_swing --max-video-requests=5 --stop-on-scene-rejection",
+    "node tool/generate_story_pilot.mjs --generate --episode=story_moon --max-video-requests=5 --stop-on-scene-rejection --repair-scenes=story_moon_02"
   ],
   "summary": {
     "totalScenes": 52,
-    "reusableScenes": 21,
-    "missingVideos": 30,
+    "reusableScenes": 27,
+    "missingVideos": 22,
+    "pendingReviewVideos": 1,
+    "invalidRawVideos": 0,
+    "unverifiedRawVideos": 1,
     "repairs": 1,
     "preparedNarration": 52,
     "completeFilms": 1
   },
-  "readyToResume": true,
+  "filesReadyToResume": false,
+  "readyToResume": false,
   "requestLedgerNote": "Records start with this tool update. Historical provider requests and account-wide daily usage cannot be reconstructed from this local ledger."
 }
